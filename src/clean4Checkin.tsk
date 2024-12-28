@@ -1,0 +1,4 @@
+task:clean4Checkin.tsk
+ /type=component
+ /srcRoot="./../../RSGallery2_J4"
+ /isNoRecursion=false

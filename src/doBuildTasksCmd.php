@@ -303,10 +303,18 @@ $collectedTasks->addTasksFromString($tasksLine);
 $collectedTasks->addTasksFromString('task:execute');
 
 
+//========================================================
+// test extern folder tasks
+
+// clean $collectedTasks
+$collectedTasks = new tasks;
+
+
 $basePath = "..\\..\\RSGallery2_J4";
 
-$taskFile = "";
+// $taskFile = "";
 // $taskFile="./taskFile.cmd";
+$taskFile="../../J_LangMan4ExtDevProject/.buildPHP/build_develop.tsk ";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

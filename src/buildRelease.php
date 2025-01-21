@@ -269,7 +269,10 @@ class buildRelease extends baseExecuteTasks
 
             $srcRoot = realpath($this->srcRoot);
 
-            $this->xcopyElement('administrator', $srcRoot, $tmpFolder);
+            // folder administrator exists
+            if (file_exists($srcRoot . "/" . 'administrator')) {
+            	$this->xcopyElement('administrator', $srcRoot, $tmpFolder);
+			}
             // folder components exists
             if (file_exists($srcRoot . "/" . 'components')) {
                 $this->xcopyElement('components', $srcRoot, $tmpFolder);
@@ -277,6 +280,14 @@ class buildRelease extends baseExecuteTasks
             // folder media exists
             if (file_exists($srcRoot . "/" . 'media')) {
                 $this->xcopyElement('media', $srcRoot, $tmpFolder);
+            }
+            // modules
+            if (file_exists($srcRoot . "/" . 'modules')) {
+                $this->xcopyElement('modules', $srcRoot, $tmpFolder);
+            }
+            // plugins
+            if (file_exists($srcRoot . "/" . 'plugins')) {
+                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
             }
 
             // manifest file like 'rsgallery2.xml'

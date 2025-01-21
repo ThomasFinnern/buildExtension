@@ -125,13 +125,13 @@ class tasks
         $this->clear();
 
         try {
-            $content = file_get_contents('data.txt'); //Get the file
+            $content = file_get_contents($taskFile); //Get the file
             $lines = explode("\n", $content); //Split the file by each line
 
             foreach ($lines as $line) {
                 $line = trim($line);
 
-                // ToDo use before each ? "/*" comments like lang manager
+                // ToDo: use before each ? "/*" comments like lang manager
 
                 // ignore comments
                 if (!str_starts_with($line, '//')) {
@@ -145,7 +145,6 @@ class tasks
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
-
 
         return $this;
     }

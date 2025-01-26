@@ -12,7 +12,7 @@ use Exception;
 use task\task;
 
 /*================================================================================
-Class fileHeaderByFile
+Class fileHeaderByFileData
 ================================================================================*/
 
 /**
@@ -550,7 +550,7 @@ class fileHeaderByFileData extends fileHeaderData
         }
 
         if ($this->isForceSubpackage) {
-            $this->package = $this->valueForceSubpackage;
+            $this->subpackage = $this->valueForceSubpackage;
         }
 
         if ($this->isForceActCopyright) {

@@ -209,6 +209,9 @@ class doBuildTasks
                     case 'buildrelease':
                         $this->actTask = $this->createTask(new buildRelease (), $textTask);
 
+                        // run task
+                        $hasError = $this->actTask->execute();
+
                         break;
 
                     case 'forceversionid':
@@ -266,8 +269,12 @@ class doBuildTasks
                         $this->actTask = $this->createTask(new buildRelease (), $textTask);
                         break;
 
-                    case 'updateAll_fileHeaders':
+                    case 'updateall_fileheaders':
                         $this->actTask = $this->createTask(new updateAll_fileHeaders (), $textTask);
+
+                        // run task
+                        $hasError = $this->actTask->execute();
+
                         break;
 
 //                    case 'X':

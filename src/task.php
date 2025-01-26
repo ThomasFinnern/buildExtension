@@ -79,6 +79,13 @@ class task
         return $this;
     }
 
+    /**
+     *
+     * File with single task
+     *
+     * @param string $taskFile
+     * @return $this
+     */
     public function extractTaskFromFile(string $taskFile): task
     {
         print('*********************************************************' . "\r\n");
@@ -88,13 +95,22 @@ class task
         $this->clear();
 
         try {
+            if (!is_file($taskFile)) {
+                // not working $realPath = realpath($taskFile);
+                throw new Exception('Task file not found: "' . $taskFile . '"');
+            }
+
             $content = file_get_contents($taskFile); //Get the file
             $lines = explode("\n", $content); //Split the file by each line
+
             $taskLine = '';
 
             foreach ($lines as $line) {
 
                 $line = trim($line);
+                if (empty($line)) {
+                    continue;
+                }
 
                 // ToDo use before each ? "/*" comments like lang manager
 

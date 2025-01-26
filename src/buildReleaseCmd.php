@@ -83,8 +83,8 @@ $basePath = "..\\..\\RSGallery2_J4";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
-//$taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/build_fix.tsk';
-$taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/build_develop.tsk';
+//$taskFile = '../../LangMan4Dev/.buildPHP/build_fix.tsk';
+$taskFile = '../../LangMan4Dev/.buildPHP/build_develop.tsk';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

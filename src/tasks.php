@@ -125,20 +125,63 @@ class tasks
         $this->clear();
 
         try {
+            if (!is_file($taskFile)) {
+                // not working $realPath = realpath($taskFile);
+                throw new Exception('Task file not found: "' . $taskFile . '"');
+            }
+
             $content = file_get_contents($taskFile); //Get the file
             $lines = explode("\n", $content); //Split the file by each line
 
+            $taskLine = '';
+
             foreach ($lines as $line) {
+
                 $line = trim($line);
+                if (empty($line)) {
+                    continue;
+                }
 
                 // ToDo: use before each ? "/*" comments like lang manager
 
                 // ignore comments
                 if (!str_starts_with($line, '//')) {
-                    $task = (new task())->extractTaskFromString(Trim($line));
-                    $this->addTask($task);
+
+                    // start of task line set
+                    if (str_contains($line, 'task:')) {
+
+                        // Collected task lines are available: create task
+                        if ($taskLine != '') {
+
+                            $task = (new task())->extractTaskFromString($taskLine);
+                            $this->addTask($task);
+
+                            $taskLine = '';
+                        }
+                        else
+                        {
+                            // add options into one task line
+                            $taskLine = $line;
+                        }
+                    }
+                    else
+                    {
+                        // add options into one task line
+                        $taskLine .= ' ' . $line;
+                    }
+
                 }
             }
+
+            // Collected task lines are available: create task
+            if ($taskLine != '') {
+
+                $task = (new task())->extractTaskFromString($taskLine);
+                $this->addTask($task);
+
+                $taskLine = '';
+            }
+
             // print ($this->tasksText ());
 
         } catch (Exception $e) {

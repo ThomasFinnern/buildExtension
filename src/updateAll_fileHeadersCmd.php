@@ -76,7 +76,7 @@ $tasksLine = ' task:updateAll_fileHeaders'
 //    . ' /isForceSinceCopyrightToToday = $copyrightDate . "-" . $copyrightDate . " RSGallery2 Team";
 //    . ' /isForceStdLicense        = "GNU General Public License version 2 or later";
 //    . ' /isForceStdAuthor = "RSGallery2 Team <team2@rsgallery2.org>";
-//    . ' /isForceStdlink   = "https://www.rsgallery2.org";
+//    . ' /isForceStdLink   = "https://www.rsgallery2.org";
 //
 //    . ' /isForcePackage        = "RSGallery2";
 //    . ' /isForceSubpackage     = "com_rsgallery2";

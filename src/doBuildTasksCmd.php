@@ -19,7 +19,7 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-
+// ToDo: make Task:execute implizit $collectedTasks->addTasksFromString('task:execute'); Where should task auto executet ?
 /*================================================================================
 main (used from command line)
 ================================================================================*/
@@ -304,17 +304,23 @@ $collectedTasks->addTasksFromString('task:execute');
 
 
 //========================================================
-// test extern folder tasks
+// test external directories tasks
 
 // clean $collectedTasks
 $collectedTasks = new tasks;
 
 
-$basePath = "..\\..\\RSGallery2_J4";
+$basePath = "..\\..\\LangMan4Dev";
 
+//--- build_develop.tsk --------------------------------
 // $taskFile = "";
 // $taskFile="./taskFile.cmd";
-$taskFile="../../J_LangMan4ExtDevProject/.buildPHP/build_develop.tsk ";
+// $taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
+
+//--- build_develop.tsk --------------------------------
+// $taskFile = "";
+// $taskFile="./taskFile.cmd";
+$taskFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -378,6 +384,7 @@ if ($taskFile != "") {
         print ("Error on function extractTasksFromFile:" . $hasError
             . ' path: ' . $basePath);
     }
+
 } else {
     if ($collectedTasks->count() > 0) {
         $oDoBuildTasks->assignTasks($collectedTasks);
@@ -391,8 +398,6 @@ if ($taskFile != "") {
 }
 
 print ($oDoBuildTasks->tasksText());
-
-// exit (234);
 
 //--- execute tasks ---------------------------------
 

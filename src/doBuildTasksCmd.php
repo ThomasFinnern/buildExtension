@@ -164,8 +164,8 @@ $tasksLine .= "task:add2FilenamesList"
 //$tasksLine .= "task:printFilenamesList"
 //    . ' ';
 
-$collectedTasks->addTasksFromString($tasksLine);
-$collectedTasks->addTasksFromString('task:execute');
+// $collectedTasks->addTasksFromString($tasksLine);
+// $collectedTasks->addTasksFromString('task:execute');
 
 ////--- RSG2 module files ---------------------------------
 //
@@ -199,8 +199,8 @@ $tasksLine = ' task:clean4GitCheckin'
 //    . ' /isNoRecursion=true'
 //    . ' /s='
     . ' ';
-$collectedTasks->addTasksFromString($tasksLine);
-$collectedTasks->addTasksFromString('task:execute');
+// $collectedTasks->addTasksFromString($tasksLine);
+// $collectedTasks->addTasksFromString('task:execute');
 
 
 //$tasksLine .= ' task:exchangeAll_licenseLines'
@@ -320,7 +320,8 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $taskFile = "";
 // $taskFile="./taskFile.cmd";
-$taskFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
+// $taskFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
+$taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

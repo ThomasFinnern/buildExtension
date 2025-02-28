@@ -30,7 +30,7 @@ class versionId {
     // fix will increase revision and reset build counter
     public bool $isBuildFix = false;
 
-    // ToDo: Semantic $isRc  $isAlpha, $isBeta : pre release number for RC, Alpa ...
+    // ToDo: Semantic $isRc  $isAlpha, $isBeta : pre release number for RC, Alpha ...
     //  1.0.0-alpha.1 1.0.0-beta.11 1.0.0-rc.1
 
     /*--------------------------------------------------------------------
@@ -209,7 +209,7 @@ class versionId {
                 $isVersionOption  = true;
                 break;
 
-            case 'isbuildelease':
+            case 'isbuildrelease':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                 $this->isBuildRelease = $option->value;
                 $isVersionOption  = true;

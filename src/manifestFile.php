@@ -62,7 +62,7 @@ class manifestFile extends baseExecuteTasks
 
     public bool $isUpdateCreationDate = true;
 //    private bool $isUseActualYear;
-    public bool $isIncrementVersion_build = true;
+    public bool $isIncrementVersion_build = false;
 
 
     public function __construct(
@@ -92,7 +92,7 @@ class manifestFile extends baseExecuteTasks
 
     public function initVersionId () {
         // Standard: may be overwritten later
-        $this->versionId->isIncreaseBuild = true;
+        $this->versionId->isIncreaseBuild = false;
     }
 
 
@@ -435,6 +435,7 @@ class manifestFile extends baseExecuteTasks
         if ($this->isIncrementVersion_build) {
 
             $this->versionId->isIncreaseBuild = true;
+            print ("Manifest: isIncreaseBuild: " .  $this->versionId->isIncreaseBuild  . "\r\n");
         }
 
         //  Apply versionId changes from outside

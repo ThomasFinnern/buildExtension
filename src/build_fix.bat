@@ -18,6 +18,7 @@ if exist "%ExePath%php.exe" (
 
 REM "C:\Program Files\php82\php.exe" --version
 "%ExePath%php.exe" --version
+
 ECHO.
 
 REM echo.

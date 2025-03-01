@@ -1,0 +1,22 @@
+task:buildRelease
+ /type=component
+ /srcRoot="./../../RSGallery2_J4"
+// /isNoRecursion=true
+ /buildDir="./../.packages"
+// /adminPath=
+// /sitePath=
+// /mediaPath=
+ /name=com_rsgallery2
+ /extension=RSGallery2
+// /version=5.0.12.4
+// /isForceVersion=false
+// /isIncreaseMajor=true
+// /isIncreaseMinor=true
+// /isIncreasePatch=true
+//    each creation of package will increase the build number
+// /isIncreaseBuild=false
+// /isIncreaseBuild=true
+// /isBuildFix=true
+//    release will increase minor and reset revision and build counter
+// /isBuildRelease=true
+ /isIncreaseBuild=true

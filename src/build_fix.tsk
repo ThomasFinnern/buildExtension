@@ -1,23 +1,23 @@
 task:buildRelease
- /type=component
- /srcRoot="./../../RSGallery2_J4"
-// /isNoRecursion=true
- /buildDir="./../.packages"
-// /adminPath=
-// /sitePath=
-// /mediaPath=
- /name=com_rsgallery2
- /extension=RSGallery2
-// /version=5.0.12.4
-// /isForceVersion=false
-// /isIncrementVersion_major=true
-// /isIncrementVersion_minor=true
-// /isIncrementVersion_revision=true
-// each creation of package will increase the build number
-// /isIncrementVersion_build=false
-// /isIncrementVersion_build=true
-// /isBuildFix=true
-//    release will increase minor and reset revision and build counter
-// /isBuildRelease=true
+/type=component
+/srcRoot="./../../RSGallery2_J4"
+        // /isNoRecursion=true
+/buildDir="./../.packages"
+    // /adminPath=
+    // /sitePath=
+    // /mediaPath=
+/name=com_rsgallery2
+/extension=RSGallery2
+    // /version=5.0.12.4
+    // /isForceVersion=false
+    // /isIncrementVersion_major=true
+    // /isIncrementVersion_minor=true
+    // /isIncrementVersion_revision=true
+    // each creation of package will increase the build number
+    // /isIncrementVersion_build=false
+    // /isIncrementVersion_build=true
+    // /isBuildFix=true
+    //    release will increase minor and reset revision and build counter
+    // /isBuildRelease=true
     // fix will increase revision and reset build counter
- /isBuildFix=true
+/isBuildFix=true

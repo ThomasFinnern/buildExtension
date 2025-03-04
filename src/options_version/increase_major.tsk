@@ -1,0 +1,23 @@
+task: options
+	// increase minor and reset revision and build counter
+	// /isBuildRelease=true
+	
+	// fix will increase revision and reset build counter
+	// /isBuildFix=true
+
+// x.0.0 will be increased. Lower parts will be reset to zero
+// Use for incompatible releases
+/isIncreaseMajor=true
+	
+    // 0.x.0 will be increased. Lower parts will be reset to zero
+	// Use for releases
+	// /isIncreaseMinor=true	
+	
+	// 0.0.x.0 will be increased. Lower parts will be reset to zero 	
+	// Use for fixes or slightly improved functions
+	// /isIncreasePatch=true
+
+    // 0.0.0.x will be increased. 
+	// Use for developer steps when install with 
+	// different version ID is necessary
+	// /isIncreaseBuild=true

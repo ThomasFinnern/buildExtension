@@ -1,6 +1,7 @@
 <?php
 
-namespace VersionId;
+//namespace Finnern\buildExtension\VersionId;
+namespace Finnern\BuildExtension;
 
 use option\option;
 
@@ -30,6 +31,9 @@ class versionId {
     // fix will increase revision and reset build counter
     public bool $isBuildFix = false;
 
+    // release will increase minor and reset revision and build counter
+    public bool $isDevelop = false;
+
     // ToDo: Semantic $isRc  $isAlpha, $isBeta : pre release number for RC, Alpha ...
     //  1.0.0-alpha.1 1.0.0-beta.11 1.0.0-rc.1
 
@@ -52,7 +56,6 @@ class versionId {
         $this->inVersionId = '';
         $this->outVersionId = '';
     }
-
 
 
     public function setFlags(bool $isIncreaseMajor = false,
@@ -133,18 +136,28 @@ class versionId {
                 }
                 else {
 
-                    // increase by flags (lower counter will be reset to '0'
+                    // --- increase version by flags 
 
+					// 0.0.0.x will be increased. 
+					// Use for developer steps when install with 
+					// different version ID is necessary
                     if ($this->isIncreaseBuild) {
                         $build ++;
                         print ("isIncreaseBuild (build++): " . $build . " ");
                     }
 
+					// 0.0.x.0 will be increased. Lower parts will be reset to zero 	
+					// Use for fixes or slightly improved functions
+					// /isIncreasePatch=true
                     if ($this->isIncreasePatch) {
                         $patch ++;
                         $build = 0;
                         print ("isIncreasePatch (patch++): " . $patch . " ");
                     }
+					
+					
+					// 0.x.0 will be increased. Lower parts will be reset to zero
+					// Use for releases					
                     if ($this->isIncreaseMinor) {
                         $minor ++;
                         $patch = 0;
@@ -152,6 +165,8 @@ class versionId {
                         print ("isIncreaseMinor (patch++): " . $minor . " ");
                     }
 
+					// x.0.0 will be increased. Lower parts will be reset to zero
+					// Use for incompatible releases
                     if ($this->isIncreaseMajor) {
                         $major ++ ;
                         $minor = 0;
@@ -161,7 +176,7 @@ class versionId {
                     }
 
                     $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
-                    print ($this->outVersionId) . "\r\n";
+                    print ("increased Version: " . $this->outVersionId) . "\r\n";
                 }
             }
 

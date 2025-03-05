@@ -1,7 +1,8 @@
 <?php
 
 //namespace Finnern\buildExtension\VersionId;
-namespace Finnern\BuildExtension;
+//namespace Finnern\BuildExtension;
+namespace VersionId;
 
 use option\option;
 

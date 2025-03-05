@@ -321,7 +321,8 @@ $basePath = "..\\..\\LangMan4Dev";
 // $taskFile = "";
 // $taskFile="./taskFile.cmd";
 // $taskFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
-$taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
+//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
+$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

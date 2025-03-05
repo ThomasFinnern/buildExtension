@@ -76,15 +76,16 @@ $tasksLine="";
 
 // ToDo: option release date option releasefiledate
 
-$basePath = "..\\..\\RSGallery2_J4";
-
+//$basePath = "..\\..\\RSGallery2_J4";
+$basePath = "../../LangMan4DevProject";
 
 //$taskFile="./build_fix.tsk";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
-//$taskFile = '../../LangMan4Dev/.buildPHP/build_fix.tsk';
-$taskFile = '../../LangMan4Dev/.buildPHP/build_develop.tsk';
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
+$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -136,32 +137,49 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = print_header($options, $inArgs);
 
-//--- assign task line ------------------------------
+//--- create class object ---------------------------------
 
 $task = new task();
-if ($taskFile != "") {
+
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
     $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
-} else {
-    $task->extractTaskFromString($tasksLine);
-}
-
-//--- execute class tasks ------------------------------
-
-$oBuildRelease = new buildRelease();
-
-$hasError = $oBuildRelease->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oBuildRelease->execute();
-    if ($hasError) {
-        print ("Error on function execute:" . $hasError);
+    if (empty ($task->name)) {
+        print ("Error on function extractTaskFromFile:" // . $hasError
+            . ' Task file: ' . $taskFile);
+        $hasError = -301;
     }
+} else {
+    $hasError = $task->extractTaskFromString($tasksLine);
+    if (empty ($task->name)) {
+        print ("Error on function extractTaskFromString:" . $hasError
+            . ' path: ' . $basePath);
+        $hasError = -302;
+    }
+}
+
+print ($task->text());
+
+if (empty ($hasError)) {
+
+	$oBuildRelease = new buildRelease();
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oBuildRelease->assignTask($task);
+    if ($hasError) {
+        print ("Error on function assignTask:" . $hasError);
+    }
+
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+	    $hasError = $oBuildRelease->execute();
+	    if ($hasError) {
+	        print ("Error on function execute:" . $hasError);
+	    }
+	}
 }
 
 print ($oBuildRelease->text() . "\r\n");

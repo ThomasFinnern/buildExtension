@@ -45,26 +45,26 @@ class task
         $this->options = $options;
     }
 
-    public function extractTaskFromString($tasksString = ""): task
+    public function extractTaskFromString($taskString = ""): task
     {
         $this->clear();
 
         try {
-            $tasksString = Trim($tasksString);
+            $taskString = Trim($taskString);
 
             $taskName = '';
             $taskOptions = new options;
 
             // 'task01name /option1 /option2=xxx /option3="01teststring"'
-            $idx = strpos($tasksString, " ");
+            $idx = strpos($taskString, " ");
 
             // name without options
             if ($idx == false) {
-                $taskName = substr($tasksString, 5);
+                $taskName = substr($taskString, 5);
             } else {
                 // name with options (task:exchangeActCopyrightYear /fileName=".../src/Model/GalleryTreeModel.php" /copyrightDate=1999)
-                $taskName = substr($tasksString, 5, $idx - 5);
-                $optionsString = substr($tasksString, $idx + 1);
+                $taskName = substr($taskString, 5, $idx - 5);
+                $optionsString = substr($taskString, $idx + 1);
 
                 $taskOptions = (new options())->extractOptionsFromString($optionsString);
             }
@@ -89,7 +89,7 @@ class task
     public function extractTaskFromFile(string $taskFile): task
     {
         print('*********************************************************' . "\r\n");
-        print ("extractTasksFromFile: " . $taskFile . "\r\n");
+        print ("extractTaskFromFile: " . $taskFile . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $this->clear();
@@ -123,7 +123,7 @@ class task
             }
 
             $this->extractTaskFromString($taskLine);
-            // print ($this->tasksText ());
+            // print ($this->taskText ());
 
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -148,7 +148,7 @@ class task
             $OutTxt .= $this->options->text4Line(); // . "\r\n";
         }
 
-        // -> tasks: $OutTxt .= " "; // . "\r\n";
+        // -> task: $OutTxt .= " "; // . "\r\n";
 
         return $OutTxt;
     }

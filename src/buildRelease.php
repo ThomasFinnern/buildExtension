@@ -384,14 +384,19 @@ class buildRelease extends baseExecuteTasks
     {
         $name = $this->name;
 
-        if (false
-            || str_starts_with($name, 'com_')
-            || str_starts_with($name, 'mod_')
-            || str_starts_with($name, 'plg_')
-        )
+        // com / mod extension
+        if (str_starts_with($name, 'com_')
+            || str_starts_with($name, 'mod_'))
         {
-
+            // Stanadard
             $name = substr($name, 4);
+
+        } else {
+
+            if (str_starts_with($name, 'plg_')){
+                $idx = strpos($name, '_', strlen('plg_')) + 1;
+                $name = substr($name, $idx);
+            }
         }
 
         return $name;

@@ -1,4 +1,4 @@
-task:buildRelease
+task:buildExtension
  /type=component
  /srcRoot="./../../RSGallery2_J4"
 // /isNoRecursion=true

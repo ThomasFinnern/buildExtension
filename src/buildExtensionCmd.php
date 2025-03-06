@@ -3,7 +3,7 @@
 namespace ExecuteTasks;
 
 require_once "./commandLine.php";
-require_once "./buildRelease.php";
+require_once "./buildExtension.php";
 
 use task\task;
 use function commandLine\argsAndOptions;
@@ -14,7 +14,7 @@ use function commandLine\print_header;
 
 $HELP_MSG = <<<EOT
     >>>
-    class buildRelease
+    class buildExtension
 
     ToDo: option commands , example
 
@@ -40,7 +40,7 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:buildRelease'
+$tasksLine = ' task:buildExtension'
     . ' /type=component'
     . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
@@ -163,11 +163,11 @@ print ($task->text());
 
 if (empty ($hasError)) {
 
-	$oBuildRelease = new buildRelease();
+	$oBuildExtension = new buildExtension();
 
 	//--- assign tasks ---------------------------------
 
-	$hasError = $oBuildRelease->assignTask($task);
+	$hasError = $oBuildExtension->assignTask($task);
     if ($hasError) {
         print ("Error on function assignTask:" . $hasError);
     }
@@ -175,14 +175,14 @@ if (empty ($hasError)) {
 	//--- execute tasks ---------------------------------
 
 	if (!$hasError) {
-	    $hasError = $oBuildRelease->execute();
+	    $hasError = $oBuildExtension->execute();
 	    if ($hasError) {
 	        print ("Error on function execute:" . $hasError);
 	    }
 	}
 }
 
-print ($oBuildRelease->text() . "\r\n");
+print ($oBuildExtension->text() . "\r\n");
 
 print_end($start);
 

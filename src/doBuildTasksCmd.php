@@ -68,7 +68,7 @@ $collectedTasks = new tasks;
 
 $tasksLine = '';
 
-//$tasksLine .= ' task:buildRelease'
+//$tasksLine .= ' task:buildExtension'
 //    . ' /type=component'
 //    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
@@ -284,7 +284,7 @@ $collectedTasks->addTasksFromString('task:execute');
 
 $tasksLine = 'task:clearFilenamesList' . ' ';
 
-$tasksLine .= ' task:buildRelease'
+$tasksLine .= ' task:buildExtension'
     . ' /type=component'
     . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'

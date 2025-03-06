@@ -21,7 +21,7 @@ use ZipArchive;
 
 $HELP_MSG = <<<EOT
     >>>
-    class buildRelease
+    class buildExtension
 
     ToDo: option commands , example
 
@@ -30,10 +30,10 @@ $HELP_MSG = <<<EOT
 
 
 /*================================================================================
-Class buildRelease
+Class buildExtension
 ================================================================================*/
 
-class buildRelease extends baseExecuteTasks
+class buildExtension extends baseExecuteTasks
     implements executeTasksInterface
 {
     private string $buildDir = '';
@@ -72,7 +72,7 @@ class buildRelease extends baseExecuteTasks
         $hasError = 0;
         try {
 //            print('*********************************************************' . "\r\n");
-//            print ("Construct buildRelease: " . "\r\n");
+//            print ("Construct buildExtension: " . "\r\n");
 //            print('---------------------------------------------------------' . "\r\n");
 
             parent::__construct($srcRoot, false);
@@ -117,7 +117,7 @@ class buildRelease extends baseExecuteTasks
 //            if (!$isBaseOption && !$isVersionOption) {
             if (!$isBaseOption && !$isManifestOption) {
 
-                $this->assignBuildReleaseOption($option, $task->name);
+                $this->assignBuildExtensionOption($option, $task->name);
                 // $OutTxt .= $task->text() . "\r\n";
             }
         }
@@ -132,29 +132,29 @@ class buildRelease extends baseExecuteTasks
      *
      * @return void
      */
-    public function assignBuildReleaseOption(mixed $option): bool
+    public function assignBuildExtensionOption(mixed $option): bool
     {
-        $isBuildReleaseOption = false;
+        $isBuildExtensionOption = false;
 
         switch (strtolower($option->name)) {
             case 'builddir':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                 $this->buildDir = $option->value;
-                $isBuildReleaseOption  = true;
+                $isBuildExtensionOption  = true;
                 break;
 
             // com_rsgallery2'
             case 'name':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                 $this->name = $option->value;
-                $isBuildReleaseOption  = true;
+                $isBuildExtensionOption  = true;
                 break;
 
 //                    // component name like rsgallery2 (but see above)
 //                    case '':
 //                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //                        $this->name = $option->value;
-//                    $isBuildReleaseOption  = true;
+//                    $isBuildExtensionOption  = true;
 //                        break;
 
             // extension (<element> name like RSGallery2
@@ -162,19 +162,19 @@ class buildRelease extends baseExecuteTasks
             case 'extension':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                 $this->element = $option->value;
-                $isBuildReleaseOption  = true;
+                $isBuildExtensionOption  = true;
                 break;
 
             case 'type':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                 $this->componentType = $option->value;
-                $isBuildReleaseOption  = true;
+                $isBuildExtensionOption  = true;
                 break;
 
 //            case 'isincrementversion_build':
 //                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //                $this->isIncrementVersion_build = $option->value;
-//                $isBuildReleaseOption  = true;
+//                $isBuildExtensionOption  = true;
 //                break;
 
 //                    case 'X':
@@ -193,13 +193,13 @@ class buildRelease extends baseExecuteTasks
                 print ('!!! error: required option is not supported: ' .  $option->name . ' !!!' . "\r\n");
         } // switch
 
-        return $isBuildReleaseOption;
+        return $isBuildExtensionOption;
     }
 
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute buildRelease: " . "\r\n");
+        print ("Execute buildExtension: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $componentType = $this->componentType();
@@ -459,7 +459,7 @@ class buildRelease extends baseExecuteTasks
 //                if ($this->isIncrementVersion_build) {
 //                    // $manifestFile->versionId->isBuildRelease = false;
 //                    $manifestFile->versionId->isBuildRelease = true;
-////                    print ("buildRelease: isBuildRelease: " .  $this->versionId->isBuildRelease  . "\r\n");
+////                    print ("buildExtension: isBuildRelease: " .  $this->versionId->isBuildRelease  . "\r\n");
 //                }
 
                 if ($this->element != '') {
@@ -750,7 +750,7 @@ class buildRelease extends baseExecuteTasks
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- buildRelease --------" . "\r\n";
+        $OutTxt .= "--- buildExtension --------" . "\r\n";
 
         $OutTxt .= "Not defined yet " . "\r\n";
 
@@ -820,7 +820,7 @@ class buildRelease extends baseExecuteTasks
     }
 
 
-} // buildRelease
+} // buildExtension
 
 
 //========================================================

@@ -22,8 +22,8 @@ REM "C:\Program Files\php82\php.exe" --version
 ECHO.
 
 REM echo.
-echo --- "%ExePath%php.exe" ./buildReleaseCmd.php -f build_release.tsk %1
-"%ExePath%php.exe" buildReleaseCmd.php -f build_release.tsk %1
+echo --- "%ExePath%php.exe" ./buildExtensionCmd.php -f build_release.tsk %1
+"%ExePath%php.exe" buildExtensionCmd.php -f build_release.tsk %1
 
 goto :EOF
 

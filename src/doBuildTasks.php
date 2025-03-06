@@ -3,7 +3,7 @@
 namespace DoBuildTasks;
 
 require_once "./fileNamesList.php";
-require_once "./buildRelease.php";
+require_once "./buildExtension.php";
 
 require_once "./clean4GitCheckin.php";
 require_once "./exchangeAll_actCopyrightYearLines.php";
@@ -34,7 +34,7 @@ use exchangeAll_linkLines\exchangeAll_linkLines;
 use exchangeAll_packageLines\exchangeAll_packages;
 use exchangeAll_sinceCopyrightYear\exchangeAll_sinceCopyrightYearLines;
 use exchangeAll_subPackageLines\exchangeAll_subPackageLines;
-use ExecuteTasks\buildRelease;
+use ExecuteTasks\buildExtension;
 use ExecuteTasks\executeTasksInterface;
 use FileNamesList\fileNamesList;
 use forceCreationDate\forceCreationDate;
@@ -206,8 +206,8 @@ class doBuildTasks
 
                     //=== real task definitions =================================
 
-                    case 'buildrelease':
-                        $this->actTask = $this->createTask(new buildRelease (), $textTask);
+                    case 'buildextension':
+                        $this->actTask = $this->createTask(new buildExtension (), $textTask);
 
                         // run task
                         $hasError = $this->actTask->execute();
@@ -266,7 +266,7 @@ class doBuildTasks
                         break;
 
                     case 'exchangeall_headers':
-                        $this->actTask = $this->createTask(new buildRelease (), $textTask);
+                        $this->actTask = $this->createTask(new buildExtension (), $textTask);
                         break;
 
                     case 'updateall_fileheaders':
@@ -278,14 +278,14 @@ class doBuildTasks
                         break;
 
 //                    case 'X':
-//                        $this->actTask = $this->createTask (new buildRelease (), $textTask);
+//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);
 //                        break;
 //
 //                    case 'Y':
-//                        $this->actTask = $this->createTask (new buildRelease (), $textTask);//                        break;
+//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);//                        break;
 //
 //                    case 'Z':
-//                        $this->actTask = $this->createTask (new buildRelease (), $textTask);
+//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);
 //                        break;
 //
                     default:

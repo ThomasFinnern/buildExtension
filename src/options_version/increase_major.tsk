@@ -1,4 +1,4 @@
-task: options
+task:options
 	// increase minor and reset revision and build counter
 	// /isBuildRelease=true
 	

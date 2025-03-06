@@ -410,17 +410,50 @@ class buildExtension extends baseExecuteTasks
         $name = $this->name;
 
         // com / mod extension
-        if (str_starts_with($name, 'com_')
-            || str_starts_with($name, 'mod_'))
+        if (str_starts_with($name, 'com_'))
         {
             // Stanadard
             $name = substr($name, 4);
+            // $name = 'com_' . substr($name, 4);
 
         } else {
 
-            if (str_starts_with($name, 'plg_')){
-                $idx = strpos($name, '_', strlen('plg_')) + 1;
-                $name = substr($name, $idx);
+            if (str_starts_with($name, 'mod_')) {
+                $name = substr($name, 4);
+            } else {
+
+                if (str_starts_with($name, 'plg_')) {
+                    $idx = strpos($name, '_', strlen('plg_')) + 1;
+                    $name = substr($name, $idx);
+                }
+            }
+        }
+
+        return $name;
+    }
+
+    // ToDo: move/create also in to manifest.php file ?
+    private function destinationExtensionName(): string
+    {
+        $name = $this->name;
+
+        // com / mod extension
+        if (str_starts_with($name, 'com_'))
+        {
+            // Stanadard
+            $name = substr($name, 4);
+            // $name = 'com_' . substr($name, 4);
+
+        } else {
+
+            if (str_starts_with($name, 'mod_')) {
+                // $name = 'mod_' . substr($name, 4);
+            } else {
+
+                if (str_starts_with($name, 'plg_')) {
+                    // $idx = strpos($name, '_', strlen('plg_')) + 1;
+                    // $name = 'plg_' . substr($name, $idx);
+                }
             }
         }
 
@@ -571,7 +604,7 @@ class buildExtension extends baseExecuteTasks
         $date = date($date_format);
 
         $componentVersion  = $this->componentVersion ();
-        $name = $this->shortExtensionName();
+        $name = $this->destinationExtensionName();
 
         $ZipName = $name . '.' . $componentVersion . '_' . $date . '.zip';
 
@@ -691,9 +724,11 @@ class buildExtension extends baseExecuteTasks
         if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
             $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
         } else {
-            
-            
-            
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'LICENSE.txt')) {
+
+                $this->xcopyElement('index.html', $testFolder, $tmpFolder);
+            }
         }
 
 //            // Do copy the double rsgallery2.xml

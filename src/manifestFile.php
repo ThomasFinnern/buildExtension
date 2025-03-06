@@ -366,59 +366,64 @@ class manifestFile extends baseExecuteTasks
 
         $isManifestOption = false;
 
-        switch (strtolower($option->name)) {
-            // manifestFile
-            case 'manifestfile':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->manifestPathFileName = $option->value;
-                $isManifestOption  = true;
-                break;
 
-            // component name like com_rsgallery2
-            case 'componentname':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->componentName = $option->value;
-                $isManifestOption  = true;
-                break;
+        $isVersionOption = $this->versionId->assignVersionOption($option);
 
-            // element: name like RSGallery2
-            case 'extension':
-            case 'element':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->element = $option->value;
-                $isManifestOption  = true;
-                break;
+        if ( ! $isVersionOption) {
+            switch (strtolower($option->name)) {
+                // manifestFile
+                case 'manifestfile':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->manifestPathFileName = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-            // component / module / plugin
-            case 'type':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->extType = $option->value;
-                $isManifestOption  = true;
-                break;
+                // component name like com_rsgallery2
+                case 'componentname':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->componentName = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-            // ToDo: if needed
-            //  method="upgrade">
-            case 'method':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->extMethod = $option->value;
-                $isManifestOption  = true;
-                break;
+                // element: name like RSGallery2
+                case 'extension':
+                case 'element':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->element = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-            case 'isupdatecreationdate':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->isUpdateCreationDate = $option->value;
-                $isManifestOption  = true;
-                break;
+                // component / module / plugin
+                case 'type':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->extType = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-            case 'isincrementversion_build':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->isIncrementVersion_build = $option->value;
-                $isManifestOption  = true;
-                break;
+                // ToDo: if needed
+                //  method="upgrade">
+                case 'method':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->extMethod = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-        } // switch
+                case 'isupdatecreationdate':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->isUpdateCreationDate = $option->value;
+                    $isManifestOption = true;
+                    break;
 
-        return $isManifestOption;
+                case 'isincrementversion_build':
+                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    $this->isIncrementVersion_build = $option->value;
+                    $isManifestOption = true;
+                    break;
+
+            } // switch
+        }
+
+        return $isManifestOption ||  $isVersionOption;
     }
 
     public function execute(): int // $hasError

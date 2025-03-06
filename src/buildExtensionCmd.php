@@ -84,8 +84,9 @@ $basePath = "../../LangMan4DevProject";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
+$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
-$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

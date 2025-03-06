@@ -18,6 +18,8 @@ use VersionId\versionId;
 Class manifestFile
 ================================================================================*/
 
+// ToDo: !!! read xml instead of lines !!!
+// ToDo: include version class handling better into manifest
 class manifestFile extends baseExecuteTasks
     implements executeTasksInterface
 {
@@ -37,8 +39,10 @@ class manifestFile extends baseExecuteTasks
 
     //--- line data -------------------------
 
-    public string $type = '';
-    private string $method = '';
+    public string $extType = '';
+    public string $extGroup = '';
+    private string $extVersion = '';
+    private string $extMethod = '';
     private string $componentName = '';
     private string $creationDate = '';
     private string $author = '';
@@ -46,7 +50,7 @@ class manifestFile extends baseExecuteTasks
     private string $authorUrl = '';
     private copyrightText $copyright;
     private string $license = '';
-    //private string $version = '';
+
     public versionId $versionId;
     private string $description = '';
     // Name of extension for user like RSGallery2
@@ -54,7 +58,6 @@ class manifestFile extends baseExecuteTasks
     private string $namespace = '';
 
     public string $scriptFile; // </scriptfile>install_langman4dev.php</scriptfile>
-
 
     //--- manifest flags ---------------------------------------
 
@@ -79,8 +82,6 @@ class manifestFile extends baseExecuteTasks
             }
 
             $this->versionId = new versionId();
-            $this->initVersionId ();
-
             $this->copyright = new copyrightText();
 
 
@@ -88,11 +89,6 @@ class manifestFile extends baseExecuteTasks
             echo 'Message: ' . $e->getMessage() . "\r\n";
         }
         // print('exit __construct: ' . $hasError . "\r\n");
-    }
-
-    public function initVersionId () {
-        // Standard: may be overwritten later
-        $this->versionId->isIncreaseBuild = false;
     }
 
 
@@ -149,7 +145,9 @@ class manifestFile extends baseExecuteTasks
             if ($itemName != '') {
                 switch ($itemName) {
                     case 'extension':
-                        [$this->type, $this->method] = $this->extractExtension($line);
+                        [$this->extType, $this->extGroup,
+                         $this->extVersion, $this->extMethod
+                        ] = $this->extractExtension($line);
                         $isHeaderLine = true;
                         break;
 
@@ -363,6 +361,9 @@ class manifestFile extends baseExecuteTasks
      */
     public function assignManifestOption(mixed $option): bool
     {
+        // ToDo: on each option assign isForce... , then use it on write
+        // Actual assigned options are only used if the value is not set in the manifest file
+
         $isManifestOption = false;
 
         switch (strtolower($option->name)) {
@@ -391,7 +392,7 @@ class manifestFile extends baseExecuteTasks
             // component / module / plugin
             case 'type':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->type = $option->value;
+                $this->extType = $option->value;
                 $isManifestOption  = true;
                 break;
 
@@ -399,7 +400,7 @@ class manifestFile extends baseExecuteTasks
             //  method="upgrade">
             case 'method':
                 print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->method = $option->value;
+                $this->extMethod = $option->value;
                 $isManifestOption  = true;
                 break;
 
@@ -671,6 +672,8 @@ class manifestFile extends baseExecuteTasks
     private function extractExtension(string $inLine) {
 
         $type = '???';
+        $group = '';
+        $version = '';
         $method = '???';
 
         // <extension type="component" method="upgrade">
@@ -692,6 +695,34 @@ class manifestFile extends baseExecuteTasks
                         $idxEnd = strpos($line, '"', $idxStart+1);
                         if ($idxEnd !== false) {
                             $type = substr($line, $idxStart + 1, $idxEnd - $idxStart - 1);
+                        }
+                    }
+                }
+
+                //--- group ----------------------------------
+
+                $idxGroup= strpos($line, 'group=');
+                if ($idxGroup !== false) {
+                    $idxStart = strpos($line, '"', $idxGroup + 5);
+
+                    if ($idxStart !== false) {
+                        $idxEnd = strpos($line, '"', $idxStart+1);
+                        if ($idxEnd !== false) {
+                            $group = substr($line, $idxStart + 1, $idxEnd - $idxStart - 1);
+                        }
+                    }
+                }
+
+                //--- version ----------------------------------
+
+                $idxVersion= strpos($line, 'version=');
+                if ($idxVersion !== false) {
+                    $idxStart = strpos($line, '"', $idxVersion + 7);
+
+                    if ($idxStart !== false) {
+                        $idxEnd = strpos($line, '"', $idxStart+1);
+                        if ($idxEnd !== false) {
+                            $version = substr($line, $idxStart + 1, $idxEnd - $idxStart - 1);
                         }
                     }
                 }
@@ -718,14 +749,26 @@ class manifestFile extends baseExecuteTasks
 //            }
         }
 
-        return [$type, $method];
+        return [$type, $group, $version, $method];
     }
 
     private function createHeaderLineExtension(): string {
 
         // <extension type="component" method="upgrade">
         // "    <name>com_rsgallery2</name>"
-        $line = '<extension type="' . $this->type . '" method="' . $this->method . '">';
+        $line = '<';
+        $line .= 'extension type="' . $this->extType;
+
+        if ( ! empty($this->extGroup)){
+            $line .= '" group="' . $this->extGroup;
+        }
+
+        if ( ! empty($this->extVersion)){
+            $line .= '" version="' . $this->extVersion;
+        }
+
+        $line .= '" method="' . $this->extMethod;
+        $line .= '">';
 
         return $line;
     }

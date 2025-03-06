@@ -7,7 +7,7 @@ require_once "./baseExecuteTasks.php";
 require_once "./iExecTask.php";
 require_once "./manifestFile.php";
 require_once "./task.php";
-require_once "./versionId.php";
+//require_once "./versionId.php";
 
 use Exception;
 //use FileNamesList\fileNamesList;
@@ -16,7 +16,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 use task\task;
-use VersionId\versionId;
+//use VersionId\versionId;
 use ZipArchive;
 
 $HELP_MSG = <<<EOT
@@ -38,8 +38,8 @@ class buildRelease extends baseExecuteTasks
 {
     private string $buildDir = '';
 
-    // to keep flags
-    private versionId $versionId;
+    // Handled in manifest file
+    // private versionId $versionId;
 
     // internal
     private string $manifestPathFileName = '';
@@ -55,7 +55,7 @@ class buildRelease extends baseExecuteTasks
     // 'rsgallery2' ??? com_rsgallery2'
     private string $name;
 
-    private bool $isIncrementVersion_build = false;
+//    private bool $isIncrementVersion_build = false;
 
     private manifestfile $manifestFile;
 
@@ -80,8 +80,7 @@ class buildRelease extends baseExecuteTasks
 //            $this->srcFile = $srcFile;
 //            $this->dstFile = $dstFile;
 
-            // to keep flags
-            $this->versionId = new versionId();
+//            $this->versionId = new versionId();
             $this->manifestFile = new manifestFile();
 
             $this->element = "";
@@ -106,47 +105,77 @@ class buildRelease extends baseExecuteTasks
 
             // base options are already handled
             if (!$isBaseOption) {
-                $isVersionOption = $this->versionId->assignVersionOption($option);
+                // $isVersionOption = $this->versionId->assignVersionOption($option);
+                // ToDo: include version better into manifest
+                // -> same increase flags should be ...
+                // if (!$isVersionOption) {
                 $isManifestOption = $this->manifestFile->assignManifestOption($option);
+                // }
             }
 
 //            if (!$isBaseOption && !$isVersionOption && !$isManifestOption) {
-            if (!$isBaseOption && !$isVersionOption) {
+//            if (!$isBaseOption && !$isVersionOption) {
+            if (!$isBaseOption && !$isManifestOption) {
 
-                switch (strtolower($option->name)) {
-                    case 'builddir':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                        $this->buildDir = $option->value;
-                        break;
+                $this->assignBuildReleaseOption($option, $task->name);
+                // $OutTxt .= $task->text() . "\r\n";
+            }
+        }
 
-                    // com_rsgallery2'
-                    case 'name':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                        $this->name = $option->value;
-                        break;
+        return 0;
+    }
+
+    /**
+     *
+     * @param   mixed  $option
+     * @param   task   $task
+     *
+     * @return void
+     */
+    public function assignBuildReleaseOption(mixed $option): bool
+    {
+        $isBuildReleaseOption = false;
+
+        switch (strtolower($option->name)) {
+            case 'builddir':
+                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                $this->buildDir = $option->value;
+                $isBuildReleaseOption  = true;
+                break;
+
+            // com_rsgallery2'
+            case 'name':
+                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                $this->name = $option->value;
+                $isBuildReleaseOption  = true;
+                break;
 
 //                    // component name like rsgallery2 (but see above)
 //                    case '':
 //                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //                        $this->name = $option->value;
+//                    $isBuildReleaseOption  = true;
 //                        break;
 
-                    // extension (<element> name like RSGallery2
-                    case 'element':
-                    case 'extension':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                        $this->element = $option->value;
-                        break;
+            // extension (<element> name like RSGallery2
+            case 'element':
+            case 'extension':
+                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                $this->element = $option->value;
+                $isBuildReleaseOption  = true;
+                break;
 
-                    case 'type':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                        $this->componentType = $option->value;
-                        break;
+            case 'type':
+                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                $this->componentType = $option->value;
+                $isBuildReleaseOption  = true;
+                break;
 
-                    case 'isincrementversion_build':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                        $this->isIncrementVersion_build = $option->value;
-                        break;
+//            case 'isincrementversion_build':
+//                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                $this->isIncrementVersion_build = $option->value;
+//                $isBuildReleaseOption  = true;
+//                break;
 
 //                    case 'X':
 //                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
@@ -160,15 +189,11 @@ class buildRelease extends baseExecuteTasks
 //                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //                        break;
 
-                    default:
-                        print ('!!! error: required option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
-                } // switch
+            default:
+                print ('!!! error: required option is not supported: ' .  $option->name . ' !!!' . "\r\n");
+        } // switch
 
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
+        return $isBuildReleaseOption;
     }
 
     public function execute(): int // $hasError
@@ -296,13 +321,13 @@ class buildRelease extends baseExecuteTasks
             $this->xcopyElement('media', $srcRoot, $tmpFolder);
         }
 
-        // must be created separately ToDo: createy anyhow for ? package ?
+        // must be created separately ToDo: create anyhow for ? package ?
 //            // modules
 //            if (file_exists($srcRoot . "/" . 'modules')) {
 //                $this->xcopyElement('modules', $srcRoot, $tmpFolder);
 //            }
 
-        // must be created separately ToDo: createy anyhow for ? package ?
+        // must be created separately ToDo: create anyhow for ? package ?
 //            // plugins
 //            if (file_exists($srcRoot . "/" . 'plugins')) {
 //                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
@@ -417,9 +442,9 @@ class buildRelease extends baseExecuteTasks
         $manifestFile = $this->manifestFile;
 
         try {
-            // read
-            // keep flags
-            $manifestFile->versionId = $this->versionId;
+//            // read
+//            // keep flags
+//            $manifestFile->versionId = $this->versionId;
 
             //--- read file -----------------------------------------------
 
@@ -431,11 +456,11 @@ class buildRelease extends baseExecuteTasks
                 // $manifestFile->isUpdateCreationDate = false;
                 $manifestFile->isUpdateCreationDate = true;
 
-                if ($this->isIncrementVersion_build) {
-                    // $manifestFile->versionId->isBuildRelease = false;
-                    $manifestFile->versionId->isBuildRelease = true;
-                    print ("buildRelease: isBuildRelease: " .  $this->versionId->isBuildRelease  . "\r\n");
-                }
+//                if ($this->isIncrementVersion_build) {
+//                    // $manifestFile->versionId->isBuildRelease = false;
+//                    $manifestFile->versionId->isBuildRelease = true;
+////                    print ("buildRelease: isBuildRelease: " .  $this->versionId->isBuildRelease  . "\r\n");
+//                }
 
                 if ($this->element != '') {
                     $manifestFile->element = $this->element;
@@ -616,30 +641,26 @@ class buildRelease extends baseExecuteTasks
 
         // ToDo: Follow manifest file sections instead of ...
 
-        // folder administrator exists
-        if (file_exists($srcRoot . "/" . 'administrator')) {
-            $this->xcopyElement('administrator', $srcRoot, $tmpFolder);
-        }
         // folder components exists
-        if (file_exists($srcRoot . "/" . 'components')) {
-            $this->xcopyElement('components', $srcRoot, $tmpFolder);
+        if (file_exists($srcRoot . "/" . 'src')) {
+            $this->xcopyElement('src', $srcRoot, $tmpFolder);
         }
         // folder api exists
-        if (file_exists($srcRoot . "/" . 'api')) {
-            $this->xcopyElement('api', $srcRoot, $tmpFolder);
+        if (file_exists($srcRoot . "/" . 'language')) {
+            $this->xcopyElement('language', $srcRoot, $tmpFolder);
         }
         // folder media exists
-        if (file_exists($srcRoot . "/" . 'media')) {
-            $this->xcopyElement('media', $srcRoot, $tmpFolder);
+        if (file_exists($srcRoot . "/" . 'services')) {
+            $this->xcopyElement('services', $srcRoot, $tmpFolder);
         }
 
-        // must be created separately ToDo: createy anyhow for ? package ?
+        // must be created separately ToDo: create anyhow for ? package ?
 //            // modules
 //            if (file_exists($srcRoot . "/" . 'modules')) {
 //                $this->xcopyElement('modules', $srcRoot, $tmpFolder);
 //            }
 
-        // must be created separately ToDo: createy anyhow for ? package ?
+        // must be created separately ToDo: create anyhow for ? package ?
 //            // plugins
 //            if (file_exists($srcRoot . "/" . 'plugins')) {
 //                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
@@ -652,18 +673,32 @@ class buildRelease extends baseExecuteTasks
             $this->xcopyElement($this->manifestFile->scriptFile, $srcRoot, $tmpFolder);
         }
 
-        $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
-        $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
+//        // folder administrator exists
+//        if (file_exists($srcRoot . "/" . 'administrator')) {
+//            $this->xcopyElement('administrator', $srcRoot, $tmpFolder);
+//        }
+
+        if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
+            $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
+        } else {
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'LICENSE.txt')) {
+
+                $this->xcopyElement('LICENSE.txt', $testFolder, $tmpFolder);
+            }
+        }
+
+        if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
+            $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
+        } else {
+            
+            
+            
+        }
 
 //            // Do copy the double rsgallery2.xml
 //            $adminFolder = $tmpFolder . '/administrator/components/com_rsgallery2';
 //            $this->xcopyElement('rsgallery2.xml', $srcRoot, $adminFolder);
-
-        // remove pkg_rsgallery2.xml.tmp
-        $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
-        if (file_exists($packagesTmpFile)) {
-            unlink($packagesTmpFile);
-        }
 
 //            //--------------------------------------------------------------------
 //            // Not changelog to root
@@ -762,8 +797,8 @@ class buildRelease extends baseExecuteTasks
         $isLocal = false;
         if ( ! empty($this->manifestFile)) {
 
-            if ($this->manifestFile->type != '') {
-                $componentType = $this->manifestFile->type;
+            if ($this->manifestFile->extType != '') {
+                $componentType = $this->manifestFile->extType;
                 $isLocal       = true;
             }
 
@@ -776,7 +811,7 @@ class buildRelease extends baseExecuteTasks
             if (is_file($manifestPathFileName)) {
 
                 $manifestFile = new manifestFile('', $manifestPathFileName);
-                $componentType = $manifestFile->type;
+                $componentType = $manifestFile->extType;
 
             }
         }

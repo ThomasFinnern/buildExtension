@@ -18,11 +18,12 @@ if exist "%ExePath%php.exe" (
 
 REM "C:\Program Files\php82\php.exe" --version
 "%ExePath%php.exe" --version
+
+ECHO ----------------------------------------------
 ECHO.
 
-REM echo.
-echo --- "%ExePath%php.exe" ./updateAll_fileHeadersCmd.php -f updateAll_fileHeaders.tsk %1
-"%ExePath%php.exe" updateAll_fileHeadersCmd.php -f updateAll_fileHeaders.tsk %1
+echo --- "%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk %1
+"%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk %1
 
 goto :EOF
 

@@ -21,14 +21,11 @@ if exist "%ExePath%php.exe" (
 REM "C:\Program Files\php82\php.exe" --version
 REM "%ExePath%php.exe" --version
 
-REM ECHO.
+ECHO ----------------------------------------------
+ECHO.
 
-ECHO.
-ECHO ------------------------------------------------------------------------------
-ECHO Start cmd:
-ECHO.
-echo --- "%ExePath%php.exe" clean4GitCheckinCmd.php -f clean4Checkin.tsk %1
-"%ExePath%php.exe" clean4GitCheckinCmd.php -f clean4Checkin.tsk %1
+echo --- "%ExePath%php.exe" clean4GitCheckinCmd.php -f ../../LangMan4DevProject/.buildPHP/clean4Checkin.tsk %1
+"%ExePath%php.exe" clean4GitCheckinCmd.php -f ../../LangMan4DevProject/.buildPHP/clean4Checkin.tsk %1
 
 GOTO :EOF
 

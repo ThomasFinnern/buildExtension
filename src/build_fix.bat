@@ -19,13 +19,13 @@ if exist "%ExePath%php.exe" (
 REM "C:\Program Files\php82\php.exe" --version
 "%ExePath%php.exe" --version
 
+ECHO ----------------------------------------------
 ECHO.
 
-REM echo.
-echo --- "%ExePath%php.exe" ./buildExtensionCmd.php -f build_fix.tsk %1
-"%ExePath%php.exe" buildExtensionCmd.php -f build_fix.tsk %1
+echo --- "%ExePath%php.exe" buildExtensionCmd.php -f ../../LangMan4DevProject/.buildPHP/build_fix.tsk %1
+"%ExePath%php.exe" buildExtensionCmd.php -f ../../LangMan4DevProject/.buildPHP/build_fix.tsk %1
 
-goto :EOF
+GOTO :EOF
 
 REM ------------------------------------------
 REM Adds given argument to the already known command arguments
@@ -34,3 +34,4 @@ REM Adds given argument to the already known command arguments
     Set CmdArgs=%CmdArgs% %NextArg%
     ECHO  '%NextArg%'
 GOTO :EOF
+

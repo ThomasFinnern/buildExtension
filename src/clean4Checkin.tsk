@@ -1,4 +1,5 @@
 task:clean4Checkin.tsk
- /type=component
- /srcRoot="./../../RSGallery2_J4"
- /isNoRecursion=false
+/type=component
+	//srcRoot="../../LangMan4Dev"
+/srcRoot="../../LangMan4Dev"
+/isNoRecursion=false

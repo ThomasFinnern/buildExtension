@@ -77,7 +77,7 @@ $tasksLine="";
 // ToDo: option release date option releasefiledate
 
 //$basePath = "..\\..\\RSGallery2_J4";
-$basePath = "../../LangMan4DevProject";
+//$basePath = "../../LangMan4DevProject";
 
 //$taskFile="./build_fix.tsk";
 //$taskFile="./build_Develop.tsk";
@@ -86,7 +86,10 @@ $basePath = "../../LangMan4DevProject";
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
-$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+
+
+$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -155,7 +158,7 @@ if ( ! empty ($taskFile)) {
     $hasError = $task->extractTaskFromString($tasksLine);
     if (empty ($task->name)) {
         print ("Error on function extractTaskFromString:" . $hasError
-            . ' path: ' . $basePath);
+            . ' tasksLine: ' . $tasksLine);
         $hasError = -302;
     }
 }

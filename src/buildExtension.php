@@ -398,7 +398,9 @@ class buildExtension extends baseExecuteTasks
 
             $name = $this->shortExtensionName();
 
-            $this->manifestAdminPathFileName = $this->srcRoot . '/administrator/components/com_lang4dev/' . $name . '.xml';
+            $this->manifestAdminPathFileName = $this->srcRoot
+                . '/administrator/components/'
+                . $this->name . '/' . $name . '.xml';
         }
 
         return $this->manifestAdminPathFileName;

@@ -89,7 +89,9 @@ $tasksLine="";
 //$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 
-$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
+//$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
+
+$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

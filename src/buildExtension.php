@@ -266,21 +266,26 @@ class buildExtension extends baseExecuteTasks
         // destination temp folder
         //--------------------------------------------------------------------
 
-        $dstRoot = realpath($this->buildDir);
         print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+
+        $parentPath = dirname ($this->buildDir);
+        if (!is_dir($parentPath)) {
+            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            exit(557);
+        }
+
+        if (!is_dir($this->buildDir)) {
+            mkdir($this->buildDir, 0777, true);
+        }
+
+        $dstRoot = realpath($this->buildDir);
         print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
         $tmpFolder = $this->buildDir . '/tmp';
         print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
-//        $tmpFolder = realpath($tmpFolder);
-//        print ('temp folder(2): "' .  $tmpFolder . '"' . "\r\n");
 
-        // create .packages folder
-        if (!is_dir($dstRoot)) {
-            print ('create dir: "' . $dstRoot . '"' . "\r\n");
-            mkdir($dstRoot, 0777, true);
-
-            exit(556);
-        }
+        //--------------------------------------------------------------------
+        // handle temp folder
+        //--------------------------------------------------------------------
 
         // remove tmp folder
         if (is_dir($tmpFolder)) {
@@ -303,6 +308,8 @@ class buildExtension extends baseExecuteTasks
         $srcRoot = realpath($this->srcRoot);
 
         // ToDo: Follow manifest file sections instead of ...
+
+        //--- folder ----------------------------------------------------------------
 
         // folder administrator exists
         if (file_exists($srcRoot . "/" . 'administrator')) {
@@ -333,6 +340,8 @@ class buildExtension extends baseExecuteTasks
 //                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
 //            }
 
+        //--- files ----------------------------------------------------------------
+
         // manifest file like 'rsgallery2.xml'
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
         // install script like 'install_rsg2.php'
@@ -342,12 +351,17 @@ class buildExtension extends baseExecuteTasks
 
         $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
 
-		$this->xcopyElement('index.html', $srcRoot, $tmpFolder);
-//            // Do copy the double rsgallery2.xml
-//            $adminFolder = $tmpFolder . '/administrator/components/com_rsgallery2';
-//            $this->xcopyElement('rsgallery2.xml', $srcRoot, $adminFolder);
+        if (file_exists($srcRoot . "/" . 'index.html.xml')) {
+            $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
+        }
 
-        // remove pkg_rsgallery2.xml.tmp
+        if (file_exists($srcRoot . "/" . 'changelog.xml')) {
+            $this->xcopyElement('changelog.xml', $srcRoot, $tmpFolder);
+        }
+
+        //--- extras -------------------------------------------------
+
+        // remove prepared pkg_rsgallery2.xml.tmp
         $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
         if (file_exists($packagesTmpFile)) {
             unlink($packagesTmpFile);
@@ -414,14 +428,14 @@ class buildExtension extends baseExecuteTasks
         // com / mod extension
         if (str_starts_with($name, 'com_'))
         {
-            // Stanadard
+            // Standard
             $name = substr($name, 4);
             // $name = 'com_' . substr($name, 4);
 
         } else {
 
             if (str_starts_with($name, 'mod_')) {
-                $name = substr($name, 4);
+                // $name = substr($name, 4);
             } else {
 
                 if (str_starts_with($name, 'plg_')) {
@@ -442,14 +456,15 @@ class buildExtension extends baseExecuteTasks
         // com / mod extension
         if (str_starts_with($name, 'com_'))
         {
-            // Stanadard
+            // Standard
             $name = substr($name, 4);
             // $name = 'com_' . substr($name, 4);
 
         } else {
 
             if (str_starts_with($name, 'mod_')) {
-                // $name = 'mod_' . substr($name, 4);
+                // $idx = strpos($name, '_', strlen('mod_')) + 1;
+                // $name = 'mod_' . substr($name, $idx);
             } else {
 
                 if (str_starts_with($name, 'plg_')) {
@@ -615,13 +630,6 @@ class buildExtension extends baseExecuteTasks
 
     private function buildModule()
     {
-
-
-    }
-
-    private function buildPlugin()
-    {
-
         //--------------------------------------------------------------------
         // data in manifest file
         //--------------------------------------------------------------------
@@ -638,21 +646,163 @@ class buildExtension extends baseExecuteTasks
         // destination temp folder
         //--------------------------------------------------------------------
 
-        $dstRoot = realpath($this->buildDir);
         print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+
+        $parentPath = dirname ($this->buildDir);
+        if (!is_dir($parentPath)) {
+            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            exit(557);
+        }
+
+        if (!is_dir($this->buildDir)) {
+            mkdir($this->buildDir, 0777, true);
+        }
+
+        $dstRoot = realpath($this->buildDir);
         print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
         $tmpFolder = $this->buildDir . '/tmp';
         print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
-//        $tmpFolder = realpath($tmpFolder);
-//        print ('temp folder(2): "' .  $tmpFolder . '"' . "\r\n");
 
-        // create .packages folder
-        if (!is_dir($dstRoot)) {
-            print ('create dir: "' . $dstRoot . '"' . "\r\n");
-            mkdir($dstRoot, 0777, true);
+        //--------------------------------------------------------------------
+        // handle temp folder
+        //--------------------------------------------------------------------
 
-            exit(556);
+        // remove tmp folder
+        if (is_dir($tmpFolder)) {
+            // length big enough to do no damage
+            if (strLen($tmpFolder) < 10) {
+                exit (555);
+            }
+            print ('Delete dir: "' . $tmpFolder . '"' . "\r\n");
+            delDir($tmpFolder);
         }
+
+        // create tmp folder
+        print ('Create dir: "' . $tmpFolder . '"' . "\r\n");
+        mkdir($tmpFolder, 0777, true);
+
+        //--------------------------------------------------------------------
+        // copy to temp
+        //--------------------------------------------------------------------
+
+        $srcRoot = realpath($this->srcRoot);
+
+        //--- folder ----------------------------------------------------------------
+
+        // folder src exists
+        if (file_exists($srcRoot . "/" . 'src')) {
+            $this->xcopyElement('src', $srcRoot, $tmpFolder);
+        }
+        // folder language exists
+        if (file_exists($srcRoot . "/" . 'language')) {
+            $this->xcopyElement('language', $srcRoot, $tmpFolder);
+        }
+
+        // folder media exists
+        if (file_exists($srcRoot . "/" . 'media')) {
+            $this->xcopyElement('media', $srcRoot, $tmpFolder);
+        }
+
+        // folder tmpl exists
+        if (file_exists($srcRoot . "/" . 'tmpl')) {
+            $this->xcopyElement('tmpl', $srcRoot, $tmpFolder);
+        }
+
+        //--- files ----------------------------------------------------------------
+
+        // manifest file like 'rsgallery2.xml'
+        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        // install script like 'install_rsg2.php'
+        if ( ! empty($this->manifestFile->scriptFile)) {
+            $this->xcopyElement($this->manifestFile->scriptFile, $srcRoot, $tmpFolder);
+        }
+
+        if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
+            $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
+        } else {
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'LICENSE.txt')) {
+
+                $this->xcopyElement('LICENSE.txt', $testFolder, $tmpFolder);
+            }
+        }
+
+        if (file_exists($srcRoot . "/" . 'index.html.xml')) {
+            $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
+        } else {
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'index.html')) {
+
+                $this->xcopyElement('index.html', $testFolder, $tmpFolder);
+            }
+        }
+
+        if (file_exists($srcRoot . "/" . 'changelog.xml')) {
+            $this->xcopyElement('changelog.xml', $srcRoot, $tmpFolder);
+        } else {
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'changelog.xml')) {
+
+                $this->xcopyElement('changelog.xml', $testFolder, $tmpFolder);
+            }
+        }
+
+        //--------------------------------------------------------------------
+        // zip to destination
+        //--------------------------------------------------------------------
+
+        $zipFileName = $dstRoot . '/' . $this->createComponentZipName();
+        zipItRelative(realpath($tmpFolder), $zipFileName);
+
+        //--------------------------------------------------------------------
+        // remove temp
+        //--------------------------------------------------------------------
+
+        // remove tmp folder
+        if (is_dir($tmpFolder)) {
+            delDir($tmpFolder);
+        }
+
+    }
+
+    private function buildPlugin()
+    {
+        //--------------------------------------------------------------------
+        // data in manifest file
+        //--------------------------------------------------------------------
+
+        //--- update date and version --------------------------------------
+
+        $bareName = $this->shortExtensionName();
+        $manifestPathFileName = $this->manifestPathFileName();
+        print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+
+        $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
+
+        //--------------------------------------------------------------------
+        // destination temp folder
+        //--------------------------------------------------------------------
+
+        print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+
+        $parentPath = dirname ($this->buildDir);
+        if (!is_dir($parentPath)) {
+            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            exit(557);
+        }
+
+        if (!is_dir($this->buildDir)) {
+            mkdir($this->buildDir, 0777, true);
+        }
+
+        $dstRoot = realpath($this->buildDir);
+        print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
+        $tmpFolder = $this->buildDir . '/tmp';
+        print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
+
+        //--------------------------------------------------------------------
+        // handle temp folder
+        //--------------------------------------------------------------------
 
         // remove tmp folder
         if (is_dir($tmpFolder)) {
@@ -676,11 +826,13 @@ class buildExtension extends baseExecuteTasks
 
         // ToDo: Follow manifest file sections instead of ...
 
-        // folder components exists
+        //--- folder ----------------------------------------------------------------
+
+        // folder src exists
         if (file_exists($srcRoot . "/" . 'src')) {
             $this->xcopyElement('src', $srcRoot, $tmpFolder);
         }
-        // folder api exists
+        // folder language exists
         if (file_exists($srcRoot . "/" . 'language')) {
             $this->xcopyElement('language', $srcRoot, $tmpFolder);
         }
@@ -689,17 +841,7 @@ class buildExtension extends baseExecuteTasks
             $this->xcopyElement('services', $srcRoot, $tmpFolder);
         }
 
-        // must be created separately ToDo: create anyhow for ? package ?
-//            // modules
-//            if (file_exists($srcRoot . "/" . 'modules')) {
-//                $this->xcopyElement('modules', $srcRoot, $tmpFolder);
-//            }
-
-        // must be created separately ToDo: create anyhow for ? package ?
-//            // plugins
-//            if (file_exists($srcRoot . "/" . 'plugins')) {
-//                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
-//            }
+        //--- files ----------------------------------------------------------------
 
         // manifest file like 'rsgallery2.xml'
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
@@ -707,11 +849,6 @@ class buildExtension extends baseExecuteTasks
         if ( ! empty($this->manifestFile->scriptFile)) {
             $this->xcopyElement($this->manifestFile->scriptFile, $srcRoot, $tmpFolder);
         }
-
-//        // folder administrator exists
-//        if (file_exists($srcRoot . "/" . 'administrator')) {
-//            $this->xcopyElement('administrator', $srcRoot, $tmpFolder);
-//        }
 
         if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
             $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
@@ -723,28 +860,25 @@ class buildExtension extends baseExecuteTasks
             }
         }
 
-        if (file_exists($srcRoot . "/" . 'LICENSE.txt')) {
+        if (file_exists($srcRoot . "/" . 'index.html.xml')) {
             $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
         } else {
             $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
-            if (file_exists($testFolder . "/" . 'LICENSE.txt')) {
+            if (file_exists($testFolder . "/" . 'index.html')) {
 
                 $this->xcopyElement('index.html', $testFolder, $tmpFolder);
             }
         }
 
-//            // Do copy the double rsgallery2.xml
-//            $adminFolder = $tmpFolder . '/administrator/components/com_rsgallery2';
-//            $this->xcopyElement('rsgallery2.xml', $srcRoot, $adminFolder);
+        if (file_exists($srcRoot . "/" . 'changelog.xml')) {
+            $this->xcopyElement('changelog.xml', $srcRoot, $tmpFolder);
+        } else {
+            $testFolder = $srcRoot . "../../../" . 'administrator/component/' . $bareName . '/';
+            if (file_exists($testFolder . "/" . 'changelog.xml')) {
 
-//            //--------------------------------------------------------------------
-//            // Not changelog to root
-//            //--------------------------------------------------------------------
-//
-//            $changelogPathFileName = $this->srcRoot . '/administrator/components/com_rsgallery2/';
-//            if (file_exists($changelogPathFileName)) {
-//                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
-//            }
+                $this->xcopyElement('changelog.xml', $testFolder, $tmpFolder);
+            }
+        }
 
         //--------------------------------------------------------------------
         // zip to destination

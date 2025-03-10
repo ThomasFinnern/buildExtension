@@ -2,7 +2,9 @@
 
 namespace Finnern\BuildExtension\src\fileNamesLib;
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+require_once '../autoload/autoload.php';
+
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 // use DateTime;
 

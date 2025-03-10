@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
-// use DateTime;
 
 use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -129,7 +128,7 @@ if ( ! empty ($taskFile)) {
 print ($oTasks->text() . "\r\n");
 print ("Resulting line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
 
-commandLineLib::commandLineLib::print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

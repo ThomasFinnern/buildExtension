@@ -36,7 +36,7 @@ function build_autoloader(string $class) {
 
         print ("Class $class not found\n");
         print ("File $file not found\n");
-        $test = 'e';
+        $debugStop = 'error';
     }
 }
 

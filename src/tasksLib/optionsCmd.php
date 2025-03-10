@@ -91,7 +91,7 @@ $oOptionsResult = $oOptions->extractOptionsFromString($optionsLine);
 print ($oOptions->text() . "\r\n");
 print ("Resulting line: '" . $oOptionsResult->text4Line() . "'" . "\r\n");
 
-commandLineLib::commandLineLib::print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

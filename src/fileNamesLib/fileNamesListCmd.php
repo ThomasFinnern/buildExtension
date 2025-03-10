@@ -153,8 +153,6 @@ if ($hasError) {
     print ($oFileNamesList->text() . "\r\n");
 }
 
-
-commandLineLib::commandLineLib::print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
-

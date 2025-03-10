@@ -37,7 +37,7 @@ class commandLineLib
     commandLineLib::print_end
     --------------------------------------------------------------------*/
 
-    public static function commandLineLib::print_end(DateTime $start)
+    public static function print_end(DateTime $start)
     {
         $now = new DateTime ();
         print('' . "\r\n");

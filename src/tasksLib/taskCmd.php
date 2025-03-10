@@ -91,7 +91,7 @@ $oTaskResult = $oTask->extractTaskFromString($taskLine);
 print ($oTask->text() . "\r\n");
 print ("Line: '" . $oTaskResult->text4Line() . "'" . "\r\n");
 
-commandLineLib::print_end($start);
+commandLineLib::commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

@@ -9,7 +9,7 @@ require_once "./fileHeaderData.php";
 
 use CopyrightText\copyrightText;
 use Exception;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class fileHeaderByFile

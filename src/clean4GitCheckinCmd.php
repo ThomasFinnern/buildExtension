@@ -7,10 +7,8 @@ require_once "./clean4GitCheckin.php";
 
 // use \DateTime;
 
-use task\task;
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
 
 
 $HELP_MSG = <<<EOT
@@ -29,7 +27,7 @@ main (used from command line)
 $optDefinition = "t:f:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -110,7 +108,7 @@ foreach ($options as $idx => $option) {
 --------------------------------------------------*/
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
 $task = new task();
 
@@ -139,7 +137,7 @@ if (!$hasError) {
 
 print ($oClean4GitCheckin->text() . "\r\n");
 
-print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

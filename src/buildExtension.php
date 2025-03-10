@@ -4,18 +4,18 @@ namespace ExecuteTasks;
 
 require_once "./baseExecuteTasks.php";
 //require_once "./fileNamesList.php";
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./manifestFile.php";
 require_once "./task.php";
 //require_once "./versionId.php";
 
 use Exception;
-//use FileNamesList\fileNamesList;
+//use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use ManifestFile\manifestFile;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\task;
 //use VersionId\versionId;
 use ZipArchive;
 

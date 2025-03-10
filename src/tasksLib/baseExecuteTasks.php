@@ -3,11 +3,11 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\FileNamesList\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\fileNamesLib\fileNamesList;
 use option\option;
 
 /**
- * Base classs prepares for filename list
+ * Base class prepares for filename list
  */
 class baseExecuteTasks
 {

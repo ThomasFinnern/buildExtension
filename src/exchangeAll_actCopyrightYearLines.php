@@ -2,7 +2,7 @@
 
 namespace exchangeAll_actCopyrightYear;
 
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./baseExecuteTasks.php";
 require_once "./fileHeaderByFileLine.php";
 
@@ -12,8 +12,8 @@ use Exception;
 use ExecuteTasks\baseExecuteTasks;
 use ExecuteTasks\executeTasksInterface;
 use FileHeader\fileHeaderByFileLine;
-use FileNamesList\fileNamesList;
-use task\task;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class exchangeAll_actCopyrightYear

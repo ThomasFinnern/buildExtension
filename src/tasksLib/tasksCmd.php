@@ -129,7 +129,7 @@ if ( ! empty ($taskFile)) {
 print ($oTasks->text() . "\r\n");
 print ("Resulting line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
 
-commandLineLib::print_end($start);
+commandLineLib::commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

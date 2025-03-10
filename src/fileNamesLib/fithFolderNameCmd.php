@@ -1,22 +1,25 @@
 <?php
 
-namespace fithFileName;
+namespace Finnern\BuildExtension\src\fileNamesLib;
 
-require_once "./commandLine.php";
-require_once "./fithFileName.php";
-
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
 
 // use DateTime;
 
 
 $HELP_MSG = <<<EOT
     >>>
-    fithFileName class ...
+    fithFolderName class ...
     <<<
     EOT;
+
+/* ToDo: functions
+hasExtension
+nameMatchesRegEx
+pathMatches regex
+
+text ();
+/**/
 
 
 /*================================================================================
@@ -26,7 +29,7 @@ main (used from command line)
 $optDefinition = "s:d:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -38,7 +41,9 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$srcFile = "./original.php";
+// ToDo: Test it manually
+// $srcFolder = "./";
+$srcFolder = "..\\..\\..\\LangMan4Dev";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -46,7 +51,7 @@ foreach ($options as $idx => $option) {
 
     switch ($idx) {
         case 's':
-            $srcFile = $option;
+            $srcFolder = $option;
             break;
 
         case "h":
@@ -82,21 +87,13 @@ foreach ($options as $idx => $option) {
 //--- call function ---------------------------------
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
-$oFileName = new fithFileName($srcFile);
-// $hasError = $oFileName->extractNameParts();
-print ($oFileName->text() . "\r\n");
+$oFolderName = new fithFolderName($srcFolder);
+// $hasError = $oFolderName->extractNameParts();
+print ($oFolderName->text() . "\r\n");
 
-if ($oFileName->hasExtension('php')) {
-    print("yes hasExtension('php')" . "\r\n");
-}
-
-if ($oFileName->nameMatchesRegEx("/i.*i/")) {
-    print("yes nameMatchesRegEx('/i.*i/')" . "\r\n");
-}
-
-print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

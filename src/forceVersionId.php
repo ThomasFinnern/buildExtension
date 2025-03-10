@@ -2,18 +2,16 @@
 
 namespace forceVersionId;
 
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./baseExecuteTasks.php";
 
 use Exception;
 use ExecuteTasks\baseExecuteTasks;
 use ExecuteTasks\executeTasksInterface;
-use FileNamesList\fileNamesList;
-use task\task;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 
-//use function commandLine\argsAndOptions;
-//use function commandLine\print_header;
-//use function commandLine\print_end;
+//use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
 
 /*================================================================================
 Class forceVersionId

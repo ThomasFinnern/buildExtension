@@ -2,7 +2,7 @@
 
 namespace forceCreationDate;
 
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./baseExecuteTasks.php";
 
 // use \DateTime;
@@ -10,8 +10,8 @@ require_once "./baseExecuteTasks.php";
 use Exception;
 use ExecuteTasks\baseExecuteTasks;
 use ExecuteTasks\executeTasksInterface;
-use FileNamesList\fileNamesList;
-use task\task;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class forceCreationDate

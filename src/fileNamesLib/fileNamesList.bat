@@ -7,7 +7,8 @@ Set CmdArgs=
 ECHO PHP fileNamesList.bat
 
 REM Source path
-Call :AddNextArg -p "..\..\RSGallery2_J4"
+REM Call :AddNextArg -p "..\..\RSGallery2_J4"
+Call :AddNextArg -p "..\..\..\LangMan4Dev"
 
 REM include file types
 Call :AddNextArg -i "*.php *.xmp *.ini"
@@ -38,8 +39,8 @@ ECHO.
 ECHO ------------------------------------------------------------------------------
 ECHO Start cmd:
 ECHO.
-ECHO php.exe -f "./FileNamesList.php" --  %CmdArgs% %*
-php.exe -f "./FileNamesList.php" --  %CmdArgs% %*
+ECHO php.exe -f "./FileNamesListCmd.php" --  %CmdArgs% %*
+php.exe -f "./FileNamesListCmd.php" --  %CmdArgs% %*
 
 GOTO :EOF
 

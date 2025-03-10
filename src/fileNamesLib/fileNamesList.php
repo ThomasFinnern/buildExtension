@@ -1,19 +1,16 @@
 <?php
 
-namespace FileNamesList;
-
-require_once "./iExecTask.php";
-require_once "./baseExecuteTasks.php";
-
-require_once "./fithFileName.php";
-require_once "./folderName.php";
+namespace Finnern\BuildExtension\src\fileNamesLib;
 
 //use \DateTime;
 use Exception;
-use ExecuteTasks\executeTasksInterface;
-use FileName\fithFileName;
-use FolderName\fithFolderName;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
+
+use Finnern\BuildExtension\src\fileNamesLib\fithFileName;
+use Finnern\BuildExtension\src\fileNamesLib\fithFolderName;
+// use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /**
  * ToDo:
@@ -21,7 +18,7 @@ use task\task;
  * filename regex
  * /**/
 /*================================================================================
-Class FileNamesList
+Class fileNamesList
 ================================================================================*/
 
 class fileNamesList implements executeTasksInterface
@@ -598,5 +595,5 @@ class fileNamesList implements executeTasksInterface
         return $fileNamesList;
     }
 
-} // FileNamesList
+} // fileNamesList
 

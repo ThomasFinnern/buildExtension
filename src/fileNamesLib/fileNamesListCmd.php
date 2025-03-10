@@ -1,13 +1,11 @@
 <?php
 
-namespace FileNamesList;
+namespace Finnern\BuildExtension\src\fileNamesLib;
 
-require_once "./commandLine.php";
-require_once "./FileNamesList.php";
+require_once '../autoload/autoload.php';
 
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
 /**
  * ToDo:
@@ -17,7 +15,7 @@ use function commandLine\print_header;
 
 $HELP_MSG = <<<EOT
     >>>
-    FileNameList class ...
+    Call FileNameList class ...
     <<<
     EOT;
 
@@ -25,14 +23,10 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$options = getopt("e:i:p:w:nh12345", []);
-var_dump($options);
-
 $optDefinition = "oe:i:p:w:nh12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
-
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -61,7 +55,9 @@ variables
 //$srcRoot = "./../../RSGallery2_J4";
 //$srcRoot = "./../../RSGallery2_J4/administrator";
 //$srcRoot = "./../../RSGallery2_J4/component";
-$srcRoot = "./../../RSGallery2_J4/media";
+//$srcRoot = "./../../RSGallery2_J4/media";
+$srcRoot = "./../../../LangMan4Dev";
+//$srcRoot = "..\\..\\..\\LangMan4Dev";
 
 $includeExt = "";
 //$includeExt = "php xmp ini";
@@ -142,7 +138,7 @@ foreach ($options as $idx => $option) {
 //--- call function ---------------------------------
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
 // ToDo: assign task instead if exist
 
@@ -158,7 +154,7 @@ if ($hasError) {
 }
 
 
-print_end($start);
+commandLineLib::commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

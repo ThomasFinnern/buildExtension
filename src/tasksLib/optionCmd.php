@@ -4,9 +4,8 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
-// use DateTime;
 
-use function Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use function Finnern\BuildExtension\src\tasksLib\commandLineLib;
 use Finnern\BuildExtension\src\tasksLib\option;
 
 $HELP_MSG = <<<EOT
@@ -91,7 +90,7 @@ $oOptionResult = $oOption->extractOptionFromString($optionLine);
 print ($oOption->text() . "\r\n");
 print ("Resulting line: '" . $oOptionResult->text4Line() . "'" . "\r\n");
 
-commandLineLib::print_end($start);
+commandLineLib::commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

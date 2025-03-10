@@ -4,14 +4,14 @@ namespace ManifestFile;
 
 require_once "./baseExecuteTasks.php";
 require_once "./copyrightText.php";
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./versionId.php";
 
 use CopyrightText\copyrightText;
 use Exception;
 use ExecuteTasks\baseExecuteTasks;
 use ExecuteTasks\executeTasksInterface;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\task;
 use VersionId\versionId;
 
 /*================================================================================

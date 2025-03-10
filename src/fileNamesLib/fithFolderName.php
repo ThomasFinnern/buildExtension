@@ -1,6 +1,6 @@
 <?php
 
-namespace FolderName;
+namespace Finnern\BuildExtension\src\fileNamesLib;
 
 // use DateTime;
 

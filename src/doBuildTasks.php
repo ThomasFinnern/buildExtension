@@ -36,16 +36,16 @@ use exchangeAll_sinceCopyrightYear\exchangeAll_sinceCopyrightYearLines;
 use exchangeAll_subPackageLines\exchangeAll_subPackageLines;
 use ExecuteTasks\buildExtension;
 use ExecuteTasks\executeTasksInterface;
-use FileNamesList\fileNamesList;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use forceCreationDate\forceCreationDate;
 use forceVersionId\forceVersionId;
 use increaseVersionId\increaseVersionId;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\task;
 use tasks\tasks;
 
 //use option\option;
 //use options\options;
-//use task\task;
+//use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>

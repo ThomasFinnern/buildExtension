@@ -3,7 +3,7 @@
 namespace increaseVersionId;
 
 require_once "./baseExecuteTasks.php";
-require_once "./iExecTask.php";
+require_once "./executeTasksInterface.php";
 require_once "./versionId.php";
 
 // use \DateTime;
@@ -11,8 +11,8 @@ require_once "./versionId.php";
 use Exception;
 use ExecuteTasks\baseExecuteTasks;
 use ExecuteTasks\executeTasksInterface;
-use FileNamesList\fileNamesList;
-use task\task;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 use VersionId\versionId;
 
 

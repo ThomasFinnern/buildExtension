@@ -6,9 +6,7 @@ require_once "./commandLine.php";
 
 
 use DateTime;
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
 
 // use DateTime;
 
@@ -73,7 +71,7 @@ main (used from command line)
 $optDefinition = "s:d:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 //$LeaveOut_01 = true;
 //$LeaveOut_02 = true;
@@ -138,13 +136,13 @@ $isPrintArguments = false;
 
 // for start / end diff
 
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
 print ("Date file format: " . fileDateTime::stdFileDateTimeFormatString());
 print ("Date expizit" . fileDateTime::DateTimeFormatString());
 print ("Date file format (msec): " . fileDateTime::StdFileDateTimeFormatStringMsec());
 
-print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

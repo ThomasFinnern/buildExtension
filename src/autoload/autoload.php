@@ -32,6 +32,11 @@ function build_autoloader(string $class) {
     // if the file exists, require it
     if (file_exists($file)) {
         require $file;
+    } else {
+
+        print ("Class $class not found\n");
+        print ("File $file not found\n");
+        $test = 'e';
     }
 }
 

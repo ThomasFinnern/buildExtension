@@ -1,60 +1,60 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-require_once "./executeTasksInterface.php";
-require_once "./baseExecuteTasks.php";
-
-require_once "./fileHeaderByFileLine.php";
-
-
-// use \DateTime;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
+use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
-Class clean4GitCheckin
+Class exchangeAll_subPackageLines
 ================================================================================*/
 
-class clean4GitCheckin extends baseExecuteTasks
+class exchangeAll_subPackageLines extends baseExecuteTasks
     implements executeTasksInterface
 {
+    public string $subpackageText = "";
 
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct($srcRoot = "", $isNoRecursion = False)
+    public function __construct($srcRoot = "", $isNoRecursion = false, $subpackageText = "")
     {
+        $hasError = 0;
         try {
 //            print('*********************************************************' . "\r\n");
 //            print ("srcRoot: " . $srcRoot . "\r\n");
-//            print ("linkText: " . $linkText . "\r\n");
+//            print ("subpackageText: " . $subpackageText . "\r\n");
 //            print('---------------------------------------------------------' . "\r\n");
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct ($srcRoot = "", $isNoRecursion=false);
 
-//            $this->fileNamesList = new fileNamesList();
+            $this->subpackageText = $subpackageText;
+
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
     }
 
-
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- clean4GitCheckin ---" . "\r\n";
+        $OutTxt .= "--- exchangeAll_subPackageLines ---" . "\r\n";
 
 
         $OutTxt .= "Not defined yet " . "\r\n";
 
         /**
          * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
+         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
          * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
          * /**/
 
@@ -74,12 +74,15 @@ class clean4GitCheckin extends baseExecuteTasks
             $isBaseOption = $this->assignBaseOption($option);
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
+                    case 'subpackagetext':
+                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        $this->subpackageText = $option->value;
+                        break;
 
-// ? separate class ?
-//				case 'cleanlines': // trim / no tabs
+//				case 'X':
 //					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //					break;
-
+//
 //				case 'Y':
 //					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
 //					break;
@@ -116,7 +119,8 @@ class clean4GitCheckin extends baseExecuteTasks
 
         // files not set already
         if (count($this->fileNamesList->fileNames) == 0) {
-            $fileNamesList = new fileNamesList ($this->srcRoot, '');
+            $fileNamesList = new fileNamesList ($this->srcRoot, 'php',
+                '', $this->isNoRecursion);
             $this->fileNamesList = $fileNamesList;
 
             $fileNamesList->scan4Filenames();
@@ -125,95 +129,17 @@ class clean4GitCheckin extends baseExecuteTasks
             // $fileNamesList = $this->fileNamesList;
         }
 
+        //--- use file header subpackage task ----------------------
+
+        $fileHeaderByFileLine = new fileHeaderByFileLine();
+
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
-            $this->beautifyFile($fileName->srcPathFileName);
+            $fileHeaderByFileLine->exchangeSubpackage($fileName->srcPathFileName);
         }
 
         return (0);
     }
-
-
-
-    private function beautifyFile(string $fileName): bool
-    {
-        $isExchanged = false;
-
-        try {
-            $outLines = file($fileName);
-
-            [$outLines, $isExchanged] = $this->trimLines($outLines, $isExchanged);
-            [$outLines, $isExchanged] = $this->tab2spacesLines($outLines, $isExchanged);
-
-            // write to file
-            if ($isExchanged == true) {
-                $isSaved = file_put_contents($fileName, $outLines);
-            }
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
-            $hasError = -101;
-        }
-
-        return $isExchanged;
-    }/**
- * @param false|array $lines
- * @param bool $isExchanged
- * @param array $outLines
- * @return array
- */
-    public function trimLines(false|array $lines, bool $isExchanged): array
-    {
-        $outLines = [];
-
-        try {
-            // all lines
-            foreach ($lines as $line) {
-                if ($isExchanged) {
-                    $outLines [] = rtrim($line) . "\r\n";
-                } else {
-                    $trimmed = rtrim($line) . "\r\n";
-                    $outLines [] = $trimmed;
-
-                    if (strlen($trimmed) < strlen($line)) {
-                        $isExchanged = true;
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
-            $hasError = -101;
-        }
-
-        return [$outLines, $isExchanged];
-    }
-
-    private function tab2spacesLines(false|array $lines, mixed $isExchanged)
-    {
-        $outLines = [];
-        $tabReplace = "    ";
-
-        try {
-            // all lines
-            foreach ($lines as $line) {
-                if ($isExchanged) {
-                    $outLines [] = str_replace("\t", $tabReplace, $line);;
-                } else {
-                    $trimmed = str_replace("\t", $tabReplace, $line);
-                    $outLines [] = $trimmed;
-
-                    if (strlen($trimmed) < strlen($line)) {
-                        $isExchanged = true;
-                    }
-                }
-            }
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
-            $hasError = -101;
-        }
-
-        return [$outLines, $isExchanged];
-    }
-
-} // clean4GitCheckin
+} // exchangeAll_subPackageLines
 

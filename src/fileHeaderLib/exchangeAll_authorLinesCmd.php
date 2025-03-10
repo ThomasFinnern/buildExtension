@@ -1,11 +1,8 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-require_once "./commandLine.php";
-require_once "./clean4GitCheckin.php";
-
-// use \DateTime;
+require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
@@ -13,9 +10,10 @@ use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    class clean4GitCheckin
+    class exchangeAll_authorLines
 
-    Reads file, trims each line and writes result back on change
+    Reads file, exchanges one 'author' line
+    Standard replace text is defined in class fileHeaderData
     <<<
     EOT;
 
@@ -24,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "s:a:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -39,38 +37,51 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:clean4GitCheckin'
+//// idea: own task for filenames
+//$filesTaskLine = "task:createFilenamesList"
 //    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
 //    . ' /isNoRecursion=true'
+////    . ' /isCrawlSilent=false' default true ToDo:
+//    . ' /includeExt="php"'
+////    . ' /includeExt="xmp"'
+////    . ' /includeExt="xmp"'
+////    . ' /includeExt="ini"'
+////    . ' /includeFiles="???"'
+////    . ' /excludeFiles="./../../RSGallery2_J4/.gitignore ./../../RSGallery2_J4/LICENSE.txt /../../RSGallery2_J4/README.md ./../../RSGallery2_J4/index.html "'
+////   . ' /includeFolder="./Administrator'
+////   . ' /includeFolder="./Administrator'
+//    . ' ';
+
+
+$tasksLine = ' task:exchangeAll_authorLines'
+    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-// -> self
-    . ' /srcRoot="./"'
     . ' /isNoRecursion=true'
+//    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' '
+    . ' /authorText = ""'//    . ' /s='
 ;
-
-ToDo: file list restriction: no BMP ...
-
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';
 $srcRoot = '';
 
-//$linkText = "GNU General Public link version 2 or later;";
-//$this->link = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-$linkText = '';
+//$authorText = "GNU General Public author version 2 or later;";
+//$this->author = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
+$authorText = '';
+$isNoRecursion = false;
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 't':
-            $tasksLine = $option;
+        case 's':
+            $srcRoot = $option;
             break;
 
-        case 'f':
-            $taskFile = $option;
+        case 'a':
+            $authorText = $option;
             break;
 
         case "h":
@@ -110,14 +121,19 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
+//--- create class object ---------------------------------
+
 $task = new task();
 
-if ($taskFile != "") {
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
@@ -127,20 +143,31 @@ if ($taskFile != "") {
     //}
 }
 
-$oClean4GitCheckin = new clean4GitCheckin();
+print ($task->text());
 
-$hasError = $oClean4GitCheckin->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oClean4GitCheckin->execute();
-    if ($hasError) {
-        print ("Error on function execute:" . $hasError);
-    }
+if (empty ($hasError)) {
+
+	$oExchangeAll_authorLines = new exchangeAll_authorLines($srcRoot,
+		$isNoRecursion, $authorText);
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oExchangeAll_authorLines->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
+	
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+		$hasError = $oExchangeAll_authorLines->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
 }
 
-print ($oClean4GitCheckin->text() . "\r\n");
+print ($oExchangeAll_authorLines->text() . "\r\n");
 
 commandLineLib::print_end($start);
 

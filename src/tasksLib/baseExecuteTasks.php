@@ -3,8 +3,8 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\fileNamesLib\fileNamesList;
-use option\option;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+//use Finnern\BuildExtension\src\tasksLib\option;
 
 /**
  * Base class prepares for filename list
@@ -45,7 +45,7 @@ class baseExecuteTasks
         // print('exit __construct: ' . $hasError . "\r\n");
     }
 
-    // TODO: check all extends to remove doble function
+    // TODO: check all extends to remove double function
     public function assignFilesNames(fileNamesList $fileNamesList): int
     {
         $this->fileNamesList = $fileNamesList;

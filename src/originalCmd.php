@@ -7,7 +7,7 @@ require_once "./XXX.php";
 
 // use \DateTime;
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 
 $HELP_MSG = <<<EOT
@@ -85,7 +85,9 @@ foreach ($options as $idx => $option) {
     }
 }
 
-//--- call function ---------------------------------
+/*--------------------------------------------------
+   call function
+--------------------------------------------------*/
 
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);

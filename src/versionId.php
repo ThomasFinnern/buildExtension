@@ -4,7 +4,8 @@
 //namespace Finnern\BuildExtension;
 namespace VersionId;
 
-use option\option;
+use Finnern\BuildExtension\src\tasksLib\option;
+
 
 /**
  * Sem-Version with additional build number
@@ -293,7 +294,7 @@ class versionId {
         //--- data source --------------------------------
 
         // from extern or intern
-        if (empty($sinceCopyrightDate)) {
+        if (empty($outVersionId)) {
             $outVersionId = $this->outVersionId;
         } else {
             $this->outVersionId = $outVersionId;

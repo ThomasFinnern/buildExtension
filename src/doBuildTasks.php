@@ -26,25 +26,27 @@ require_once "./tasks.php";
 
 use clean4GitCheckin\clean4GitCheckin;
 use Exception;
-use exchangeAll_actCopyrightYear\exchangeAll_actCopyrightYearLines;
-use exchangeAll_authorLines\exchangeAll_authorLines;
-use updateAll_fileHeaders\updateAll_fileHeaders;
-use exchangeAll_licenseLines\exchangeAll_licenseLines;
-use exchangeAll_linkLines\exchangeAll_linkLines;
-use exchangeAll_packageLines\exchangeAll_packages;
-use exchangeAll_sinceCopyrightYear\exchangeAll_sinceCopyrightYearLines;
-use exchangeAll_subPackageLines\exchangeAll_subPackageLines;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
+use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_licenseLines;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
 use ExecuteTasks\buildExtension;
-use ExecuteTasks\executeTasksInterface;
+use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use forceCreationDate\forceCreationDate;
-use forceVersionId\forceVersionId;
-use increaseVersionId\increaseVersionId;
-use Finnern\BuildExtension\src\tasksLib\task;
-use tasks\tasks;
+use Finnern\BuildExtension\src\fileHeaderLib\forceCreationDate;
+//use Finnern\BuildExtension\src\fileHeaderLib\forceVersionId;
+//use Finnern\BuildExtension\src\fileHeaderLib\increaseVersionId;
 
-//use option\option;
-//use options\options;
+use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\tasks;
+
+
+//use Finnern\BuildExtension\src\tasksLib\option;
+//use Finnern\BuildExtension\src\tasksLib\options;
 //use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT

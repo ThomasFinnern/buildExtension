@@ -4,7 +4,7 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
 

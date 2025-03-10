@@ -1,19 +1,16 @@
 <?php
 
-namespace ExecuteTasks;
-
-require_once "./commandLine.php";
-require_once "./buildExtension.php";
+namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
-// use DateTime;
 
 $HELP_MSG = <<<EOT
     >>>
-    class buildExtension
+    class ManifestFile
 
+    read, change, manifest file data
     ToDo: option commands , example
 
     <<<
@@ -23,7 +20,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "s:d:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -38,16 +35,12 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:buildExtension'
-    . ' /type=component'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /isNoRecursion=true'
-    . ' /buildDir="./../.packages"'
-//    . ' /adminPath='
-//    . ' /sitePath='
-//    . ' /mediaPath='
-    . ' /name=com_rsgallery2'
-    . ' /extension=RSGallery2'
+$tasksLine = ' task:ManifestFile'
+    . ' /manifestFile="./../../RSGallery2_J4/rsgallery2.xml"'
+//    . ' /srcRoot="./../../RSGallery2_J4"'
+//    . ' /componentname=rsgallery2'
+//    . ' /manifestFile'
+//   . ' /forceVersion="5.0.12.4"'
 //    . ' /version=5.0.12.4'
 //    . ' /isForceVersion=false'
 //    . ' /isIncrementVersion_major = true'
@@ -58,50 +51,25 @@ $tasksLine = ' task:buildExtension'
 //    . ' /isBuildRelease = false'
 //    each creation of package will increase the build number
 //    . ' /isIncrementVersion_build = false'
-    . ' /isIncrementVersion_build = true'
+//    . ' /isIncrementVersion_build = true'
 //    fix will increase revision and reset build counter
 //    . ' /isBuildFix = true'
 //    release will increase minor and reset revision and build counter
-//    . ' /isBuildRelease = true'
+    . ' /isBuildRelease = true'
 //    . ' /isBuildFix = true'
-
-// name.xml ?    . '/manifestFile='
-//    . '/s='
-//    . '/s='
-//    . '/s='
 ;
-$tasksLine="";
-
-// ToDo: option release date option releasefiledate
-
-//$basePath = "..\\..\\RSGallery2_J4";
-//$basePath = "../../LangMan4DevProject";
-
-//$taskFile="./build_fix.tsk";
-//$taskFile="./build_Develop.tsk";
-//$taskFile="./build_release.tsk";
-//$taskFile = "";
-//$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
-//$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
-//$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
-//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
-
-
-//$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
-
-$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 't':
-            $tasksLine = $option;
+        case 's':
+            $srcFile = $option;
             break;
 
-        case 'f':
-            $taskFile = $option;
+        case 'd':
+            $dstFile = $option;
             break;
 
         case "h":
@@ -166,27 +134,50 @@ if ( ! empty ($taskFile)) {
 print ($task->text());
 
 if (empty ($hasError)) {
-
-	$oBuildExtension = new buildExtension();
+	
+	$oForceVersionId = new manifestFile();
 
 	//--- assign tasks ---------------------------------
 
-	$hasError = $oBuildExtension->assignTask($task);
-    if ($hasError) {
-        print ("Error on function assignTask:" . $hasError);
-    }
+	$hasError = $oForceVersionId->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
 
 	//--- execute tasks ---------------------------------
 
+	//if (!$hasError) {
+	//    $hasError = $oForceVersionId->execute();
+	//    if ($hasError) {
+	//        print ("Error on function execute:" . $hasError);
+	//    }
+	//}
+	//
 	if (!$hasError) {
-	    $hasError = $oBuildExtension->execute();
-	    if ($hasError) {
-	        print ("Error on function execute:" . $hasError);
-	    }
+		$hasError = ! $oForceVersionId->readFile();
+		if ($hasError) {
+			print ("Error on function readFile:" . $hasError);
+		}
 	}
-	
-	print ($oBuildExtension->text() . "\r\n");
+
+	if (!$hasError) {
+		$hasError = $oForceVersionId->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
+
+	if (!$hasError) {
+		$manifestPathFileName = $oForceVersionId->manifestPathFileName;
+		$outManifestPathFileName = $manifestPathFileName . '.bak';
+
+		$hasError = ! $oForceVersionId->writeFile($outManifestPathFileName);
+		if ($hasError) {
+			print ("Error on function writeFile:" . $hasError);
+		}
+	}
 }
+
 
 commandLineLib::print_end($start);
 

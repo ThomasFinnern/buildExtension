@@ -1,18 +1,19 @@
 <?php
 
-namespace Finnern\BuildExtension\src\tasksLib;
+namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\option;
+
 
 $HELP_MSG = <<<EOT
     >>>
-    option class
+    fileHeader class
 
     <<<
     EOT;
+
 
 /*================================================================================
 main (used from command line)
@@ -35,7 +36,7 @@ variables
 
 //$optionLine = '/option1';
 $optionLine = '/option2=02_Option';
-//$optionLine = '/option3="01_X_test_string"';
+//$optionLine = '/option3="01_Xteststring"';
 
 
 foreach ($options as $idx => $option) {
@@ -84,12 +85,10 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-$oOption = new option();
+$oFileHeader = new fileHeaderData();
 
-$oOptionResult = $oOption->extractOptionFromString($optionLine);
-
-print ($oOption->text() . "\r\n");
-print ("Resulting line: '" . $oOptionResult->text4Line() . "'" . "\r\n");
+print ($oFileHeader->text() . "\r\n");
+print ("Line: '" . $oFileHeader->headerText() . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 

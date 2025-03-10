@@ -1,11 +1,6 @@
 <?php
 
-namespace clean4GitCheckin;
-
-require_once "./commandLine.php";
-require_once "./clean4GitCheckin.php";
-
-// use \DateTime;
+namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
@@ -13,9 +8,10 @@ use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    class clean4GitCheckin
+    class increaseVersionId
 
-    Reads file, trims each line and writes result back on change
+    ToDo: option commands , example
+
     <<<
     EOT;
 
@@ -26,6 +22,7 @@ main (used from command line)
 
 $optDefinition = "t:f:h12345";
 $isPrintArguments = false;
+//$isPrintArguments = true;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
@@ -39,26 +36,19 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:clean4GitCheckin'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
+$tasksLine = ' task:increaseVersionId'
+    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-// -> self
-    . ' /srcRoot="./"'
-    . ' /isNoRecursion=true'
-;
+    . ' /name=rsgallery2'
+//    . ' /extension=RSGallery2'
+//    . ' /isIncreaseMajor'
+//    . ' /isIncreaseMinor'
+//    . ' /isIncreasePatch'
+    . ' /isIncreaseBuild';
 
-ToDo: file list restriction: no BMP ...
-
-
-//$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
-//$srcRoot = './../../RSGallery2_J4';
-$srcRoot = '';
-
-//$linkText = "GNU General Public link version 2 or later;";
-//$this->link = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-$linkText = '';
+// $taskFile = "";
+$taskFile="./increaseVersionId.tsk";
+$tasksLine = "";
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -70,6 +60,7 @@ foreach ($options as $idx => $option) {
             break;
 
         case 'f':
+            print ('->/f option: "' . $option . '"');
             $taskFile = $option;
             break;
 
@@ -110,14 +101,19 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
+//--- create class object ---------------------------------
+
 $task = new task();
 
-if ($taskFile != "") {
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
@@ -127,20 +123,28 @@ if ($taskFile != "") {
     //}
 }
 
-$oClean4GitCheckin = new clean4GitCheckin();
+print ($task->text());
 
-$hasError = $oClean4GitCheckin->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oClean4GitCheckin->execute();
-    if ($hasError) {
-        print ("Error on function execute:" . $hasError);
-    }
-}
+if (empty ($hasError)) {
 
-print ($oClean4GitCheckin->text() . "\r\n");
+	$oIncreaseVersionId = new increaseVersionId();
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oIncreaseVersionId->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
+
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+		$hasError = $oIncreaseVersionId->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
+}
 
 commandLineLib::print_end($start);
 

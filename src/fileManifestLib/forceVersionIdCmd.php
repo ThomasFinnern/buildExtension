@@ -1,15 +1,16 @@
 <?php
 
-namespace Finnern\BuildExtension\src\tasksLib;
+namespace Finnern\BuildExtension\src\fileManifestLib;
 
-require_once '../autoload/autoload.php';
-
+use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\option;
+
 
 $HELP_MSG = <<<EOT
     >>>
-    option class
+    class forceVersionId
+
+    ToDo: option commands , example
 
     <<<
     EOT;
@@ -18,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "o:h12345";
+$optDefinition = "s:d:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -33,18 +34,24 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-//$optionLine = '/option1';
-$optionLine = '/option2=02_Option';
-//$optionLine = '/option3="01_X_test_string"';
-
+$tasksLine = ' task:forceVersionId'
+    . ' /srcRoot="./../../RSGallery2_J4"'
+//    . ' /isNoRecursion=true'
+    . ' /name=rsgallery2'
+//    . ' /extension=RSGallery2'
+    . ' /version="5.0.12.4"';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 'o':
-            $optionLine = $option;
+        case 's':
+            $srcFile = $option;
+            break;
+
+        case 'd':
+            $dstFile = $option;
             break;
 
         case "h":
@@ -84,12 +91,52 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-$oOption = new option();
+//--- create class object ---------------------------------
 
-$oOptionResult = $oOption->extractOptionFromString($optionLine);
+$task = new task();
 
-print ($oOption->text() . "\r\n");
-print ("Resulting line: '" . $oOptionResult->text4Line() . "'" . "\r\n");
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
+    $testTask = $task->extractTaskFromFile($taskFile);
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
+} else {
+    $testTask = $task->extractTaskFromString($tasksLine);
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromString:" . $hasError
+    //        . ' tasksLine: ' . $tasksLine);
+    //    $hasError = -302;
+    //}
+}
+
+print ($task->text());
+
+if (empty ($hasError)) {
+
+	$oForceVersionId = new forceVersionId();
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oForceVersionId->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
+	
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+		$hasError = $oForceVersionId->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
+	
+	// print ($oBuildExtension->text() . "\r\n");
+}
 
 commandLineLib::print_end($start);
 

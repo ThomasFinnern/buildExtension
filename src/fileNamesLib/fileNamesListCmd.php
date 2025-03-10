@@ -135,7 +135,9 @@ foreach ($options as $idx => $option) {
     }
 }
 
-//--- call function ---------------------------------
+/*--------------------------------------------------
+   call function
+--------------------------------------------------*/
 
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);

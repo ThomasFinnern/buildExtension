@@ -4,7 +4,7 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 // use DateTime;
 
@@ -86,7 +86,9 @@ foreach ($options as $idx => $option) {
     }
 }
 
-//--- call function ---------------------------------
+/*--------------------------------------------------
+   call function
+--------------------------------------------------*/
 
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);

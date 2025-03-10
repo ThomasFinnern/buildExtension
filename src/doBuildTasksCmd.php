@@ -5,8 +5,9 @@ namespace DoBuildTasks;
 require_once "./commandLine.php";
 require_once "./doBuildTasks.php";
 
-use tasks\tasks;
-use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\task;
+//use Finnern\BuildExtension\src\tasksLib\tasks;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -387,13 +388,13 @@ if ($taskFile != "") {
 
 } else {
     if ($collectedTasks->count() > 0) {
-        $oDoBuildTasks->assignTasks($collectedTasks);
+        $testTasks = $oDoBuildTasks->assignTasks($collectedTasks);
     } else {
-        $hasError = $oDoBuildTasks->extractTasksFromString($tasksLine);
-        if (!empty ($hasError)) {
-            print ("Error on function extractTasksFromString:" . $hasError
-                . ' path: ' . $basePath);
-        }
+        $testTasks = $oDoBuildTasks->extractTasksFromString($tasksLine);
+        //if (!empty ($hasError)) {
+        //    print ("Error on function extractTasksFromString:" . $hasError
+        //        . ' path: ' . $basePath);
+        //}
     }
 }
 

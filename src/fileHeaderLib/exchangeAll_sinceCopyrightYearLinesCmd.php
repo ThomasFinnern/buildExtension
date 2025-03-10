@@ -1,21 +1,23 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-require_once "./commandLine.php";
-require_once "./clean4GitCheckin.php";
+require_once '../autoload/autoload.php';
 
-// use \DateTime;
-
+use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 
 $HELP_MSG = <<<EOT
     >>>
-    class clean4GitCheckin
+    class exchangeAll_sinceCopyrightYear
 
-    Reads file, trims each line and writes result back on change
+    Reads file, exchanges one 'copyright' line for 'since'' year part (first year in line)
+    Standard replace text is ??? year
+
+    ToDo: extract year from git log each ..
+    ToDo: create twin file with new name appended so it is easy to decide to use it .. ...
     <<<
     EOT;
 
@@ -24,7 +26,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "s:y:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -39,38 +41,32 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:clean4GitCheckin'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
+$tasksLine = ' task:exchangeAll_sinceCopyrightYear'
+    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-//    . ' /isNoRecursion=true'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-// -> self
-    . ' /srcRoot="./"'
     . ' /isNoRecursion=true'
+    . ' /yearText="1960"'//
 ;
-
-ToDo: file list restriction: no BMP ...
-
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';
 $srcRoot = '';
 
-//$linkText = "GNU General Public link version 2 or later;";
-//$this->link = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-$linkText = '';
+//$licenseText = "GNU General Public License version 2 or later;";
+//$this->license = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
+$yearText = '';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 't':
-            $tasksLine = $option;
+        case 's':
+            $srcRoot = $option;
             break;
 
-        case 'f':
-            $taskFile = $option;
+        case 'y':
+            $yearText = $option;
             break;
 
         case "h":
@@ -110,14 +106,19 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
+//--- create class object ---------------------------------
+
 $task = new task();
 
-if ($taskFile != "") {
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
@@ -127,20 +128,31 @@ if ($taskFile != "") {
     //}
 }
 
-$oClean4GitCheckin = new clean4GitCheckin();
+print ($task->text());
 
-$hasError = $oClean4GitCheckin->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oClean4GitCheckin->execute();
-    if ($hasError) {
-        print ("Error on function execute:" . $hasError);
-    }
+if (empty ($hasError)) {
+
+	$oExchangeAllLicenses = new exchangeAll_sinceCopyrightYearLines($srcRoot, $yearText);
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oExchangeAllLicenses->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
+	
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+		$hasError = $oExchangeAllLicenses->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
 }
 
-print ($oClean4GitCheckin->text() . "\r\n");
+
+print ($oExchangeAllLicenses->text() . "\r\n");
 
 commandLineLib::print_end($start);
 

@@ -1,21 +1,16 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\src\fileManifestLib;
 
-require_once "./commandLine.php";
-require_once "./clean4GitCheckin.php";
-
-// use \DateTime;
+require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
-
 $HELP_MSG = <<<EOT
     >>>
-    class clean4GitCheckin
+    fileHeaderByFile class
 
-    Reads file, trims each line and writes result back on change
     <<<
     EOT;
 
@@ -24,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "f:t:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -38,39 +33,28 @@ $LeaveOut_05 = true;
 /*--------------------------------------------
 variables
 --------------------------------------------*/
+$srcfile = '';
+// $srcfile = "./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php";
 
-$tasksLine = ' task:clean4GitCheckin'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-//    . ' /isNoRecursion=true'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-// -> self
-    . ' /srcRoot="./"'
-    . ' /isNoRecursion=true'
-;
-
-ToDo: file list restriction: no BMP ...
-
-
-//$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
-//$srcRoot = './../../RSGallery2_J4';
-$srcRoot = '';
-
-//$linkText = "GNU General Public link version 2 or later;";
-//$this->link = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-$linkText = '';
+$taskLine = '';
+$tasksLine = ' task:exchangeLicense'
+    . ' /fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"';
+//$tasksLine = ' task:exchangeActCopyrightYear'
+//    . ' /fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"'
+//    . ' /copyrightDate=1999'
+//;
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 't':
-            $tasksLine = $option;
+        case 'f':
+            $srcfile = $option;
             break;
 
-        case 'f':
-            $taskFile = $option;
+        case 't':
+            $taskLine = $option;
             break;
 
         case "h":
@@ -110,14 +94,19 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
+//--- create class object ---------------------------------
+
 $task = new task();
 
-if ($taskFile != "") {
+//--- extract tasks from string or file ---------------------------------
+
+if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
+    //if (empty ($task->name)) {
+    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
@@ -127,20 +116,30 @@ if ($taskFile != "") {
     //}
 }
 
-$oClean4GitCheckin = new clean4GitCheckin();
+print ($task->text());
 
-$hasError = $oClean4GitCheckin->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oClean4GitCheckin->execute();
+if (empty ($hasError)) {
+
+	$oFileHeader = new fileHeaderByFileLine();
+
+	//--- assign tasks ---------------------------------
+
+    $hasError = $oFileHeader->assignTask($task);
     if ($hasError) {
-        print ("Error on function execute:" . $hasError);
+        print ("Error on function assignTask:" . $hasError);
+	}
+ 	
+	//--- execute tasks ---------------------------------
+
+    if (!$hasError) {
+        $hasError = $oFileHeader->execute();
+        if ($hasError) {
+            print ("Error on function execute:" . $hasError);
+        }
     }
 }
 
-print ($oClean4GitCheckin->text() . "\r\n");
+
 
 commandLineLib::print_end($start);
 

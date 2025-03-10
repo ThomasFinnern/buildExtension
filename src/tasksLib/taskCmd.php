@@ -1,19 +1,12 @@
 <?php
 
-namespace task;
+namespace Finnern\BuildExtension\src\tasksLib;
 
-// not used see tasksOptionsTest.php: add tasks and options *.php also
-
-require_once "./commandLine.php";
-require_once "./option.php";
-require_once "./options.php";
-require_once "./task.php";
-
+require_once '../autoload/autoload.php';
 // use DateTime;
 
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -22,7 +15,6 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-
 /*================================================================================
 main (used from command line)
 ================================================================================*/
@@ -30,7 +22,7 @@ main (used from command line)
 $optDefinition = "t:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -90,7 +82,7 @@ foreach ($options as $idx => $option) {
 //--- call function ---------------------------------
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
 $oTask = new task();
 
@@ -99,7 +91,7 @@ $oTaskResult = $oTask->extractTaskFromString($taskLine);
 print ($oTask->text() . "\r\n");
 print ("Line: '" . $oTaskResult->text4Line() . "'" . "\r\n");
 
-print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

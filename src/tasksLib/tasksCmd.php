@@ -1,15 +1,13 @@
 <?php
 
-namespace tasks;
+namespace Finnern\BuildExtension\src\tasksLib;
 
-require_once "./commandLine.php";
-require_once "./task.php";
-require_once "./tasks.php";
+require_once '../autoload/autoload.php';
+// use DateTime;
 
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
-
+use Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -18,7 +16,6 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-
 /*================================================================================
 main (used from command line)
 ================================================================================*/
@@ -26,7 +23,7 @@ main (used from command line)
 $optDefinition = "t:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -106,28 +103,33 @@ foreach ($options as $idx => $option) {
     }
 }
 
-//--- call function ---------------------------------
+/*--------------------------------------------------
+   call function
+--------------------------------------------------*/
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
+
+//--- create class object ---------------------------------
 
 $oTasks = new tasks();
 
-if ($tasksLine != '') {
-    $oTasksResult = $oTasks->extractTasksFromString($tasksLine);
+//--- extract tasks from string or file ---------------------------------
 
-    print ($oTasks->text() . "\r\n");
-    print ("Line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
-}
-
-if ($taskFile != '') {
+if ( ! empty ($taskFile)) {
     $oTasksResult = $oTasks->extractTasksFromFile($taskFile);
+} else {
 
-    print ($oTasks->text() . "\r\n");
-    print ("Line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
+    if ( ! empty ($tasksLine)) {
+        $oTasksResult = $oTasks->extractTasksFromString($tasksLine);
+    
+    }
 }
 
-print_end($start);
+print ($oTasks->text() . "\r\n");
+print ("Resulting line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
+
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

@@ -1,15 +1,12 @@
 <?php
 //namespace \Vendor\App\DatabaseAccess;
-namespace ExecuteTasks;
-
-require_once "./fileNamesList.php";
-require_once "./task.php";
+namespace Finnern\BuildExtension\src\tasksLib;
 
 // use \DateTime;
 // use DateTime;
 
-use FileNamesList\fileNamesList;
-use task\task;
+use Finnern\BuildExtension\FileNamesList\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 interface executeTasksInterface

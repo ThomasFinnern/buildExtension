@@ -1,11 +1,9 @@
 <?php
 
-namespace tasks;
-
-require_once "./task.php";
+namespace Finnern\BuildExtension\src\tasksLib;
 
 use Exception;
-use task\task;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class task

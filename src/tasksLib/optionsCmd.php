@@ -1,23 +1,19 @@
 <?php
 
-namespace option;
+namespace Finnern\BuildExtension\src\tasksLib;
 
-require_once "./commandLine.php";
-require_once "./option.php";
-
+require_once '../autoload/autoload.php';
 // use DateTime;
 
-use function commandLine\argsAndOptions;
-use function commandLine\print_end;
-use function commandLine\print_header;
+use function Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\option;
 
 $HELP_MSG = <<<EOT
     >>>
-    option class
+    options class
 
     <<<
     EOT;
-
 
 /*================================================================================
 main (used from command line)
@@ -26,7 +22,7 @@ main (used from command line)
 $optDefinition = "o:h12345";
 $isPrintArguments = false;
 
-[$inArgs, $options] = argsAndOptions($argv, $optDefinition, $isPrintArguments);
+[$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
 $LeaveOut_01 = true;
 $LeaveOut_02 = true;
@@ -38,10 +34,11 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-//$optionLine = '/option1';
-$optionLine = '/option2=02_Option';
-//$optionLine = '/option3="01_Xteststring"';
-
+$optionsLine = '/option1 /option2=01_Option /option3="02_X test string"';
+//$optionsLine = '/option3B="02_X test string"';
+//$optionsLine = ' /option3="02_X test string" /option4="" /option5="05 OP " /option6="06_Xteststring"';
+//$optionsLine = '/option4="" /option5="05 OP " /option6="06_Xteststring" ';
+//$optionsLine = '/option1 ';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -49,7 +46,7 @@ foreach ($options as $idx => $option) {
 
     switch ($idx) {
         case 'o':
-            $optionLine = $option;
+            $optionsLine = $option;
             break;
 
         case "h":
@@ -85,16 +82,16 @@ foreach ($options as $idx => $option) {
 //--- call function ---------------------------------
 
 // for start / end diff
-$start = print_header($options, $inArgs);
+$start = commandLineLib::print_header($options, $inArgs);
 
-$oOption = new option();
+$oOptions = new options();
 
-$oOptionResult = $oOption->extractOptionFromString($optionLine);
+$oOptionsResult = $oOptions->extractOptionsFromString($optionsLine);
 
-print ($oOption->text() . "\r\n");
-print ("Line: '" . $oOptionResult->text4Line() . "'" . "\r\n");
+print ($oOptions->text() . "\r\n");
+print ("Resulting line: '" . $oOptionsResult->text4Line() . "'" . "\r\n");
 
-print_end($start);
+commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
 

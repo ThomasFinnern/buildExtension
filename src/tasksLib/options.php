@@ -66,9 +66,70 @@ class options
         return ($value);
     }
 
+    /**
+     * Extract single task from lines of file
+     * See *.tsk (*.opt) for examples
+     *
+     * @param string $optionsFile
+     * @return $this
+     */
+    public function extractOptionsFromFile(string $optionsFile): options
+    {
+        // print('*********************************************************' . "\r\n");
+        print ("extractOptionsFromFile: " . $optionsFile . "\r\n");
+        print('---------------------------------------------------------' . "\r\n");
+
+        try {
+            if (!is_file($optionsFile)) {
+                // not working $realPath = realpath($taskFile);
+                throw new Exception('Options file not found: "' . $optionsFile . '"');
+            }
+
+            $content = file_get_contents($optionsFile); //Get the file
+            $lines = explode("\n", $content); //Split the file by each line
+
+            $this->extractOptionsFromLines($lines);
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $lines
+     * @return void
+     */
+    public function extractOptionsFromLines(array $lines): void
+    {
+        foreach ($lines as $line) {
+
+            //--- comments and trim -------------------------------------------
+
+            $line = trim($line);
+            if (empty($line)) {
+                continue;
+            }
+
+            // ignore comments
+            if (str_starts_with($line, '//')) {
+                continue;
+            }
+
+            // ToDo: use before each ? "/*" comments like lang manager
+
+            //--- useful line -------------------------------------------
+
+            $this->extractOptionsFromString ($line);
+        }
+
+    }
+
     public function extractOptionsFromString($inOptionsString = ""): options
     {
-        $this->clear();
+        // 2025.03.11 $this->clear();
 
         try {
             $optionsString = Trim($inOptionsString);
@@ -161,29 +222,32 @@ class options
         }
     }
 
+    /*
+     * One line representation
+     */
+    public function __toString() {
+        $optionsLine = '';
+
+        foreach ($this->options as $option) {
+            $optionsLine .= " " . $option;
+        }
+
+        return $optionsLine;
+    }
+
+    /*
+     * Multi line representation
+     */
     public function text(): string
     {
         $OutTxt = "";
         // $OutTxt .= "options" . "\r\n";
 
         foreach ($this->options as $option) {
-            $OutTxt .= "   " . $option->text4Line() . "\r\n";
+            $OutTxt .= "   " . $option . "\r\n";
         }
 
         return $OutTxt;
     }
-
-    public function text4Line(): string
-    {
-        $OutTxt = ""; // . "\r\n";
-
-        foreach ($this->options as $option) {
-            $OutTxt .= " " . $option->text4Line();
-        }
-
-        return $OutTxt;
-    }
-
 
 } // options
-

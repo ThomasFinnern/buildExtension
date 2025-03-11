@@ -34,19 +34,15 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-//$optionLine = '/option1';
-$optionLine = '/option2=02_Option';
-//$optionLine = '/option3="01_Xteststring"';
-
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-        case 'o':
-            $optionLine = $option;
-            break;
+//        case 'o':
+//            $optionLine = $option;
+//            break;
 
         case "h":
             exit($HELP_MSG);

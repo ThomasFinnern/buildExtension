@@ -38,6 +38,8 @@ $taskLine = 'Task::task1 /option1 ';
 //$taskLine = 'Task::task1 /option2=Option';
 //$taskLine = 'Task::task1 /option3="01_Xteststring"';
 $taskLine = 'Task::task1 /option1 /option2=Option /option3="01_Xteststring"';
+//$optionFile = '';
+$optionFile = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -46,6 +48,10 @@ foreach ($options as $idx => $option) {
     switch ($idx) {
         case 't':
             $taskLine = $option;
+            break;
+
+        case 'o':
+            $optionFile = $option;
             break;
 
         case "h":
@@ -89,8 +95,18 @@ $oTask = new task();
 
 $oTaskResult = $oTask->extractTaskFromString($taskLine);
 
+print (">>>result 01" . "\r\n");
 print ($oTask->text() . "\r\n");
-print ("Line: '" . $oTaskResult->text4Line() . "'" . "\r\n");
+print ("Line: '" . $oTaskResult . "'" . "\r\n");
+
+if ( ! empty($optionFile) ) {
+    print ("Option file: '" . $optionFile . "'" . "\r\n");
+    $oTaskResult->extractOptionsFromFile($optionFile);
+
+    print (">>>result 02" . "\r\n");
+    print ($oTask->text() . "\r\n");
+    print ("Line: '" . $oTaskResult . "'" . "\r\n");
+}
 
 commandLineLib::print_end($start);
 

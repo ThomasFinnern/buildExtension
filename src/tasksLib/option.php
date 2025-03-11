@@ -96,24 +96,25 @@ class option
         $this->value = '';
     }
 
-    public function text4Line(): string
-    {
-        $OutTxt = "/"; // . "\r\n";
+    /*
+     * One line representation
+     */
+    public function __toString() {
+        $optionLine = '/' . $this->name;
 
-        $OutTxt .= $this->name; // . "\r\n";
         if ($this->value == '' && $this->quotation != '') {
-            $OutTxt .= "=" . $this->quotation . $this->value . $this->quotation;
+            $optionLine .= "=" . $this->quotation . $this->value . $this->quotation;
         } else {
             if ($this->value != '') {
                 if ($this->quotation == '') {
-                    $OutTxt .= "=" . $this->value;
+                    $optionLine .= "=" . $this->value;
                 } else {
-                    $OutTxt .= "=" . $this->quotation . $this->value . $this->quotation;
+                    $optionLine .= "=" . $this->quotation . $this->value . $this->quotation;
                 }
             }
         }
 
-        return $OutTxt;
+        return $optionLine;
     }
 
     public function text(): string

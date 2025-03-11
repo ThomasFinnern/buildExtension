@@ -190,19 +190,23 @@ class tasks
         return $this;
     }
 
-    public function text4Line(): string
-    {
-        $OutTxt = "";
+    /*
+     * One line representation
+     */
+    public function __toString() {
+        $tasksLine = '';
 
         foreach ($this->tasks as $task) {
-            $OutTxt .= $task->text4Line() . ' ';
+            $tasksLine .= " " . $task;
         }
 
-        $OutTxt .= "\r\n";
-
-        return $OutTxt;
+        return $tasksLine;
     }
 
+
+    /*
+     * Multi line representation
+     */
     public function text(): string
     {
         $OutTxt = "--- Tasks: ---" . "\r\n";

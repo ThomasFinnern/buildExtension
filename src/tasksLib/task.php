@@ -30,7 +30,7 @@ Class task
  */
 
 // ToDo: inherit from options
-class task
+class task // extends options
 {
     /**
      * @var string
@@ -48,6 +48,7 @@ class task
 
     public function __construct()
     {
+//        parent::__construct();
         $this->clear();
     }
 

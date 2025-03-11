@@ -40,6 +40,11 @@ class options
 //        // print('exit __construct: ' . $hasError . "\r\n");
     }
 
+    public function clear(): void
+    {
+        $this->options = [];
+    }
+
     public function count(): int
     {
         return (count($this->options));
@@ -184,11 +189,6 @@ class options
         }
 
         return $this;
-    }
-
-    public function clear(): void
-    {
-        $this->options = [];
     }
 
     /*--------------------------------------------------------------------

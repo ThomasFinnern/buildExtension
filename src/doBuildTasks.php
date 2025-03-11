@@ -1,31 +1,10 @@
 <?php
 
-namespace DoBuildTasks;
+namespace Finnern\BuildExtension\src;
 
-require_once "./fileNamesList.php";
-require_once "./buildExtension.php";
-
-require_once "./clean4GitCheckin.php";
-require_once "./exchangeAll_actCopyrightYearLines.php";
-require_once "./exchangeAll_authorLines.php";
-require_once "./updateAll_fileHeaders.php";
-require_once "./exchangeAll_licenseLines.php";
-require_once "./exchangeAll_linkLines.php";
-require_once "./exchangeAll_packageLines.php";
-require_once "./exchangeAll_sinceCopyrightYearLines.php";
-require_once "./exchangeAll_subPackageLines.php";
-require_once "./increaseVersionId.php";
-
-// require_once "./option.php";
-// require_once "./options.php";
-// require_once "./task.php";
-require_once "./tasks.php";
-
-// use \DateTime;
-// use DateTime;
-
-use clean4GitCheckin\clean4GitCheckin;
 use Exception;
+use clean4GitCheckin;
+
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
 use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
@@ -34,7 +13,6 @@ use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
-use ExecuteTasks\buildExtension;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\fileHeaderLib\forceCreationDate;
@@ -122,6 +100,8 @@ class doBuildTasks
     public function assignTasks(tasks $tasks)
     {
         $this->textTasks = $tasks;
+
+        return $tasks;
     }
 
     public function applyTasks(): int

@@ -2,6 +2,8 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
+require_once '../autoload/autoload.php';
+
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 

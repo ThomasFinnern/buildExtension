@@ -1,11 +1,8 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\cleanUpLib;
 
-require_once "./commandLine.php";
-require_once "./clean4GitCheckin.php";
-
-// use \DateTime;
+require_once 'autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
@@ -48,9 +45,11 @@ $tasksLine = ' task:clean4GitCheckin'
     . ' /srcRoot="./"'
     . ' /isNoRecursion=true'
 ;
-
-ToDo: file list restriction: no BMP ...
-
+//======================================================================
+//
+// ToDo: file list restriction: no BMP ...
+//
+//======================================================================
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';

@@ -1,9 +1,8 @@
 <?php
 
-namespace DoBuildTasks;
+namespace Finnern\BuildExtension\src;
 
-require_once "./commandLine.php";
-require_once "./doBuildTasks.php";
+require_once 'autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 //use Finnern\BuildExtension\src\tasksLib\tasks;

@@ -1,23 +1,22 @@
 <?php
 
-namespace ExecuteTasks;
+namespace Finnern\BuildExtension\src;
 
-require_once "./baseExecuteTasks.php";
-//require_once "./fileNamesList.php";
-require_once "./executeTasksInterface.php";
-require_once "./manifestFile.php";
-require_once "./task.php";
-//require_once "./versionId.php";
+
 
 use Exception;
-//use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use ManifestFile\manifestFile;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
-use Finnern\BuildExtension\src\tasksLib\task;
-//use VersionId\versionId;
 use ZipArchive;
+
+//use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
+use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
+use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
+
+//use Finnern\BuildExtension\src\versionLib\versionId;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -1073,7 +1072,7 @@ function zipItRelative($rootPath, $zipFilename)
 
             $zip->addFile($filePath, $relativePath);
         } else {
-            if ($relativePath !== false) {
+            if ($relativePath != '') {
                 print ('>');
                 $zip->addEmptyDir($relativePath);
             }

@@ -1,11 +1,8 @@
 <?php
 
-namespace clean4GitCheckin;
+namespace Finnern\BuildExtension\cleanUpLib;
 
-require_once "./executeTasksInterface.php";
-require_once "./baseExecuteTasks.php";
-
-require_once "./fileHeaderByFileLine.php";
+require_once 'autoload/autoload.php';
 
 
 // use \DateTime;

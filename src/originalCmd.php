@@ -2,10 +2,7 @@
 
 namespace XXX;
 
-require_once "./commandLine.php";
-require_once "./XXX.php";
-
-// use \DateTime;
+require_once 'autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 

@@ -6,9 +6,6 @@ require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
-// use DateTime;
-
-
 $HELP_MSG = <<<EOT
     >>>
     fithFileName class ...

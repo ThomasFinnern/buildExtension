@@ -7,7 +7,7 @@ use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
-use VersionId\versionId;
+use Finnern\BuildExtension\src\versionLib\versionId;
 
 /*================================================================================
 Class manifestFile

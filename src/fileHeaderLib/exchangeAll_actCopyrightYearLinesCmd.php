@@ -2,7 +2,7 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-require_once '../autoload/autoload.php';
+require_once 'autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;

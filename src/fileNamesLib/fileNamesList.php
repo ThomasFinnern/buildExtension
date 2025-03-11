@@ -4,10 +4,11 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 
 //use \DateTime;
 use Exception;
+use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 
-use Finnern\BuildExtension\src\fileNamesLib\fithFileName;
-use Finnern\BuildExtension\src\fileNamesLib\fithFolderName;
+//use Finnern\BuildExtension\src\fileNamesLib\fithFileName;
+//use Finnern\BuildExtension\src\fileNamesLib\fithFolderName;
 // use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -21,13 +22,13 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class fileNamesList
 ================================================================================*/
 
-class fileNamesList implements executeTasksInterface
+class fileNamesList extends baseExecuteTasks
+    implements executeTasksInterface
 {
 
     /** @var fithFileName[] $fileNames */
     public array $fileNames;
 
-    public string $srcRoot = "";
     private bool $isIncludeExt = false;
 
     /** @var string [] */
@@ -41,7 +42,6 @@ class fileNamesList implements executeTasksInterface
     /** @var string [] */
     private array $excludeFolderList;
 
-    private bool $isNoRecursion = false;
     private bool $isWriteListToFile = false;
 
     private string $listFileName = "";
@@ -58,6 +58,8 @@ class fileNamesList implements executeTasksInterface
         $writeListToFile = '',
     )
     {
+        // parent::construct();
+
         $hasError = 0;
         try {
 //            print('*********************************************************' . "\r\n");
@@ -165,10 +167,10 @@ class fileNamesList implements executeTasksInterface
         $OutTxt .= "------------------------------------------" . "\r\n";
         $OutTxt .= "--- fithFileNameList ---" . "\r\n";
 
-        $OutTxt = "Properies:" . "\r\n";
+        $OutTxt .= "Properties:" . "\r\n";
         $OutTxt .= $this->text_listFileNames();
 
-        $OutTxt = "File list:" . "\r\n";
+        $OutTxt .= "File list:" . "\r\n";
         $OutTxt .= $this->text_listFileNames();
 
         return $OutTxt;
@@ -268,11 +270,12 @@ class fileNamesList implements executeTasksInterface
 
     public function folderInDir($inPath)
     {
-        $files = [];
+        // $files = [];
         $folders = [];
 
         try {
-            [$files, $folders] = $this->filesAndFoldersInDir($inPath);
+            // [$files, $folders] = $this->filesAndFoldersInDir($inPath);
+            [, $folders] = $this->filesAndFoldersInDir($inPath);
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
@@ -409,7 +412,7 @@ class fileNamesList implements executeTasksInterface
 
             $this->fileNames = [];
 
-            // iterate over folder and recursiv if set
+            // iterate over folder recursively if set
             $this->scanPath4Filenames($this->srcRoot);
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {

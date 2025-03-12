@@ -68,7 +68,7 @@ class option
             $idx = strpos($optionsString, "=");
 
             // name without options
-            if ($idx == false) {
+            if ($idx === false) {
                 // Just name
                 $optionName = substr($optionsString, 1);
             } else {

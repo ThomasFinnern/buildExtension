@@ -18,7 +18,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:h12345";
+$optDefinition = "t:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -39,7 +39,8 @@ $taskLine = 'Task::task1 /option1 ';
 //$taskLine = 'Task::task1 /option3="01_Xteststring"';
 $taskLine = 'Task::task1 /option1 /option2=Option /option3="01_Xteststring"';
 //$optionFile = '';
-$optionFile = 'xTestOptionFile.opt';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -51,7 +52,7 @@ foreach ($options as $idx => $option) {
             break;
 
         case 'o':
-            $optionFile = $option;
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -84,24 +85,35 @@ foreach ($options as $idx => $option) {
     }
 }
 
-/*--------------------------------------------------
-   call function
---------------------------------------------------*/
-
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
+
+/*--------------------------------------------------
+   collect task
+--------------------------------------------------*/
 
 $oTask = new task();
 
 $oTaskResult = $oTask->extractTaskFromString($taskLine);
 
+/*--------------------------------------------------
+   tell task result
+--------------------------------------------------*/
+
 print (">>>result 01" . "\r\n");
 print ($oTask->text() . "\r\n");
 print ("Line: '" . $oTaskResult . "'" . "\r\n");
 
-if ( ! empty($optionFile) ) {
-    print ("Option file: '" . $optionFile . "'" . "\r\n");
-    $oTaskResult->extractOptionsFromFile($optionFile);
+/*--------------------------------------------------
+   extract options from file(s)
+--------------------------------------------------*/
+
+
+if ( ! empty($optionFiles) ) {
+    foreach ($optionFiles as $optionFile) {
+        // print ("Option file: '" . $optionFile . "'" . "\r\n");
+        $oTaskResult->extractOptionsFromFile($optionFile);
+    }
 
     print (">>>result 02" . "\r\n");
     print ($oTask->text() . "\r\n");
@@ -109,6 +121,3 @@ if ( ! empty($optionFile) ) {
 }
 
 commandLineLib::print_end($start);
-
-print ("--- end  ---" . "\n");
-

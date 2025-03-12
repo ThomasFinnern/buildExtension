@@ -29,34 +29,144 @@ class tasks
         $this->tasks = $tasks;
     }
 
+    public function clear(): void
+    {
+        $this->tasks = [];
+    }
+
     public function count(): int
     {
         return (count($this->tasks));
     }
 
-    public function extractTasksFromString($tasksLine = ""): tasks
+    public function getTask(string $name, bool $isIgnoreCase = false): string
     {
-        $this->clear();
-        $this->addTasksFromString($tasksLine);
+        $value = '';
+
+        foreach ($this->tasks as $task) {
+            $isFound = false;
+
+            if ($isIgnoreCase) {
+                $isFound = strtolower($task->name) === strtolower($name);
+            } else {
+                $isFound = $task->name === $name;
+            }
+
+            if ($isFound) {
+                $value = $task->value;
+            }
+        }
+
+        return ($value);
+    }
+
+    public function extractTasksFromFile(string $taskFile): tasks
+    {
+        //print('*********************************************************' . "\r\n");
+        print ("extractTasksFromFile: " . $taskFile . "\r\n");
+        print('---------------------------------------------------------' . "\r\n");
+
+        try {
+            if (!is_file($taskFile)) {
+                // not working $realPath = realpath($taskFile);
+                throw new Exception('Task file not found: "' . $taskFile . '"');
+            }
+
+            $content = file_get_contents($taskFile); //Get the file
+            $lines = explode("\n", $content); //Split the file by each line
+
+            $this->extractTasksFromLines($lines);
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
 
         return $this;
     }
 
-    public function addTasksFromString($tasksLine = ""): tasks
+    /**
+     * @param array $lines
+     * @return void
+     */
+    public function extractTasksFromLines(array $lines): void
     {
+        // $actTask = new task(); // dummy task
+
+        $taskLines = [];
+
+        try {
+            foreach ($lines as $line) {
+
+                //--- comments and trim -------------------------------------------
+
+                $line = trim($line);
+                if (empty($line)) {
+                    continue;
+                }
+
+                // ignore comments
+                if (str_starts_with($line, '//')) {
+                    continue;
+                }
+
+                // ToDo: use before each ? "/*" comments like lang manager
+
+                //--- useful line -------------------------------------------
+
+                // start of task line set
+                if (isTaskStart($line)) {
+                    // create task and assign lines
+                    $actTask = new task();
+                    $actTask->extractTaskFromLines($taskLines);
+
+                    $this->addTask($actTask);
+                    $taskLines = [];
+                }
+
+                $taskLines [] = $line;
+            }
+
+            // Collected task lines are available: create task
+            if ( ! empty ($taskLines)) {
+
+                // create task and assign lines
+                $actTask = new task();
+                $actTask->extractTaskFromLines($taskLines);
+
+                $this->addTask($actTask);
+            }
+
+            // print ($this->tasksText ());
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
+
+    }
+
+
+    public function extractTasksFromString($inTasksLine = ""): tasks
+    {
+        // 2025.03.11 $this->clear();
+
         try {
             //        $tasks = "task:task00"
             //            . 'task:task01 /option1 /option2=xxx /option3="01teststring"'
             //            . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"';
-            $tasksLine = Trim($tasksLine);
+            $tasksLine = Trim($inTasksLine);
 
             if ($tasksLine != '') {
-                while ($this->isTaskStart($tasksLine)) {
+                while ($this->isStringStartsWithTask($tasksLine)) {
+
+                    //--- extract next task -------------------------------
+
                     $idxStart = strpos($tasksLine, ":");
                     $idxNext = strpos($tasksLine, "task:", $idxStart + 1);
 
                     // last task
-                    if ($idxNext == false) {
+                    if ($idxNext === false) {
                         // wrong ? $singleTask = substr($tasksLine, $idxStart + 1);
                         $singleTask = $tasksLine;
 
@@ -82,14 +192,9 @@ class tasks
         return $this;
     }
 
-    public function clear(): void
-    {
-        $this->tasks = [];
-    }
-
     // extract multiple tasks from string
 
-    private function isTaskStart(string $tasksLine)
+    private function isStringStartsWithTask(string $tasksLine)
     {
         $isTask = false;
 
@@ -112,82 +217,6 @@ class tasks
             // $this->tasks [$task->name] = $task;
             $this->tasks [] = $task;
         }
-    }
-
-    public function extractTasksFromFile(string $taskFile): tasks
-    {
-        print('*********************************************************' . "\r\n");
-        print ("extractTasksFromFile: " . $taskFile . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
-
-        $this->clear();
-
-        try {
-            if (!is_file($taskFile)) {
-                // not working $realPath = realpath($taskFile);
-                throw new Exception('Task file not found: "' . $taskFile . '"');
-            }
-
-            $content = file_get_contents($taskFile); //Get the file
-            $lines = explode("\n", $content); //Split the file by each line
-
-            $taskLine = '';
-
-            foreach ($lines as $line) {
-
-                $line = trim($line);
-                if (empty($line)) {
-                    continue;
-                }
-
-                // ToDo: use before each ? "/*" comments like lang manager
-
-                // ignore comments
-                if (!str_starts_with($line, '//')) {
-
-                    // start of task line set
-                    if (str_contains($line, 'task:')) {
-
-                        // Collected task lines are available: create task
-                        if ($taskLine != '') {
-
-                            $task = (new task())->extractTaskFromString($taskLine);
-                            $this->addTask($task);
-
-                            $taskLine = '';
-                        }
-                        else
-                        {
-                            // add options into one task line
-                            $taskLine = $line;
-                        }
-                    }
-                    else
-                    {
-                        // add options into one task line
-                        $taskLine .= ' ' . $line;
-                    }
-
-                }
-            }
-
-            // Collected task lines are available: create task
-            if ($taskLine != '') {
-
-                $task = (new task())->extractTaskFromString($taskLine);
-                $this->addTask($task);
-
-                $taskLine = '';
-            }
-
-            // print ($this->tasksText ());
-
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
-            $hasError = -101;
-        }
-
-        return $this;
     }
 
     /*

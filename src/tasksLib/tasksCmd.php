@@ -46,7 +46,7 @@ $tasksLine = "task:task00 "
 // build type: component module plugin package
 // build folder:
 // build dev update version
-// Version ID  /increaseDevelop: x.x.x.n, release x.n.00, versionByConfig
+// use Version ID  /increaseDevelop: x.x.x.n, release x.n.00, versionByConfig
 //
 //$tasksLine = "task:build /type=component";
 //$tasksLine = "task:build /increaseId";
@@ -126,9 +126,8 @@ if ( ! empty ($taskFile)) {
 }
 
 print ($oTasks->text() . "\r\n");
-print ("Resulting line: '" . $oTasksResult->text4Line() . "'" . "\r\n");
+print ("Resulting line: '" . $oTasksResult . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
-

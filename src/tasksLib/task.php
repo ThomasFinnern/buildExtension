@@ -88,7 +88,7 @@ class task // extends options
                 $idx = strpos($taskString, " ");
 
                 // name without options
-                if ($idx == false) {
+                if ($idx === false) {
                     // task:....
                     $this->name = $taskString;
                 } else {
@@ -226,6 +226,9 @@ class task // extends options
         return $taskLine;
     }
 
+    /*
+     * Multi line representation
+     */
     public function text(): string
     {
         // $OutTxt = "------------------------------------------" . "\r\n";

@@ -141,6 +141,7 @@ class options
 
             // multiple: /optionName or /optionName=value or /optionName="optionValue"
             while ($this->hasOptionChar($optionsString)) {
+
                 //--- extract next option -------------------------------
 
                 // first find '=' then check for '"' .
@@ -148,7 +149,7 @@ class options
                 $idxEnd = strpos($optionsString, " ");
 
                 // last option in string
-                if ($idxEnd == false) {
+                if ($idxEnd === false) {
                     $singleOption = $optionsString;
 
                     // No more option parts

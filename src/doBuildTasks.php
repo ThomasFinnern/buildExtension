@@ -90,7 +90,7 @@ class doBuildTasks
     applyTasks
     --------------------------------------------------------------------*/
 
-    public function extractTasksFromString(mixed $tasksLine)
+    public function extractTasksFromString(mixed $tasksLine): void
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromString($tasksLine));
@@ -295,7 +295,7 @@ class doBuildTasks
         return $execTask;
     }
 
-    public function tasksText()
+    public function tasksText(): string
     {
         // $OutTxt = "------------------------------------------" . "\r\n";
         $OutTxt = "";
@@ -328,12 +328,11 @@ class doBuildTasks
         return $OutTxt;
     }
 
-    public function extractTasksFromFile(mixed $taskFile)
+    public function extractTasksFromFile(mixed $taskFile): void
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromFile($taskFile));
     }
-
 
 } // doBuildTasks
 

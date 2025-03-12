@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnern\BuildExtension\cleanUpLib;
+namespace Finnern\BuildExtension\src\cleanUpLib;
 
 require_once 'autoload/autoload.php';
 
@@ -119,35 +119,50 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 $task = new task();
 
-if ($taskFile != "") {
-    $testTask = $task->extractTaskFromFile($taskFile);
-//    if (!empty ($hasError)) {
-//        print ("Error on function extractTasksFromFile:" . $hasError
-//            . ' path: ' . $taskFile);
-//    }
+//--- extract tasks from string or file ------------------
+
+if ( ! empty ($taskFile)) {
+    $task = $task->extractTaskFromFile($taskFile);
 } else {
-    $testTask = $task->extractTaskFromString($tasksLine);
-    //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromString:" . $hasError
-    //        . ' tasksLine: ' . $tasksLine);
-    //    $hasError = -302;
-    //}
+    $task = $task->extractTaskFromString($tasksLine);
 }
 
-$oClean4GitCheckin = new clean4GitCheckin();
+//--- extract options from file(s) ------------------
 
-$hasError = $oClean4GitCheckin->assignTask($task);
-if ($hasError) {
-    print ("Error on function assignTask:" . $hasError);
-}
-if (!$hasError) {
-    $hasError = $oClean4GitCheckin->execute();
-    if ($hasError) {
-        print ("Error on function execute:" . $hasError);
+if ( ! empty($optionFiles) ) {
+    foreach ($optionFiles as $optionFile) {
+        $task->extractOptionsFromFile($optionFile);
     }
 }
 
-print ($oClean4GitCheckin->text() . "\r\n");
+print ($task->text());
+
+/*--------------------------------------------------
+   execute task
+--------------------------------------------------*/
+
+if (empty ($hasError)) {
+
+	$oClean4GitCheckin = new clean4GitCheckin();
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oClean4GitCheckin->assignTask($task);
+	if ($hasError) {
+		print ("Error on function assignTask:" . $hasError);
+	}
+	
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+		$hasError = $oClean4GitCheckin->execute();
+		if ($hasError) {
+			print ("Error on function execute:" . $hasError);
+		}
+	}
+
+	print ($oClean4GitCheckin->text() . "\r\n");
+}
 
 commandLineLib::print_end($start);
 

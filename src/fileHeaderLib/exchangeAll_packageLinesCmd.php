@@ -158,9 +158,8 @@ if (empty ($hasError)) {
 		}
 	}
 
+	print ($oExchangeAll_packages->text() . "\r\n");
 }
-
-print ($oExchangeAll_packages->text() . "\r\n");
 
 commandLineLib::print_end($start);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnern\BuildExtension\cleanUpLib;
+namespace Finnern\BuildExtension\src\cleanUpLib;
 
 require_once 'autoload/autoload.php';
 

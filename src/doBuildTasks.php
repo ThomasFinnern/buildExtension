@@ -3,8 +3,7 @@
 namespace Finnern\BuildExtension\src;
 
 use Exception;
-use clean4GitCheckin;
-
+use Finnern\BuildExtension\src\cleanUpLib\clean4GitCheckin;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
 use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
@@ -97,14 +96,14 @@ class doBuildTasks
         $this->assignTasks($tasks->extractTasksFromString($tasksLine));
     }
 
-    public function assignTasks(tasks $tasks)
+    public function assignTasks(tasks $tasks): tasks
     {
         $this->tasks = $tasks;
 
         return $tasks;
     }
 
-    public function applyTasks(): int
+    public function execute(): int
     {
         $hasError = 0;
 
@@ -196,17 +195,17 @@ class doBuildTasks
 
                         break;
 
-                    case 'forceversionid':
-                        $this->actTask = $this->createTask(new forceVersionId (), $textTask);
-                        break;
+//                    case 'forceversionid':
+//                        $this->actTask = $this->createTask(new forceVersionId (), $textTask);
+//                        break;
 
                     case 'forcecreationdate':
                         $this->actTask = $this->createTask(new forceCreationDate (), $textTask);
                         break;
 
-                    case 'increaseversionid':
-                        $this->actTask = $this->createTask(new increaseVersionId (), $textTask);
-                        break;
+//                    case 'increaseversionid':
+//                        $this->actTask = $this->createTask(new increaseVersionId (), $textTask);
+//                        break;
 
                     case 'clean4gitcheckin':
                         $this->actTask = $this->createTask(new clean4GitCheckin (), $textTask);

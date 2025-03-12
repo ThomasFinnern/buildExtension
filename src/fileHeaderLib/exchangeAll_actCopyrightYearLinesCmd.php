@@ -147,7 +147,7 @@ if ( ! empty ($taskFile)) {
 print ($task->text());
 
 /*--------------------------------------------------
-   call task
+   execute task
 --------------------------------------------------*/
 
 if (empty ($hasError)) {
@@ -169,10 +169,9 @@ if (empty ($hasError)) {
 			print ("Error on function execute:" . $hasError);
 		}
 	}
+
+	print ($oExchangeAllActCopyright->text() . "\r\n");
 }
-
-
-print ($oExchangeAllActCopyright->text() . "\r\n");
 
 commandLineLib::print_end($start);
 

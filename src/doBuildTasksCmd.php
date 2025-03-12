@@ -311,16 +311,16 @@ $collectedTasks = new tasks;
 $basePath = "..\\..\\LangMan4Dev";
 
 //--- build_develop.tsk --------------------------------
-// $taskFile = "";
-// $taskFile="./taskFile.cmd";
-// $taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
+// $tasksFile = "";
+// $tasksFile="./tasksFile.cmd";
+// $tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 
 //--- build_develop.tsk --------------------------------
-// $taskFile = "";
-// $taskFile="./taskFile.cmd";
-// $taskFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
-//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
-$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+// $tasksFile = "";
+// $tasksFile="./tasksFile.cmd";
+// $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
+//$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
+$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -340,7 +340,7 @@ foreach ($options as $idx => $option) {
             break;
 
         case 'f':
-            $taskFile = $option;
+            $tasksFile = $option;
             break;
 
         case 'o':
@@ -387,8 +387,8 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 $tasks = new tasks();
 
-if ($taskFile != "") {
-    $hasError = $tasks->extractTasksFromFile($taskFile);
+if ($tasksFile != "") {
+    $hasError = $tasks->extractTasksFromFile($tasksFile);
     if (!empty ($hasError)) {
         print ("Error on function extractTasksFromFile:" . $hasError
             . ' path: ' . $basePath);
@@ -410,8 +410,8 @@ print ($tasks->tasksText());
 
 // //--- extract tasks from string or file ---------------------------------
 
-// if ($taskFile != "") {
-    // $hasError = $oDoBuildTasks->extractTasksFromFile($taskFile);
+// if ($tasksFile != "") {
+    // $hasError = $oDoBuildTasks->extractTasksFromFile($tasksFile);
     // if (!empty ($hasError)) {
         // print ("Error on function extractTasksFromFile:" . $hasError
             // . ' path: ' . $basePath);
@@ -440,20 +440,22 @@ if (empty ($hasError)) {
 	// for start / end diff
 	$oDoBuildTasks = new doBuildTasks(); // $basePath, $tasksLine
 
+	//--- assign tasks ---------------------------------
+
+    $oDoBuildTasks->assignTasks($tasks);
+	
+	//--- execute tasks ---------------------------------
 
     // create task classes, when task execute is issued the task does execute
-    $hasError = $oDoBuildTasks->applyTasks();
+    $hasError = $oDoBuildTasks->execute();
 
     if ($hasError) {
         print ("Error on function collectFiles:" . $hasError
             . ' path: ' . $basePath);
     }
-}
 
-if (empty ($hasError)) {
     print ($oDoBuildTasks->text() . "\r\n");
 }
-
 
 commandLineLib::print_end($start);
 

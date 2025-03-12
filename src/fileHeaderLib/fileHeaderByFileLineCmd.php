@@ -95,12 +95,12 @@ foreach ($options as $idx => $option) {
     }
 }
 
+// for start / end diff
+$start = commandLineLib::print_header($options, $inArgs);
+
 /*--------------------------------------------------
    collect task
 --------------------------------------------------*/
-
-// for start / end diff
-$start = commandLineLib::print_header($options, $inArgs);
 
 //--- create class object ---------------------------------
 
@@ -109,25 +109,23 @@ $task = new task();
 //--- extract tasks from string or file ---------------------------------
 
 if ( ! empty ($taskFile)) {
-    $testTask = $task->extractTaskFromFile($taskFile);
-    //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromFile:" // . $hasError
-    //        . ' Task file: ' . $taskFile);
-    //    $hasError = -301;
-    //}
+    $task = $task->extractTaskFromFile($taskFile);
 } else {
-    $testTask = $task->extractTaskFromString($tasksLine);
-    //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromString:" . $hasError
-    //        . ' tasksLine: ' . $tasksLine);
-    //    $hasError = -302;
-    //}
+    $task = $task->extractTaskFromString($tasksLine);
+}
+
+//--- extract options from file(s) ------------------
+
+if ( ! empty($optionFiles) ) {
+    foreach ($optionFiles as $optionFile) {
+        $task->extractOptionsFromFile($optionFile);
+    }
 }
 
 print ($task->text());
 
 /*--------------------------------------------------
-   call task
+   execute task
 --------------------------------------------------*/
 
 if (empty ($hasError)) {
@@ -149,9 +147,9 @@ if (empty ($hasError)) {
             print ("Error on function execute:" . $hasError);
         }
     }
+	
+	// print ($oFileHeader->text() . "\r\n");
 }
-
-
 
 commandLineLib::print_end($start);
 

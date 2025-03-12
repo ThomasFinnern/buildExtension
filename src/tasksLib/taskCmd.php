@@ -121,3 +121,6 @@ if ( ! empty($optionFiles) ) {
 }
 
 commandLineLib::print_end($start);
+
+print ("--- end  ---" . "\n");
+

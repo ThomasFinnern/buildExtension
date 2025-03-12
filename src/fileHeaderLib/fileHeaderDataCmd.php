@@ -14,12 +14,15 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-
 /*================================================================================
 main (used from command line)
 ================================================================================*/
 
 $optDefinition = "o:h12345";
+
+/*--------------------------------------------------
+   call task
+--------------------------------------------------*/
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -35,14 +38,19 @@ variables
 --------------------------------------------*/
 
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
-//        case 'o':
-//            $optionLine = $option;
-//            break;
+
+        case 'o':
+            $optionFiles[] = $option;
+            break;
 
         case "h":
             exit($HELP_MSG);
@@ -75,7 +83,7 @@ foreach ($options as $idx => $option) {
 }
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff

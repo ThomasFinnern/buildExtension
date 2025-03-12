@@ -20,7 +20,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -88,6 +88,10 @@ $tasksLine="";
 
 $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -99,6 +103,10 @@ foreach ($options as $idx => $option) {
 
         case 'f':
             $taskFile = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -131,36 +139,38 @@ foreach ($options as $idx => $option) {
     }
 }
 
-/*--------------------------------------------------
-   call function
---------------------------------------------------*/
-
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
+
+/*----------------------------------------------------------
+   collect task
+----------------------------------------------------------*/
 
 //--- create class object ---------------------------------
 
 $task = new task();
 
-//--- extract tasks from string or file ---------------------------------
+//--- extract tasks from string or file ------------------
 
 if ( ! empty ($taskFile)) {
-    $testTask = $task->extractTaskFromFile($taskFile);
-    //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromFile:" // . $hasError
-    //        . ' Task file: ' . $taskFile);
-    //    $hasError = -301;
-    //}
+    $task = $task->extractTaskFromFile($taskFile);
 } else {
-    $testTask = $task->extractTaskFromString($tasksLine);
-    //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromString:" . $hasError
-    //        . ' tasksLine: ' . $tasksLine);
-    //    $hasError = -302;
-    //}
+    $task = $task->extractTaskFromString($tasksLine);
+}
+
+//--- extract options from file(s) ------------------
+
+if ( ! empty($optionFiles) ) {
+    foreach ($optionFiles as $optionFile) {
+        $task->extractOptionsFromFile($optionFile);
+    }
 }
 
 print ($task->text());
+
+/*--------------------------------------------------
+   execute task
+--------------------------------------------------*/
 
 if (empty ($hasError)) {
 
@@ -186,6 +196,3 @@ if (empty ($hasError)) {
 }
 
 commandLineLib::print_end($start);
-
-print ("--- end  ---" . "\n");
-

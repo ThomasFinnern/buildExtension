@@ -47,7 +47,7 @@ class doBuildTasks
     /**
      * @var tasks
      */
-    public tasks $textTasks;
+    public tasks $tasks;
 
     public executeTasksInterface $actTask;
     /**
@@ -73,11 +73,11 @@ class doBuildTasks
 //            print('---------------------------------------------------------' . "\r\n");
 
             $this->basePath = $basePath;
-            $this->textTasks = new tasks();
+            $this->tasks = new tasks();
             $this->fileNamesList = new fileNamesList();
 
             if (strlen($tasksLine) > 0) {
-                $this->textTasks = $this->textTasks->extractTasksFromString($tasksLine);
+                $this->tasks = $this->tasks->extractTasksFromString($tasksLine);
             }
             // print ($this->tasksText ());
         } catch (Exception $e) {
@@ -99,7 +99,7 @@ class doBuildTasks
 
     public function assignTasks(tasks $tasks)
     {
-        $this->textTasks = $tasks;
+        $this->tasks = $tasks;
 
         return $tasks;
     }
@@ -114,7 +114,7 @@ class doBuildTasks
             // print ("task: " . $textTask . "\r\n");
             print('---------------------------------------------------------' . "\r\n");
 
-            foreach ($this->textTasks->tasks as $textTask) {
+            foreach ($this->tasks->tasks as $textTask) {
                 // print ("--- apply task: " . $textTask->name . "\r\n");
                 print (">>>---------------------------------" . "\r\n");
 
@@ -305,7 +305,7 @@ class doBuildTasks
 
         // $OutTxt .= "Tasks count: " . $this->textTasks->count() . "\r\n";
 
-        $OutTxt .= $this->textTasks->text() . "\r\n";
+        $OutTxt .= $this->tasks->text() . "\r\n";
 
         return $OutTxt;
     }

@@ -1,9 +1,10 @@
 <?php
 
-namespace XXX;
+namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';
 
+use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 
@@ -21,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:h12345";
+$optDefinition = "t:s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -35,21 +36,50 @@ $LeaveOut_05 = true;
 /*--------------------------------------------
 variables
 --------------------------------------------*/
+$srcFile = '';
+$dstFile = '';
 
-$srcFile = "";
-$dstFile = "";
+$tasksLine = ' task:buildExtension'
+    . ' /type=component'
+    . ' /srcRoot="./../../RSGallery2_J4"'
+//    . ' /isNoRecursion=true'
+    . ' /buildDir="./../.packages"'
+//    . ' /adminPath='
+//    . ' /sitePath='
+//    . ' /mediaPath='
+    . ' /name=com_rsgallery2'
+    . ' /extension=RSGallery2'
+//    . ' /version=5.0.12.4'
+//    . ' /isForceVersion=false'
+//    . ' /isIncrementVersion_major = true'
+//    . ' /isIncrementVersion_minor = true'
+
+
+$tasksLine="";
+
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
 
     switch ($idx) {
+        case 't':
+            $tasksLine = $option;
+            break;
+
         case 's':
             $srcFile = $option;
             break;
 
         case 'd':
             $dstFile = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -82,25 +112,63 @@ foreach ($options as $idx => $option) {
     }
 }
 
-/*--------------------------------------------------
-   call function
---------------------------------------------------*/
-
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-$oXXX = new XXX($srcFile, $dstFile);
+/*--------------------------------------------------
+   collect task
+--------------------------------------------------*/
 
-$hasError = $oXXX->funYYY();
+//--- create class object ---------------------------------
 
-if ($hasError) {
-    print ("Error on function funYYY:" . $hasError);
+$task = new task();
+
+//--- extract tasks from string or file ------------------
+
+if ( ! empty ($taskFile)) {
+    $task = $task->extractTaskFromFile($taskFile);
 } else {
-    print ($oXXX->text() . "\r\n");
+    $task = $task->extractTaskFromString($tasksLine);
 }
 
+//--- extract options from file(s) ------------------
+
+if ( ! empty($optionFiles) ) {
+    foreach ($optionFiles as $optionFile) {
+        $task->extractOptionsFromFile($optionFile);
+    }
+}
+
+print ($task->text());
+
+/*--------------------------------------------------
+   call task
+--------------------------------------------------*/
+
+if (empty ($hasError)) {
+
+	$oXXX = new XXX($srcFile, $dstFile);
+
+	//--- assign tasks ---------------------------------
+
+	$hasError = $oXXX->assignTask($task);
+    if ($hasError) {
+        print ("Error on function assignTask:" . $hasError);
+    }
+
+	//--- execute tasks ---------------------------------
+
+	if (!$hasError) {
+	    $hasError = $oXXX->execute();
+	    if ($hasError) {
+	        print ("Error on function execute:" . $hasError);
+	    }
+	}
+	
+	print ($oXXX->text() . "\r\n");
+	
+}
 
 commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");
-

@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:h12345";
+$optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
 //$isPrintArguments = true;
 
@@ -52,6 +52,10 @@ $tasksLine = ' task:increaseVersionId'
 $taskFile="./increaseVersionId.tsk";
 $tasksLine = "";
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -64,6 +68,10 @@ foreach ($options as $idx => $option) {
         case 'f':
             print ('->/f option: "' . $option . '"');
             $taskFile = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -97,7 +105,7 @@ foreach ($options as $idx => $option) {
 }
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff
@@ -126,6 +134,10 @@ if ( ! empty ($taskFile)) {
 }
 
 print ($task->text());
+
+/*--------------------------------------------------
+   call task
+--------------------------------------------------*/
 
 if (empty ($hasError)) {
 

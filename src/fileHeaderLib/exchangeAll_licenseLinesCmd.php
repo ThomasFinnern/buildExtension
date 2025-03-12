@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:l:h12345";
+$optDefinition = "s:l:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -52,6 +52,10 @@ $srcRoot = '';
 //$this->license = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
 $licenseText = '';
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -63,6 +67,10 @@ foreach ($options as $idx => $option) {
 
         case 'l':
             $licenseText = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -96,7 +104,7 @@ foreach ($options as $idx => $option) {
 }
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff

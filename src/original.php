@@ -1,9 +1,6 @@
 <?php
 
-namespace XXX;
-
-
-// use \DateTime;
+namespace Finnern\BuildExtension\src;
 
 /*================================================================================
 Class XXX

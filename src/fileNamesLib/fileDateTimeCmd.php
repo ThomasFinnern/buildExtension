@@ -21,7 +21,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:h12345";
+$optDefinition = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -54,6 +54,10 @@ $isPrintArguments = false;
 //            $dstFile = $option;
 //            break;
 //
+        // case 'o':
+            // $optionFiles[] = $option;
+            // break;
+
 //        case "h":
 //            exit($HELP_MSG);
 //
@@ -86,7 +90,7 @@ $isPrintArguments = false;
 //}
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff

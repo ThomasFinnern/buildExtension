@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:a:h12345";
+$optDefinition = "s:a:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -71,6 +71,10 @@ $srcRoot = '';
 $authorText = '';
 $isNoRecursion = false;
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -82,6 +86,10 @@ foreach ($options as $idx => $option) {
 
         case 'a':
             $authorText = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -115,7 +123,7 @@ foreach ($options as $idx => $option) {
 }
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff

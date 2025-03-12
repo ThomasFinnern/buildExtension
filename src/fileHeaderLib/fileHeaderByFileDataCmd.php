@@ -19,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "f:t:h12345";
+$optDefinition = "f:t:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -83,6 +83,10 @@ $tasksLine = ' task:upgradeHeader'
 //
 //;
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -94,6 +98,10 @@ foreach ($options as $idx => $option) {
 
         case 't':
             $taskLine = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -127,7 +135,7 @@ foreach ($options as $idx => $option) {
 }
 
 /*--------------------------------------------------
-   call function
+   collect task
 --------------------------------------------------*/
 
 // for start / end diff
@@ -156,6 +164,10 @@ if ( ! empty ($taskFile)) {
 }
 
 print ($task->text());
+
+/*--------------------------------------------------
+   call task
+--------------------------------------------------*/
 
 if (empty ($hasError)) {
 

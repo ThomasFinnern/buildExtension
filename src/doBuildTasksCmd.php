@@ -5,7 +5,7 @@ namespace Finnern\BuildExtension\src;
 require_once 'autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
-//use Finnern\BuildExtension\src\tasksLib\tasks;
+use Finnern\BuildExtension\src\tasksLib\tasks;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
@@ -17,7 +17,7 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-// ToDo: make Task:execute implizit $collectedTasks->addTasksFromString('task:execute'); Where should task auto executet ?
+// ToDo: make Task:execute implizit $collectedTasks->extractTasksFromString('task:execute'); Where should task auto executet ?
 /*================================================================================
 main (used from command line)
 ================================================================================*/
@@ -43,8 +43,8 @@ $collectedTasks = new tasks;
 //    . 'task:task01 /option1 /option2=xxx /option3="01teststring"' . "\r\n"
 //    . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"' . "\r\n"
 //;
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 
 //$tasksLine = "task:task00"
 //    . 'task:task01 /option1 /option2=xxx /option3="01_Xteststring"'
@@ -82,8 +82,8 @@ $tasksLine = '';
 ////    . '/s='
 //    . ' ';
 //
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 
 //$tasksLine .= ' task:forceVersionId'
 //    . ' /id="9.9.9"'
@@ -162,8 +162,8 @@ $tasksLine .= "task:add2FilenamesList"
 //$tasksLine .= "task:printFilenamesList"
 //    . ' ';
 
-// $collectedTasks->addTasksFromString($tasksLine);
-// $collectedTasks->addTasksFromString('task:execute');
+// $collectedTasks->extractTasksFromString($tasksLine);
+// $collectedTasks->extractTasksFromString('task:execute');
 
 ////--- RSG2 module files ---------------------------------
 //
@@ -171,8 +171,8 @@ $tasksLine .= "task:add2FilenamesList"
 //    . ' /srcRoot="./../../RSGallery2_J4/module"'
 //    . ' /isNoRecursion=true'
 //;
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 ////--- RSG2 plugin files ---------------------------------
 //
@@ -180,16 +180,16 @@ $tasksLine .= "task:add2FilenamesList"
 //    . ' /srcRoot="./../../RSGallery2_J4/plugins"'
 //    . ' /isNoRecursion=true'
 //;
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 
 //$tasksLine .= ' task:exchangeall_licenselines'
 //    . ' /licenseText = "GNU General Public License version 2 or later"'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 
 $tasksLine = ' task:clean4GitCheckin'
@@ -197,76 +197,76 @@ $tasksLine = ' task:clean4GitCheckin'
 //    . ' /isNoRecursion=true'
 //    . ' /s='
     . ' ';
-// $collectedTasks->addTasksFromString($tasksLine);
-// $collectedTasks->addTasksFromString('task:execute');
+// $collectedTasks->extractTasksFromString($tasksLine);
+// $collectedTasks->extractTasksFromString('task:execute');
 
 
 //$tasksLine .= ' task:exchangeAll_licenseLines'
 //    . ' /licenseText = "GNU General Public License version 2 or later"'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 //$tasksLine .= ' task:exchangeAll_actCopyrightYearLines'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 //$tasksLine .= ' task:exchangeAll_linkLines'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 //$tasksLine .= ' task:exchangeAll_packages'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //
 //$tasksLine .= ' task:exchangeAll_subPackageLines'
 ////    . ' /s='
 //    . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 
 $tasksLine = ' task:updateAll_fileHeaders'
     . ' ';
-$collectedTasks->addTasksFromString($tasksLine);
-$collectedTasks->addTasksFromString('task:execute');
+$collectedTasks->extractTasksFromString($tasksLine);
+$collectedTasks->extractTasksFromString('task:execute');
 
 //$tasksLine .= "task: "
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //$tasksLine .= "task: ";
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //$tasksLine .= "task: ";
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //$tasksLine .= "task: ";
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //$tasksLine .= "task: ";
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 //$tasksLine .= "task: ";
 ////    . ' /s='
 //   . ' ';
-//$collectedTasks->addTasksFromString($tasksLine);
-//$collectedTasks->addTasksFromString('task:execute');
+//$collectedTasks->extractTasksFromString($tasksLine);
+//$collectedTasks->extractTasksFromString('task:execute');
 
 $tasksLine = ' task:increaseVersionId'
 //    . ' /type=component'
@@ -276,8 +276,8 @@ $tasksLine = ' task:increaseVersionId'
     . ' /version=major|minor|patch|dev'
     . ' /s='
     . ' ';
-$collectedTasks->addTasksFromString($tasksLine);
-$collectedTasks->addTasksFromString('task:execute');
+$collectedTasks->extractTasksFromString($tasksLine);
+$collectedTasks->extractTasksFromString('task:execute');
 
 
 $tasksLine = 'task:clearFilenamesList' . ' ';
@@ -297,8 +297,8 @@ $tasksLine .= ' task:buildExtension'
 //    . '/s='
 //    . '/s='
     . ' ';
-$collectedTasks->addTasksFromString($tasksLine);
-$collectedTasks->addTasksFromString('task:execute');
+$collectedTasks->extractTasksFromString($tasksLine);
+$collectedTasks->extractTasksFromString('task:execute');
 
 
 //========================================================
@@ -322,6 +322,10 @@ $basePath = "..\\..\\LangMan4Dev";
 //$taskFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 $taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
+//$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+$optionFiles [] = 'xTestOptionFile.opt';
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
     print ("option: " . $option . "\r\n");
@@ -337,6 +341,10 @@ foreach ($options as $idx => $option) {
 
         case 'f':
             $taskFile = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -369,17 +377,18 @@ foreach ($options as $idx => $option) {
     }
 }
 
-//--- create class object ---------------------------------
-
-// for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-$oDoBuildTasks = new doBuildTasks(); // $basePath, $tasksLine
+/*----------------------------------------------------------
+   collect task
+----------------------------------------------------------*/
 
-//--- extract tasks from string or file ---------------------------------
+//--- create class object ---------------------------------
+
+$tasks = new tasks();
 
 if ($taskFile != "") {
-    $hasError = $oDoBuildTasks->extractTasksFromFile($taskFile);
+    $hasError = $tasks->extractTasksFromFile($taskFile);
     if (!empty ($hasError)) {
         print ("Error on function extractTasksFromFile:" . $hasError
             . ' path: ' . $basePath);
@@ -387,9 +396,9 @@ if ($taskFile != "") {
 
 } else {
     if ($collectedTasks->count() > 0) {
-        $testTasks = $oDoBuildTasks->assignTasks($collectedTasks);
+        $testTasks = $tasks->assignTasks($collectedTasks);
     } else {
-        $testTasks = $oDoBuildTasks->extractTasksFromString($tasksLine);
+        $testTasks = $tasks->extractTasksFromString($tasksLine);
         //if (!empty ($hasError)) {
         //    print ("Error on function extractTasksFromString:" . $hasError
         //        . ' path: ' . $basePath);
@@ -397,11 +406,39 @@ if ($taskFile != "") {
     }
 }
 
-print ($oDoBuildTasks->tasksText());
+print ($tasks->tasksText());
 
-//--- execute tasks ---------------------------------
+// //--- extract tasks from string or file ---------------------------------
+
+// if ($taskFile != "") {
+    // $hasError = $oDoBuildTasks->extractTasksFromFile($taskFile);
+    // if (!empty ($hasError)) {
+        // print ("Error on function extractTasksFromFile:" . $hasError
+            // . ' path: ' . $basePath);
+    // }
+
+// } else {
+    // if ($collectedTasks->count() > 0) {
+        // $testTasks = $oDoBuildTasks->assignTasks($collectedTasks);
+    // } else {
+        // $testTasks = $oDoBuildTasks->extractTasksFromString($tasksLine);
+        // //if (!empty ($hasError)) {
+        // //    print ("Error on function extractTasksFromString:" . $hasError
+        // //        . ' path: ' . $basePath);
+        // //}
+    // }
+// }
+
+// print ($oDoBuildTasks->tasksText());
+
+/*--------------------------------------------------
+   execute tasks
+--------------------------------------------------*/
 
 if (empty ($hasError)) {
+
+	// for start / end diff
+	$oDoBuildTasks = new doBuildTasks(); // $basePath, $tasksLine
 
 
     // create task classes, when task execute is issued the task does execute

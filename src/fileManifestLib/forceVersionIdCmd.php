@@ -36,12 +36,19 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
+//$tasksLine = ' task:forceVersionId'
+//    . ' /srcRoot="../../../RSGallery2_J4"'
+////    . ' /isNoRecursion=true'
+//    . ' /name=rsgallery2'
+////    . ' /extension=RSGallery2'
+//    . ' /version="5.0.12.4"';
+
 $tasksLine = ' task:forceVersionId'
-    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' /srcRoot="../../../LangMan4Dev"'
 //    . ' /isNoRecursion=true'
     . ' /name=rsgallery2'
 //    . ' /extension=RSGallery2'
-    . ' /version="5.0.12.4"';
+    . ' /version="0.29.0.0"';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

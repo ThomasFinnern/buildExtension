@@ -121,7 +121,7 @@ class forceVersionId extends baseExecuteTasks
             $hasError = -101;
         }
 
-        print('exit exchangeVersionId: ' . $hasError . "\r\n");
+        print('exit force:exchangeVersionId: ' . $hasError . "\r\n");
 
         return $hasError;
     }
@@ -139,9 +139,9 @@ class forceVersionId extends baseExecuteTasks
         return $this->manifestPathFileName;
     }
 
-    private function exchangeVersionInManifestFile(string $manifestFileName, string $outVersionId)
+    private function exchangeVersionInManifestFile(string $manifestFileName, string $outVersionId) :int
     {
-        $isSaved = false;
+        $hasError = 0;
 
         try {
             $manifestPath = dirname($manifestFileName);
@@ -163,7 +163,7 @@ class forceVersionId extends baseExecuteTasks
             $hasError = -101;
         }
 
-        return $isSaved;
+        return 0;
     }
 
     public function executeFile(string $filePathName): int // $isChanged

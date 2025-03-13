@@ -7,7 +7,6 @@ require_once '../autoload/autoload.php';
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
-
 $HELP_MSG = <<<EOT
     >>>
     class increaseVersionId
@@ -17,14 +16,12 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-
 /*================================================================================
 main (used from command line)
 ================================================================================*/
 
 $optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
-//$isPrintArguments = true;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
@@ -54,7 +51,11 @@ $tasksLine = "";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = '..\options_version_tsk\build_develop.opt';
+//$optionFiles [] = '..\options_version_tsk\build_step.opt';
+//$optionFiles [] = '..\options_version_tsk\build_fix.opt';
+//$optionFiles [] = '..\options_version_tsk\build_release.opt';
+//$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

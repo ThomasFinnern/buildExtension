@@ -124,7 +124,7 @@ class increaseVersionId extends baseExecuteTasks
             $hasError = -101;
         }
 
-        print('exit exchangeVersionId: ' . $hasError . "\r\n");
+        print('exit increease:exchangeVersionId: ' . $hasError . "\r\n");
 
         return $hasError;
     }
@@ -144,7 +144,7 @@ class increaseVersionId extends baseExecuteTasks
 
     private function exchangeVersionInManifestFile(string $manifestFileName, string $strVersion)
     {
-        $isSaved = false;
+        $hasError = 0;
 
         try {
             $lines = file($manifestFileName);
@@ -211,7 +211,7 @@ class increaseVersionId extends baseExecuteTasks
             $hasError = -101;
         }
 
-        return $isSaved;
+        return $hasError;
     }
 
     public function executeFile(string $filePathName): int // $isChanged

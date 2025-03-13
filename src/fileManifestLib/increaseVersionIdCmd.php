@@ -52,7 +52,7 @@ $tasksLine = "";
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 //$optionFiles [] = '..\options_version_tsk\build_develop.opt';
-//$optionFiles [] = '..\options_version_tsk\build_step.opt';
+$optionFiles [] = '..\options_version_tsk\build_step.opt';
 //$optionFiles [] = '..\options_version_tsk\build_fix.opt';
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
@@ -158,7 +158,7 @@ if (empty ($hasError)) {
 		}
 	}
 	
-	//print ($oIncreaseVersionId->text() . "\r\n");
+	print ($oIncreaseVersionId->text() . "\r\n");
 }
 
 commandLineLib::print_end($start);

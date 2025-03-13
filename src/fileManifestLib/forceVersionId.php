@@ -3,12 +3,11 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Exception;
+use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 // use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
-
-// use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
 
 //use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
@@ -23,6 +22,8 @@ class forceVersionId extends baseExecuteTasks
     private string $componentVersion = '';
     private string $componentName = '';
     private string $manifestPathFileName = '';
+
+    private manifestXml $manifestXml;
 
     /*--------------------------------------------------------------------
     construction
@@ -47,6 +48,8 @@ class forceVersionId extends baseExecuteTasks
 
             $this->componentName = $componentName;
             $this->componentVersion = $componentVersion;
+
+            $this->manifestXml = new manifestXml();
 
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -144,18 +147,20 @@ class forceVersionId extends baseExecuteTasks
         $hasError = 0;
 
         try {
-            $manifestPath = dirname($manifestFileName);
-            $manifestFilename = basename($manifestPath);
 
+            // does read xml immediately
+            $this->manifestXml = new manifestXml($manifestFileName);
+            $manifestXml = $this->manifestXml;
 
-            $manifestFile = new manifestFile($manifestPath, $manifestFilename);
+            $inVersionId = (string) $manifestXml->getByXml('version', '');
 
-            $inVersionId = $manifestFile->versionId->inVersionId;
             if ($outVersionId != $inVersionId) {
 
-                $manifestFile->versionId->outVersionId = $outVersionId;
+                // $manifestXml->versionId->outVersionId = $outVersionId;
+                $manifestXml->setByXml('version', $outVersionId);
 
-                $isSaved = $manifestFile->writeFile();
+                $isSaved = $manifestXml->writeManifestXml();
+                // $isSaved = $manifestXml->writeManifestXml($manifestFileName . '.new');
             }
 
         } catch (Exception $e) {
@@ -181,7 +186,7 @@ class forceVersionId extends baseExecuteTasks
         $OutTxt .= "--- forceVersionId ---" . "\r\n";
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        // $OutTxt .= "Not defined yet " . "\r\n";
 
         /**
          * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
@@ -190,6 +195,7 @@ class forceVersionId extends baseExecuteTasks
          * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
          * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
          * /**/
+        $OutTxt .= $this->manifestXml;
 
         return $OutTxt;
     }

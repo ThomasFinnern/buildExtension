@@ -185,6 +185,44 @@ class manifestXml
         return $result;
     }
 
+    /**
+     * Take values direct from Xml of manifest
+     *
+     * @param $name
+     * @param $default
+     *
+     * @return mixed
+     *
+     * @since version
+     */
+    public function setByXml(string $name, string $value) : int
+    {
+//		return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
+//        $hasError = $this->manifestXml->$name;
+        $hasError = 0;
+
+        try {
+//        if (isset($this->manifestXml->{$name})) {
+            if (isset($this->manifestXml->$name)) {
+
+                $this->manifestXml->$name = $value;
+            }
+
+        } catch (\RuntimeException $e) {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"<br>';
+            $OutTxt .= 'name: "' . $name . '"' . '<br>';
+            $OutTxt .= 'value: "' . $value . '"' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            print $OutTxt;
+
+            $hasError = -987;
+        }
+
+        // return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
+        return $hasError;
+    }
+
     // return null on wrong path
 
     /**
@@ -328,13 +366,20 @@ class manifestXml
         return $name . '="' . $value . '"';
     }
 
-    /**
+    public function __toString()
+    {
+        $OutTxt = 'manifestXml' . "\r\n";
+        $OutTxt .= implode("\r\n", $this->__toDataLines());
+
+        return $OutTxt;
+    }
+        /**
      *
      * @return array
      *
      * @since version
      */
-    public function __toText()
+    public function __toDataLines()
     {
         $lines = [];
 

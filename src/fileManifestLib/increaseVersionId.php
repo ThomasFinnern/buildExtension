@@ -23,13 +23,15 @@ class increaseVersionId extends baseExecuteTasks
 
     private string $name = '';
 
+    private manifestXml $manifestXml;
+
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
 
     private versionId $versionId;
 
-    private string $componentName = '';
+    //private string $componentName = '';
 
 
     // !!! ToDo: see force version id for finishing this ...  !!!
@@ -147,65 +149,37 @@ class increaseVersionId extends baseExecuteTasks
         $hasError = 0;
 
         try {
-            $lines = file($manifestFileName);
-            $outLines = [];
-            $isLineFound = false;
-            $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isLineFound) {
-                    $outLines [] = $line;
-                } else {
-                    // 	<version>5.0.12.4</version>
-                    if (str_contains($line, '<version>')) {
+            // does read xml immediately
+            $this->manifestXml = new manifestXml($manifestFileName);
+            $manifestXml = $this->manifestXml;
 
-                        //--- retrieve version -----------------------------------
+            //--- old version ID -----------------------------------
 
-                        $inVersionId = $this->versionId->scan4VersionIdInLine($line);
+            $inVersionId = (string) $manifestXml->getByXml('version', '');
 
-                        //--- update version -----------------------------------
+            // $this->versionId = new versionId($inVersionId);
 
-                        // exchange for new version id
-                        $this->versionId->update();
+            //--- update version -----------------------------------
 
-                        //--- version line -----------------------------------
+            $this->versionId->inVersionId =  $inVersionId;
 
-                        $outLine = $this->versionId->formatVersionIdManifest () . "\r\n";
+            // exchange for new version id
+            $this->versionId->update();
 
-                        //--- keep line -----------------------------------
+            //--- version line -----------------------------------
 
-                        $outLines [] = $outLine;
+            $outVersionId = $this->versionId->outVersionId;
 
-                        // ToDo: update other similar PHPs
-                        $isLineFound = true;
-                        if ($line != $outLines) {
-                            $isExchanged = true;
-                        }
-                    } else {
-                        $outLines [] = $line;
-                    }
-                }
+            if ($outVersionId != $inVersionId) {
+
+                // $manifestXml->versionId->outVersionId = $outVersionId;
+                $manifestXml->setByXml('version', $outVersionId);
+
+                $isSaved = $manifestXml->writeManifestXml();
+                // $isSaved = $manifestXml->writeManifestXml($manifestFileName . '.new');
             }
 
-//            // prepare one string
-//            $fileLines = implode("\n", $outLines);
-//
-//            // write to file
-//            //$isSaved = File::write($manifestFileName, $fileLines);
-//	        $isSaved = file_put_contents($manifestFileName, $fileLines);
-
-//            // prepare one string
-//            $fileLines = implode("", $outLines);
-//
-//            // write to file
-//            //$isSaved = File::write($manifestFileName, $fileLines);
-//	        $isSaved = file_put_contents($manifestFileName, $fileLines);
-
-            // write to file
-            //$isSaved = File::write($manifestFileName, $fileLines);
-            if ($isExchanged) {
-                $isSaved     = file_put_contents($manifestFileName, $outLines);
-            }
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
@@ -229,7 +203,7 @@ class increaseVersionId extends baseExecuteTasks
         $OutTxt .= "--- increaseVersionId ---" . "\r\n";
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+//        $OutTxt .= "Not defined yet " . "\r\n";
 
         /**
          * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
@@ -238,6 +212,8 @@ class increaseVersionId extends baseExecuteTasks
          * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
          * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
          * /**/
+
+        $OutTxt .= $this->manifestXml;
 
         return $OutTxt;
     }

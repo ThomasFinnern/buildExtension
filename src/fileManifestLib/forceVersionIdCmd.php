@@ -46,7 +46,8 @@ variables
 $tasksLine = ' task:forceVersionId'
     . ' /srcRoot="../../../LangMan4Dev"'
 //    . ' /isNoRecursion=true'
-    . ' /name=rsgallery2'
+//    . ' /name=rsgallery2'
+    . ' /name=lang4dev'
 //    . ' /extension=RSGallery2'
     . ' /version="0.29.0.0"';
 
@@ -154,7 +155,7 @@ if (empty ($hasError)) {
 		}
 	}
 	
-	// print ($oBuildExtension->text() . "\r\n");
+	print ($oForceVersionId->text() . "\r\n");
 }
 
 commandLineLib::print_end($start);

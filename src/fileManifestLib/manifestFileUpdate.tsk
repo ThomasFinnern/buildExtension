@@ -1,5 +1,6 @@
 task:ManifestFile
-/manifestFile="./../../RSGallery2_J4/rsgallery2.xml"
+// /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"
+/manifestFile="../../../LangMan4Dev/lang4dev.xml"
     // /srcRoot="./../../RSGallery2_J4"
     // /componentname=rsgallery2
     // /manifestFile
@@ -18,5 +19,5 @@ task:ManifestFile
     //    fix will increase revision and reset build counter
     // /isBuildFix=true
     //    release will increase minor and reset revision and build counter
-/isBuildRelease=true
+// /isBuildRelease=true
     // /isBuildFix=true

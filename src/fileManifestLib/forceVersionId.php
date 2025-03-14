@@ -65,6 +65,8 @@ class forceVersionId extends baseExecuteTasks
 
         $options = $task->options;
 
+
+// ToDo: separate assign options assignForceVersionOption
         foreach ($options->options as $option) {
 
             $isBaseOption = $this->assignBaseOption($option);

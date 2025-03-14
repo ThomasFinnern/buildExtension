@@ -164,8 +164,6 @@ if (empty ($hasError)) {
 }
 
 
-	print ($oExchangeAllLicenses->text() . "\r\n");
-
 commandLineLib::print_end($start);
 
 print ("--- end  ---" . "\n");

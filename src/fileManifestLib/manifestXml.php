@@ -9,6 +9,7 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
+use DOMDocument;
 use Exception;
 use SimpleXMLElement;
 
@@ -152,8 +153,16 @@ class manifestXml
 
         // XML data must be present
         if ($this->isXmlLoaded) {
-            $this->manifestXml->asXml($prjXmlPathFilename);
+//            $this->manifestXml->asXml($prjXmlPathFilename);
             // $isSaved = true;
+
+            $domxml = new DOMDocument('1.0');
+            $domxml->preserveWhiteSpace = false;
+            $domxml->formatOutput = true;
+            /* @var $xml SimpleXMLElement */
+            $domxml->loadXML($this->manifestXml->asXML());
+            $domxml->save($prjXmlPathFilename);
+
         }
         return $isSaved;
     }

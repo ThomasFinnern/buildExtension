@@ -103,6 +103,7 @@ class manifestFile extends baseExecuteTasks
     //--- requests for assignment ---------------------------------
 
     private versionId $versionId;
+    private copyrightText $copyright;
 
     // requests [name]= value
     private $requests = [];
@@ -112,8 +113,6 @@ class manifestFile extends baseExecuteTasks
     //--- manifest flags ---------------------------------------
 
     // copyright-, version-classes have their own
-
-
 
 
     public bool $isUpdateCreationDate = false;
@@ -142,10 +141,7 @@ class manifestFile extends baseExecuteTasks
             }
 
             $this->versionId = new versionId();
-
-            $this->versionId = new versionId();
             $this->copyright = new copyrightText();
-
 
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -467,6 +463,9 @@ class manifestFile extends baseExecuteTasks
                 case strtolower('namespace'):
                 case strtolower('type'):
 
+                case strtolower('sinceYear'):
+                case strtolower('actYear'):
+
                     print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
                     $this->requests[$option->name ] = $option->value;
                     $isManifestOption = true;
@@ -493,8 +492,6 @@ class manifestFile extends baseExecuteTasks
                     $isManifestOption = true;
                     break;
 
-                case strtolower('xxxx'):
-
             } // switch
         }
 
@@ -508,6 +505,9 @@ class manifestFile extends baseExecuteTasks
         print('---------------------------------------------------------' . "\r\n");
 
         $hasError = 0;
+
+        // does read xml immediately
+        $this->manifestXml = new manifestXml($this->manifestPathFileName);
 
         // Manifest file must be loaded
         if ( ! empty ($this->manifestXml)) {
@@ -554,7 +554,6 @@ class manifestFile extends baseExecuteTasks
         $isChanged = false;
 
         try {
-
             $manifestXml = $this->manifestXml;
 
             //--- old version ID -----------------------------------
@@ -601,6 +600,25 @@ class manifestFile extends baseExecuteTasks
             $date_format = 'Y';
             $actYear = date($date_format);
 
+            $isChanged = $this->assignActCopyrightYear( $actYear);
+
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
+
+        return $isChanged;
+    }
+
+    private function assignActCopyrightYear(string $actYear) : bool
+    {
+        $isChanged = false;
+
+        try {
+
+            $manifestXml = $this->manifestXml;
+
             //--- old version ID -----------------------------------
 
             $inCopyright = (string) $manifestXml->getByXml('copyright', '');
@@ -612,11 +630,42 @@ class manifestFile extends baseExecuteTasks
             if ($copyrightText->actCopyrightDate != $actYear) {
 
                 $copyrightText->actCopyrightDate = $actYear;
+                $outCopyrightText = $copyrightText->formatCopyrightManifest();
 
-                $outCopyright = $copyrightText->formatCopyrightManifest();
+                $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                $isChanged = true;
+            }
 
-                $this->manifestXml->setByXml('copyright', $outCopyright);
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
 
+        return $isChanged;
+    }
+
+    private function assignSinceCopyrightYear(string $actYear) : bool
+    {
+        $isChanged = false;
+
+        try {
+
+            $manifestXml = $this->manifestXml;
+
+            //--- old version ID -----------------------------------
+
+            $inCopyright = (string) $manifestXml->getByXml('copyright', '');
+
+            //--- update  -----------------------------------
+
+            $copyrightText = new copyrightText($inCopyright);
+
+            if ($copyrightText->sinceCopyrightDate != $actYear) {
+
+                $copyrightText->sinceCopyrightDate = $actYear;
+                $outCopyrightText = $copyrightText->formatCopyrightManifest();
+
+                $this->manifestXml->setByXml('copyright', $outCopyrightText);
                 $isChanged = true;
             }
 
@@ -675,12 +724,23 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('element'):
                     case strtolower('namespace'):
                     case strtolower('type'):
-
-                        print ('     request: ' . $requestName . ' ' . $requestName . "\r\n");
-                        $this->manifestXml->setByXml($requestName, $requestName);
+                        // direct assignment to XML element
+                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        $this->manifestXml->setByXml($requestName, $requestValue);
 
                         $isChanged = true;
                         break;
+
+                    case strtolower('actYear'):
+                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        $isChanged = $this->assignActCopyrightYear($requestValue);
+                        break;
+
+                    case strtolower('sinceYear'):
+                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        $isChanged = $this->assignSinceCopyrightYear($requestValue);
+                        break;
+
                 }
             }
 
@@ -705,12 +765,12 @@ class manifestFile extends baseExecuteTasks
 //                $this->manifestPathFileName = $filePathName;
 //            }
 //
-//            $manifestFileName = $this->manifestPathFileName;
+//            $$manifestPathFileName = $this->manifestPathFileName;
 //
 //            // ToDo: on xml over more lines -> better read xml objects
 //
-//            if (is_file($manifestFileName)) {
-//                $inLines = file($manifestFileName);
+//            if (is_file($$manifestPathFileName)) {
+//                $inLines = file($$manifestPathFileName);
 //
 //                $headerLines = [];
 //                $otherLines  = [];
@@ -771,14 +831,14 @@ class manifestFile extends baseExecuteTasks
 //                // save in class
 //                $this->manifestPathFileName = $filePathName;
 //            }
-//            $manifestFileName = $this->manifestPathFileName;
+//            $$manifestPathFileName = $this->manifestPathFileName;
 //
 //            // build header from variables
 //            $this->createHeaderLines();
 //
 //            $this->outLines = array_merge ($this->headerLines, $this->otherLines);
 //
-//            file_put_contents($manifestFileName, $this->outLines);
+//            file_put_contents($$manifestPathFileName, $this->outLines);
 //            $isSaved = True;
 //
 //        } catch (Exception $e) {

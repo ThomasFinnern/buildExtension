@@ -62,6 +62,9 @@ $tasksLine = ' task:ManifestFile'
 //    . ' /isBuildFix = true'
 ;
 
+$tasksLine = '';
+$taskFile = "manifestFileUpdate.tsk";
+
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 //$optionFiles [] = '..\options_version_tsk\build_develop.opt';
@@ -162,20 +165,6 @@ if (empty ($hasError)) {
 	}
 
 	//--- execute tasks ---------------------------------
-
-	//if (!$hasError) {
-	//    $hasError = $oManifestFile->execute();
-	//    if ($hasError) {
-	//        print ("Error on function execute:" . $hasError);
-	//    }
-	//}
-	//
-	if (!$hasError) {
-		$hasError = ! $oManifestFile->readFile();
-		if ($hasError) {
-			print ("Error on function readFile:" . $hasError);
-		}
-	}
 
 	if (!$hasError) {
 		$hasError = $oManifestFile->execute();

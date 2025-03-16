@@ -1,23 +1,23 @@
 task:ManifestFile
 // /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"
 /manifestFile="../../../LangMan4Dev/lang4dev.xml"
-    // /srcRoot="./../../RSGallery2_J4"
-    // /componentname=rsgallery2
-    // /manifestFile
-    // /forceVersion="5.0.12.4"
-    // /version=5.0.12.4
+// /srcRoot="../../../RSGallery2_J4"
+// /srcRoot="../../../LangMan4Dev"
+///name=rsgallery2
+// /name=lang4dev
+///extension=RSGallery2
+///extension=Lang4Dev
+
+// /actYear=2025
+// /sinceYear=2022
+// /authorEmail=spass@tomfinnern.de
+/description=COM_LANG4DEV_XML_DESCRIPTION
+
+// /forceVersion="5.0.12.4"
+// /version=5.0.12.4
     // /isForceVersion=false
-    // /isIncrementVersion_major=true
-    // /isIncrementVersion_minor=true
-    // /isIncrementVersion_revision=true
-    //    build release is like fix ? and clean up things
-    // /isBuildRelease=true
-    // /isBuildRelease=false
-    //    each creation of package will increase the build number
-    // /isIncrementVersion_build=false
-    // /isIncrementVersion_build=true
-    //    fix will increase revision and reset build counter
-    // /isBuildFix=true
-    //    release will increase minor and reset revision and build counter
-// /isBuildRelease=true
-    // /isBuildFix=true
+
+
+//
+//
+//

@@ -106,6 +106,8 @@ class versionId {
 
     public function update() : string {
 
+        $isChanged = false;
+
         // force
         if ($this->isForceVersion) {
 
@@ -123,6 +125,7 @@ class versionId {
                 $build = 0;
                 $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
                 print ("isBuildFix (patch++): " . $this->outVersionId) . "\r\n";
+                $isChanged = true;
             }
             else
             {
@@ -133,6 +136,7 @@ class versionId {
                     $build = 0;
                     $this->outVersionId = self::numbers_2_id_release($major, $minor, $patch, $build);
                     print ("isBuildRelease (minor++): " . $this->outVersionId) . "\r\n";
+                    $isChanged = true;
                 }
                 else {
 
@@ -144,6 +148,7 @@ class versionId {
                     if ($this->isIncreaseBuild) {
                         $build ++;
                         print ("isIncreaseBuild (build++): " . $build . " ");
+                        $isChanged = true;
                     }
 
 					// 0.0.x.0 will be increased. Lower parts will be reset to zero 	
@@ -153,6 +158,7 @@ class versionId {
                         $patch ++;
                         $build = 0;
                         print ("isIncreasePatch (patch++): " . $patch . " ");
+                        $isChanged = true;
                     }
 					
 					
@@ -163,6 +169,7 @@ class versionId {
                         $patch = 0;
                         $build = 0;
                         print ("isIncreaseMinor (patch++): " . $minor . " ");
+                        $isChanged = true;
                     }
 
 					// x.0.0 will be increased. Lower parts will be reset to zero
@@ -173,13 +180,15 @@ class versionId {
                         $patch = 0;
                         $build = 0;
                         print ("isIncreaseMajor (major++): " . $major . " ");
+                        $isChanged = true;
                     }
 
                     $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
-                    print ("increased Version: " . $this->outVersionId) . "\r\n";
+                    if ($isChanged) {
+                        print ("increased Version: " . $this->outVersionId) . "\r\n";
+                    }
                 }
             }
-
         }
 
         return $this->outVersionId;

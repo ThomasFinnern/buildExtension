@@ -69,7 +69,7 @@ $tasksLine = ' task:buildExtension'
 ;
 $tasksLine="";
 
-// ToDo: option release date option releasefiledate
+// ToDo: option release date option release file date
 
 //$basePath = "..\\..\\RSGallery2_J4";
 //$basePath = "../../LangMan4DevProject";

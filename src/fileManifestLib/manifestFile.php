@@ -68,7 +68,7 @@ class manifestFile extends baseExecuteTasks
 {
     // internal
     public string $manifestPathFileName = '';
-    private manifestXml $manifestXml;
+    public manifestXml $manifestXml;
 
     public bool $isChanged = false;
 
@@ -174,16 +174,17 @@ class manifestFile extends baseExecuteTasks
         try {
             parent::__construct($srcRoot, false);
 
+            $this->manifestXml = new manifestXml();
             $this->manifestPathFileName = $manifestPathFileName;
 
-            if (is_file($manifestPathFileName)) {
-
-                // does read xml immediately
-                $this->readFile($manifestPathFileName);
-            } else {
-                // ToDo: error message or create file ?
-                $this->manifestXml = new manifestXml($manifestPathFileName);
-            }
+//            if (is_file($manifestPathFileName)) {
+//
+//                // does read xml immediately
+//                $this->readFile($manifestPathFileName);
+//            } else {
+//                // ToDo: error message or create file ?
+//                $this->manifestXml = new manifestXml($manifestPathFileName);
+//            }
 
             $this->versionId = new versionId();
             //$this->copyright = new copyrightText();
@@ -1146,7 +1147,8 @@ class manifestFile extends baseExecuteTasks
      */
     public function readFile(mixed $manifestPathFileName): bool
     {
-        $this->manifestXml = new manifestXml($manifestPathFileName);
+        // $this->manifestXml = new manifestXml($manifestPathFileName);
+        $this->manifestXml->readManifestXml($manifestPathFileName);
 
         return $this->manifestXml->isXmlLoaded;
     }

@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src;
 
 
-
 use Exception;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -254,11 +253,13 @@ class buildExtension extends baseExecuteTasks
         // data in manifest file
         //--------------------------------------------------------------------
 
-        //--- update date and version --------------------------------------
+        //--- manifest file name --------------------------------------
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ('manifestPathFileName: "' . $manifestPathFileName . '"' . "\r\n");
+
+        //--- update date and version --------------------------------------
 
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 

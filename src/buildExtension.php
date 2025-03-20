@@ -10,6 +10,7 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use ZipArchive;
 
+use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
 //use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -52,10 +53,11 @@ class buildExtension extends baseExecuteTasks
     // extension <element> name like RSGallery2
     private string $element;
     // 'rsgallery2' ??? com_rsgallery2'
-    private string $name;
+    private string $extName='';
 
 //    private bool $isIncrementVersion_build = false;
 
+    // todo: replace by private manifestXml $manifestXml;
     private manifestfile $manifestFile;
 
     private string $componentVersion = '';
@@ -71,7 +73,7 @@ class buildExtension extends baseExecuteTasks
         $hasError = 0;
         try {
 //            print('*********************************************************' . "\r\n");
-//            print ("Construct buildExtension: " . "\r\n");
+            print ("Construct buildExtension: " . "\r\n");
 //            print('---------------------------------------------------------' . "\r\n");
 
             parent::__construct($srcRoot, false);
@@ -137,21 +139,21 @@ class buildExtension extends baseExecuteTasks
 
         switch (strtolower($option->name)) {
             case 'builddir':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->buildDir = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
             // com_rsgallery2'
             case 'name':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                $this->name = $option->value;
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                $this->extName = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
 //                    // component name like rsgallery2 (but see above)
 //                    case '':
-//                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        $this->name = $option->value;
 //                    $isBuildExtensionOption  = true;
 //                        break;
@@ -159,33 +161,33 @@ class buildExtension extends baseExecuteTasks
             // extension (<element> name like RSGallery2
             case 'element':
             case 'extension':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->element = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
             case 'type':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->componentType = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
 //            case 'isincrementversion_build':
-//                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                $this->isIncrementVersion_build = $option->value;
 //                $isBuildExtensionOption  = true;
 //                break;
 
 //                    case 'X':
-//                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        break;
 //
 //                    case 'Y':
-//                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        break;
 //
 //                    case 'Z':
-//                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        break;
 
             default:
@@ -201,30 +203,35 @@ class buildExtension extends baseExecuteTasks
         print ("Execute buildExtension: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
-        $componentType = $this->componentType();
+        //--- validation checks --------------------------------------
 
-        switch (strtolower($componentType)) {
-            case 'component':
-                $this->buildComponent();
+        $isValid = $this->check4validInput();
 
-                break;
+        if ($isValid) {
+            $componentType = $this->componentType();
 
-            case 'module':
-                $this->buildModule();
-                break;
+            switch (strtolower($componentType)) {
+                case 'component':
+                    $this->buildComponent();
 
-            case 'plugin':
-                $this->buildPlugin();
-                break;
+                    break;
 
-            case 'package':
-                $this->buildPackage();
-                break;
+                case 'module':
+                    $this->buildModule();
+                    break;
 
-            default:
-                print ('!!! Default componentType: ' . $componentType . ', No build done !!!' );
-        } // switch
+                case 'plugin':
+                    $this->buildPlugin();
+                    break;
 
+                case 'package':
+                    $this->buildPackage();
+                    break;
+
+                default:
+                    print ('!!! Default componentType: ' . $componentType . ', No build done !!!');
+            } // switch
+        }
 
         return (0);
     }
@@ -251,14 +258,14 @@ class buildExtension extends baseExecuteTasks
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
-        print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+        print ('manifestPathFileName: "' . $manifestPathFileName . '"' . "\r\n");
 
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
         //--- update second admin xml file --------------------------------------
 
         $manifestAdminPathFileName = $this->manifestAdminPathFileName();
-        print("manifestAdminPathFileName: " . $manifestAdminPathFileName . "\r\n");
+        print('manifestAdminPathFileName: "' . $manifestAdminPathFileName . '"' . "\r\n");
         copy($manifestPathFileName, $manifestAdminPathFileName);
 
         //--------------------------------------------------------------------
@@ -413,7 +420,7 @@ class buildExtension extends baseExecuteTasks
 
             $this->manifestAdminPathFileName = $this->srcRoot
                 . '/administrator/components/'
-                . $this->name . '/' . $name . '.xml';
+                . $this->extName . '/' . $name . '.xml';
         }
 
         return $this->manifestAdminPathFileName;
@@ -422,35 +429,38 @@ class buildExtension extends baseExecuteTasks
     // ToDo: move/create also in to manifest.php file ?
     private function shortExtensionName(): string
     {
-        $name = $this->name;
+        $extName = $this->extName;
 
-        // com / mod extension
-        if (str_starts_with($name, 'com_'))
+        print ('extension extName: "' . $extName . '"' . "\r\n");
+
+        // com / mod / plg extension
+        if (str_starts_with($extName, 'com_'))
         {
             // Standard
-            $name = substr($name, 4);
-            // $name = 'com_' . substr($name, 4);
+            $extName = substr($extName, 4);
+            // $extName = 'com_' . substr($extName, 4);
 
         } else {
 
-            if (str_starts_with($name, 'mod_')) {
-                // $name = substr($name, 4);
+            if (str_starts_with($extName, 'mod_')) {
+                // $extName = substr($extName, 4);
             } else {
 
-                if (str_starts_with($name, 'plg_')) {
-                    $idx = strpos($name, '_', strlen('plg_')) + 1;
-                    $name = substr($name, $idx);
+                if (str_starts_with($extName, 'plg_')) {
+                    $idx = strpos($extName, '_', strlen('plg_')) + 1;
+                    $extName = substr($extName, $idx);
                 }
             }
         }
 
-        return $name;
+        print ('short extName: "' . $extName . '"' . "\r\n");
+        return $extName;
     }
 
     // ToDo: move/create also in to manifest.php file ?
     private function destinationExtensionName(): string
     {
-        $name = $this->name;
+        $name = $this->extName;
 
         // com / mod extension
         if (str_starts_with($name, 'com_'))
@@ -491,6 +501,7 @@ class buildExtension extends baseExecuteTasks
         $manifestFile = $this->manifestFile;
 
         try {
+            print ("exchangeDataInManifestFile manifestPathFileName: " . $manifestPathFileName . "\r\n");
 //            // read
 //            // keep flags
 //            $manifestFile->versionId = $this->versionId;
@@ -987,6 +998,42 @@ class buildExtension extends baseExecuteTasks
         }
 
         return $componentType;
+    }
+
+
+    private function check4validInput()
+    {
+        $isValid = true;
+
+        //option type: "component"
+        if (empty ($this->componentType)) {
+            print ("option type: not set" . "\r\n");
+            $isValid = false;
+        }
+        //option buildDir: "../../LangMan4Dev"
+        if (empty ($this->srcRoot)) {
+            print ("option buildDir: not set" . "\r\n");
+            $isValid = false;
+        }
+        //option buildDir: "../../LangMan4DevProject/.packages"
+        if (empty ($this->buildDir)) {
+            print ("option buildDir: not set" . "\r\n");
+            $isValid = false;
+        }
+        //option name: "com_lang4dev"
+        if (empty ($this->extName)) {
+            print ("option name: not set" . "\r\n");
+            $isValid = false;
+        }
+        //option extension: "Lang4Dev"
+        if (empty ($this->element)) {
+            print ("option extension: not set" . "\r\n");
+            $isValid = false;
+        }
+
+
+
+        return $isValid;
     }
 
 

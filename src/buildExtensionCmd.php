@@ -87,10 +87,15 @@ $tasksLine="";
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
 $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+$taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = '..\options_version_tsk\build_develop.opt';
+$optionFiles [] = '..\options_version_tsk\build_step.opt';
+//$optionFiles [] = '..\options_version_tsk\build_fix.opt';
+//$optionFiles [] = '..\options_version_tsk\build_release.opt';
+//$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

@@ -1,21 +1,22 @@
 task:ManifestFile
+// Option variables for writing into the manifest file must begin with “mani:”
 // /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"
 /manifestFile="../../../LangMan4Dev/lang4dev.xml"
 // /srcRoot="../../../RSGallery2_J4"
 // /srcRoot="../../../LangMan4Dev"
-///name=rsgallery2
-// /name=lang4dev
-///extension=RSGallery2
-///extension=Lang4Dev
+// /mani:name=rsgallery2
+// /mani:name=lang4dev
+// /mani:extension=RSGallery2
+// /mani:extension=Lang4Dev
 
-// /actYear=2025
-// /sinceYear=2022
-// /authorEmail=spass@tomfinnern.de
-/description=COM_LANG4DEV_XML_DESCRIPTION
+// /mani:actYear=2025
+// /mani:sinceYear=2022
+// /mani:authorEmail=spass@tomfinnern.de
+/mani:description=COM_LANG4DEV_XML_DESCRIPTION
 
-// /forceVersion="5.0.12.4"
-// /version=5.0.12.4
-    // /isForceVersion=false
+// ? /mani:forceVersion="5.0.12.4"
+// ? /mani:version=5.0.12.4
+// ? /mani:isForceVersion=false
 
 
 //

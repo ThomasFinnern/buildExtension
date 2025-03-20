@@ -135,8 +135,6 @@ class manifestXml
      */
     public function writeManifestXml(string $prjXmlPathFilename = '') : bool
     {
-        $isSaved = false;
-
         //--- name from class or function  ---------------------------------------
 
         // use new file
@@ -163,8 +161,10 @@ class manifestXml
             $domxml->loadXML($this->manifestXml->asXML());
             $domxml->save($prjXmlPathFilename);
 
+            $this->isXmlChanged = false;
         }
-        return $isSaved;
+
+        return ! $this->isXmlChanged;
     }
     // info cast to string / int .. when using it (otherwise array is returned)
 

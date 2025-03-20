@@ -15,11 +15,11 @@ Class manifestFile
 ================================================================================*/
 
 /*
+ * mmnifest file interacts directly with the xml items
+ * It reads and changes the manifest data inside the files
+ * as required by options
  *
- * read and change the manifest files as required by options
- *
- *
- * the manifest file is read by creation of class
+ * The manifest file is read by creation of class
  *
  * options are following the manifest xml format see below
    plugin example
@@ -68,47 +68,90 @@ class manifestFile extends baseExecuteTasks
 {
     // internal
     public string $manifestPathFileName = '';
-//    public string $componentName = '';
-//    public string $extension = '';
-//    // com, plg, mod
-//    public string $type = '';
-//    public string $baseComponentName = '';
+    private manifestXml $manifestXml;
 
-//    private array $headerLines;
-//    private array $otherLines;
-//    private array $outLines;
-//
-//    private string $xmlLine;
+    public bool $isChanged = false;
 
-    //--- line data -------------------------
+    //--- manifest variables ---------------------------------------
 
-//    public string $extType = '';
-//    public string $extGroup = '';
-//    private string $extVersion = '';
-//    private string $extMethod = '';
-//    private string $componentName = '';
-//    private string $creationDate = '';
-//    private string $author = '';
-//    private string $authorEmail = '';
-//    private string $authorUrl = '';
-//    private copyrightText $copyright;
-//    private string $license = '';
-//    private string $description = '';
-//    // Name of extension for user like RSGallery2
-//    public string $element = '';
-//    private string $namespace = '';
-//    public string $scriptFile; // </scriptfile>install_langman4dev.php</scriptfile>
-//
+    public string $extType = '';
+    public string $extGroup = '';
+    public string $extVersion = '';
+    public string $extMethod = '';
+
+    public string $componentName {
+        get => $this->retrieveXmlValue('name', '');
+        set => $this->assignXmlValue ('name', $value);
+    }
+
+    public string $creationDate {
+        get => $this->retrieveXmlValue('creationDate', '');
+        set => $this->manifestXml->setByXml('creationDate', $value);
+    }
+
+    public string $authorEmail {
+        get => $this->retrieveXmlValue('authorEmail', '');
+        set => $this->assignXmlValue('authorEmail', $value);
+    }
+
+    public string $authorUrl {
+        get => $this->retrieveXmlValue('authorUrl', '');
+        set => $this->assignXmlValue('authorUrl', $value);
+    }
+
+    public string $copyright {
+        get => $this->retrieveXmlValue('copyright', '');
+        set => $this->assignXmlValue('copyright', $value);
+    }
+
+    public string $license {
+        get => $this->retrieveXmlValue('$license', '');
+        set => $this->assignXmlValue('$license', $value);
+    }
+
+    public string $version {
+        get => $this->retrieveXmlValue('version', '');
+        // set ($value) => { $this->assignXmlValue('version', $value) }
+        set => $this->assignXmlValue('version', $value);
+    }
+
+    public string $description {
+        get => $this->retrieveXmlValue('description', '');
+        set => $this->assignXmlValue('description', $value);
+    }
+
+    // Name of extension for user like RSGallery2
+    public string $element {
+        get => $this->retrieveXmlValue('element', '');
+        set => $this->assignXmlValue('element', $value);
+    }
+
+    public string $namespace {
+        get => $this->retrieveXmlValue('namespace', '');
+        set => $this->assignXmlValue('namespace', $value);
+    }
+
+    // </scriptfile>install_langman4dev.php</scriptfile>
+    public string $scriptFile {
+        get => $this->retrieveXmlValue('scriptFile', '');
+        set => $this->assignXmlValue('scriptFile', $value);
+    }
+
+
+//--- files --------------------------------------
+
+//--- folders ------------------------------------
+
+// files ....
+
 
     //--- requests for assignment ---------------------------------
 
-    private versionId $versionId;
-    private copyrightText $copyright;
+    public versionId $versionId;
+    //private copyrightText $copyright;
 
     // requests [name]= value
-    private $requests = [];
-
-    private manifestXml $manifestXml;
+    private array $requests = [];
 
     //--- manifest flags ---------------------------------------
 
@@ -121,7 +164,9 @@ class manifestFile extends baseExecuteTasks
     // use actual year
     public bool $isUpdateActCopyrightYear = false;
 
-
+    /*====================================================
+    class constructor
+    ====================================================*/
     public function __construct(
         $srcRoot = "",
         $manifestPathFileName = ''
@@ -134,14 +179,14 @@ class manifestFile extends baseExecuteTasks
             if (is_file($manifestPathFileName)) {
 
                 // does read xml immediately
-                $this->manifestXml = new manifestXml($manifestPathFileName);
+                $this->readFile($manifestPathFileName);
             } else {
                 // ToDo: error message or create file ?
                 $this->manifestXml = new manifestXml($manifestPathFileName);
             }
 
             $this->versionId = new versionId();
-            $this->copyright = new copyrightText();
+            //$this->copyright = new copyrightText();
 
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -404,7 +449,7 @@ class manifestFile extends baseExecuteTasks
 
             if (!$isBaseOption && !$isVersionOption) {
 
-                $this->assignManifestOption($option, $task->name);
+                $this->assignManifestOption($option);
                 // $OutTxt .= $task->text() . "\r\n";
             }
         }
@@ -417,7 +462,7 @@ class manifestFile extends baseExecuteTasks
      * @param   mixed  $option
      * @param   task   $task
      *
-     * @return void
+     * @return bool
      */
     public function assignManifestOption(mixed $option): bool
     {
@@ -426,73 +471,77 @@ class manifestFile extends baseExecuteTasks
 
         $isManifestOption = false;
 
-
         $isVersionOption = $this->versionId->assignVersionOption($option);
 
         if ( ! $isVersionOption) {
-            switch (strtolower($option->name)) {
-                // manifestFile
-                case strtolower('manifestFile'):
-                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                    $this->manifestPathFileName = $option->value;
-                    $isManifestOption = true;
-                    break;
 
-                //--- xml elements values to be written --------------------------------------
+            if(str_starts_with($option, 'mani:')) {
 
-                // COM_LANG4DEV, plg_webservices_content
-                case strtolower('componentName'):
-                    // component / module / plugin
-                case strtolower('extensionType'):
-                case strtolower('extensionGroup'):
-                case strtolower('extensionVersion'):
-                case strtolower('extensionMethod'):
+                $name = substr($option, 5);
+                switch (strtolower($name)) {
+                    // manifestFile
+                    case strtolower('manifestFile'):
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        $this->manifestPathFileName = $option->value;
+                        $isManifestOption = true;
+                        break;
 
-                // component name like com_rsgallery2
-                case strtolower('name'):
-                case strtolower('author'):
-                case strtolower('creationDate'):
-                case strtolower('copyright'):
-                case strtolower('license'):
-                case strtolower('authorEmail'):
-                case strtolower('authorUrl'):
-                case strtolower('version'):
-                case strtolower('description'):
-                // element: name like RSGallery2,
-                case strtolower('element'):
-                case strtolower('namespace'):
-                case strtolower('type'):
+                    //--- xml elements values to be written --------------------------------------
 
-                case strtolower('sinceYear'):
-                case strtolower('actYear'):
+                    // COM_LANG4DEV, plg_webservices_content
+                    case strtolower('componentName'):
+                        // component / module / plugin
+                    case strtolower('extensionType'):
+                    case strtolower('extensionGroup'):
+                    case strtolower('extensionVersion'):
+                    case strtolower('extensionMethod'):
 
-                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                    $this->requests[$option->name ] = $option->value;
-                    $isManifestOption = true;
-                    break;
+                        // component name like com_rsgallery2
+                    case strtolower('name'):
+                    case strtolower('author'):
+                    case strtolower('creationDate'):
+                    case strtolower('copyright'):
+                    case strtolower('license'):
+                    case strtolower('authorEmail'):
+                    case strtolower('authorUrl'):
+                    case strtolower('version'):
+                    case strtolower('description'):
+                        // element: name like RSGallery2,
+                    case strtolower('element'):
+                    case strtolower('namespace'):
+                    case strtolower('type'):
 
-                //--- flags to execute --------------------------------------
+                    case strtolower('sinceYear'):
+                    case strtolower('actYear'):
 
-                case strtolower('isUpdateCreationDate'):
-                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                    $this->isUpdateCreationDate = $option->value;
-                    $isManifestOption = true;
-                    break;
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        $this->requests[$option->name] = $option->value;
+                        $isManifestOption = true;
+                        break;
+
+                    //--- flags to execute --------------------------------------
+
+                    case strtolower('isUpdateCreationDate'):
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        $this->isUpdateCreationDate = $option->value;
+                        $isManifestOption = true;
+                        break;
 
                     // done automatically below with flags for versionId
 //                case strtolower('isIncrementVersion_build'):
-//                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    $this->isIncrementVersion_build = $option->value;
 //                    $isManifestOption = true;
 //                    break;
 
-                case strtolower('isUpdateActCopyrightYear '):
-                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-                    $this->isUpdateActCopyrightYear = $option->value;
-                    $isManifestOption = true;
-                    break;
+                    case strtolower('isUpdateActCopyrightYear '):
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        $this->isUpdateActCopyrightYear = $option->value;
+                        $isManifestOption = true;
+                        break;
 
-            } // switch
+                } // switch
+            }
         }
 
         return $isManifestOption ||  $isVersionOption;
@@ -507,36 +556,34 @@ class manifestFile extends baseExecuteTasks
         $hasError = 0;
 
         // does read xml immediately
-        $this->manifestXml = new manifestXml($this->manifestPathFileName);
+        $this->readFile($this->manifestPathFileName);
 
         // Manifest file must be loaded
         if ( ! empty ($this->manifestXml)) {
 
             //--- version line -----------------------------------
 
-            $isChanged = $this->increaseVersion();
+            $this->isChanged |= $this->increaseVersion();
 
             //---  -----------------------------------
 
             if ($this->isUpdateCreationDate) {
-                $isChanged |= $this->updateCreationDate();
+                $this->isChanged |= $this->updateCreationDate();
             }
 
             //---  -----------------------------------
 
             if ($this->isUpdateActCopyrightYear) {
-                $isChanged |= $this->updateActCopyrightYear();
+                $this->isChanged |= $this->updateActCopyrightYear();
             }
 
             //--- xml variable assign requests -----------------------------------
 
-            $isChanged |= $this->requestVariables();
+            $this->isChanged |= $this->requestVariables();
 
             //--- save on change -----------------------------------
 
-            if ($isChanged) {
-                $isSaved = $this->manifestXml->writeManifestXml();
-            }
+            $this->saveOnChange();
 
         }
 
@@ -576,7 +623,8 @@ class manifestFile extends baseExecuteTasks
             if ($outVersionId != $inVersionId) {
 
                 // $manifestXml->versionId->outVersionId = $outVersionId;
-                $manifestXml->setByXml('version', $outVersionId);
+                // $manifestXml->setByXml('version', $outVersionId);
+                $this->version = $outVersionId;
 
                 $isChanged = true;
             }
@@ -632,7 +680,8 @@ class manifestFile extends baseExecuteTasks
                 $copyrightText->actCopyrightDate = $actYear;
                 $outCopyrightText = $copyrightText->formatCopyrightManifest();
 
-                $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                $this->copyright = $outCopyrightText;
                 $isChanged = true;
             }
 
@@ -665,7 +714,8 @@ class manifestFile extends baseExecuteTasks
                 $copyrightText->sinceCopyrightDate = $actYear;
                 $outCopyrightText = $copyrightText->formatCopyrightManifest();
 
-                $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                $this->copyright = $outCopyrightText;
                 $isChanged = true;
             }
 
@@ -685,7 +735,8 @@ class manifestFile extends baseExecuteTasks
         $date_format = 'Y.m.d';
         $actDate = date($date_format);
 
-        $this->manifestXml->setByXml('creationDate', $actDate);
+        //$this->manifestXml->setByXml('creationDate', $actDate);
+        $this->creationDate = $actDate;
 
 //        $this->copyright->setActCopyright2Today();
 
@@ -1078,5 +1129,63 @@ class manifestFile extends baseExecuteTasks
 //
 //        return $isScriptLine;
 //    }
+    /**
+     * @return void
+     */
+    public function saveOnChange(): void
+    {
+        if ($this->isChanged) {
+            $this->writeFile();
+        }
+    }
+
+    /**
+     * @param mixed $manifestPathFileName
+     * @return void
+     * @throws Exception
+     */
+    public function readFile(mixed $manifestPathFileName): bool
+    {
+        $this->manifestXml = new manifestXml($manifestPathFileName);
+
+        return $this->manifestXml->isXmlLoaded;
+    }
+
+    /**
+     * @return void
+     */
+    public function writeFile(): bool
+    {
+        $isSaved = $this->manifestXml->writeManifestXml();
+        return $isSaved;
+    }
+
+    private function assignXmlValue(string $name, string $value) : string
+    {
+       $actValue =  $this->manifestXml->getByXml($name, '');
+
+       if ($actValue != $value) {
+           $this->manifestXml->setByXml($name, $value);
+
+           $this->isChanged = true;
+       }
+
+       return $value;
+    }
+
+    private function retrieveXmlValue(string $name, string $default) : string
+    {
+        $foundValue = $this->manifestXml->getByXml($name, $default);
+
+        $resultValue = $default;
+
+        if (!empty ($foundValue)) {
+            $resultValue = (string) $foundValue;
+        }
+
+        return $resultValue;
+    }
+
+
 
 }

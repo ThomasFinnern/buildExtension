@@ -74,15 +74,15 @@ class clean4GitCheckin extends baseExecuteTasks
 
 // ? separate class ?
 //				case 'cleanlines': // trim / no tabs
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
 //				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
                     default:

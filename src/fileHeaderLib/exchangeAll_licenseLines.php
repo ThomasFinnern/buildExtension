@@ -76,20 +76,20 @@ class exchangeAll_licenseLines extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case 'licensetext':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->licenseText = $option->value;
                         break;
 
 //				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
                     default:

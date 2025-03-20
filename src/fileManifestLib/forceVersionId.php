@@ -74,12 +74,12 @@ class forceVersionId extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case 'name':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->componentName = $option->value;
                         break;
 
                     case 'version':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->componentVersion = $option->value;
                         break;
 

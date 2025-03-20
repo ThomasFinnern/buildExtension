@@ -161,13 +161,13 @@ class fileHeaderByFileData extends fileHeaderData
 
         switch (strtolower($option->name)) {
             case 'filename':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->fileName = $option->value;
                 $isDefinedOption  = true;
                 break;
 
             case 'isupdatecreationdate':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isUpdateActCopyrightDate = $option->value;
                 $isDefinedOption                = true;
                 break;
@@ -280,15 +280,15 @@ class fileHeaderByFileData extends fileHeaderData
                 break;
 
 //                case 'X force...':
-//                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    break;
 //
 //                case 'Y use...':
-//                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    break;
 //
 //                case 'Z':
-//                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    break;
 
         } // switch

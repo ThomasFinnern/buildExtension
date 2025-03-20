@@ -59,19 +59,19 @@ class baseExecuteTasks
 
         switch (strtolower($option->name)) {
             case 'srcroot':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->srcRoot = $option->value;
                 $isBaseOption  = true;
                 break;
 
             case 'isnorecursion':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isNoRecursion = boolval($option->value);
                 $isBaseOption        = true;
                 break;
 
 //				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
         } // switch

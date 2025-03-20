@@ -77,20 +77,20 @@ class exchangeAll_linkLines extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case 'linktext':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->linkText = $option->value;
                         break;
 
 //				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
                     default:

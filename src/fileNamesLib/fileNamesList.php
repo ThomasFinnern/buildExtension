@@ -323,44 +323,44 @@ class fileNamesList extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case 'includeext':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         //$this->yearText = $option->value;
                         [$this->isIncludeExt, $this->includeExtList] =
                             $this->splitExtensionString($option->value);
                         break;
 
                     case 'excludeext':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         //$this->yearText = $option->value;
                         [$this->isExcludeExt, $this->excludeExtList] =
                             $this->splitExtensionString($option->value);
                         break;
 
                     case 'isnorecursion':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->isNoRecursion = boolval($option->value);
                         break;
 
                     case 'iswritelisttofile':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->isWriteListToFile = boolval($option->value);
                         break;
 
                     case 'listfilename':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->listFileName = boolval($option->value);
                         break;
 
 //				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 //
 //				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
                     default:

@@ -363,7 +363,7 @@ class fileHeaderByFileLine extends fileHeaderData
 //            switch (strtolower($option->name)) {
 //
 //                case '???':
-//                    print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    $this->??? = $option->value;
 //                    break;
 

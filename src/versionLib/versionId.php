@@ -203,50 +203,50 @@ class versionId {
             //--- Version flags -------------------------------------------------------------
 
             case 'forceversion':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->forceVersionId = $option->value;
                 $this->isForceVersion = true;
                 $isVersionOption  = true;
                 break;
 
             case 'isincreasemajor':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseMajor = true;
                 $isVersionOption  = true;
                 break;
 
             case 'isincreaseminor':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseMinor = true;
                 $isVersionOption  = true;
                 break;
 
             case 'isincreasepatch':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreasePatch = true;
                 $isVersionOption  = true;
                 break;
 
             case 'isincreasebuild':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseBuild = true;
                 $isVersionOption  = true;
                 break;
 
             case 'isbuildrelease':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isBuildRelease = $option->value;
                 $isVersionOption  = true;
                 break;
 
             case 'isbuildfix':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isBuildFix = $option->value;
                 $isVersionOption  = true;
                 break;
 
 //				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
         } // switch

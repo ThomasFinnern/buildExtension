@@ -39,7 +39,8 @@ variables
 
 $tasksLine = ' task:ManifestFile'
 //    . ' /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"'
-    . ' /manifestFile="../../../LangMan4Dev/lang4dev.xml"'
+//    . ' /manifestFile="../../../LangMan4Dev/lang4dev.xml"'
+    . ' /manifestFile="./build_tsk/build_test.tsk"'
 //    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /componentname=rsgallery2'
 //    . ' /manifestFile'
@@ -63,7 +64,8 @@ $tasksLine = ' task:ManifestFile'
 ;
 
 $tasksLine = '';
-$taskFile = "manifestFileUpdate.tsk";
+//$taskFile = "manifestFileUpdate.tsk";
+$taskFile = "./build_tsk/build_test.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

@@ -180,14 +180,57 @@ class manifestXml
      */
     public function getByXml($name, $default)
     {
-//		return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
-//        $result = $this->manifestXml->$name;
-        $result = null;
+        $result = $default;
 
-//        if (isset($this->manifestXml->{$name})) {
-        if (isset($this->manifestXml->$name)) {
+        try {
+            if (isset($this->manifestXml->$name)) {
 
-            $result = $this->manifestXml->$name;
+                $result = (string) $this->manifestXml->$name;
+            }
+
+        } catch (\RuntimeException $e) {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"<br>';
+            $OutTxt .= 'name: "' . $name . '"' . '<br>';
+            $OutTxt .= 'default: "' . $default . '"' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            print $OutTxt;
+
+            // $hasError = -987;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Take values direct from Xml of manifest
+     *
+     * @param $name
+     * @param $default
+     *
+     * @return mixed
+     *
+     * @since version
+     */
+    public function getAttributeByXml(string $elementName, string $elementAttributeName, $default) : string
+    {
+        $result = $default;
+
+        try {
+            if (isset($this->manifestXml->$elementName)) {
+                $element = $this->manifestXml->$elementName;
+                $result = (string) $element[$elementAttributeName];
+            }
+
+        } catch (\RuntimeException $e) {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"<br>';
+            $OutTxt .= 'name: "' . $name . '"' . '<br>';
+            $OutTxt .= 'default: "' . $default . '"' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            print $OutTxt;
+
+            // $hasError = -987;
         }
 
         // return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
@@ -211,11 +254,14 @@ class manifestXml
         $hasError = 0;
 
         try {
-//        if (isset($this->manifestXml->{$name})) {
-            if (isset($this->manifestXml->$name)) {
+            // if (isset($this->manifestXml->$name)) {
+                $found = (string) $this->manifestXml->$name;
 
-                $this->manifestXml->$name = $value;
-            }
+                if ($found != $value) {
+                    $this->manifestXml->$name = $value;
+                    $this->isXmlChanged = true;
+                }
+            // }
 
         } catch (\RuntimeException $e) {
             $OutTxt = '';
@@ -232,39 +278,93 @@ class manifestXml
         return $hasError;
     }
 
-    // return null on wrong path
-
     /**
-     * @param $names
+     * Take values direct from Xml of manifest
+     *
+     * @param $name
      * @param $default
      *
-     * @return bool|mixed
+     * @return mixed
      *
      * @since version
      */
-    public function getByXPath($names, $default)
+    public function setAttributeByXml(string $elementName, string $elementAttributeName, string $value) : int
     {
-        $result = $default;
+        $hasError = 0;
 
-        if (!is_array($names)) {
-            $name = array($names);
-        }
+        try {
+            if (isset($this->manifestXml->$elementName))
+            {
+                $element = $this->manifestXml->$elementName;
+                $found = $element[$elementAttributeName];
 
-        $base = $this->manifestXml;
-        foreach ($names as $name) {
-            $base = isset($this->manifestXml->$name) ? $this->manifestXml->$name : null;
+                if ($found != $value) {
 
-            if ($base == null) {
-                break;
+                    $element[$elementAttributeName] = $value;
+                    $this->isXmlChanged = true;
+                }
+            } else {
+                // base element extension
+                if ($elementName == 'extension') {
+
+                    $found = (string) $this->manifestXml[$elementAttributeName];
+
+                    if ($found != $value) {
+
+                        $this->manifestXml[$elementAttributeName] = $value;
+                        $this->isXmlChanged = true;
+                    }
+                }
             }
+
+        } catch (\RuntimeException $e) {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"<br>';
+            $OutTxt .= 'name: "' . $name . '"' . '<br>';
+            $OutTxt .= 'value: "' . $value . '"' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            print $OutTxt;
+
+            $hasError = -987;
         }
 
-        if ($base != null) {
-            $result = $base;
-        }
-
-        return $result;
+        // return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
+        return $hasError;
     }
+
+
+//    /**
+//     * @param $names
+//     * @param $default
+//     *
+//     * @return bool|mixed
+//     *
+//     * @since version
+//     */
+//    public function getByXPath($names, $default)
+//    {
+//        // return null on wrong path
+//        $result = $default;
+//
+//        if (!is_array($names)) {
+//            $name = array($names);
+//        }
+//
+//        $base = $this->manifestXml;
+//        foreach ($names as $name) {
+//            $base = isset($this->manifestXml->$name) ? $this->manifestXml->$name : null;
+//
+//            if ($base == null) {
+//                break;
+//            }
+//        }
+//
+//        if ($base != null) {
+//            $result = $base;
+//        }
+//
+//        return $result;
+//    }
 
 //    /**
 //     *

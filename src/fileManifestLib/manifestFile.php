@@ -15,7 +15,7 @@ Class manifestFile
 ================================================================================*/
 
 /*
- * mmnifest file interacts directly with the xml items
+ * manifest file interacts directly with the xml items
  * It reads and changes the manifest data inside the files
  * as required by options
  *
@@ -74,10 +74,22 @@ class manifestFile extends baseExecuteTasks
 
     //--- manifest variables ---------------------------------------
 
-    public string $extType = '';
-    public string $extGroup = '';
-    public string $extVersion = '';
-    public string $extMethod = '';
+    public string $extType {
+        get => $this->retrieveXmlAttributeValue('extension', 'type', '');
+        set => $this->assignXmlAttributeValue ('extension', 'type', $value);
+    }
+    public string $extGroup  {
+        get => $this->retrieveXmlAttributeValue('extension', 'group', '');
+        set => $this->assignXmlAttributeValue ('extension', 'group', $value);
+    }
+    public string $extVersion {
+        get => $this->retrieveXmlAttributeValue('extension', 'version', '');
+        set => $this->assignXmlAttributeValue ('extension', 'version', $value);
+    }
+    public string $extMethod {
+        get => $this->retrieveXmlAttributeValue('extension', 'method', '');
+        set => $this->assignXmlAttributeValue ('extension', 'method', $value);
+    }
 
     public string $componentName {
         get => $this->retrieveXmlValue('name', '');
@@ -476,13 +488,13 @@ class manifestFile extends baseExecuteTasks
 
         if ( ! $isVersionOption) {
 
-            if(str_starts_with($option, 'mani:')) {
+            if(str_starts_with($option->name, 'mani:')) {
 
-                $name = substr($option, 5);
+                $name = strtolower(substr($option->name, 5));
                 switch (strtolower($name)) {
                     // manifestFile
                     case strtolower('manifestFile'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->manifestPathFileName = $option->value;
                         $isManifestOption = true;
                         break;
@@ -515,28 +527,28 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('sinceYear'):
                     case strtolower('actYear'):
 
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        $this->requests[$option->name] = $option->value;
+                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+                        $this->requests[$name] = $option->value;
                         $isManifestOption = true;
                         break;
 
                     //--- flags to execute --------------------------------------
 
                     case strtolower('isUpdateCreationDate'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->isUpdateCreationDate = $option->value;
                         $isManifestOption = true;
                         break;
 
                     // done automatically below with flags for versionId
 //                case strtolower('isIncrementVersion_build'):
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                    print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
 //                    $this->isIncrementVersion_build = $option->value;
 //                    $isManifestOption = true;
 //                    break;
 
                     case strtolower('isUpdateActCopyrightYear '):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->isUpdateActCopyrightYear = $option->value;
                         $isManifestOption = true;
                         break;
@@ -577,6 +589,7 @@ class manifestFile extends baseExecuteTasks
             if ($this->isUpdateActCopyrightYear) {
                 $this->isChanged |= $this->updateActCopyrightYear();
             }
+
 
             //--- xml variable assign requests -----------------------------------
 
@@ -757,10 +770,6 @@ class manifestFile extends baseExecuteTasks
 
                     case strtolower('componentName'):
                         // component / module / plugin
-                    case strtolower('extensionType'):
-                    case strtolower('extensionGroup'):
-                    case strtolower('extensionVersion'):
-                    case strtolower('extensionMethod'):
 
                         // component name like com_rsgallery2
                     case strtolower('name'):
@@ -782,6 +791,20 @@ class manifestFile extends baseExecuteTasks
 
                         $isChanged = true;
                         break;
+
+                    case strtolower('extensionType'):
+                    case strtolower('extensionGroup'):
+                    case strtolower('extensionVersion'):
+                    case strtolower('extensionMethod'):
+
+                        $elementName = 'extension';
+                        $elementAttributeName = substr($requestName, 9);
+
+                        // direct assignment to XML attribute
+                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        $this->manifestXml->setAttributeByXml($elementName, $elementAttributeName, $requestValue);
+                        $isChanged = true;
+                    break;
 
                     case strtolower('actYear'):
                         print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
@@ -1175,6 +1198,19 @@ class manifestFile extends baseExecuteTasks
        return $value;
     }
 
+    private function assignXmlAttributeValue(string $elementName, string $elementAttributeName, $value)
+    {
+        $actValue =  $this->manifestXml->getByXml($elementName, $elementAttributeName, '');
+
+        if ($actValue != $value) {
+            $this->manifestXml->setAttributeByXml($elementName, $elementAttributeName, $value);
+
+            $this->isChanged = true;
+        }
+
+        return $value;
+    }
+
     private function retrieveXmlValue(string $name, string $default) : string
     {
         $foundValue = $this->manifestXml->getByXml($name, $default);
@@ -1188,6 +1224,17 @@ class manifestFile extends baseExecuteTasks
         return $resultValue;
     }
 
+    private function retrieveXmlAttributeValue(string $elementName, string $elementAttributeName, string $default)
+    {
+        $foundValue = $this->manifestXml->getAttributeByXml($elementName, $elementAttributeName, $default);
 
+        $resultValue = $default;
+
+        if (!empty ($foundValue)) {
+            $resultValue = (string) $foundValue;
+        }
+
+        return $resultValue;
+    }
 
 }

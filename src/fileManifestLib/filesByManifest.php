@@ -15,6 +15,8 @@ use Exception;
 
 /**
  * Container for manifest xml data
+ * It is a layer between programs and the xml presentation
+ *
  * On creation the manifest XML data will b read if file path is given
  * This sets also several path (language) variables determined by the
  * manifest data
@@ -25,7 +27,7 @@ use Exception;
  *
  * @since       version
  */
-class manifestData
+class filesByManifest
 {
     /**
      * @var string
@@ -62,16 +64,16 @@ class manifestData
      */
     public function __construct($prjXmlPathFilename = '')
     {
-        $this->prjXmlPathFilename = $prjXmlPathFilename;
-        $this->prjXmlFilePath     = ""; // dirname($prjXmlPathFilename);
-
-        // filename given
-        if ($prjXmlPathFilename != '') {
-            $this->prjXmlFilePath = dirname($prjXmlPathFilename);
-            $this->isValidXml = $this->readManifestData();
-        }
-
-        return;
+//        $this->prjXmlPathFilename = $prjXmlPathFilename;
+//        $this->prjXmlFilePath     = ""; // dirname($prjXmlPathFilename);
+//
+//        // filename given
+//        if ($prjXmlPathFilename != '') {
+//            $this->prjXmlFilePath = dirname($prjXmlPathFilename);
+//            $this->isValidXml = $this->readManifestData();
+//        }
+//
+//        return;
     }
 
     /**
@@ -312,27 +314,6 @@ class manifestData
     {
         return isset($this->manifestXml->$name) ? $this->manifestXml->$name : null;
     }
-
-
-	public function isPathOnJxServer($prjPathFilename)
-	{
-		$isPathOnJxServer = false;
-
-		$lowerJxPath = strtolower (JPATH_ROOT);
-		$lowerPrjPath = strtolower ($prjPathFilename);
-
-		$slashJxPath = str_replace('\\', '/', $lowerJxPath);;
-		$slashPrjPath = str_replace('\\', '/', $lowerPrjPath);;
-
-		// project path starts with root path
-		if (str_starts_with($slashPrjPath, $slashJxPath)) {
-			$isPathOnJxServer = true;
-		}
-
-		return $isPathOnJxServer;
-	}
-
-
 
 
 //	protected function loadManifestFromData(\SimpleXMLElement $xml)

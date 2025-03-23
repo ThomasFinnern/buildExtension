@@ -21,9 +21,8 @@ REM "C:\Program Files\php82\php.exe" --version
 ECHO.
 
 REM echo.
-REM ?????
-echo --- "%ExePath%php.exe" ./filesByManifest.php -f d:\Entwickl\2025\_gitHub\LangMan4Dev\lang4dev.xml %1
-"%ExePath%php.exe" ./filesByManifest.php -f d:\Entwickl\2025\_gitHub\LangMan4Dev\lang4dev.xml %1
+echo --- "%ExePath%php.exe" ./filesByManifestCmd.php -f filesByManifest.tsk %1
+"%ExePath%php.exe" ./filesByManifestCmd.php -f filesByManifest.tsk %1
 
 goto :EOF
 

@@ -242,7 +242,10 @@ class options
     public function text(): string
     {
         $OutTxt = "";
-        // $OutTxt .= "options" . "\r\n";
+        $OutTxt = "------------------------------------------" . "\r\n";
+        $OutTxt .= "--- options ---" . "\r\n";
+
+        $OutTxt .= "Options count: " . count($this->options) . "\r\n";
 
         foreach ($this->options as $option) {
             $OutTxt .= "   " . $option . "\r\n";

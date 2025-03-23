@@ -13,6 +13,7 @@ class option
 
     public string $name = "";
     public string $value = "";
+    // outer quotation marks like xxx="value" or xxx='value' instead of xxx=value
     public string $quotation = "";
 
     /*--------------------------------------------------------------------
@@ -123,6 +124,7 @@ class option
         $OutTxt .= "--- option ---" . "\r\n";
 
         $OutTxt .= "name: " . $this->name . "\r\n";
+        // not outer quotation marks like xxx="value" or xxx='value' instead of xxx=value
         if ($this->quotation == '') {
             $OutTxt .= "value: " . "'" . $this->value . "'" . "\r\n";
         } else {

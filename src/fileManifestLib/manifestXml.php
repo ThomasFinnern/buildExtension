@@ -38,7 +38,7 @@ class manifestXml
     public bool $isXmlChanged = false;
 
 
-    protected false|SimpleXMLElement $manifestXml = false; // XML: false or SimpleXMLElement
+    public false|SimpleXMLElement $manifestXml = false; // XML: false or SimpleXMLElement
 
     /**
      * @param $prjXmlPathFilename

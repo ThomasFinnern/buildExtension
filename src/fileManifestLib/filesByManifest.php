@@ -311,7 +311,7 @@ class filesByManifest extends baseExecuteTasks
             if (isset($this->manifestXml->api)) {
                 if (isset($this->manifestXml->api->files)) {
 
-                    $this->extractFilesFolderFromSection($this->manifestXml->api);
+                    $this->extractFilesFolderFromSection($this->manifestXml->api->files);
                 }
             }
 

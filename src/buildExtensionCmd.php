@@ -79,7 +79,7 @@ $tasksLine="";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
-//$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
+$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk';
 

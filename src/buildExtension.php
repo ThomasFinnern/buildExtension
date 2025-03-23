@@ -4,6 +4,7 @@ namespace Finnern\BuildExtension\src;
 
 
 use Exception;
+use Finnern\BuildExtension\src\fileManifestLib\filesByManifest;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -247,7 +248,7 @@ class buildExtension extends baseExecuteTasks
         return $this->componentType;
     }
 
-    private function buildComponent()
+    private function buildComponent(): void
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -261,10 +262,20 @@ class buildExtension extends baseExecuteTasks
 
         //--- update date and version --------------------------------------
 
+        // does read manifest file
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
-        //--- update second admin xml file --------------------------------------
+        if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
 
+            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            return;
+        }
+
+        //--- update admin manifest xml file --------------------------------------
+
+        // manifest file like 'rsgallery2.xml' needs to be in base folder and
+        // component folder. Actually the root file is copied to the component
+        // folder
         $manifestAdminPathFileName = $this->manifestAdminPathFileName();
         print('manifestAdminPathFileName: "' . $manifestAdminPathFileName . '"' . "\r\n");
         copy($manifestPathFileName, $manifestAdminPathFileName);
@@ -309,64 +320,58 @@ class buildExtension extends baseExecuteTasks
         mkdir($tmpFolder, 0777, true);
 
         //--------------------------------------------------------------------
+        // extract files and folders from manifest
+        //--------------------------------------------------------------------
+
+        $filesByManifest = new filesByManifest();
+
+//        //--- read manifestXml ---------------------------------
+//
+//        $oManifestXml = new manifestXml();
+//        $oManifestXml->readManifestXml($manifestPathFileName);
+
+        //--- insert manifestXml ---------------------------------
+
+//        $filesByManifest->manifestXml = $oManifestXml->manifestXml;
+        $filesByManifest->manifestXml = $this->manifestFile->manifestXml->manifestXml;
+
+        $filesByManifest->collectFilesAndFolders();
+
+        //--------------------------------------------------------------------
         // copy to temp
         //--------------------------------------------------------------------
 
         $srcRoot = realpath($this->srcRoot);
 
-        // ToDo: Follow manifest file sections instead of ...
-
-        //--- folder ----------------------------------------------------------------
-
-        // folder administrator exists
-        if (file_exists($srcRoot . "/" . 'administrator')) {
-            $this->xcopyElement('administrator', $srcRoot, $tmpFolder);
-        }
-        // folder components exists
-        if (file_exists($srcRoot . "/" . 'components')) {
-            $this->xcopyElement('components', $srcRoot, $tmpFolder);
-        }
-        // folder api exists
-        if (file_exists($srcRoot . "/" . 'api')) {
-            $this->xcopyElement('api', $srcRoot, $tmpFolder);
-        }
-        // folder media exists
-        if (file_exists($srcRoot . "/" . 'media')) {
-            $this->xcopyElement('media', $srcRoot, $tmpFolder);
+        foreach ($filesByManifest->files as $file) {
+            $this->xcopyElement($file, $srcRoot, $tmpFolder);
         }
 
-        // must be created separately ToDo: create anyhow for ? package ?
-//            // modules
-//            if (file_exists($srcRoot . "/" . 'modules')) {
-//                $this->xcopyElement('modules', $srcRoot, $tmpFolder);
-//            }
+        foreach ($filesByManifest->folders as $folder) {
+            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
+        }
 
-        // must be created separately ToDo: create anyhow for ? package ?
-//            // plugins
-//            if (file_exists($srcRoot . "/" . 'plugins')) {
-//                $this->xcopyElement('plugins', $srcRoot, $tmpFolder);
-//            }
+        //--------------------------------------------------------------------
+        // manual assignments
+        //--------------------------------------------------------------------
 
-        //--- files ----------------------------------------------------------------
+        //--- root files -------------------------------------------------
 
-        // manifest file like 'rsgallery2.xml'
+        //  manifest file
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
-        // install script like 'install_rsg2.php'
-        if ( ! empty($this->manifestFile->scriptFile)) {
-            $this->xcopyElement($this->manifestFile->scriptFile, $srcRoot, $tmpFolder);
-        }
 
-        $this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
+//        // install script like 'install_rsg2.php'
+//        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
+//        $adminPath = $this->srcRoot . '/administrator/components/' . $this->extName;
+//        if (file_exists($adminPath . '/' . $installScript)) {
+//            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
+//        }
 
-        if (file_exists($srcRoot . "/" . 'index.html.xml')) {
-            $this->xcopyElement('index.html', $srcRoot, $tmpFolder);
-        }
 
-        if (file_exists($srcRoot . "/" . 'changelog.xml')) {
-            $this->xcopyElement('changelog.xml', $srcRoot, $tmpFolder);
-        }
+        // Not needed, the license is defined in manifest or may be inside component base path
+        //$this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
 
-        //--- extras -------------------------------------------------
+        //--- remove package for rsgallery2 ---------------------------------------------
 
         // remove prepared pkg_rsgallery2.xml.tmp
         $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
@@ -602,18 +607,41 @@ class buildExtension extends baseExecuteTasks
             $srcPath = $srcRoot . '/' . $name;
             $dstPath = $dstRoot . '/' . $name;
 
-            if (is_dir($srcPath)) {
-                mkdir($dstPath);
-                xcopyDir($srcPath, $dstPath);
+            //--- check path ------------------------------------------
+
+            $srcPathTest = realpath ($srcPath);
+            if (empty ($srcPathTest)) {
+                print ("%%% Warning: Path/file to copy could not be found: " . $srcPath . "\r\n");
             } else {
-                if (is_file($srcPath)) {
-                    copy($srcPath, $dstPath);
+
+                //--- create path ------------------------------------------
+
+                $baseDir = dirname($dstPath);
+                if (!is_dir($baseDir)) {
+                    mkdir($baseDir, 0777, true);
+                };
+
+//                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcRoot . '/' . $name);
+//
+//                // str_replace('/', '\\', __FILE__);
+//                // str_replace('\\', '/', __FILE__);
+//                //$dstPath = realpath ($dstRoot . '/' . $name);
+//                $dstPath = str_replace('/', DIRECTORY_SEPARATOR, $dstRoot . '/' . $name);
+
+                if (is_dir($srcPath)) {
+                    mkdir($dstPath);
+                    xcopyDir($srcPath, $dstPath);
                 } else {
+                    if (is_file($srcPath)) {
+                        copy($srcPath, $dstPath);
+                    } else {
 
-                    print ("%%% warning path / file could not be copied: " . $srcPath . "\r\n");
+                        print ("%%% Warning: Path/file could not be copied: " . $srcPath . "\r\n");
 
+                    }
                 }
             }
+
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;

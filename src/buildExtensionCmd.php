@@ -78,16 +78,18 @@ $tasksLine="";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
+// d:\Entwickl\2025\_gitHub\
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
-$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk';
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-// $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
-$taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
+//$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+// $taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
 // $taskFile = './build_tsk/build_test.tsk';
+$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

@@ -439,7 +439,6 @@ class manifestFile extends baseExecuteTasks
 
             $isChanged = $this->assignActCopyrightYear( $actYear);
 
-
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
@@ -518,17 +517,32 @@ class manifestFile extends baseExecuteTasks
 
     public function updateCreationDate () : bool
     {
-        $isChanged = true;
+        $isChanged = false;
 
-        // $date = "20240824";
-        $date_format = 'Y.m.d';
-        $actDate = date($date_format);
+        try {
+            $manifestXml = $this->manifestXml;
 
-        //$this->manifestXml->setByXml('creationDate', $actDate);
-        $this->creationDate = $actDate;
+            //--- actual date -----------------------------
 
-//        $this->copyright->setActCopyright2Today();
+            // $date = "2024.08.24";
+            $date_format = 'Y.m.d';
+            $actDate = date($date_format);
 
+            //--- manifest creation date -----------------------------------
+
+            $oldDate = $this->creationDate;
+
+            if ($oldDate != $actDate) {
+
+                $this->creationDate = $actDate;
+
+                $isChanged = true;
+            }
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
+        }
         return $isChanged;
     }
 
@@ -964,11 +978,17 @@ class manifestFile extends baseExecuteTasks
     {
        $actValue =  $this->manifestXml->getByXml($name, '');
 
-       if ($actValue != $value) {
-           $this->manifestXml->setByXml($name, $value);
+        if ($actValue == '') {
+            print ("%%% Error: Can't update ' . $name . ': It doss not exist in manifest" . "\r\n");
+        } else {
 
-           $this->isChanged = true;
-       }
+
+            if ($actValue != $value) {
+                $this->manifestXml->setByXml($name, $value);
+
+                $this->isChanged = true;
+            }
+        }
 
        return $value;
     }

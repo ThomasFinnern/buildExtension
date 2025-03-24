@@ -253,8 +253,7 @@ class filesByManifest extends baseExecuteTasks
                         break;
 
                     default:
-                        echo (string)$name;
-                        echo (string)$item;
+                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder element found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
                         break;
                 }
             }

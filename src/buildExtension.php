@@ -621,7 +621,7 @@ class buildExtension extends baseExecuteTasks
                     mkdir($baseDir, 0777, true);
                 };
 
-//                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcRoot . '/' . $name);
+//                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcR    oot . '/' . $name);
 //
 //                // str_replace('/', '\\', __FILE__);
 //                // str_replace('\\', '/', __FILE__);
@@ -629,7 +629,9 @@ class buildExtension extends baseExecuteTasks
 //                $dstPath = str_replace('/', DIRECTORY_SEPARATOR, $dstRoot . '/' . $name);
 
                 if (is_dir($srcPath)) {
-                    mkdir($dstPath);
+                    if (! is_dir($dstPath)) {
+                        mkdir($dstPath);
+                    }
                     xcopyDir($srcPath, $dstPath);
                 } else {
                     if (is_file($srcPath)) {

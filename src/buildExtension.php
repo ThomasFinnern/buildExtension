@@ -118,7 +118,7 @@ class buildExtension extends baseExecuteTasks
 //            if (!$isBaseOption && !$isVersionOption) {
             if (!$isBaseOption && !$isManifestOption) {
 
-                $this->assignBuildExtensionOption($option, $task->name);
+                $this->assignBuildExtensionOption($option);
                 // $OutTxt .= $task->text() . "\r\n";
             }
         }
@@ -248,7 +248,7 @@ class buildExtension extends baseExecuteTasks
         return $this->componentType;
     }
 
-    private function buildComponent(): void
+    private function buildComponent(): string
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -268,7 +268,7 @@ class buildExtension extends baseExecuteTasks
         if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
 
             print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
-            return;
+            return '';
         }
 
         //--- update admin manifest xml file --------------------------------------
@@ -403,6 +403,8 @@ class buildExtension extends baseExecuteTasks
         if (is_dir($tmpFolder)) {
             delDir($tmpFolder);
         }
+
+        return $zipFileName;
     }
 
 
@@ -450,6 +452,7 @@ class buildExtension extends baseExecuteTasks
 
             if (str_starts_with($extName, 'mod_')) {
                 // $extName = substr($extName, 4);
+                $extName = $this->extName;
             } else {
 
                 if (str_starts_with($extName, 'plg_')) {
@@ -480,11 +483,13 @@ class buildExtension extends baseExecuteTasks
             if (str_starts_with($name, 'mod_')) {
                 // $idx = strpos($name, '_', strlen('mod_')) + 1;
                 // $name = 'mod_' . substr($name, $idx);
+                $name = $this->extName;
             } else {
 
                 if (str_starts_with($name, 'plg_')) {
                     // $idx = strpos($name, '_', strlen('plg_')) + 1;
                     // $name = 'plg_' . substr($name, $idx);
+                    $name = $this->extName;
                 }
             }
         }
@@ -619,7 +624,7 @@ class buildExtension extends baseExecuteTasks
                 $baseDir = dirname($dstPath);
                 if (!is_dir($baseDir)) {
                     mkdir($baseDir, 0777, true);
-                };
+                }
 
 //                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcR    oot . '/' . $name);
 //
@@ -669,7 +674,7 @@ class buildExtension extends baseExecuteTasks
         return $ZipName;
     }
 
-    private function buildModule()
+    private function buildModule() : string
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -685,8 +690,8 @@ class buildExtension extends baseExecuteTasks
 
         if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
 
-            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
-            return;
+            print('exit buildModule: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            return '';
         }
 
         //--------------------------------------------------------------------
@@ -812,9 +817,10 @@ class buildExtension extends baseExecuteTasks
             delDir($tmpFolder);
         }
 
+        return $zipFileName;
     }
 
-    private function buildPlugin()
+    private function buildPlugin() : string
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -833,8 +839,8 @@ class buildExtension extends baseExecuteTasks
 
         if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
 
-            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
-            return;
+            print('exit buildPlugin: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            return '';
         }
 
         //--------------------------------------------------------------------
@@ -960,6 +966,8 @@ class buildExtension extends baseExecuteTasks
         if (is_dir($tmpFolder)) {
             delDir($tmpFolder);
         }
+
+        return $zipFileName;
     }
 
     private function buildPackage()
@@ -1026,7 +1034,8 @@ class buildExtension extends baseExecuteTasks
         return $componentVersion;
     }
 
-    private function detectCompTypeFromFile(string $manifestPathFileName) {
+    private function detectCompTypeFromFile(string $manifestPathFileName) : string
+    {
 
         $componentType = 'component';
 
@@ -1107,7 +1116,7 @@ function xcopyDir($src, $dest)
         if (!is_readable($src . '/' . $file)) {
             continue;
         }
-        if (is_dir($src . '/' . $file) && ($file != '.') && ($file != '..')) {
+        if (is_dir($src . '/' . $file)) {
             mkdir($dest . '/' . $file);
             xcopyDir($src . '/' . $file, $dest . '/' . $file);
         } else {
@@ -1187,16 +1196,16 @@ function zipItRelative($rootPath, $zipFilename)
     $zip->close();
 }
 
-function join_paths()
-{
-    $paths = [];
-
-    foreach (func_get_args() as $arg) {
-        if ($arg !== '') {
-            $paths[] = $arg;
-        }
-    }
-
-    return preg_replace('#/+#', '/', join('/', $paths));
-}
+//function join_paths()
+//{
+//    $paths = [];
+//
+//    foreach (func_get_args() as $arg) {
+//        if ($arg !== '') {
+//            $paths[] = $arg;
+//        }
+//    }
+//
+//    return preg_replace('#/+#', '/', join('/', $paths));
+//}
 

@@ -979,7 +979,7 @@ class manifestFile extends baseExecuteTasks
        $actValue =  $this->manifestXml->getByXml($name, '');
 
         if ($actValue == '') {
-            print ("%%% Error: Can't update ' . $name . ': It doss not exist in manifest" . "\r\n");
+            print ("%%% Error: Can't update ' . $name . ': It does not exist in manifest file" . "\r\n");
         } else {
 
 

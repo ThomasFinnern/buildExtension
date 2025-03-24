@@ -115,7 +115,6 @@ class filesByManifest extends baseExecuteTasks
 
     //--- manifest variables ---------------------------------------
 
-
     public array $files;
     public array $folders;
 
@@ -237,7 +236,6 @@ class filesByManifest extends baseExecuteTasks
 
             $baseFolder = (string) $xmlPath['folder'];
 
-
             foreach($xmlPath->children() as $name => $item)
             {
 //                echo (string)$name;
@@ -253,13 +251,38 @@ class filesByManifest extends baseExecuteTasks
                         break;
 
                     default:
-                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder element found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
+                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder" element found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
+                        break;
+                }
+            }
+        }
+    }
+
+    private function extractLanguageFilesFromSection(SimpleXMLElement $xmlPath)
+    {
+        if (isset($xmlPath)) {
+
+            $baseFolder = (string) $xmlPath['folder'];
+
+            foreach($xmlPath->children() as $name => $item)
+            {
+//                echo (string)$name;
+//                echo (string)$item;
+
+                switch (strtolower($name)) {
+                    case 'language':
+                        $this->files [] = $baseFolder . '/' . (string)$item;
+                        break;
+
+                    default:
+                        print ('%%% extractLanguageFilesFromSection: "language" element not found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
                         break;
                 }
             }
 
         }
     }
+
 
     public function executeFile(string $filePathName): int
     {
@@ -318,7 +341,9 @@ class filesByManifest extends baseExecuteTasks
             //--- language -------------------------------------------
 
             // is included by folder in sie/administration section
-
+            if (isset($this->manifestXml->languages)) {
+                $this->extractLanguageFilesFromSection($this->manifestXml->languages);
+            }
 
             $test = 'debug dummy';
 

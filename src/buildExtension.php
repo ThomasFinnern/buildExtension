@@ -325,14 +325,8 @@ class buildExtension extends baseExecuteTasks
 
         $filesByManifest = new filesByManifest();
 
-//        //--- read manifestXml ---------------------------------
-//
-//        $oManifestXml = new manifestXml();
-//        $oManifestXml->readManifestXml($manifestPathFileName);
-
         //--- insert manifestXml ---------------------------------
 
-//        $filesByManifest->manifestXml = $oManifestXml->manifestXml;
         $filesByManifest->manifestXml = $this->manifestFile->manifestXml->manifestXml;
 
         $filesByManifest->collectFilesAndFolders();
@@ -357,7 +351,7 @@ class buildExtension extends baseExecuteTasks
 
         //--- root files -------------------------------------------------
 
-        //  manifest file
+        //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
 
 //        // install script like 'install_rsg2.php'
@@ -739,11 +733,6 @@ class buildExtension extends baseExecuteTasks
 
         $filesByManifest = new filesByManifest();
 
-//        //--- read manifestXml ---------------------------------
-//
-//        $oManifestXml = new manifestXml();
-//        $oManifestXml->readManifestXml($manifestPathFileName);
-
         //--- insert manifestXml ---------------------------------
 
 //        $filesByManifest->manifestXml = $oManifestXml->manifestXml;
@@ -771,8 +760,8 @@ class buildExtension extends baseExecuteTasks
 
         //--- root files -------------------------------------------------
 
-//        //  manifest file
-//        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        //  manifest file (not included as 'fileName' in manifest file)
+        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -888,14 +877,8 @@ class buildExtension extends baseExecuteTasks
 
         $filesByManifest = new filesByManifest();
 
-//        //--- read manifestXml ---------------------------------
-//
-//        $oManifestXml = new manifestXml();
-//        $oManifestXml->readManifestXml($manifestPathFileName);
-
         //--- insert manifestXml ---------------------------------
 
-//        $filesByManifest->manifestXml = $oManifestXml->manifestXml;
         $filesByManifest->manifestXml = $this->manifestFile->manifestXml->manifestXml;
 
         $filesByManifest->collectFilesAndFolders();
@@ -920,7 +903,7 @@ class buildExtension extends baseExecuteTasks
 
         //--- root files -------------------------------------------------
 
-        //  manifest file
+        //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
 
 //        // install script like 'install_rsg2.php'

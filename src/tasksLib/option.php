@@ -2,11 +2,11 @@
 
 namespace Finnern\BuildExtension\src\tasksLib;
 
+use Exception;
+
 /*================================================================================
 Class option
 ================================================================================*/
-
-use Exception;
 
 class option
 {
@@ -94,6 +94,7 @@ class option
     {
         $this->name = '';
         $this->value = '';
+        $this->quotation = '';
     }
 
     /*
@@ -128,12 +129,6 @@ class option
         } else {
             $OutTxt .= "value: " . "'" . $this->quotation . $this->value . $this->quotation . "'" . "\r\n";
         }
-
-        /**
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
-         * /**/
 
         return $OutTxt;
     }

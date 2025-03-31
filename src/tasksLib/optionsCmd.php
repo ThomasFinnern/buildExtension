@@ -90,7 +90,7 @@ $oOptions = new options();
 $oOptionsResult = $oOptions->extractOptionsFromString($optionsLine);
 
 print ($oOptions->text() . "\r\n");
-print ("Resulting line: '" . $oOptionsResult->text4Line() . "'" . "\r\n");
+print ("Resulting line: '" . $oOptionsResult . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 

@@ -9,7 +9,7 @@ use Finnern\BuildExtension\src\tasksLib\option;
 
 $HELP_MSG = <<<EOT
     >>>
-    option class
+    optionsCmd supports test of option class by option string
 
     <<<
     EOT;
@@ -89,7 +89,7 @@ $oOption = new option();
 $oOptionResult = $oOption->extractOptionFromString($optionLine);
 
 print ($oOption->text() . "\r\n");
-print ("Resulting line: '" . $oOptionResult->text4Line() . "'" . "\r\n");
+print ("Resulting line: '" . $oOptionResult . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 

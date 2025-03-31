@@ -88,6 +88,7 @@ $oOption = new option();
 
 $oOptionResult = $oOption->extractOptionFromString($optionLine);
 
+print ("optionLine: '" . $optionLine . "'" . "\r\n");
 print ($oOption->text() . "\r\n");
 print ("Resulting line: '" . $oOptionResult . "'" . "\r\n");
 

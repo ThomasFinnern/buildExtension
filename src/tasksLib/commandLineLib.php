@@ -3,10 +3,12 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use DateTime;
+use Exception;
 
 
 class commandLineLib
 {
+    // Extracts the elements of the command line like in python
 
 
     /*--------------------------------------------------------------------
@@ -15,22 +17,50 @@ class commandLineLib
 
     public static function print_header($options, $inArgs): DateTime
     {
-        global $argc, $argv;
-
         $start = new DateTime();
 
         print('------------------------------------------' . "\r\n");
         print ('Command line: ');
 
-        for ($i = 1; $i < $argc; $i++) {
-            echo ($argv[$i]) . " ";
+        // caller
+        if (count($inArgs) > 0) {
+            print ($inArgs[0] . "\r\n" . " ");
+        }
+
+        // option '/name '
+        for ($i = 1; $i < count($options); $i++) {
+            echo ($options[$i] . " ");
+        }
+
+        // attributes 'name '
+        for ($i = 1; $i < count($inArgs); $i++) {
+            print ($inArgs[$i] . " ");
         }
 
         print('' . "\r\n");
+
         print('Start time:   ' . $start->format('Y-m-d H:i:s') . "\r\n");
         print('------------------------------------------' . "\r\n");
 
         return $start;
+    }
+
+    /*--------------------------------------------------------------------
+    print_inArgs
+    --------------------------------------------------------------------*/
+
+    // read arguments direct
+    public static function print_inArgs()
+    {
+        global $argc, $argv;
+
+        print('------------------------------------------' . "\r\n");
+        print ('Direct Command line: ');
+
+        for ($i = 1; $i < $argc; $i++) {
+            echo ($argv[$i]) . " ";
+        }
+        print('' . "\r\n");
     }
 
     /*--------------------------------------------------------------------
@@ -54,35 +84,42 @@ class commandLineLib
         $options = [];
         $inArgs = [];
 
-        //--- argv ---------------------------------
+        try {
 
-        if ($isPrintArguments) {
-            print ("--- argv ---" . "\r\n");
-            var_dump($argv);
-        }
+            //--- argv ---------------------------------
 
-        $inArgs = [];
-        foreach ($argv as $inArg) {
-            if (!str_starts_with($inArg, '-')) {
-                $inArgs[] = $inArg;
+            if ($isPrintArguments) {
+                print ("--- argv ---" . "\r\n");
+                var_dump($argv);
             }
-        }
-        if ($isPrintArguments) {
-            if (!empty ($inArgs)) {
-                print ("--- inArgs ---" . "\r\n");
-                var_dump($inArgs);
+
+            $inArgs = [];
+            foreach ($argv as $inArg) {
+                if (!str_starts_with($inArg, '-')) {
+                    $inArgs[] = $inArg;
+                }
             }
-        }
-
-        //--- extract options ---------------------------------
-
-        $options = getopt($optDefinition, []);
-
-        if ($isPrintArguments) {
-            if (!empty ($inArgs)) {
-                print ("--- in options ---" . "\r\n");
-                var_dump($options);
+            if ($isPrintArguments) {
+                if (!empty ($inArgs)) {
+                    print ("--- inArgs ---" . "\r\n");
+                    var_dump($inArgs);
+                }
             }
+
+            //--- extract options ---------------------------------
+
+            $options = getopt($optDefinition, []);
+
+            if ($isPrintArguments) {
+                if (!empty ($inArgs)) {
+                    print ("--- in options ---" . "\r\n");
+                    var_dump($options);
+                }
+            }
+
+        } catch (Exception $e) {
+            echo 'Message: ' . $e->getMessage() . "\r\n";
+            $hasError = -101;
         }
 
         return [$inArgs, $options];

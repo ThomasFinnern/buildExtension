@@ -283,6 +283,25 @@ class filesByManifest extends baseExecuteTasks
         }
     }
 
+    private function extractScriptFile(SimpleXMLElement $xmlPath) :void
+    {
+        if (isset($xmlPath)) {
+
+            $baseFolder = (string) $xmlPath['folder'];
+
+            $scriptName = (string) $xmlPath;
+
+//            if (empty($baseFolder) {
+//                $this->files [] = $scriptName;
+//            } else {
+//                $this->files [] = $baseFolder . '/' . $scriptName;
+//            }
+            // script file expected on root
+            $this->files [] = $scriptName;
+
+        }
+    }
+
 
     public function executeFile(string $filePathName): int
     {
@@ -301,6 +320,12 @@ class filesByManifest extends baseExecuteTasks
         // Manifest file must be loaded
         if (!empty ($this->manifestXml)) {
 
+            //--- script file -------------------------------------------
+
+            // element<scriptfile>install_rsg2.php</scriptfile>
+            if (isset($this->manifestXml->scriptfile)) {
+                $this->extractScriptFile($this->manifestXml->scriptfile);
+            }
 
             //--- default files -------------------------------------------
 
@@ -346,7 +371,6 @@ class filesByManifest extends baseExecuteTasks
             }
 
             $test = 'debug dummy';
-
         }
     }
 

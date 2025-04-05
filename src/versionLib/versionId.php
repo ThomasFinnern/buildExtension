@@ -90,7 +90,10 @@ class versionId {
 
     public static function numbers_2_id ($major=0, $minor=0, $patch=0, $build=0) : string
     {
-        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch) . '.' . strval($build);
+        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch);
+        if ($build != 0) {
+            $versionId .=  '.' . strval($build);
+        }
 
         return $versionId;
     }

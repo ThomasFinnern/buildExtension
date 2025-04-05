@@ -82,11 +82,11 @@ $tasksLine="";
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
-$taskFile = '../../LangMan4DevProject/.buildPHP/build_plugin_webservices.tsk';
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build_plugin_webservices.tsk';
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-//$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
 // $taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
 // $taskFile = './build_tsk/build_test.tsk';
 //$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';

@@ -50,7 +50,7 @@ class options
         return (count($this->options));
     }
 
-    public function getOption(string $name, bool $isIgnoreCase = false): string
+    public function getOption(string $name = '', bool $isIgnoreCase = false): string
     {
         $value = '';
 

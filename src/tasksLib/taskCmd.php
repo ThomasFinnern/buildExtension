@@ -33,8 +33,8 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$taskLine = 'Task::task1';
-$taskLine = 'Task::task1 /option1 ';
+// $taskLine = 'Task::task1';
+// $taskLine = 'Task::task1 /option1 ';
 //$taskLine = 'Task::task1 /option2=Option';
 //$taskLine = 'Task::task1 /option3="01_Xteststring"';
 $taskLine = 'Task::task1 /option1 /option2=Option /option3="01_Xteststring"';
@@ -97,7 +97,7 @@ $oTask = new task();
 $oTaskResult = $oTask->extractTaskFromString($taskLine);
 
 /*--------------------------------------------------
-   tell task result
+   tell task definition
 --------------------------------------------------*/
 
 print (">>>result 01" . "\r\n");
@@ -107,7 +107,6 @@ print ("Line: '" . $oTaskResult . "'" . "\r\n");
 /*--------------------------------------------------
    extract options from file(s)
 --------------------------------------------------*/
-
 
 if ( ! empty($optionFiles) ) {
     foreach ($optionFiles as $optionFile) {

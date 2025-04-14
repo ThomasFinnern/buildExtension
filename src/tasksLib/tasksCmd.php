@@ -34,10 +34,10 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-//$tasksLine = '/option1 $optionLine = /option2=Option /option3="01_Xteststring"';
+//$tasksLine = '/option1 $optionLine = /option2=Option /option3="01 test space string"';
 $tasksLine = "task:task00 "
-    . 'task:task01 /option1 /option2=xxx /option3="01_Xteststring" '
-    . 'task:task02 /optionX /option2=Y /optionZ="02_Zteststring" ';
+    . 'task:task01 /option1 /option2=xxx /option3="01 test space string" '
+    . 'task:task02 /optionX /option2=Y /optionZ="02_Ztest string" ';
 //$tasksLine = "task:clean4git";
 //$tasksLine = "task:clean4release";
 

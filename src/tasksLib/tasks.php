@@ -153,7 +153,7 @@ class tasks
 
         try {
             //        $tasks = "task:task00"
-            //            . 'task:task01 /option1 /option2=xxx /option3="01teststring"'
+            //            . 'task:task01 /option1 /option2=xxx /option3="01 test space string"'
             //            . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"';
             $tasksLine = Trim($inTasksLine);
 
@@ -201,7 +201,7 @@ class tasks
         $tasksLine = Trim($tasksLine);
         $checkPart = strtolower(substr($tasksLine, 0, 5));
 
-        // /option1 /option2=xxx /option3="01teststring"
+        // /option1 /option2=xxx /option3="01 test space string"
         if ($checkPart == 'task:') {
             $isTask = true;
         }

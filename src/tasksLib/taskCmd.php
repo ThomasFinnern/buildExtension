@@ -36,8 +36,8 @@ variables
 // $taskLine = 'Task::task1';
 // $taskLine = 'Task::task1 /option1 ';
 //$taskLine = 'Task::task1 /option2=Option';
-//$taskLine = 'Task::task1 /option3="01_Xteststring"';
-$taskLine = 'Task::task1 /option1 /option2=Option /option3="01_Xteststring"';
+//$taskLine = 'Task::task1 /option3="01 test space string"';
+$taskLine = 'Task::task1 /option1 /option2=Option /option3="01 test space string"';
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 $optionFiles [] = 'xTestOptionFile.opt';

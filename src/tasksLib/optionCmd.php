@@ -35,8 +35,7 @@ variables
 
 //$optionLine = '/option1';
 $optionLine = '/option2=02_Option';
-//$optionLine = '/option3="01_X_test_string"';
-
+//$optionLine = '/option3="01 test space string"';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");

@@ -84,7 +84,7 @@ class task // extends options
                 // remove 'task:' from line, trim space after 'task: taskname'
                 $taskString = trim(substr($taskStringTrimmed, 5));
 
-                // 'task01name /option1 /option2=xxx /option3="01teststring"'
+                // 'task01name /option1 /option2=xxx /option3="01 test space string"'
                 $idx = strpos($taskString, " ");
 
                 // name without options

@@ -69,7 +69,7 @@ foreach ($options as $idx => $option) {
 
     switch ($idx) {
         case 't':
-            $srcFile = $option;
+            $taskFile = $option;
             break;
 
         case "h":

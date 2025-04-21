@@ -19,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:h12345";
+$optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -59,9 +59,12 @@ $tasksLine = "task:task00 "
 //$tasksLine = "task: ";
 //$tasksLine = "task: ";
 
-
-$taskFile = "";
+$tasksFile = "";
 // $taskFile="./taskFile.cmd";
+
+$optionFile = '';
+//$optionFile = 'xTestOptionFile.opt';
+//$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -69,7 +72,14 @@ foreach ($options as $idx => $option) {
 
     switch ($idx) {
         case 't':
-            $taskFile = $option;
+            $tasksLine = $option;
+            break;
+        case 'f':
+            $tasksFile = $option;
+            break;
+
+        case 'o':
+            $optionFiles[] = $option;
             break;
 
         case "h":
@@ -115,13 +125,12 @@ $oTasks = new tasks();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
-    $oTasksResult = $oTasks->extractTasksFromFile($taskFile);
+if ( ! empty ($tasksFile)) {
+    $oTasksResult = $oTasks->extractTasksFromFile($tasksFile);
 } else {
 
     if ( ! empty ($tasksLine)) {
         $oTasksResult = $oTasks->extractTasksFromString($tasksLine);
-    
     }
 }
 

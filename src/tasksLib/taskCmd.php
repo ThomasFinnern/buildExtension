@@ -18,7 +18,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:o:h12345";
+$optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -38,9 +38,10 @@ variables
 //$taskLine = 'Task::task1 /option2=Option';
 //$taskLine = 'Task::task1 /option3="01 test space string"';
 $taskLine = 'Task::task1 /option1 /option2=Option /option3="01 test space string"';
-//$optionFile = '';
+
+$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -49,6 +50,9 @@ foreach ($options as $idx => $option) {
     switch ($idx) {
         case 't':
             $taskLine = $option;
+            break;
+        case 'f':
+            $taskFile = $option;
             break;
 
         case 'o':

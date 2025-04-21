@@ -115,7 +115,7 @@ class tasks
                 //--- useful line -------------------------------------------
 
                 // start of task line set
-                if (isTaskStart($line)) {
+                if ($this->isTaskStart($line)) {
                     // create task and assign lines
                     $actTask = new task();
                     $actTask->extractTaskFromLines($taskLines);
@@ -144,6 +144,21 @@ class tasks
             $hasError = -101;
         }
 
+    }
+
+    private function isTaskStart(string $tasksLine)
+    {
+        $isTask = false;
+
+        $tasksLine = Trim($tasksLine);
+        $checkPart = strtolower(substr($tasksLine, 0, 5));
+
+        // /option1 /option2=xxx /option3="01teststring"
+        if ($checkPart == 'task:') {
+            $isTask = true;
+        }
+
+        return $isTask;
     }
 
 

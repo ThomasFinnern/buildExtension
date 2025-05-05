@@ -62,6 +62,8 @@ class buildExtension extends baseExecuteTasks
 
     private string $componentVersion = '';
 
+    private bool $isCollectPluginsModule = false;
+
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
@@ -169,6 +171,12 @@ class buildExtension extends baseExecuteTasks
             case 'type':
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->componentType = $option->value;
+                $isBuildExtensionOption  = true;
+                break;
+
+            case 'isCollectPluginsModule':
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                $this->isCollectPluginsModule = boolval($option->value);
                 $isBuildExtensionOption  = true;
                 break;
 

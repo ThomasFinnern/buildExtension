@@ -312,7 +312,7 @@ class filesByManifest extends baseExecuteTasks
     /**
      * @return void
      */
-    public function collectFilesAndFolders(): void
+    public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
     {
         $this->files = [];
         $this->folders = [];
@@ -352,7 +352,6 @@ class filesByManifest extends baseExecuteTasks
                 $this->extractFilesFolderFromSection($this->manifestXml->media);
             }
 
-
             //--- api -------------------------------------------
 
             if (isset($this->manifestXml->api)) {
@@ -362,13 +361,34 @@ class filesByManifest extends baseExecuteTasks
                 }
             }
 
-
             //--- language -------------------------------------------
 
             // is included by folder in sie/administration section
             if (isset($this->manifestXml->languages)) {
                 $this->extractLanguageFilesFromSection($this->manifestXml->languages);
             }
+
+            // buildComponent requests the include of plugins and modules
+            if ($isCollectPluginsModule) {
+
+                //--- modules -------------------------------------------
+
+                if (isset($this->manifestXml->modules)) {
+
+                    $this->extractFilesFolderFromSection($this->manifestXml->modules);
+                }
+
+                //--- plugins -------------------------------------------
+
+                if (isset($this->manifestXml->plugins)) {
+
+                    $this->extractFilesFolderFromSection($this->manifestXml->plugins);
+                }
+
+
+            }
+
+
 
             $test = 'debug dummy';
         }

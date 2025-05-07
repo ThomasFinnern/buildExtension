@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src;
 
-
 use Exception;
 use Finnern\BuildExtension\src\fileManifestLib\filesByManifest;
 use RecursiveDirectoryIterator;
@@ -63,6 +62,7 @@ class buildExtension extends baseExecuteTasks
     private string $componentVersion = '';
 
     private bool $isCollectPluginsModule = false;
+    private bool $isDoNotUpdateCreationDate = false;
 
     /*--------------------------------------------------------------------
     construction
@@ -140,63 +140,58 @@ class buildExtension extends baseExecuteTasks
         $isBuildExtensionOption = false;
 
         switch (strtolower($option->name)) {
-            case 'builddir':
+            case strtolower('builddir'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->buildDir = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
             // com_rsgallery2'
-            case 'name':
+            case strtolower('name'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->extName = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
 //                    // component name like rsgallery2 (but see above)
-//                    case '':
+//                    case strtolower(''):
 //                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        $this->name = $option->value;
 //                    $isBuildExtensionOption  = true;
 //                        break;
 
             // extension (<element> name like RSGallery2
-            case 'element':
-            case 'extension':
+            case strtolower('element'):
+            case strtolower('extension'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->element = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
-            case 'type':
+            case strtolower('type'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->componentType = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
-            case 'isCollectPluginsModule':
+            case strtolower('isCollectPluginsModule'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isCollectPluginsModule = boolval($option->value);
                 $isBuildExtensionOption  = true;
                 break;
 
-//            case 'isincrementversion_build':
+            case strtolower('isDoNotUpdateCreationDate'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                $this->isDoNotUpdateCreationDate = boolval($option->value);
+                $isBuildExtensionOption  = true;
+                break;
+
+//            case strtolower('isincrementversion_build'):
 //                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                $this->isIncrementVersion_build = $option->value;
 //                $isBuildExtensionOption  = true;
 //                break;
 
-//                    case 'X':
-//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                        break;
-//
-//                    case 'Y':
-//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                        break;
-//
-//                    case 'Z':
-//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                        break;
 
             default:
                 print ('!!! error: required option is not supported: ' .  $option->name . ' !!!' . "\r\n");
@@ -219,20 +214,20 @@ class buildExtension extends baseExecuteTasks
             $componentType = $this->componentType();
 
             switch (strtolower($componentType)) {
-                case 'component':
+                case strtolower('component'):
                     $this->buildComponent();
 
                     break;
 
-                case 'module':
+                case strtolower('module'):
                     $this->buildModule();
                     break;
 
-                case 'plugin':
+                case strtolower('plugin'):
                     $this->buildPlugin();
                     break;
 
-                case 'package':
+                case strtolower('package'):
                     $this->buildPackage();
                     break;
 
@@ -337,7 +332,7 @@ class buildExtension extends baseExecuteTasks
 
         $filesByManifest->manifestXml = $this->manifestFile->manifestXml->manifestXml;
 
-        $filesByManifest->collectFilesAndFolders();
+        $filesByManifest->collectFilesAndFolders($this->isCollectPluginsModule);
 
         //--------------------------------------------------------------------
         // copy to temp
@@ -527,7 +522,9 @@ class buildExtension extends baseExecuteTasks
                 //--- set flags -----------------------------------------------
 
                 // $manifestFile->isUpdateCreationDate = false;
-                $manifestFile->isUpdateCreationDate = true;
+                if ( ! $this->isDoNotUpdateCreationDate) {
+                    $manifestFile->isUpdateCreationDate = true;
+                }
 
 //                if ($this->isIncrementVersion_build) {
 //                    // $manifestFile->versionId->isBuildRelease = false;

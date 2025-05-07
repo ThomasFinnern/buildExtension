@@ -170,6 +170,7 @@ class copyrightText {
         return rtrim($copyrightLine);
     }
 
+    // ToDo: just since may not exist
     public function formatCopyrightManifest($sinceCopyrightDate='', $actCopyrightDate=''): string
     {
         // ToDo: try, catch

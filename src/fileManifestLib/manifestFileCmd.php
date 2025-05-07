@@ -38,7 +38,9 @@ variables
 --------------------------------------------*/
 
 $tasksLine = ' task:ManifestFile'
-    . ' /manifestFile="./../../RSGallery2_J4/rsgallery2.xml"'
+//    . ' /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"'
+//    . ' /manifestFile="../../../LangMan4Dev/lang4dev.xml"'
+    . ' /manifestFile="./build_tsk/build_test.tsk"'
 //    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /componentname=rsgallery2'
 //    . ' /manifestFile'
@@ -57,13 +59,21 @@ $tasksLine = ' task:ManifestFile'
 //    fix will increase revision and reset build counter
 //    . ' /isBuildFix = true'
 //    release will increase minor and reset revision and build counter
-    . ' /isBuildRelease = true'
+//    . ' /isBuildRelease = true'
 //    . ' /isBuildFix = true'
 ;
 
+$tasksLine = '';
+//$taskFile = "manifestFileUpdate.tsk";
+$taskFile = "./build_tsk/build_test.tsk";
+
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = '..\options_version_tsk\build_develop.opt';
+//$optionFiles [] = '..\options_version_tsk\build_step.opt';
+//$optionFiles [] = '..\options_version_tsk\build_fix.opt';
+//$optionFiles [] = '..\options_version_tsk\build_release.opt';
+//$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -147,47 +157,36 @@ print ($task->text());
 
 if (empty ($hasError)) {
 	
-	$oForceVersionId = new manifestFile();
+	$oManifestFile = new manifestFile();
 
 	//--- assign tasks ---------------------------------
 
-	$hasError = $oForceVersionId->assignTask($task);
+	$hasError = $oManifestFile->assignTask($task);
 	if ($hasError) {
 		print ("Error on function assignTask:" . $hasError);
 	}
 
 	//--- execute tasks ---------------------------------
 
-	//if (!$hasError) {
-	//    $hasError = $oForceVersionId->execute();
-	//    if ($hasError) {
-	//        print ("Error on function execute:" . $hasError);
-	//    }
-	//}
-	//
 	if (!$hasError) {
-		$hasError = ! $oForceVersionId->readFile();
-		if ($hasError) {
-			print ("Error on function readFile:" . $hasError);
-		}
-	}
-
-	if (!$hasError) {
-		$hasError = $oForceVersionId->execute();
+		$hasError = $oManifestFile->execute();
 		if ($hasError) {
 			print ("Error on function execute:" . $hasError);
 		}
 	}
 
-	if (!$hasError) {
-		$manifestPathFileName = $oForceVersionId->manifestPathFileName;
-		$outManifestPathFileName = $manifestPathFileName . '.bak';
+    print ($oManifestFile->text() . "\r\n");
 
-		$hasError = ! $oForceVersionId->writeFile($outManifestPathFileName);
-		if ($hasError) {
-			print ("Error on function writeFile:" . $hasError);
-		}
-	}
+//	if (!$hasError) {
+//		$manifestPathFileName = $oManifestFile->manifestPathFileName;
+//		$outManifestPathFileName = $manifestPathFileName . '.bak';
+//
+//		$hasError = ! $oManifestFile->writeFile($outManifestPathFileName);
+//		if ($hasError) {
+//			print ("Error on function writeFile:" . $hasError);
+//		}
+//	}
+
 }
 
 

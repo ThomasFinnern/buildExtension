@@ -115,7 +115,7 @@ class tasks
                 //--- useful line -------------------------------------------
 
                 // start of task line set
-                if (isTaskStart($line)) {
+                if ($this->isTaskStart($line)) {
                     // create task and assign lines
                     $actTask = new task();
                     $actTask->extractTaskFromLines($taskLines);
@@ -146,6 +146,21 @@ class tasks
 
     }
 
+    private function isTaskStart(string $tasksLine)
+    {
+        $isTask = false;
+
+        $tasksLine = Trim($tasksLine);
+        $checkPart = strtolower(substr($tasksLine, 0, 5));
+
+        // /option1 /option2=xxx /option3="01teststring"
+        if ($checkPart == 'task:') {
+            $isTask = true;
+        }
+
+        return $isTask;
+    }
+
 
     public function extractTasksFromString($inTasksLine = ""): tasks
     {
@@ -153,7 +168,7 @@ class tasks
 
         try {
             //        $tasks = "task:task00"
-            //            . 'task:task01 /option1 /option2=xxx /option3="01teststring"'
+            //            . 'task:task01 /option1 /option2=xxx /option3="01 test space string"'
             //            . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"';
             $tasksLine = Trim($inTasksLine);
 
@@ -201,7 +216,7 @@ class tasks
         $tasksLine = Trim($tasksLine);
         $checkPart = strtolower(substr($tasksLine, 0, 5));
 
-        // /option1 /option2=xxx /option3="01teststring"
+        // /option1 /option2=xxx /option3="01 test space string"
         if ($checkPart == 'task:') {
             $isTask = true;
         }

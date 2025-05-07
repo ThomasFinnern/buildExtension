@@ -90,7 +90,10 @@ class versionId {
 
     public static function numbers_2_id ($major=0, $minor=0, $patch=0, $build=0) : string
     {
-        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch) . '.' . strval($build);
+        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch);
+        if ($build != 0) {
+            $versionId .=  '.' . strval($build);
+        }
 
         return $versionId;
     }
@@ -105,6 +108,8 @@ class versionId {
 
 
     public function update() : string {
+
+        $isChanged = false;
 
         // force
         if ($this->isForceVersion) {
@@ -123,6 +128,7 @@ class versionId {
                 $build = 0;
                 $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
                 print ("isBuildFix (patch++): " . $this->outVersionId) . "\r\n";
+                $isChanged = true;
             }
             else
             {
@@ -133,6 +139,7 @@ class versionId {
                     $build = 0;
                     $this->outVersionId = self::numbers_2_id_release($major, $minor, $patch, $build);
                     print ("isBuildRelease (minor++): " . $this->outVersionId) . "\r\n";
+                    $isChanged = true;
                 }
                 else {
 
@@ -144,6 +151,7 @@ class versionId {
                     if ($this->isIncreaseBuild) {
                         $build ++;
                         print ("isIncreaseBuild (build++): " . $build . " ");
+                        $isChanged = true;
                     }
 
 					// 0.0.x.0 will be increased. Lower parts will be reset to zero 	
@@ -153,6 +161,7 @@ class versionId {
                         $patch ++;
                         $build = 0;
                         print ("isIncreasePatch (patch++): " . $patch . " ");
+                        $isChanged = true;
                     }
 					
 					
@@ -163,6 +172,7 @@ class versionId {
                         $patch = 0;
                         $build = 0;
                         print ("isIncreaseMinor (patch++): " . $minor . " ");
+                        $isChanged = true;
                     }
 
 					// x.0.0 will be increased. Lower parts will be reset to zero
@@ -173,13 +183,15 @@ class versionId {
                         $patch = 0;
                         $build = 0;
                         print ("isIncreaseMajor (major++): " . $major . " ");
+                        $isChanged = true;
                     }
 
                     $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
-                    print ("increased Version: " . $this->outVersionId) . "\r\n";
+                    if ($isChanged) {
+                        print ("increased Version: " . $this->outVersionId) . "\r\n";
+                    }
                 }
             }
-
         }
 
         return $this->outVersionId;
@@ -193,52 +205,48 @@ class versionId {
         switch (strtolower($option->name)) {
             //--- Version flags -------------------------------------------------------------
 
-            case 'forceversion':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('forceversion'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->forceVersionId = $option->value;
                 $this->isForceVersion = true;
                 $isVersionOption  = true;
                 break;
 
-            case 'isincreasemajor':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isincreasemajor'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseMajor = true;
                 $isVersionOption  = true;
                 break;
 
-            case 'isincreaseminor':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isincreaseminor'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseMinor = true;
                 $isVersionOption  = true;
                 break;
 
-            case 'isincreasepatch':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isincreasepatch'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreasePatch = true;
                 $isVersionOption  = true;
                 break;
 
-            case 'isincreasebuild':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isincreasebuild'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isIncreaseBuild = true;
                 $isVersionOption  = true;
                 break;
 
-            case 'isbuildrelease':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isbuildrelease'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isBuildRelease = $option->value;
                 $isVersionOption  = true;
                 break;
 
-            case 'isbuildfix':
-                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+            case strtolower('isbuildfix'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isBuildFix = $option->value;
                 $isVersionOption  = true;
                 break;
-
-//				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
 
         } // switch
 

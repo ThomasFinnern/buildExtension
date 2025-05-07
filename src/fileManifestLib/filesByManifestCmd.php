@@ -1,16 +1,15 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileHeaderLib;
+namespace Finnern\BuildExtension\src\fileManifestLib;
 
 require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
-
 $HELP_MSG = <<<EOT
     >>>
-    class forceCreationDate
+    class increaseVersionId
 
     ToDo: option commands , example
 
@@ -36,18 +35,19 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:forceCreationDate'
+$tasksLine = ' task:??'
     . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
     . ' /name=rsgallery2'
 //    . ' /extension=RSGallery2'
-//    . ' /date="22. Feb. 2022"'
-;
+//    . ' /isIncreaseMajor'
+//    . ' /isIncreaseMinor'
+//    . ' /isIncreasePatch'
+    . ' /isIncreaseBuild';
 
 // $taskFile = "";
-$taskFile="./forceCreationDate.tsk";
-$taskLine = "";
-
+$taskFile="./filesByManifest.tsk";
+$tasksLine = "";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -63,10 +63,11 @@ foreach ($options as $idx => $option) {
 
     switch ($idx) {
         case 't':
-            $taskLine = $option;
+            $tasksLine = $option;
             break;
 
         case 'f':
+            print ('->/f option: "' . $option . '"');
             $taskFile = $option;
             break;
 
@@ -139,25 +140,32 @@ print ($task->text());
 
 if (empty ($hasError)) {
 
-	$oforceCreationDate = new forceCreationDate();
+	$oFilesByManifest = new filesByManifest();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oforceCreationDate->assignTask($task);
+	$hasError = $oFilesByManifest->assignTask($task);
 	if ($hasError) {
 		print ("Error on function assignTask:" . $hasError);
 	}
-	
-	//--- execute tasks ---------------------------------
+
+    //--- insert manifestXml ---------------------------------
+
+    $oManifestXml = new manifestXml();
+    $oManifestXml->readManifestXml($oFilesByManifest->manifestPathFileName);
+
+    $oFilesByManifest->manifestXml = $oManifestXml->manifestXml;
+
+    //--- execute tasks ---------------------------------
 
 	if (!$hasError) {
-		$hasError = $oforceCreationDate->execute();
+		$hasError = $oFilesByManifest->execute();
 		if ($hasError) {
 			print ("Error on function execute:" . $hasError);
 		}
 	}
 	
-	// print ($oforceCreationDate->text() . "\r\n");
+	print ($oFilesByManifest->text() . "\r\n");
 }
 
 commandLineLib::print_end($start);

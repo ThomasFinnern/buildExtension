@@ -1,7 +1,7 @@
-//.build/
-.build/*.log
-.build/*.*.log
-.build/Translations/.idea/
+//.buildPHP/
+.buildPHP/*.log
+.buildPHP/*.*.log
+.buildPHP/Translations/.idea/
 
 .packages/
 .packages_zip/
@@ -9,6 +9,10 @@
 .test/BackupRestore/.idea/
 .test/RSG2_Backup/
 .test/.idea 
+
+# org and temp files
+**/*.org.*
+**/*.tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

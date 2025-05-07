@@ -1,5 +1,5 @@
 @ECHO OFF
-REM build_develop.bat
+REM increaseVersionId.bat
 REM options file can be selected 
 REM d:develop, s:step, f:fix, r:release, m:major
 CLS
@@ -45,20 +45,14 @@ if %1A==-mA (
 	set OptionFile=-o options_version_tsk\build_major.opt
 )
 
-if %1==-m (
-	set OptionFile=-o options_version_tsk\build_major.opt
-)
-
 
 ECHO ----------------------------------------------
 ECHO.
 
-pushd  ..\..\buildExtension\src
 ECHO Path: %cd% 
 
-echo --- "%ExePath%php.exe" buildExtensionCmd.php -f ../../LangMan4DevProject/.buildPHP/build.tsk %1 %OptionFile%
-"%ExePath%php.exe" buildExtensionCmd.php -f ../../LangMan4DevProject/.buildPHP/build.tsk %1 %OptionFile%
-popd
+echo --- "%ExePath%php.exe" ./increaseVersionIdCmd.php -f increaseVersionId.tsk %OptionFile%
+"%ExePath%php.exe" increaseVersionIdCmd.php -f increaseVersionId.tsk %OptionFile%
 
 GOTO :EOF
 
@@ -69,4 +63,3 @@ REM Adds given argument to the already known command arguments
     Set CmdArgs=%CmdArgs% %NextArg%
     ECHO  '%NextArg%'
 GOTO :EOF
-

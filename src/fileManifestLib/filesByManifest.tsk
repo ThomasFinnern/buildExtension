@@ -1,0 +1,10 @@
+task:filesByManifest
+// Option variables for writing into the manifest file must begin with “mani:”
+/manifestFile="../../../RSGallery2_J4/rsgallery2.xml"
+// /manifestFile="../../../LangMan4Dev/lang4dev.xml"
+// /srcRoot="../../../RSGallery2_J4"
+// /srcRoot="../../../LangMan4Dev"
+
+//
+//
+//

@@ -73,16 +73,8 @@ class clean4GitCheckin extends baseExecuteTasks
                 switch (strtolower($option->name)) {
 
 // ? separate class ?
-//				case 'cleanlines': // trim / no tabs
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
-
-//				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
-//
-//				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//				case strtolower('cleanlines'): // trim / no tabs
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
                     default:

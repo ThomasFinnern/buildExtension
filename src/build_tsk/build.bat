@@ -1,11 +1,11 @@
 @ECHO OFF
-REM build_develop.bat
+REM build.bat
 REM options file can be selected 
 REM d:develop, s:step, f:fix, r:release, m:major
 CLS
 
 REM Path for calling
-set ExePath=C:\Program Files\php82\
+set ExePath=e:\wamp64\bin\php\php8.4.5\
 REM ECHO ExePath: "%ExePath%"
 
 if exist "%ExePath%php.exe" (
@@ -44,11 +44,6 @@ if %1A==-rA (
 if %1A==-mA (
 	set OptionFile=-o options_version_tsk\build_major.opt
 )
-
-if %1==-m (
-	set OptionFile=-o options_version_tsk\build_major.opt
-)
-
 
 ECHO ----------------------------------------------
 ECHO.

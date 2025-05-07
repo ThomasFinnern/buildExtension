@@ -4,7 +4,7 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use function Finnern\BuildExtension\src\tasksLib\commandLineLib ;
+use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 use Finnern\BuildExtension\src\tasksLib\option;
 
 $HELP_MSG = <<<EOT
@@ -33,9 +33,9 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$optionsLine = '/option1 /option2=01_Option /option3="02_X test string"';
-//$optionsLine = '/option3B="02_X test string"';
-//$optionsLine = ' /option3="02_X test string" /option4="" /option5="05 OP " /option6="06_Xteststring"';
+$optionsLine = '/option1 /option2=01_Option /option3="02 test space string"';
+//$optionsLine = '/option3B="02 test space string"';
+//$optionsLine = ' /option3="02 test space string" /option4="" /option5="05 OP " /option6="06_Xteststring"';
 //$optionsLine = '/option4="" /option5="05 OP " /option6="06_Xteststring" ';
 //$optionsLine = '/option1 ';
 

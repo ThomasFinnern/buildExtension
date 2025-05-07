@@ -78,22 +78,11 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
             $isBaseOption = $this->assignBaseOption($option);
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
-                    case 'yeartext':
-                        print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+                    case strtolower('yeartext'):
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->yearText = $option->value;
                         break;
 
-//				case 'X':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
-//
-//				case 'Y':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
-//
-//				case 'Z':
-//					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//					break;
 
                     default:
                         print ('!!! error: required option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");

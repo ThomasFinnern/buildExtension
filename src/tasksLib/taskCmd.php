@@ -18,7 +18,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:o:h12345";
+$optDefinition = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -33,14 +33,15 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$taskLine = 'Task::task1';
-$taskLine = 'Task::task1 /option1 ';
+// $taskLine = 'Task::task1';
+// $taskLine = 'Task::task1 /option1 ';
 //$taskLine = 'Task::task1 /option2=Option';
-//$taskLine = 'Task::task1 /option3="01_Xteststring"';
-$taskLine = 'Task::task1 /option1 /option2=Option /option3="01_Xteststring"';
-//$optionFile = '';
+//$taskLine = 'Task::task1 /option3="01 test space string"';
+$taskLine = 'Task::task1 /option1 /option2=Option /option3="01 test space string"';
+
+$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -49,6 +50,9 @@ foreach ($options as $idx => $option) {
     switch ($idx) {
         case 't':
             $taskLine = $option;
+            break;
+        case 'f':
+            $taskFile = $option;
             break;
 
         case 'o':
@@ -97,7 +101,7 @@ $oTask = new task();
 $oTaskResult = $oTask->extractTaskFromString($taskLine);
 
 /*--------------------------------------------------
-   tell task result
+   tell task definition
 --------------------------------------------------*/
 
 print (">>>result 01" . "\r\n");
@@ -107,7 +111,6 @@ print ("Line: '" . $oTaskResult . "'" . "\r\n");
 /*--------------------------------------------------
    extract options from file(s)
 --------------------------------------------------*/
-
 
 if ( ! empty($optionFiles) ) {
     foreach ($optionFiles as $optionFile) {

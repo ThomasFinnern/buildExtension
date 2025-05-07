@@ -1,4 +1,5 @@
-task:options
+options:patch
+//task:options
 	// increase minor and reset revision and build counter
 	// /isBuildRelease=true
 	
@@ -20,4 +21,4 @@ task:options
 	// 0.0.0.x will be increased. 
 	// Use for developer steps when install with 
 	// different version ID is necessary
-	/isIncreaseBuild=true
+	// /isIncreaseBuild=true

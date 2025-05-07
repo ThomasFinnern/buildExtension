@@ -1,0 +1,12 @@
+task:increaseVersionId
+// /srcRoot="../../../RSGallery2_J4"
+/srcRoot="../../../LangMan4Dev"
+///isNoRecursion=true
+///name=rsgallery2
+/name=lang4dev
+///extension=RSGallery2
+///extension=Lang4Dev
+///isIncreaseMajor
+///isIncreaseMinor
+///isIncreasePatch
+///isIncreaseBuild;

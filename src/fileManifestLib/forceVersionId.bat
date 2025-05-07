@@ -1,6 +1,5 @@
 @ECHO OFF
-REM increaseVersionId_Develop.bat
-REM
+REM forceVersionId.bat
 CLS
 
 REM Path for calling
@@ -18,13 +17,21 @@ if exist "%ExePath%php.exe" (
 
 REM "C:\Program Files\php82\php.exe" --version
 "%ExePath%php.exe" --version
+
+ECHO ----------------------------------------------
 ECHO.
 
-REM echo.
-echo --- "%ExePath%php.exe" ./increaseVersionIdCmd.php -f increaseVersionId_Develop.tsk %1
-"%ExePath%php.exe" increaseVersionIdCmd.php -f increaseVersionId_Develop.tsk %1
 
-goto :EOF
+
+ECHO ----------------------------------------------
+ECHO.
+
+ECHO Path: %cd% 
+
+echo --- "%ExePath%php.exe" ./forceVersionIdCmd.php -f forceVersion.tsk %OptionFile%
+"%ExePath%php.exe" forceVersionIdCmdCmd.php -f forceVersion.tsk %OptionFile%
+
+GOTO :EOF
 
 REM ------------------------------------------
 REM Adds given argument to the already known command arguments

@@ -69,7 +69,7 @@ $tasksLine = ' task:buildExtension'
 ;
 $tasksLine="";
 
-// ToDo: option release date option releasefiledate
+// ToDo: option release date option release file date
 
 //$basePath = "..\\..\\RSGallery2_J4";
 //$basePath = "../../LangMan4DevProject";
@@ -78,19 +78,27 @@ $tasksLine="";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
 //$taskFile = "";
+// d:\Entwickl\2025\_gitHub\
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
-//$taskFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
-
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build_plugin_webservices.tsk';
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+// $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+// $taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
+// $taskFile = './build_tsk/build_test.tsk';
+//$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
+$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = '.\options_version_tsk\build_develop.opt';
+//$optionFiles [] = './options_version_tsk/build_step.opt';
+//$optionFiles [] = '.\options_version_tsk\build_fix.opt';
+//$optionFiles [] = '.\options_version_tsk\build_release.opt';
+//$optionFiles [] = '.\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -181,6 +189,8 @@ if (empty ($hasError)) {
 	$hasError = $oBuildExtension->assignTask($task);
     if ($hasError) {
         print ("Error on function assignTask:" . $hasError);
+    } else {
+        print ($oBuildExtension->text() . "\r\n");
     }
 
 	//--- execute tasks ---------------------------------

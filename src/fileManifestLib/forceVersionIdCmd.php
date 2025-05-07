@@ -36,16 +36,28 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
+//$tasksLine = ' task:forceVersionId'
+//    . ' /srcRoot="../../../RSGallery2_J4"'
+////    . ' /isNoRecursion=true'
+//    . ' /name=rsgallery2'
+////    . ' /extension=RSGallery2'
+//    . ' /version="5.0.12.4"';
+
 $tasksLine = ' task:forceVersionId'
-    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' /srcRoot="../../../LangMan4Dev"'
 //    . ' /isNoRecursion=true'
-    . ' /name=rsgallery2'
+//    . ' /name=rsgallery2'
+    . ' /name=lang4dev'
 //    . ' /extension=RSGallery2'
-    . ' /version="5.0.12.4"';
+    . ' /version="0.29.0.0"';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = 'xTestOptionFile.opt';
+//$optionFiles [] = '..\options_version_tsk\build_develop.opt';
+//$optionFiles [] = '..\options_version_tsk\build_step.opt';
+//$optionFiles [] = '..\options_version_tsk\build_fix.opt';
+//$optionFiles [] = '..\options_version_tsk\build_release.opt';
+//$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . "\r\n");
@@ -147,7 +159,7 @@ if (empty ($hasError)) {
 		}
 	}
 	
-	// print ($oBuildExtension->text() . "\r\n");
+	print ($oForceVersionId->text() . "\r\n");
 }
 
 commandLineLib::print_end($start);

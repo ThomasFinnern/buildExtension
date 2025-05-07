@@ -1,22 +1,24 @@
 task:ManifestFile
-/manifestFile="./../../RSGallery2_J4/rsgallery2.xml"
-    // /srcRoot="./../../RSGallery2_J4"
-    // /componentname=rsgallery2
-    // /manifestFile
-    // /forceVersion="5.0.12.4"
-    // /version=5.0.12.4
-    // /isForceVersion=false
-    // /isIncrementVersion_major=true
-    // /isIncrementVersion_minor=true
-    // /isIncrementVersion_revision=true
-    //    build release is like fix ? and clean up things
-    // /isBuildRelease=true
-    // /isBuildRelease=false
-    //    each creation of package will increase the build number
-    // /isIncrementVersion_build=false
-    // /isIncrementVersion_build=true
-    //    fix will increase revision and reset build counter
-    // /isBuildFix=true
-    //    release will increase minor and reset revision and build counter
-/isBuildRelease=true
-    // /isBuildFix=true
+// Option variables for writing into the manifest file must begin with “mani:”
+// /manifestFile="../../../RSGallery2_J4/rsgallery2.xml"
+/manifestFile="../../../LangMan4Dev/lang4dev.xml"
+// /srcRoot="../../../RSGallery2_J4"
+// /srcRoot="../../../LangMan4Dev"
+// /mani:name=rsgallery2
+// /mani:name=lang4dev
+// /mani:extension=RSGallery2
+// /mani:extension=Lang4Dev
+
+// /mani:actYear=2025
+// /mani:sinceYear=2022
+// /mani:authorEmail=spass@tomfinnern.de
+/mani:description=COM_LANG4DEV_XML_DESCRIPTION
+
+// ? /mani:forceVersion="5.0.12.4"
+// ? /mani:version=5.0.12.4
+// ? /mani:isForceVersion=false
+
+
+//
+//
+//

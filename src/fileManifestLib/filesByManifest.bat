@@ -1,5 +1,5 @@
 @ECHO OFF
-REM increaseVersionId_Major.bat
+REM build_release.bat
 REM
 CLS
 
@@ -21,8 +21,8 @@ REM "C:\Program Files\php82\php.exe" --version
 ECHO.
 
 REM echo.
-echo --- "%ExePath%php.exe" ./increaseVersionIdCmd.php -f increaseVersionId_Major.tsk %1
-"%ExePath%php.exe" increaseVersionIdCmd.php -f increaseVersionId_Major.tsk %1
+echo --- "%ExePath%php.exe" ./filesByManifestCmd.php -f filesByManifest.tsk %1
+"%ExePath%php.exe" ./filesByManifestCmd.php -f filesByManifest.tsk %1
 
 goto :EOF
 

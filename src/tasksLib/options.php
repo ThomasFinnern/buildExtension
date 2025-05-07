@@ -50,7 +50,7 @@ class options
         return (count($this->options));
     }
 
-    public function getOption(string $name, bool $isIgnoreCase = false): string
+    public function getOption(string $name = '', bool $isIgnoreCase = false): string
     {
         $value = '';
 
@@ -142,36 +142,38 @@ class options
             // multiple: /optionName or /optionName=value or /optionName="optionValue"
             while ($this->hasOptionChar($optionsString)) {
 
-                //--- extract next option -------------------------------
+                // --- scan end of option -------------------------------
 
                 // first find '=' then check for '"' .
                 $idxEqual = strpos($optionsString, "=");
-                $idxEnd = strpos($optionsString, " ");
+
+                # value found ?
+                if ($idxEqual) {
+
+                    $quotation = $optionsString[$idxEqual + 1];
+
+                    // check for '"'
+                    if (in_array($quotation, array('"', '\''))) {
+                        $idxEnd = strpos($optionsString, $quotation, $idxEqual + 2);
+                    } else {
+                        $idxEnd = strpos($optionsString, " ");
+                    }
+                }
+                else
+                {
+                    $idxEnd = strpos($optionsString, " ");
+                }
+
+                # --- extract first option from string -------------------------------
 
                 // last option in string
                 if ($idxEnd === false) {
+                    // this option string part
                     $singleOption = $optionsString;
 
                     // No more option parts
                     $optionsString = '';
                 } else {
-                    //--- separate next option in string ----------------------
-
-                    // Equal char found before end
-                    // -> has value part
-                    // -> check for end  '"'
-                    if ($idxEqual && $idxEqual < $idxEnd) {
-                        // check for '"' to adjust end index
-                        //$idxBracket = strpos($optionsString, '"');
-                        $idxBracket = $idxEqual + 1;
-
-                        // option value enclosed in brackets ?
-                        if ($optionsString[$idxBracket] == '"') {
-                            // If found, find second one
-                            $idxEnd = strpos($optionsString, '"', $idxBracket + 1);
-                        }
-                    }
-
                     // this option string part
                     $singleOption = substr($optionsString, 0, $idxEnd + 1);
 
@@ -202,12 +204,12 @@ class options
 
         $optionsString = Trim($inOptionsString);
 
-        // /option1 /option2=xxx /option3="01teststring"
+        // /option1 /option2=xxx /option3="01 test space string"
         if (str_starts_with($optionsString, '/')) {
             $isOption = true;
         }
 
-        // -option1 -option2=xxx -option3="01teststring"
+        // -option1 -option2=xxx -option3="01 test space string"
         if (str_starts_with($optionsString, '-')) {
             $isOption = true;
         }
@@ -242,7 +244,10 @@ class options
     public function text(): string
     {
         $OutTxt = "";
-        // $OutTxt .= "options" . "\r\n";
+        $OutTxt = "------------------------------------------" . "\r\n";
+        $OutTxt .= "--- options ---" . "\r\n";
+
+        $OutTxt .= "Options count: " . count($this->options) . "\r\n";
 
         foreach ($this->options as $option) {
             $OutTxt .= "   " . $option . "\r\n";

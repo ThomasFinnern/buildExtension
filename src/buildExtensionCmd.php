@@ -86,10 +86,11 @@ $tasksLine="";
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-$taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
+// $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
 // $taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
 // $taskFile = './build_tsk/build_test.tsk';
 //$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
+$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -188,6 +189,8 @@ if (empty ($hasError)) {
 	$hasError = $oBuildExtension->assignTask($task);
     if ($hasError) {
         print ("Error on function assignTask:" . $hasError);
+    } else {
+        print ($oBuildExtension->text() . "\r\n");
     }
 
 	//--- execute tasks ---------------------------------

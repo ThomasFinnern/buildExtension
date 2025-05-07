@@ -120,7 +120,7 @@ class doBuildTasks
                 switch (strtolower($textTask->name)) {
                     //--- let the task run -------------------------
 
-                    case 'execute':
+                    case strtolower('execute'):
                         print ('>>> Call execute task: "'
                             // . $this->actTask->name
                         . '"  >>>' . "\r\n");
@@ -143,7 +143,7 @@ class doBuildTasks
 
                     //--- assign files to task -----------------------
 
-                    case 'createfilenameslist':
+                    case strtolower('createfilenameslist'):
                         print ('Execute task: ' . $textTask->name . "\r\n");
 
                         $filenamesList = new fileNamesList ();
@@ -158,7 +158,7 @@ class doBuildTasks
 
                     //--- add more files to task -----------------------
 
-                    case 'add2filenameslist':
+                    case strtolower('add2filenameslist'):
                         print ('Execute task: ' . $textTask->name . "\r\n");
                         $filenamesList = new fileNamesList ();
                         $filenamesList->assignTask($textTask);
@@ -173,11 +173,11 @@ class doBuildTasks
                         $this->fileNamesList->addFilenames($filenamesList->fileNames);
                         break;
 
-                    case 'clearfilenameslist':
+                    case strtolower('clearfilenameslist'):
                         $this->fileNamesList = new fileNamesList();
                         break;
 
-                    case 'printfilenameslist':
+                    case strtolower('printfilenameslist'):
                         print ($this->fileNamesList->text_listFileNames());
 
                         // stop after print files to check the files
@@ -187,7 +187,7 @@ class doBuildTasks
 
                     //=== real task definitions =================================
 
-                    case 'buildextension':
+                    case strtolower('buildextension'):
                         $this->actTask = $this->createTask(new buildExtension (), $textTask);
 
                         // run task
@@ -195,62 +195,62 @@ class doBuildTasks
 
                         break;
 
-//                    case 'forceversionid':
+//                    case strtolower('forceversionid'):
 //                        $this->actTask = $this->createTask(new forceVersionId (), $textTask);
 //                        break;
 
-                    case 'forcecreationdate':
+                    case strtolower('forcecreationdate'):
                         $this->actTask = $this->createTask(new forceCreationDate (), $textTask);
                         break;
 
-//                    case 'increaseversionid':
+//                    case strtolower('increaseversionid'):
 //                        $this->actTask = $this->createTask(new increaseVersionId (), $textTask);
 //                        break;
 
-                    case 'clean4gitcheckin':
+                    case strtolower('clean4gitcheckin'):
                         $this->actTask = $this->createTask(new clean4GitCheckin (), $textTask);
                         break;
 
-                    case 'clean4release':
+                    case strtolower('clean4release'):
 //                        ToDo: $this->actTask = $this->createTask (new clean4release (), $textTask);
                         break;
 
 
                     //--- exchange header tasks --------------------------------------------------
 
-                    case 'exchangeall_licenselines':
+                    case strtolower('exchangeall_licenselines'):
                         $this->actTask = $this->createTask(new exchangeAll_licenseLines (), $textTask);
                         break;
 
-                    case 'exchangeall_actcopyrightyearlines':
+                    case strtolower('exchangeall_actcopyrightyearlines'):
                         $this->actTask = $this->createTask(new exchangeAll_actCopyrightYearLines (), $textTask);
                         break;
 
-                    case 'exchangeall_authorlines':
+                    case strtolower('exchangeall_authorlines'):
                         $this->actTask = $this->createTask(new exchangeAll_authorLines (), $textTask);
                         break;
 
-                    case 'exchangeall_linklines':
+                    case strtolower('exchangeall_linklines'):
                         $this->actTask = $this->createTask(new exchangeAll_linkLines (), $textTask);
                         break;
 
-                    case 'exchangeall_packages':
+                    case strtolower('exchangeall_packages'):
                         $this->actTask = $this->createTask(new exchangeAll_packages (), $textTask);
                         break;
 
-                    case 'exchangeall_sincecopyrightyear':
+                    case strtolower('exchangeall_sincecopyrightyear'):
                         $this->actTask = $this->createTask(new exchangeAll_sinceCopyrightYearLines (), $textTask);
                         break;
 
-                    case 'exchangeall_subpackagelines':
+                    case strtolower('exchangeall_subpackagelines'):
                         $this->actTask = $this->createTask(new exchangeAll_subPackageLines (), $textTask);
                         break;
 
-                    case 'exchangeall_headers':
+                    case strtolower('exchangeall_headers'):
                         $this->actTask = $this->createTask(new buildExtension (), $textTask);
                         break;
 
-                    case 'updateall_fileheaders':
+                    case strtolower('updateall_fileheaders'):
                         $this->actTask = $this->createTask(new updateAll_fileHeaders (), $textTask);
 
                         // run task
@@ -258,17 +258,6 @@ class doBuildTasks
 
                         break;
 
-//                    case 'X':
-//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);
-//                        break;
-//
-//                    case 'Y':
-//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);//                        break;
-//
-//                    case 'Z':
-//                        $this->actTask = $this->createTask (new buildExtension (), $textTask);
-//                        break;
-//
                     default:
                         print ('!!! Execute unknown task: "' . $textTask->name . '" !!!');
                         throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');

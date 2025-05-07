@@ -75,7 +75,7 @@ class exchangeAll_licenseLines extends baseExecuteTasks
             $isBaseOption = $this->assignBaseOption($option);
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
-                    case 'licensetext':
+                    case strtolower('licensetext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->licenseText = $option->value;
                         break;

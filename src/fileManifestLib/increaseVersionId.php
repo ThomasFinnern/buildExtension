@@ -78,7 +78,7 @@ class increaseVersionId extends baseExecuteTasks
 
             if (!$isBaseOption && !$isVersionOption) {
                 switch (strtolower($option->name)) {
-                    case 'name':
+                    case strtolower('name'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->name = $option->value;
                         break;

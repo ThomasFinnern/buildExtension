@@ -362,7 +362,7 @@ class fileHeaderByFileLine extends fileHeaderData
 //
 //            switch (strtolower($option->name)) {
 //
-//                case '???':
+//                case strtolower('???'):
 //                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                    $this->??? = $option->value;
 //                    break;
@@ -374,19 +374,19 @@ class fileHeaderByFileLine extends fileHeaderData
     {
         $task = $this->task;
         switch (strtolower($task->name)) {
-            case 'exchangepackage':
+            case strtolower('exchangepackage'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
 
                 break;
 
-            case 'exchangesubpackage':
+            case strtolower('exchangesubpackage'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
 
                 break;
 
-            case 'exchangelicense':
+            case strtolower('exchangelicense'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
                 $options = $task->options;
@@ -394,7 +394,7 @@ class fileHeaderByFileLine extends fileHeaderData
                 $this->exchangeLicense($fileName);
                 break;
 
-            case 'exchangeActCopyrightYear':
+            case strtolower('exchangeActCopyrightYear'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
                 $options = $task->options;
@@ -404,7 +404,7 @@ class fileHeaderByFileLine extends fileHeaderData
                 $this->exchangeActCopyrightYear($fileName, $copyrightDate);
                 break;
 
-            case 'exchangeSinceCopyrightYear':
+            case strtolower('exchangeSinceCopyrightYear'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
                 $options = $task->options;
@@ -415,7 +415,7 @@ class fileHeaderByFileLine extends fileHeaderData
                 $this->exchangeSinceCopyrightYear($fileName, $copyrightDate);
                 break;
 
-            case 'exchangeauthor':
+            case strtolower('exchangeauthor'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
                 $options = $task->options;
@@ -423,19 +423,7 @@ class fileHeaderByFileLine extends fileHeaderData
                 $this->exchangeAuthor($fileName);
                 break;
 
-            case 'exchangersglink':
-                print ('Execute task: ' . $task->name . "\r\n");
-
-
-                break;
-
-            case 'X':
-                print ('Execute task: ' . $task->name . "\r\n");
-
-
-                break;
-
-            case 'Y':
+            case strtolower('exchangersglink'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
 

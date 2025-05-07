@@ -242,11 +242,11 @@ class filesByManifest extends baseExecuteTasks
 //                echo (string)$item;
 
                 switch (strtolower($name)) {
-                    case 'filename':
+                    case strtolower('filename'):
                         $this->files [] = $baseFolder . '/' . (string)$item;
                         break;
 
-                    case 'folder':
+                    case strtolower('folder'):
                         $this->folders [] = $baseFolder . '/' . (string)$item;
                         break;
 
@@ -270,7 +270,7 @@ class filesByManifest extends baseExecuteTasks
 //                echo (string)$item;
 
                 switch (strtolower($name)) {
-                    case 'language':
+                    case strtolower('language'):
                         $this->files [] = $baseFolder . '/' . (string)$item;
                         break;
 

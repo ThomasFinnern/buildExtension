@@ -322,46 +322,35 @@ class fileNamesList extends baseExecuteTasks
 
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
-                    case 'includeext':
+                    case strtolower('includeext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         //$this->yearText = $option->value;
                         [$this->isIncludeExt, $this->includeExtList] =
                             $this->splitExtensionString($option->value);
                         break;
 
-                    case 'excludeext':
+                    case strtolower('excludeext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         //$this->yearText = $option->value;
                         [$this->isExcludeExt, $this->excludeExtList] =
                             $this->splitExtensionString($option->value);
                         break;
 
-                    case 'isnorecursion':
+                    case strtolower('isnorecursion'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->isNoRecursion = boolval($option->value);
                         break;
 
-                    case 'iswritelisttofile':
+                    case strtolower('iswritelisttofile'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->isWriteListToFile = boolval($option->value);
                         break;
 
-                    case 'listfilename':
+                    case strtolower('listfilename'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->listFileName = boolval($option->value);
                         break;
 
-//				case 'X':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Y':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Z':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
 
                     default:
                         print ('!!! error: required option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");

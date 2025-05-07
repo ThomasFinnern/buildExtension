@@ -77,13 +77,6 @@ class clean4GitCheckin extends baseExecuteTasks
 //					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 
-//				case 'Y':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Z':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
 
                     default:
                         print ('!!! error: required option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");

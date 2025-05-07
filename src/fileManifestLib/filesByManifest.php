@@ -258,6 +258,16 @@ class filesByManifest extends baseExecuteTasks
         }
     }
 
+    private function extractDirectFolderFromSection(SimpleXMLElement $xmlPath)
+    {
+        if (isset($xmlPath)) {
+
+            $baseFolder = (string) $xmlPath->getName();
+            $this->folders [] = $baseFolder;
+
+        }
+    }
+
     private function extractLanguageFilesFromSection(SimpleXMLElement $xmlPath)
     {
         if (isset($xmlPath)) {
@@ -375,14 +385,14 @@ class filesByManifest extends baseExecuteTasks
 
                 if (isset($this->manifestXml->modules)) {
 
-                    $this->extractFilesFolderFromSection($this->manifestXml->modules);
+                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
                 }
 
                 //--- plugins -------------------------------------------
 
                 if (isset($this->manifestXml->plugins)) {
 
-                    $this->extractFilesFolderFromSection($this->manifestXml->plugins);
+                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
                 }
 
 

@@ -160,136 +160,124 @@ class fileHeaderByFileData extends fileHeaderData
         $isDefinedOption = false;
 
         switch (strtolower($option->name)) {
-            case 'filename':
+            case strtolower('filename'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->fileName = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isupdatecreationdate':
+            case strtolower('isupdatecreationdate'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isUpdateActCopyrightDate = $option->value;
                 $isDefinedOption                = true;
                 break;
 
-           case 'isforcestdpackage':
+           case strtolower('isforcestdpackage'):
                 $this->isForceStdPackage = $option->value;
                $isDefinedOption  = true;
                 break;
 
-            case 'isforcestdsubpackage':
+            case strtolower('isforcestdsubpackage'):
                 $this->isForceStdSubpackage = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcestaactcopyright':
+            case strtolower('isforcestaactcopyright'):
                 $this->isForceStdActCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcestdsincecopyright':
+            case strtolower('isforcestdsincecopyright'):
                 $this->isForceStdSinceCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcesincecopyrighttotoday':
+            case strtolower('isforcesincecopyrighttotoday'):
                 $this->isForceSinceCopyrightToToday = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcestdlicense':
+            case strtolower('isforcestdlicense'):
                 $this->isForceStdLicense = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcestdauthor':
+            case strtolower('isforcestdauthor'):
                 $this->isForceStdAuthor = $option->value;
                 $isDefinedOption  = true;
                 break;
 
 
-            case 'isforcepackage':
+            case strtolower('isforcepackage'):
                 $this->isForcePackage = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcesubpackage':
+            case strtolower('isforcesubpackage'):
                 $this->isForceSubpackage = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforceactcopyright':
+            case strtolower('isforceactcopyright'):
                 $this->isForceActCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcesincecopyright':
+            case strtolower('isforcesincecopyright'):
                 $this->isForceSinceCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforceactcopyrighttotoday':
+            case strtolower('isforceactcopyrighttotoday'):
                 $this->isForceActCopyrightToToday = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforcelicense':
+            case strtolower('isforcelicense'):
                 $this->isForceLicense = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'isforceauthor':
+            case strtolower('isforceauthor'):
                 $this->isForceAuthor = $option->value;
                 $isDefinedOption  = true;
                 break;
 
 
-            case 'valueforcepackage':
+            case strtolower('valueforcepackage'):
                 $this->valueForcePackage = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforcesubpackage':
+            case strtolower('valueforcesubpackage'):
                 $this->valueForceSubpackage = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforceactcopyright':
+            case strtolower('valueforceactcopyright'):
                 $this->valueForceActCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforcesincecopyright':
+            case strtolower('valueforcesincecopyright'):
                 $this->valueForceSinceCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforcecopyright':
+            case strtolower('valueforcecopyright'):
                 $this->valueForceCopyright = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforcelicense':
+            case strtolower('valueforcelicense'):
                 $this->valueForceLicense = $option->value;
                 $isDefinedOption  = true;
                 break;
 
-            case 'valueforceauthor':
+            case strtolower('valueforceauthor'):
                 $this->valueForceAuthor = $option->value;
                 $isDefinedOption  = true;
                 break;
-
-//                case 'X force...':
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                    break;
-//
-//                case 'Y use...':
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                    break;
-//
-//                case 'Z':
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                    break;
 
         } // switch
 
@@ -305,30 +293,11 @@ class fileHeaderByFileData extends fileHeaderData
         // single lines exchange will write complete header lines
 
         switch (strtolower($task->name)) {
-            case 'upgradeheader':
+            case strtolower('upgradeheader'):
                 print ('Execute task: ' . $task->name . "\r\n");
 
                 $this->upgradeHeader($this->fileName);
                 break;
-
-//
-//            case 'X':
-//                print ('Execute task: ' . $task->name . "\r\n");
-//
-//
-//                break;
-//
-//            case 'Y':
-//                print ('Execute task: ' . $task->name . "\r\n");
-//
-//
-//                break;
-//
-//            case 'Y':
-//                print ('Execute task: ' . $task->name . "\r\n");
-//
-//
-//                break;
 
             default:
                 print ('!!! Task not executed: ' . $task->name . '!!!' . "\r\n");

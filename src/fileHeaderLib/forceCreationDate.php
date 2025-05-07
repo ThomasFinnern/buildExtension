@@ -63,12 +63,12 @@ class forceCreationDate extends baseExecuteTasks
 
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
-                    case 'name':
+                    case strtolower('name'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->name = $option->value;
                         break;
 
-                    case 'date':
+                    case strtolower('date'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->creationDate = $option->value;
                         break;

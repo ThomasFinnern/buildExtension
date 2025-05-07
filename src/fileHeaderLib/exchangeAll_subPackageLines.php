@@ -74,22 +74,10 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
             $isBaseOption = $this->assignBaseOption($option);
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
-                    case 'subpackagetext':
+                    case strtolower('subpackagetext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->subpackageText = $option->value;
                         break;
-
-//				case 'X':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Y':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Z':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
 
                     default:
                         print ('!!! error: required option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");

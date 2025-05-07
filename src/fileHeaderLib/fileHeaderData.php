@@ -114,19 +114,19 @@ class fileHeaderData
                         $value = $this->scan4HeaderValueInLine($name, $line);
 
                         switch ($name) {
-                            case 'package':
+                            case strtolower('package'):
                                 $this->package = $value;
                                 break;
-                            case 'subpackage':
+                            case strtolower('subpackage'):
                                 $this->subpackage = $value;
                                 break;
-                            case 'license':
+                            case strtolower('license'):
                                 $this->license = $value;
                                 break;
-                            case 'author':
+                            case strtolower('author'):
                                 $this->author = $value;
                                 break;
-                            case 'link':
+                            case strtolower('link'):
                                 $this->link = $value;
                                 break;
 

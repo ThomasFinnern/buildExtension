@@ -86,15 +86,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
             if ( ! $isBaseOption && ! $isFileHeaderOption) {
 
                 switch (strtolower($option->name)) {
-//				case 'X':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Y':
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-//
-//				case 'Z':
+//				case strtolower('X'):
 //					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //					break;
 

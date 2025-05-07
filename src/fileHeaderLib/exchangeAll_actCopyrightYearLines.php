@@ -78,7 +78,7 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
 
-                    case 'yeartext':
+                    case strtolower('yeartext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                         $this->yearText = $option->value;
                         break;

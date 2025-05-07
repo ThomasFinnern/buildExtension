@@ -135,7 +135,7 @@ if ( ! empty ($tasksFile)) {
 }
 
 print ($oTasks->text() . "\r\n");
-print ("Resulting line: '" . $oTasksResult . "'" . "\r\n");
+print ("Resulting line: '" . str($oTasksResult) . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 

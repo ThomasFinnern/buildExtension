@@ -89,7 +89,7 @@ $oOptionResult = $oOption->extractOptionFromString($optionLine);
 
 print ("optionLine: '" . $optionLine . "'" . "\r\n");
 print ($oOption->text() . "\r\n");
-print ("Resulting line: '" . $oOptionResult . "'" . "\r\n");
+print ("Resulting line: '" . str($oOptionResult) . "'" . "\r\n");
 
 commandLineLib::print_end($start);
 

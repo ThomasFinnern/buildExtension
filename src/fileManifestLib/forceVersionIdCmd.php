@@ -147,7 +147,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oForceVersionId->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -155,7 +155,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oForceVersionId->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 	

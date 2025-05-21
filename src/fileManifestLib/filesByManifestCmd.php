@@ -146,7 +146,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oFilesByManifest->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 
     //--- insert manifestXml ---------------------------------
@@ -161,7 +161,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oFilesByManifest->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 	

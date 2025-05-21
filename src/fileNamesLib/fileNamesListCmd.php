@@ -161,7 +161,7 @@ $oFileNamesList = new fileNamesList($srcRoot, $includeExt, $excludeExt, $isNoRec
 $hasError = $oFileNamesList->scan4Filenames();
 
 if ($hasError) {
-    print ("Error on function scan4Filenames:" . $hasError);
+    print ("%%% Error on function scan4Filenames:" . $hasError . "\n");
 } else {
     print ("--- result -------------------" . "\r\n");
     print ($oFileNamesList->text() . "\r\n");

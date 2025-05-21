@@ -194,7 +194,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oUpdateAll_fileHeaders->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -202,7 +202,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oUpdateAll_fileHeaders->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 

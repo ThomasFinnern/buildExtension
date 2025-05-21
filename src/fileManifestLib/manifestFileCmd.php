@@ -163,7 +163,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oManifestFile->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 
 	//--- execute tasks ---------------------------------
@@ -171,7 +171,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oManifestFile->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 
@@ -183,7 +183,7 @@ if (empty ($hasError)) {
 //
 //		$hasError = ! $oManifestFile->writeFile($outManifestPathFileName);
 //		if ($hasError) {
-//			print ("Error on function writeFile:" . $hasError);
+//			print ("%%% Error on function writeFile:" . $hasError . "\n");
 //		}
 //	}
 

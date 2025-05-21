@@ -153,7 +153,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oXXX->assignTask($task);
     if ($hasError) {
-        print ("Error on function assignTask:" . $hasError);
+        print ("%%% Error on function assignTask:" . $hasError . "\n");
     }
 
 	//--- execute tasks ---------------------------------
@@ -161,7 +161,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 	    $hasError = $oXXX->execute();
 	    if ($hasError) {
-	        print ("Error on function execute:" . $hasError);
+	        print ("%%% Error on function execute:" . $hasError . "\n");
 	    }
 	}
 	

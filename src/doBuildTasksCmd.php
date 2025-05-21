@@ -394,8 +394,8 @@ $tasks = new tasks();
 if ($tasksFile != "") {
     $hasError = $tasks->extractTasksFromFile($tasksFile);
     if (!empty ($hasError)) {
-        print ("Error on function extractTasksFromFile:" . $hasError
-            . ' path: ' . $basePath);
+        print ("%%% Error on function extractTasksFromFile:" . $hasError .
+            . ' path: ' . $basePath . "\n");
     }
 
 } else {
@@ -404,8 +404,8 @@ if ($tasksFile != "") {
     } else {
         $testTasks = $tasks->extractTasksFromString($tasksLine);
         //if (!empty ($hasError)) {
-        //    print ("Error on function extractTasksFromString:" . $hasError
-        //        . ' path: ' . $basePath);
+        //    print ("%%% Error on function extractTasksFromString:" . $hasError
+        //        . ' path: ' . $basePath . "\n");
         //}
     }
 }
@@ -417,8 +417,8 @@ print ($tasks->tasksText());
 // if ($tasksFile != "") {
     // $hasError = $oDoBuildTasks->extractTasksFromFile($tasksFile);
     // if (!empty ($hasError)) {
-        // print ("Error on function extractTasksFromFile:" . $hasError
-            // . ' path: ' . $basePath);
+        // print ("%%% Error on function extractTasksFromFile:" . $hasError
+            // . ' path: ' . $basePath . "\n");
     // }
 
 // } else {
@@ -427,8 +427,8 @@ print ($tasks->tasksText());
     // } else {
         // $testTasks = $oDoBuildTasks->extractTasksFromString($tasksLine);
         // //if (!empty ($hasError)) {
-        // //    print ("Error on function extractTasksFromString:" . $hasError
-        // //        . ' path: ' . $basePath);
+        // //    print ("%%% Error on function extractTasksFromString:" . $hasError
+        // //        . ' path: ' . $basePath . "\n");
         // //}
     // }
 // }
@@ -454,8 +454,8 @@ if (empty ($hasError)) {
     $hasError = $oDoBuildTasks->execute();
 
     if ($hasError) {
-        print ("Error on function collectFiles:" . $hasError
-            . ' path: ' . $basePath);
+        print ("%%% Error on function collectFiles:" . $hasError
+            . ' path: ' . $basePath . "\n");
     }
 
     print ($oDoBuildTasks->text() . "\r\n");

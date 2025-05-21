@@ -148,7 +148,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oExchangeAllLicenses->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -156,7 +156,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oExchangeAllLicenses->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 

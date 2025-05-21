@@ -153,7 +153,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oClean4GitCheckin->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -161,7 +161,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oClean4GitCheckin->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 

@@ -135,15 +135,15 @@ $task = new task();
 if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
     //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromFile:" // . $hasError
+    //    print ("%%% Error on function extractTaskFromFile:" // . $hasError
     //        . ' Task file: ' . $taskFile);
     //    $hasError = -301;
     //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
-    //    print ("Error on function extractTaskFromString:" . $hasError
-    //        . ' tasksLine: ' . $tasksLine);
+    //    print ("%%% Error on function extractTaskFromString:" . $hasError
+    //        . ' tasksLine: ' . $tasksLine . "\n");
     //    $hasError = -302;
     //}
 }
@@ -162,7 +162,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oExchangeAllActCopyright->assignTask($task);
 	if ($hasError) {
-		print ("Error on function assignTask:" . $hasError);
+		print ("%%% Error on function assignTask:" . $hasError . "\n");
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -170,7 +170,7 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oExchangeAllActCopyright->execute();
 		if ($hasError) {
-			print ("Error on function execute:" . $hasError);
+			print ("%%% Error on function execute:" . $hasError . "\n");
 		}
 	}
 

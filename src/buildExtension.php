@@ -53,6 +53,7 @@ class buildExtension extends baseExecuteTasks
     private string $element;
     // 'rsgallery2' ??? com_rsgallery2'
     private string $extName='';
+    private string $prefixZipName='';
 
 //    private bool $isIncrementVersion_build = false;
 
@@ -177,6 +178,12 @@ class buildExtension extends baseExecuteTasks
             case strtolower('isCollectPluginsModule'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isCollectPluginsModule = boolval($option->value);
+                $isBuildExtensionOption  = true;
+                break;
+
+            case strtolower('prefixZipName'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                $this->prefixZipName = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 
@@ -389,7 +396,7 @@ class buildExtension extends baseExecuteTasks
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createComponentZipName();
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
         //--------------------------------------------------------------------
@@ -654,22 +661,25 @@ class buildExtension extends baseExecuteTasks
         }
     }
 
-    private function createComponentZipName()
+    private function createExtensionZipName()
     {
         // rsgallery2.5.0.12.4_20240818.zip
-
-        // ToDo: option for version
-        // ToDo: retrieve version from manifest
+        // extension_name.version_prefix_date.zip
 
         // $date = "20240824";
         $date_format = 'Ymd';
         $date = date($date_format);
 
-        $componentVersion  = $this->componentVersion ();
         $name = $this->destinationExtensionName();
+        $componentVersion  = $this->componentVersion ();
+        $prefix = $this->prefixZipName;
 
-        $ZipName = $name . '.' . $componentVersion . '_' . $date . '.zip';
-
+        $ZipName = $name;
+        if (strlen ($prefix) > 0) {
+            $ZipName .= '.' . $this->prefixZipName . '.zip';
+        }
+        $ZipName .= '.' . $componentVersion . '.zip';
+        $ZipName .= '_' . $date . '.zip';
         return $ZipName;
     }
 
@@ -799,7 +809,7 @@ class buildExtension extends baseExecuteTasks
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createComponentZipName();
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
         //--------------------------------------------------------------------
@@ -943,7 +953,7 @@ class buildExtension extends baseExecuteTasks
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createComponentZipName();
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
         //--------------------------------------------------------------------

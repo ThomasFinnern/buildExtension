@@ -4,17 +4,16 @@ namespace Finnern\BuildExtension\src;
 
 use Exception;
 use Finnern\BuildExtension\src\fileManifestLib\filesByManifest;
+use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
+use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
+use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
+use Finnern\BuildExtension\src\tasksLib\task;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
 use ZipArchive;
 
-use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
 //use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
-use Finnern\BuildExtension\src\tasksLib\task;
-use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
-use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 
 //use Finnern\BuildExtension\src\versionLib\versionId;
 
@@ -52,8 +51,8 @@ class buildExtension extends baseExecuteTasks
     // extension <element> name like RSGallery2
     private string $element;
     // 'rsgallery2' ??? com_rsgallery2'
-    private string $extName='';
-    private string $prefixZipName='';
+    private string $extName = '';
+    private string $prefixZipName = '';
 
 //    private bool $isIncrementVersion_build = false;
 
@@ -131,8 +130,8 @@ class buildExtension extends baseExecuteTasks
 
     /**
      *
-     * @param   mixed  $option
-     * @param   task   $task
+     * @param mixed $option
+     * @param task $task
      *
      * @return void
      */
@@ -144,14 +143,14 @@ class buildExtension extends baseExecuteTasks
             case strtolower('builddir'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->buildDir = $option->value;
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
             // com_rsgallery2'
             case strtolower('name'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->extName = $option->value;
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
 //                    // component name like rsgallery2 (but see above)
@@ -166,31 +165,31 @@ class buildExtension extends baseExecuteTasks
             case strtolower('extension'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->element = $option->value;
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
             case strtolower('type'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->componentType = $option->value;
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
             case strtolower('isCollectPluginsModule'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isCollectPluginsModule = boolval($option->value);
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
             case strtolower('prefixZipName'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->prefixZipName = $option->value;
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
             case strtolower('isDoNotUpdateCreationDate'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                 $this->isDoNotUpdateCreationDate = boolval($option->value);
-                $isBuildExtensionOption  = true;
+                $isBuildExtensionOption = true;
                 break;
 
 //            case strtolower('isincrementversion_build'):
@@ -201,7 +200,7 @@ class buildExtension extends baseExecuteTasks
 
 
             default:
-                print ('!!! error: required option is not supported: ' .  $option->name . ' !!!' . "\r\n");
+                print ('!!! error: required option is not supported: ' . $option->name . ' !!!' . "\r\n");
         } // switch
 
         return $isBuildExtensionOption;
@@ -246,7 +245,7 @@ class buildExtension extends baseExecuteTasks
         return (0);
     }
 
-    private function componentType() : string
+    private function componentType(): string
     {
         if ($this->componentType == '') {
 
@@ -275,7 +274,7 @@ class buildExtension extends baseExecuteTasks
         // does read manifest file
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
-        if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
+        if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
             print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
             return '';
@@ -296,7 +295,7 @@ class buildExtension extends baseExecuteTasks
 
         print ('build dir: "' . $this->buildDir . '"' . "\r\n");
 
-        $parentPath = dirname ($this->buildDir);
+        $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
             print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
             exit(557);
@@ -345,15 +344,7 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
-        $srcRoot = realpath($this->srcRoot);
-
-        foreach ($filesByManifest->files as $file) {
-            $this->xcopyElement($file, $srcRoot, $tmpFolder);
-        }
-
-        foreach ($filesByManifest->folders as $folder) {
-            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
-        }
+        $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
         // manual assignments
@@ -363,6 +354,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        print ("\r\n");
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -446,8 +438,7 @@ class buildExtension extends baseExecuteTasks
         print ('extension extName: "' . $extName . '"' . "\r\n");
 
         // com / mod / plg extension
-        if (str_starts_with($extName, 'com_'))
-        {
+        if (str_starts_with($extName, 'com_')) {
             // Standard
             $extName = substr($extName, 4);
             // $extName = 'com_' . substr($extName, 4);
@@ -476,8 +467,7 @@ class buildExtension extends baseExecuteTasks
         $name = $this->extName;
 
         // com / mod extension
-        if (str_starts_with($name, 'com_'))
-        {
+        if (str_starts_with($name, 'com_')) {
             // Standard
             $name = substr($name, 4);
             // $name = 'com_' . substr($name, 4);
@@ -502,11 +492,12 @@ class buildExtension extends baseExecuteTasks
     }
 
     /**
-     * @param   string  $manifestPathFileName
+     * @param string $manifestPathFileName
      *
      * @return false
      */
-    private function exchangeDataInManifestFile(string $manifestPathFileName) {
+    private function exchangeDataInManifestFile(string $manifestPathFileName)
+    {
 
         $isSaved = false;
 
@@ -529,7 +520,7 @@ class buildExtension extends baseExecuteTasks
                 //--- set flags -----------------------------------------------
 
                 // $manifestFile->isUpdateCreationDate = false;
-                if ( ! $this->isDoNotUpdateCreationDate) {
+                if (!$this->isDoNotUpdateCreationDate) {
                     $manifestFile->isUpdateCreationDate = true;
                 }
 
@@ -620,7 +611,7 @@ class buildExtension extends baseExecuteTasks
 
             //--- check path ------------------------------------------
 
-            $srcPathTest = realpath ($srcPath);
+            $srcPathTest = realpath($srcPath);
             if (empty ($srcPathTest)) {
                 print ("%%% Warning: Path/file to copy could not be found: " . $srcPath . "\r\n");
             } else {
@@ -640,17 +631,17 @@ class buildExtension extends baseExecuteTasks
 //                $dstPath = str_replace('/', DIRECTORY_SEPARATOR, $dstRoot . '/' . $name);
 
                 if (is_dir($srcPath)) {
-                    if (! is_dir($dstPath)) {
+                    if (!is_dir($dstPath)) {
                         mkdir($dstPath);
                     }
+                    print ('/');
                     xcopyDir($srcPath, $dstPath);
                 } else {
                     if (is_file($srcPath)) {
+                        print ('.');
                         copy($srcPath, $dstPath);
                     } else {
-
                         print ("%%% Warning: Path/file could not be copied: " . $srcPath . "\r\n");
-
                     }
                 }
             }
@@ -671,19 +662,20 @@ class buildExtension extends baseExecuteTasks
         $date = date($date_format);
 
         $name = $this->destinationExtensionName();
-        $componentVersion  = $this->componentVersion ();
+        $componentVersion = $this->componentVersion();
         $prefix = $this->prefixZipName;
 
         $ZipName = $name;
-        if (strlen ($prefix) > 0) {
-            $ZipName .= '.' . $this->prefixZipName . '.zip';
+        if (strlen($prefix) > 0) {
+            $ZipName .= '.' . $this->prefixZipName;
         }
-        $ZipName .= '.' . $componentVersion . '.zip';
+        $ZipName .= '.' . $componentVersion;
         $ZipName .= '_' . $date . '.zip';
+
         return $ZipName;
     }
 
-    private function buildModule() : string
+    private function buildModule(): string
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -697,7 +689,7 @@ class buildExtension extends baseExecuteTasks
 
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
-        if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
+        if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
             print('exit buildModule: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
             return '';
@@ -709,7 +701,7 @@ class buildExtension extends baseExecuteTasks
 
         print ('build dir: "' . $this->buildDir . '"' . "\r\n");
 
-        $parentPath = dirname ($this->buildDir);
+        $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
             print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
             exit(557);
@@ -759,15 +751,7 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
-        $srcRoot = realpath($this->srcRoot);
-
-        foreach ($filesByManifest->files as $file) {
-            $this->xcopyElement($file, $srcRoot, $tmpFolder);
-        }
-
-        foreach ($filesByManifest->folders as $folder) {
-            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
-        }
+        $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
         // manual assignments
@@ -777,6 +761,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        print ("\r\n");
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -824,7 +809,7 @@ class buildExtension extends baseExecuteTasks
         return $zipFileName;
     }
 
-    private function buildPlugin() : string
+    private function buildPlugin(): string
     {
         //--------------------------------------------------------------------
         // data in manifest file
@@ -841,7 +826,7 @@ class buildExtension extends baseExecuteTasks
         // does read manifest file
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
-        if ( ! $this->manifestFile->manifestXml->isXmlLoaded) {
+        if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
             print('exit buildPlugin: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
             return '';
@@ -853,7 +838,7 @@ class buildExtension extends baseExecuteTasks
 
         print ('build dir: "' . $this->buildDir . '"' . "\r\n");
 
-        $parentPath = dirname ($this->buildDir);
+        $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
             print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
             exit(557);
@@ -902,15 +887,7 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
-        $srcRoot = realpath($this->srcRoot);
-
-        foreach ($filesByManifest->files as $file) {
-            $this->xcopyElement($file, $srcRoot, $tmpFolder);
-        }
-
-        foreach ($filesByManifest->folders as $folder) {
-            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
-        }
+        $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
         // manual assignments
@@ -920,6 +897,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        print ("\r\n");
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -1022,6 +1000,31 @@ class buildExtension extends baseExecuteTasks
         return $this->componentVersion;
     }
 
+    /**
+     * @param filesByManifest $filesByManifest
+     * @param string $tmpFolder
+     * @return false|string
+     */
+    public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
+    {
+        print ("\r\n");
+        print ('--- copy to temp ------------------------------' . "\r\n");
+
+        $srcRoot = realpath($this->srcRoot);
+
+        foreach ($filesByManifest->files as $file) {
+            $this->xcopyElement($file, $srcRoot, $tmpFolder);
+        }
+
+        foreach ($filesByManifest->folders as $folder) {
+            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
+        }
+
+        print ("\r\n");
+
+        return $srcRoot;
+    }
+
     private function detectCompVersionFromFile(string $manifestPathFileName)
     {
         $componentVersion = '';
@@ -1032,23 +1035,23 @@ class buildExtension extends baseExecuteTasks
         return $componentVersion;
     }
 
-    private function detectCompTypeFromFile(string $manifestPathFileName) : string
+    private function detectCompTypeFromFile(string $manifestPathFileName): string
     {
 
         $componentType = 'component';
 
         $isLocal = false;
-        if ( ! empty($this->manifestFile)) {
+        if (!empty($this->manifestFile)) {
 
             if ($this->manifestFile->extType != '') {
                 $componentType = $this->manifestFile->extType;
-                $isLocal       = true;
+                $isLocal = true;
             }
 
         }
 
         //
-        if ( ! $isLocal) {
+        if (!$isLocal) {
 
             // read file
             if (is_file($manifestPathFileName)) {
@@ -1092,7 +1095,6 @@ class buildExtension extends baseExecuteTasks
             print ("option extension: not set" . "\r\n");
             $isValid = false;
         }
-
 
 
         return $isValid;
@@ -1154,44 +1156,62 @@ function delDir($dir)
 //========================================================
 // ToDo: into folder lib
 
-function zipItRelative($rootPath, $zipFilename)
+function zipItRelative($sourcePath, $zipFilename)
 {
-    print ('rootPath: "' . $rootPath . '"' . "\r\n");
+    print ('sourcePath: "' . $sourcePath . '"' . "\r\n");
     print ('zipFilename: "' . $zipFilename . '"' . "\r\n");
+
+    print ("\r\n");
+    print ('--- zip it ------------------------------' . "\r\n");
+    print ("\r\n");
+
+    //--- files within folders ------------------------------
 
     // Initialize archive object
     $zip = new ZipArchive();
-    $zip->open($zipFilename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+//    $zip->open($zipFilename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+    if ($zip->open($zipFilename, ZipArchive::CREATE) === true | ZipArchive::OVERWRITE) {
 
-    // Create recursive directory iterator
-    /** @var SplFileInfo[] $files */
-    $files = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($rootPath),
-        RecursiveIteratorIterator::LEAVES_ONLY,
-    );
+        $sourcePathSlash = str_replace('\\', '/', $sourcePath);
+        // print ('glob: "' . $sourcePathSlash . '/' . '"' . "\r\n");
+        // print ('sourcePathSlash: "' . $sourcePathSlash . '"' . "\r\n");
 
-    foreach ($files as $name => $file) {
-        // Get real and relative path for current file
-        $filePath = $file->getRealPath();
-        $relativePath = substr($filePath, strlen($rootPath) + 1);
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($sourcePathSlash),
+            RecursiveIteratorIterator::SELF_FIRST);
 
-        if (!$file->isDir()) {
-            // Add current file to archive
-            print ('.');
+        foreach ($files as $file)
+        {
 
-            $zip->addFile($filePath, $relativePath);
-        } else {
-            if ($relativePath != '') {
-                print ('>');
-                $zip->addEmptyDir($relativePath);
+            $file = str_replace('\\', '/', $file);
+
+            // Ignore "." and ".." folders
+            if( in_array(substr($file, strrpos($file, '/')+1), array('.', '..')) )
+                continue;
+
+            // $file = realpath($file);
+
+            if (is_dir($file) === true)
+            {
+                //$zip->addEmptyDir(str_replace($sourcePathSlash . '/', '', $file . '/'));
+                $dirName = str_replace($sourcePathSlash . '/', '', $file . '/');
+                $zip->addEmptyDir($dirName);
+            }
+            else if (is_file($file) === true)
+            {
+                //$zip->addFromString(str_replace($sourcePathSlash . '/', '', $file), file_get_contents($file));
+                $fileName = str_replace($sourcePathSlash . '/', '', $file);
+                $zip->addFromString($fileName, file_get_contents($file));
             }
         }
+
+        // Zip archive will be created only after closing object
+        $zip->close();
+    } else {
+
+        print ("\r\n" . 'Can not create zip file: "' . $zipFilename . '"' . "\r\n");
     }
 
-    print ( "\r\n" . 'exit zipping' . "\r\n");
-
-    // Zip archive will be created only after closing object
-    $zip->close();
 }
 
 //function join_paths()

@@ -91,6 +91,7 @@ $tasksLine="";
 // $taskFile = './build_tsk/build_test.tsk';
 //$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
 $taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
+$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -202,7 +203,10 @@ if (empty ($hasError)) {
 	    }
 	}
 	
-	print ($oBuildExtension->text() . "\r\n");
+//	print ($oBuildExtension->text() . "\r\n");
+    print ("\r\n" . '----------------------------' . "\r\n");
+    print ('... Zipping finished .......' . "\r\n");
+
 }
 
 commandLineLib::print_end($start);

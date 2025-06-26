@@ -324,6 +324,9 @@ class filesByManifest extends baseExecuteTasks
      */
     public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
     {
+        print ("\r\n");
+        print ('--- collect files and folders -----------------' . "\r\n");
+
         $this->files = [];
         $this->folders = [];
 
@@ -402,6 +405,7 @@ class filesByManifest extends baseExecuteTasks
 
             $test = 'debug dummy';
         }
+
     }
 
 

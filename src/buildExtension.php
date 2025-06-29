@@ -408,9 +408,10 @@ class buildExtension extends baseExecuteTasks
     {
         if ($this->manifestPathFileName == '') {
 
-            $name = $this->shortExtensionName();
+            // *.xml
+            $extName = $this->shortExtensionName();
 
-            $this->manifestPathFileName = $this->srcRoot . '/' . $name . '.xml';
+            $this->manifestPathFileName = $this->srcRoot . '/' . $extName . '.xml';
         }
 
         return $this->manifestPathFileName;
@@ -470,19 +471,19 @@ class buildExtension extends baseExecuteTasks
         if (str_starts_with($name, 'com_')) {
             // Standard
             $name = substr($name, 4);
-            // $name = 'com_' . substr($name, 4);
+            // $extName = 'com_' . substr($extName, 4);
 
         } else {
 
             if (str_starts_with($name, 'mod_')) {
-                // $idx = strpos($name, '_', strlen('mod_')) + 1;
-                // $name = 'mod_' . substr($name, $idx);
+                // $idx = strpos($extName, '_', strlen('mod_')) + 1;
+                // $extName = 'mod_' . substr($extName, $idx);
                 $name = $this->extName;
             } else {
 
                 if (str_starts_with($name, 'plg_')) {
-                    // $idx = strpos($name, '_', strlen('plg_')) + 1;
-                    // $name = 'plg_' . substr($name, $idx);
+                    // $idx = strpos($extName, '_', strlen('plg_')) + 1;
+                    // $extName = 'plg_' . substr($extName, $idx);
                     $name = $this->extName;
                 }
             }
@@ -623,12 +624,12 @@ class buildExtension extends baseExecuteTasks
                     mkdir($baseDir, 0777, true);
                 }
 
-//                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcR    oot . '/' . $name);
+//                $srcPath = str_replace('/', DIRECTORY_SEPARATOR, $srcR    oot . '/' . $extName);
 //
 //                // str_replace('/', '\\', __FILE__);
 //                // str_replace('\\', '/', __FILE__);
-//                //$dstPath = realpath ($dstRoot . '/' . $name);
-//                $dstPath = str_replace('/', DIRECTORY_SEPARATOR, $dstRoot . '/' . $name);
+//                //$dstPath = realpath ($dstRoot . '/' . $extName);
+//                $dstPath = str_replace('/', DIRECTORY_SEPARATOR, $dstRoot . '/' . $extName);
 
                 if (is_dir($srcPath)) {
                     if (!is_dir($dstPath)) {
@@ -681,7 +682,7 @@ class buildExtension extends baseExecuteTasks
         // data in manifest file
         //--------------------------------------------------------------------
 
-        //--- manifest file name --------------------------------------
+        //--- manifest file extName --------------------------------------
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
@@ -1085,9 +1086,9 @@ class buildExtension extends baseExecuteTasks
             print ("option buildDir: not set" . "\r\n");
             $isValid = false;
         }
-        //option name: "com_lang4dev"
+        //option extName: "com_lang4dev"
         if (empty ($this->extName)) {
-            print ("option name: not set" . "\r\n");
+            print ("option extName: not set" . "\r\n");
             $isValid = false;
         }
         //option extension: "Lang4Dev"

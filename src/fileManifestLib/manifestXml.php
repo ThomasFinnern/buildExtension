@@ -98,18 +98,18 @@ class manifestXml
                 if (!empty($xml)) {
                     $this->isXmlLoaded = true;
                 } else {
-                    $OutTxt = 'Error executing readManifestXml: manifest file is not an xml document: "' . $prjXmlPathFilename . '"';
+                    $OutTxt = 'Error executing readManifestXml: manifest file is not an xml document: "' . $prjXmlPathFilename . '"' .  "\r\n";
                     print $OutTxt;
                 }
 
             } else {
-                $OutTxt = 'Error executing readManifestXml: manifest file does not exist: "' . $prjXmlPathFilename . '"';
+                $OutTxt = 'Error executing readManifestXml: manifest file does not exist: "' . $prjXmlPathFilename . '"' .  "\r\n";
                 print $OutTxt;
             }
         } catch (\RuntimeException $e) {
             $OutTxt = '';
-            $OutTxt .= 'Error executing readManifestXml: "' . $prjXmlPathFilename . '"<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            $OutTxt .= 'Error executing readManifestXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
             print $OutTxt;
         }
 
@@ -190,10 +190,10 @@ class manifestXml
 
         } catch (\RuntimeException $e) {
             $OutTxt = '';
-            $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"<br>';
-            $OutTxt .= 'name: "' . $name . '"' . '<br>';
-            $OutTxt .= 'default: "' . $default . '"' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
+            $OutTxt .= 'default: "' . $default . '"' . "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
             print $OutTxt;
 
             // $hasError = -987;
@@ -224,10 +224,10 @@ class manifestXml
 
         } catch (\RuntimeException $e) {
             $OutTxt = '';
-            $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"<br>';
-            $OutTxt .= 'name: "' . $name . '"' . '<br>';
-            $OutTxt .= 'default: "' . $default . '"' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
+            $OutTxt .= 'default: "' . $default . '"' . "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
             print $OutTxt;
 
             // $hasError = -987;
@@ -265,10 +265,10 @@ class manifestXml
 
         } catch (\RuntimeException $e) {
             $OutTxt = '';
-            $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"<br>';
-            $OutTxt .= 'name: "' . $name . '"' . '<br>';
-            $OutTxt .= 'value: "' . $value . '"' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
+            $OutTxt .= 'value: "' . $value . '"' . "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
             print $OutTxt;
 
             $hasError = -987;
@@ -319,10 +319,10 @@ class manifestXml
 
         } catch (\RuntimeException $e) {
             $OutTxt = '';
-            $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"<br>';
-            $OutTxt .= 'name: "' . $name . '"' . '<br>';
-            $OutTxt .= 'value: "' . $value . '"' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+            $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
+            $OutTxt .= 'value: "' . $value . '"' . "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
             print $OutTxt;
 
             $hasError = -987;

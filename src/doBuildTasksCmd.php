@@ -394,7 +394,7 @@ $tasks = new tasks();
 if ($tasksFile != "") {
     $hasError = $tasks->extractTasksFromFile($tasksFile);
     if (!empty ($hasError)) {
-        print ("%%% Error on function extractTasksFromFile:" . $hasError .
+        print ("%%% Error on function extractTasksFromFile:" . $hasError
             . ' path: ' . $basePath . "\n");
     }
 

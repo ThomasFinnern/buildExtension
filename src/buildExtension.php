@@ -13,10 +13,6 @@ use RecursiveIteratorIterator;
 use SplFileInfo;
 use ZipArchive;
 
-//use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-
-//use Finnern\BuildExtension\src\versionLib\versionId;
-
 $HELP_MSG = <<<EOT
     >>>
     class buildExtension
@@ -242,7 +238,7 @@ class buildExtension extends baseExecuteTasks
             } // switch
         }
 
-        return (0);
+        return 0;
     }
 
     private function componentType(): string
@@ -431,7 +427,7 @@ class buildExtension extends baseExecuteTasks
         return $this->manifestAdminPathFileName;
     }
 
-    // ToDo: move/create also in to manifest.php file ?
+    // ToDo: move/create also in manifest.php file ?
     private function shortExtensionName(): string
     {
         $extName = $this->extName;

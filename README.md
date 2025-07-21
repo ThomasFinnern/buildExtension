@@ -1,9 +1,9 @@
-# buildComponentPhp
-
-WIP 2024.12.27
-
+# buildExtension
 
 *php scripts to maintain joomla component builds and automatic change like copyright year*
+
+A *.bat calling buildExtensionCmd.php with references to task(s) (*.tsk) are the normal path to build an extension (component, module, ...)
+See examples in folder build_tsk
 
 ## General structure of task function / creation
 
@@ -18,17 +18,37 @@ Sources in src folder include 'Task'.php, 'Task'Cmd.php, 'Task'.bat, 'Task'.tsk,
 
 - Command line options with '-'   
   Example: ``` /srcRoot="./../../RSGallery2_J4"```    
-  (sorry no spaces before/after'=' yet) 
+  (sorry no spaces before/after '=' yet) 
 - Task lists  
   Example: ```task:exchangeAll_actCopyrightYear```
+- Task files 
+  Containing task name and option in lines
+- Options file
+  containing list of Options in files
+  
+### Task and option files
 
 Options and task lists can be loaded from a common file
 In each 'Task'Cmd.php are prepared commented 'command/option lines' as example 
 Also Example bats exist in the src folder
 
+
+## Tasks code
+
+### Tasks base code
+
+Code in folder tasksLib handles complete tasks and option interpretation into objects
+
+### *lib folders
+
+Each folder handles a special task 
+
+
+## Build tasks related
+
 ### Folder and files
 
-Files to be changed may searched recursively and by type 
+Files to be changed may be searched recursively and by type 
 
 #### Option flags used for file handling
 
@@ -46,7 +66,6 @@ restrict/include to list of file types
 
 /isWriteListToFile
 /listFileName="FoundFileNamesList.txt"
-
 
 ## Tasks supported
 For each 'sub' project exists a *cmd.php. There the use can be seen ba  

@@ -283,7 +283,12 @@ class buildExtension extends baseExecuteTasks
         // folder
         $manifestAdminPathFileName = $this->manifestAdminPathFileName();
         print('manifestAdminPathFileName: "' . $manifestAdminPathFileName . '"' . "\r\n");
-        copy($manifestPathFileName, $manifestAdminPathFileName);
+        // is folder structure similar to joomla folders (RSG2)
+        //    -> sometimes folder 'components' is left out
+        if (is_dir(dirname($manifestAdminPathFileName))) {
+
+            copy($manifestPathFileName, $manifestAdminPathFileName);
+        }
 
         //--------------------------------------------------------------------
         // destination temp folder

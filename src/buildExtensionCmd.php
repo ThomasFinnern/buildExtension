@@ -1,5 +1,4 @@
 <?php
-
 namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';

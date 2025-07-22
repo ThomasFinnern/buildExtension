@@ -87,7 +87,7 @@ class forceCreationDate extends baseExecuteTasks
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute forceCreationDate : " . "\r\n");
+        print("Execute forceCreationDate : " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $hasError = $this->exchangeCreationDate();

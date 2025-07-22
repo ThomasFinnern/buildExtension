@@ -103,7 +103,7 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
 
         $this->execute();
 
-        return (0);
+        return 0;
     }
 
     public function execute(): int
@@ -135,7 +135,7 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
             );
         }
 
-        return (0);
+        return 0;
     }
 } // exchangeAll_sinceCopyrightYear
 

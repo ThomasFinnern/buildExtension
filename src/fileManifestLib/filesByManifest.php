@@ -220,7 +220,7 @@ class filesByManifest extends baseExecuteTasks
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute filesByManifest: " . "\r\n");
+        print("Execute filesByManifest: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $hasError = 0;

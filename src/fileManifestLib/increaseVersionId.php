@@ -97,7 +97,7 @@ class increaseVersionId extends baseExecuteTasks
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute increaseVersionId: " . "\r\n");
+        print("Execute increaseVersionId: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $hasError = $this->exchangeVersionId();

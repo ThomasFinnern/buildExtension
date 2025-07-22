@@ -101,7 +101,7 @@ class exchangeAll_packages extends baseExecuteTasks
         $this->execute();
 
 
-        return (0);
+        return 0;
     }
 
     public function execute(): int
@@ -130,7 +130,7 @@ class exchangeAll_packages extends baseExecuteTasks
             $fileHeaderByFileLine->exchangePackage($fileName->srcPathFileName);
         }
 
-        return (0);
+        return 0;
     }
 } // exchangeAll_packages
 

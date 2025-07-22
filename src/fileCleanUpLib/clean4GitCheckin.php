@@ -96,7 +96,7 @@ class clean4GitCheckin extends baseExecuteTasks
 
         $this->execute();
 
-        return (0);
+        return 0;
     }
 
     public function execute(): int
@@ -120,7 +120,7 @@ class clean4GitCheckin extends baseExecuteTasks
             $this->beautifyFile($fileName->srcPathFileName);
         }
 
-        return (0);
+        return 0;
     }
 
 

@@ -338,7 +338,7 @@ class manifestFile extends baseExecuteTasks
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute manifestFile: " . "\r\n");
+        print("Execute manifestFile: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         $hasError = 0;

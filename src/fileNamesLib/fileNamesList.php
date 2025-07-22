@@ -367,7 +367,7 @@ class fileNamesList extends baseExecuteTasks
     {
         $this->scan4Filenames();
 
-        return (0);
+        return 0;
     }
 
     function scan4Filenames(

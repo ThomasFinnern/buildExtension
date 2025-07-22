@@ -126,12 +126,11 @@ class buildExtension extends baseExecuteTasks
 
     /**
      *
-     * @param mixed $option
-     * @param task $task
+     * @param option $option
      *
      * @return void
      */
-    public function assignBuildExtensionOption(mixed $option): bool
+    public function assignBuildExtensionOption(option $option): bool
     {
         $isBuildExtensionOption = false;
 
@@ -205,7 +204,7 @@ class buildExtension extends baseExecuteTasks
     public function execute(): int // $hasError
     {
         print('*********************************************************' . "\r\n");
-        print ("Execute buildExtension: " . "\r\n");
+        print("Execute buildExtension: " . "\r\n");
         print('---------------------------------------------------------' . "\r\n");
 
         //--- validation checks --------------------------------------
@@ -966,7 +965,7 @@ class buildExtension extends baseExecuteTasks
     public function executeFile(string $filePathName): int
     {
         // not supported
-        return (0);
+        return 0;
     }
 
     public function text(): string

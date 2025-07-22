@@ -100,7 +100,7 @@ class exchangeAll_licenseLines extends baseExecuteTasks
 
         $this->execute();
 
-        return (0);
+        return 0;
     }
 
     public function execute(): int
@@ -129,7 +129,7 @@ class exchangeAll_licenseLines extends baseExecuteTasks
             $fileHeaderByFileLine->exchangeLicense($fileName->srcPathFileName);
         }
 
-        return (0);
+        return 0;
     }
 } // exchangeAllLicenses
 

@@ -126,11 +126,12 @@ class buildExtension extends baseExecuteTasks
 
     /**
      *
-     * @param option $option
+     * @param mixed $option
+     * @param task $task
      *
      * @return void
      */
-    public function assignBuildExtensionOption(option $option): bool
+    public function assignBuildExtensionOption(mixed $option): bool
     {
         $isBuildExtensionOption = false;
 

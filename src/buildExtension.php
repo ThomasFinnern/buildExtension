@@ -547,7 +547,9 @@ class buildExtension extends baseExecuteTasks
 
                 //--- write to file -----------------------------------------------
 
-                $isSaved = $manifestFile->writeFile();
+                if ($manifestFile->isChanged) {
+                    $isSaved = $manifestFile->writeFile();
+                }
 
                 //$isSaved = File::write($manifestFileName, $fileLines);;
                 //     $isSaved = file_put_contents($manifestFileName, $outLines);

@@ -60,6 +60,9 @@ class buildExtension extends baseExecuteTasks
     private bool $isCollectPluginsModule = false;
     private bool $isDoNotUpdateCreationDate = false;
 
+    // calling project, may use different file header, different maintenance file ...
+    private string $prjVendor = '';
+
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
@@ -188,15 +191,21 @@ class buildExtension extends baseExecuteTasks
                 $isBuildExtensionOption = true;
                 break;
 
+            case strtolower('prjVendor'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                $this->prjVendor = $option->value;
+                $isBuildExtensionOption  = true;
+                break;
+
 //            case strtolower('isincrementversion_build'):
 //                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                $this->isIncrementVersion_build = $option->value;
 //                $isBuildExtensionOption  = true;
 //                break;
-
+//
 
             default:
-                print ('!!! error: required option is not supported: ' . $option->name . ' !!!' . "\r\n");
+                print ('!!! error: requested option is not supported: ' . $option->name . ' !!!' . "\r\n");
         } // switch
 
         return $isBuildExtensionOption;

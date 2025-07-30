@@ -9,7 +9,7 @@ use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    fileHeaderByFile class
+    fileHeaderByFileLineCmd class
 
     <<<
     EOT;

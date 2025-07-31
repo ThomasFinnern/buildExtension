@@ -1,9 +1,56 @@
 # buildExtension
 
-*.php scripts to maintain joomla component builds and automatic change like copyright year*
+\*.php scripts to maintain joomla component builds and automatic change like copyright year*
 
-A *.bat calling buildExtensionCmd.php with references to task(s) (*.tsk) are the normal path to build an extension (component, module, ...)
+General tasks
+* Build:   
+  Collect all files of a J! extensipon into a zip file  
+  Options allow for increase of copy right and version in manifest before
+  Options allow for increase of copy right and version in php files before
+* Exchange in files:  
+  Assign standard header by project
+  Exchange header parts like actual year, copyright texts ...
+* future:   
+
+## Calling a task
+
+A \*.bat calling buildExtensionCmd.php with references to task(s) (\*.tsk) and option(s) (\*.opt) are the normal path to build an extension (component, module, ...)  
 See examples in folder build_tsk
+
+The bat should address a task-matching ...cmd.php file, which collects options and calls the task-php file to apply the options and execute the task
+
+The doBuildTasksCmd.php file is intended for calling multiple task from one \*.tsk file
+
+### Task file
+
+Example of \*.tsk file
+
+```
+task:buildExtension
+/type=component
+/srcRoot="../../RSGallery2_J4"
+   // /isNoRecursion=true
+/buildDir="../../RSGallery2_J4_Dev/.packages"
+/name=com_rsgallery2
+/extension=Lang4Dev
+```
+
+The first line defines the task, the following lines the options.  
+A optional options file \*.opt has the same format and can be added 
+
+The task refers to a php file appling the options and executing the task
+
+### Options file
+
+Example of *.opt file
+
+```
+options:build
+/isIncreaseBuild=true
+```
+The intension is to predefine some options in a file and then apply a sertain set of optiosn files to a task
+
+The name can be chosen freely and is just a reminder of the intention of the file. Some characters like blanks may be restricted
 
 
 ## Tasks code
@@ -15,7 +62,6 @@ Code in folder tasksLib handles complete tasks and option interpretation into ob
 ### *lib folders
 
 Each folder handles a special task 
-
 
 ## Build tasks related
 
@@ -43,7 +89,7 @@ restrict/include to list of file types
 ## Tasks supported
 For each 'sub' project exists a *cmd.php. There the use can be seen ba  
 
-* buildRelease
+* buildExtension
 * clean4GitCheckin
 * doBuildTasks
 * exchangeAll_actCopyrightYearLines
@@ -82,7 +128,7 @@ these are included in
 
 # Task system
 
-The script system (above) is relaying on a library to extract task and options from the *.tsk file
+The script system (above) is relaying on a library to extract task and options from the \*.tsk file
 
 ## General structure of task function / creation
 

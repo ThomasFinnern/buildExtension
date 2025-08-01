@@ -17,10 +17,10 @@
  */
 function build_autoloader(string $class) {
 
-    $vendorProject = 'Finnern\BuildExtension';
+    $namespaceProjectStart = 'Finnern\BuildExtension';
 
-    // Remove vendor/project Finnern\BuildExtension\
-    $classPath = substr($class, strlen($vendorProject));
+    // Remove namespace start Finnern\BuildExtension\
+    $classPath = substr($class, strlen($namespaceProjectStart));
 
 
     // replace namespace separators with directory separators in the relative 

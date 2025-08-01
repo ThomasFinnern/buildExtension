@@ -61,7 +61,7 @@ class buildExtension extends baseExecuteTasks
     private bool $isDoNotUpdateCreationDate = false;
 
     // calling project, may use different file header, different maintenance file ...
-    private string $prjVendor = '';
+    private string $callerProjectId = '';
 
     /*--------------------------------------------------------------------
     construction
@@ -191,9 +191,9 @@ class buildExtension extends baseExecuteTasks
                 $isBuildExtensionOption = true;
                 break;
 
-            case strtolower('prjVendor'):
+            case strtolower('callerProjectId'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->prjVendor = $option->value;
+                $this->callerProjectId = $option->value;
                 $isBuildExtensionOption  = true;
                 break;
 

@@ -1,5 +1,4 @@
 <?php
-//namespace \Vendor\App\DatabaseAccess;
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;

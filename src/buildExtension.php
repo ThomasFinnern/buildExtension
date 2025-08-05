@@ -8,6 +8,8 @@ use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -58,10 +60,11 @@ class buildExtension extends baseExecuteTasks
     private string $componentVersion = '';
 
     private bool $isCollectPluginsModule = false;
+
     private bool $isDoNotUpdateCreationDate = false;
 
     // calling project, may use different file header, different maintenance file ...
-    private string $callerProjectId = '';
+    //private string $callerProjectId = '';
 
     /*--------------------------------------------------------------------
     construction
@@ -94,38 +97,38 @@ class buildExtension extends baseExecuteTasks
         // print('exit __construct: ' . $hasError . "\r\n");
     }
 
-    // Task name with options
-    public function assignTask(task $task): int
-    {
-        $this->taskName = $task->name;
-
-        $options = $task->options;
-
-        foreach ($options->options as $option) {
-
-            $isBaseOption = $this->assignBaseOption($option);
-
-            // base options are already handled
-            if (!$isBaseOption) {
-                // $isVersionOption = $this->versionId->assignVersionOption($option);
-                // ToDo: include version better into manifest
-                // -> same increase flags should be ...
-                // if (!$isVersionOption) {
-                $isManifestOption = $this->manifestFile->assignManifestOption($option);
-                // }
-            }
-
-//            if (!$isBaseOption && !$isVersionOption && !$isManifestOption) {
-//            if (!$isBaseOption && !$isVersionOption) {
-            if (!$isBaseOption && !$isManifestOption) {
-
-                $this->assignBuildExtensionOption($option);
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
-    }
+//    // Task name with options
+//    public function assignTask(task $task): int
+//    {
+//        $this->taskName = $task->name;
+//
+//        $options = $task->options;
+//
+//        foreach ($options->options as $option) {
+//
+//            $isBaseOption = $this->assignBaseOption($option);
+//
+//            // base options are already handled
+//            if (!$isBaseOption) {
+//                // $isVersionOption = $this->versionId->assignVersionOption($option);
+//                // ToDo: include version better into manifest
+//                // -> same increase flags should be ...
+//                // if (!$isVersionOption) {
+//                $isManifestOption = $this->manifestFile->assignManifestOption($option);
+//                // }
+//            }
+//
+////            if (!$isBaseOption && !$isVersionOption && !$isManifestOption) {
+////            if (!$isBaseOption && !$isVersionOption) {
+//            if (!$isBaseOption && !$isManifestOption) {
+//
+//                $this->assignBuildExtensionOption($option);
+//                // $OutTxt .= $task->text() . "\r\n";
+//            }
+//        }
+//
+//        return 0;
+//    }
 
     /**
      *
@@ -134,81 +137,85 @@ class buildExtension extends baseExecuteTasks
      *
      * @return void
      */
-    public function assignBuildExtensionOption(mixed $option): bool
+    public function assignOption(mixed $option): bool
     {
-        $isBuildExtensionOption = false;
+        $isOptionConsumed = parent::assignOption($option);
 
-        switch (strtolower($option->name)) {
-            case strtolower('builddir'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->buildDir = $option->value;
-                $isBuildExtensionOption = true;
-                break;
+        if ( ! $isOptionConsumed) {
 
-            // com_rsgallery2'
-            case strtolower('name'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->extName = $option->value;
-                $isBuildExtensionOption = true;
-                break;
+            // $isOptionConsumed = $this->fileNamesList->assignOption($option);
+            $isOptionConsumed = $this->manifestFile->assignOption($option);
+        }
+
+        if ( ! $isOptionConsumed) {
+
+            switch (strtolower($option->name)) {
+                case strtolower('builddir'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->buildDir = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                // com_rsgallery2'
+                case strtolower('name'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->extName = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
 //                    // component name like rsgallery2 (but see above)
 //                    case strtolower(''):
 //                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                        $this->name = $option->value;
-//                    $isBuildExtensionOption  = true;
+//                    $isOptionConsumed  = true;
 //                        break;
 
-            // extension (<element> name like RSGallery2
-            case strtolower('element'):
-            case strtolower('extension'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->element = $option->value;
-                $isBuildExtensionOption = true;
-                break;
+                // extension (<element> name like RSGallery2
+                case strtolower('element'):
+                case strtolower('extension'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->element = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('type'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->componentType = $option->value;
-                $isBuildExtensionOption = true;
-                break;
+                case strtolower('type'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->componentType = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isCollectPluginsModule'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->isCollectPluginsModule = boolval($option->value);
-                $isBuildExtensionOption = true;
-                break;
+                case strtolower('isCollectPluginsModule'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->isCollectPluginsModule = boolval($option->value);
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('prefixZipName'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->prefixZipName = $option->value;
-                $isBuildExtensionOption = true;
-                break;
+                case strtolower('prefixZipName'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->prefixZipName = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isDoNotUpdateCreationDate'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->isDoNotUpdateCreationDate = boolval($option->value);
-                $isBuildExtensionOption = true;
-                break;
+                case strtolower('isDoNotUpdateCreationDate'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->isDoNotUpdateCreationDate = boolval($option->value);
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('callerProjectId'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->callerProjectId = $option->value;
-                $isBuildExtensionOption  = true;
-                break;
 
 //            case strtolower('isincrementversion_build'):
 //                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
 //                $this->isIncrementVersion_build = $option->value;
-//                $isBuildExtensionOption  = true;
+//                $isOptionConsumed  = true;
 //                break;
 //
 
-            default:
-                print ('!!! error: requested option is not supported: ' . $option->name . ' !!!' . "\r\n");
-        } // switch
+                default:
+                    print ('!!! error: requested option is not supported: ' . $option->name . ' !!!' . "\r\n");
+            } // switch
+        }
 
-        return $isBuildExtensionOption;
+        return $isOptionConsumed;
     }
 
     public function execute(): int // $hasError
@@ -368,7 +375,7 @@ class buildExtension extends baseExecuteTasks
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
-//        $adminPath = $this->srcRoot . '/administrator/components/' . $this->extName;
+//        $adminPath = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName;
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
@@ -389,7 +396,7 @@ class buildExtension extends baseExecuteTasks
 //            // Not changelog to root
 //            //--------------------------------------------------------------------
 //
-//            $changelogPathFileName = $this->srcRoot . '/administrator/components/com_rsgallery2/';
+//            $changelogPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/com_rsgallery2/';
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
@@ -421,7 +428,7 @@ class buildExtension extends baseExecuteTasks
             // *.xml
             $extName = $this->shortExtensionName();
 
-            $this->manifestPathFileName = $this->srcRoot . '/' . $extName . '.xml';
+            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
         }
 
         return $this->manifestPathFileName;
@@ -433,7 +440,7 @@ class buildExtension extends baseExecuteTasks
 
             $name = $this->shortExtensionName();
 
-            $this->manifestAdminPathFileName = $this->srcRoot
+            $this->manifestAdminPathFileName = $this->fileNamesList->srcRoot
                 . '/administrator/components/'
                 . $this->extName . '/' . $name . '.xml';
         }
@@ -778,7 +785,7 @@ class buildExtension extends baseExecuteTasks
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
-//        $adminPath = $this->srcRoot . '/administrator/components/' . $this->extName;
+//        $adminPath = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName;
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
@@ -798,7 +805,7 @@ class buildExtension extends baseExecuteTasks
 //            // Not changelog to root
 //            //--------------------------------------------------------------------
 //
-//            $changelogPathFileName = $this->srcRoot . '/administrator/components/com_rsgallery2/';
+//            $changelogPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/com_rsgallery2/';
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
@@ -914,7 +921,7 @@ class buildExtension extends baseExecuteTasks
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
-//        $adminPath = $this->srcRoot . '/administrator/components/' . $this->extName;
+//        $adminPath = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName;
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
@@ -935,7 +942,7 @@ class buildExtension extends baseExecuteTasks
 //            // Not changelog to root
 //            //--------------------------------------------------------------------
 //
-//            $changelogPathFileName = $this->srcRoot . '/administrator/components/com_rsgallery2/';
+//            $changelogPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/com_rsgallery2/';
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
@@ -992,7 +999,7 @@ class buildExtension extends baseExecuteTasks
          * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
          * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
          * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcRootFileName: " . $this->srcRootFileName . "\r\n";
+         * $OutTxt .= "srcRootFileName: " . $this->fileNamesList->srcRootFileName . "\r\n";
          * /**/
 
         return $OutTxt;
@@ -1023,7 +1030,7 @@ class buildExtension extends baseExecuteTasks
         print ("\r\n");
         print ('--- copy to temp ------------------------------' . "\r\n");
 
-        $srcRoot = realpath($this->srcRoot);
+        $srcRoot = realpath($this->fileNamesList->srcRoot);
 
         foreach ($filesByManifest->files as $file) {
             $this->xcopyElement($file, $srcRoot, $tmpFolder);
@@ -1089,7 +1096,7 @@ class buildExtension extends baseExecuteTasks
             $isValid = false;
         }
         //option buildDir: "../../LangMan4Dev"
-        if (empty ($this->srcRoot)) {
+        if (empty ($this->fileNamesList->srcRoot)) {
             print ("option buildDir: not set" . "\r\n");
             $isValid = false;
         }

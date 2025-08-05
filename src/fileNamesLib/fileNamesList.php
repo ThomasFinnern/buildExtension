@@ -11,6 +11,7 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 //use Finnern\BuildExtension\src\fileNamesLib\fithFolderName;
 // use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
+use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /**
@@ -22,8 +23,8 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class fileNamesList
 ================================================================================*/
 
-class fileNamesList extends baseExecuteTasks
-    implements executeTasksInterface
+class fileNamesList // extends baseExecuteTasks
+//    implements executeTasksInterface
 {
 
     /** @var fithFileName[] $fileNames */
@@ -46,21 +47,24 @@ class fileNamesList extends baseExecuteTasks
 
     private string $listFileName = "";
 
+    public string $srcRoot = "";
+
+    public bool $isNoRecursion = false;
+
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
 
     public function __construct(
-        $path = '',
+        $srcPath = '',
         $includeExt = '',
         $excludeExt = '',
         $isNoRecursion = '',
         $writeListToFile = '',
     )
     {
-        // parent::construct();
-
         $hasError = 0;
+
         try {
 //            print('*********************************************************' . "\r\n");
 //            print ("construct: " . "\r\n");
@@ -73,7 +77,8 @@ class fileNamesList extends baseExecuteTasks
 
             $this->clean();
 
-            $this->assignParameters($path, $includeExt, $excludeExt, $isNoRecursion, $writeListToFile);
+            $this->assignParameters($srcPath, $includeExt, $excludeExt, $isNoRecursion, $writeListToFile);
+
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -106,7 +111,7 @@ class fileNamesList extends baseExecuteTasks
     }
 
     /**
-     * @param mixed $path
+     * @param mixed $srcPath
      * @param mixed $includeExt
      * @param mixed $excludeExt
      * @param mixed $isNoRecursion
@@ -115,14 +120,14 @@ class fileNamesList extends baseExecuteTasks
      * @return void
      */
     public function assignParameters(
-        mixed $path,
+        mixed $srcPath,
         mixed $includeExt,
         mixed $excludeExt,
         mixed $isNoRecursion,
         mixed $writeListToFile,
     ): void
     {
-        $this->srcRoot = $path;
+        $this->srcRoot = $srcPath;
 
         [$this->isIncludeExt, $this->includeExtList] =
             $this->splitExtensionString($includeExt);
@@ -136,6 +141,71 @@ class fileNamesList extends baseExecuteTasks
 
             $this->listFileName = $writeListToFile;
         }
+    }
+
+    /**
+     * @param option $option
+     * @return bool true on option is consumed
+     */
+    public function assignOption(option $option): bool
+    {
+//        $isOptionConsumed = parent::assignOption($option);
+        $isOptionConsumed = false;
+
+        if ( ! $isOptionConsumed) {
+
+            switch (strtolower($option->name)) {
+                case strtolower('includeExt'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    //$this->yearText = $option->value;
+                    [$this->isIncludeExt, $this->includeExtList] =
+                        $this->splitExtensionString($option->value);
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('excludeExt'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    //$this->yearText = $option->value;
+                    [$this->isExcludeExt, $this->excludeExtList] =
+                        $this->splitExtensionString($option->value);
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('isNoRecursion'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->isNoRecursion = boolval($option->value);
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('iswritelisttofile'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->isWriteListToFile = boolval($option->value);
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('listfilename'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->listFileName = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('srcRoot'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->srcRoot = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+            } // switch
+        }
+
+        return $isOptionConsumed;
+    }
+
+    public function execute(): int
+    {
+        $this->scan4Filenames();
+
+        return 0;
     }
 
     private function splitExtensionString($extString = "")
@@ -308,68 +378,6 @@ class fileNamesList extends baseExecuteTasks
         }
     }
 
-    public function assignTask(task $task): int
-    {
-        $this->clean();
-
-        $this->taskName = $task->name;
-
-        $options = $task->options;
-
-        foreach ($options->options as $option) {
-
-            $isBaseOption = $this->assignBaseOption($option);
-
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
-                    case strtolower('includeext'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        //$this->yearText = $option->value;
-                        [$this->isIncludeExt, $this->includeExtList] =
-                            $this->splitExtensionString($option->value);
-                        break;
-
-                    case strtolower('excludeext'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        //$this->yearText = $option->value;
-                        [$this->isExcludeExt, $this->excludeExtList] =
-                            $this->splitExtensionString($option->value);
-                        break;
-
-                    case strtolower('isnorecursion'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        $this->isNoRecursion = boolval($option->value);
-                        break;
-
-                    case strtolower('iswritelisttofile'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        $this->isWriteListToFile = boolval($option->value);
-                        break;
-
-                    case strtolower('listfilename'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        $this->listFileName = boolval($option->value);
-                        break;
-
-
-                    default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
-                } // switch
-
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
-    }
-
-    public function execute(): int
-    {
-        $this->scan4Filenames();
-
-        return 0;
-    }
-
     function scan4Filenames(
         $path = '',
         $includeExt = '',
@@ -403,6 +411,7 @@ class fileNamesList extends baseExecuteTasks
 
             // iterate over folder recursively if set
             $this->scanPath4Filenames($this->srcRoot);
+
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -557,11 +566,6 @@ class fileNamesList extends baseExecuteTasks
         return $isValid;
     }
 
-    public function executeFile(string $filePathName): int
-    {
-        // TODO: throw
-        return 0;
-    }
 
 //    public function subFileListByExtensions (string $includeExtList, string $excludeExtList): fileNamesList
 //    {

@@ -157,132 +157,134 @@ class fileHeaderByFileData extends fileHeaderData
     // ToDo: Extract assignOption on all assignTask
     public function assignOption(option $option): bool
     {
-        $isDefinedOption = false;
+//        $isOptionConsumed = parent::assignOption($option);
+        $isOptionConsumed = false;
 
-        switch (strtolower($option->name)) {
-            case strtolower('filename'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->fileName = $option->value;
-                $isDefinedOption  = true;
-                break;
+        if ( ! $isOptionConsumed) {
+            switch (strtolower($option->name)) {
+                case strtolower('filename'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->fileName = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isupdatecreationdate'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                $this->isUpdateActCopyrightDate = $option->value;
-                $isDefinedOption                = true;
-                break;
+                case strtolower('isupdatecreationdate'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->isUpdateActCopyrightDate = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-           case strtolower('isforcestdpackage'):
-                $this->isForceStdPackage = $option->value;
-               $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestdpackage'):
+                    $this->isForceStdPackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcestdsubpackage'):
-                $this->isForceStdSubpackage = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestdsubpackage'):
+                    $this->isForceStdSubpackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcestaactcopyright'):
-                $this->isForceStdActCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestaactcopyright'):
+                    $this->isForceStdActCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcestdsincecopyright'):
-                $this->isForceStdSinceCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestdsincecopyright'):
+                    $this->isForceStdSinceCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcesincecopyrighttotoday'):
-                $this->isForceSinceCopyrightToToday = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcesincecopyrighttotoday'):
+                    $this->isForceSinceCopyrightToToday = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcestdlicense'):
-                $this->isForceStdLicense = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestdlicense'):
+                    $this->isForceStdLicense = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('isforcestdauthor'):
-                $this->isForceStdAuthor = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-
-            case strtolower('isforcepackage'):
-                $this->isForcePackage = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforcesubpackage'):
-                $this->isForceSubpackage = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforceactcopyright'):
-                $this->isForceActCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforcesincecopyright'):
-                $this->isForceSinceCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforceactcopyrighttotoday'):
-                $this->isForceActCopyrightToToday = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforcelicense'):
-                $this->isForceLicense = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-            case strtolower('isforceauthor'):
-                $this->isForceAuthor = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcestdauthor'):
+                    $this->isForceStdAuthor = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
 
-            case strtolower('valueforcepackage'):
-                $this->valueForcePackage = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcepackage'):
+                    $this->isForcePackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforcesubpackage'):
-                $this->valueForceSubpackage = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcesubpackage'):
+                    $this->isForceSubpackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforceactcopyright'):
-                $this->valueForceActCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforceactcopyright'):
+                    $this->isForceActCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforcesincecopyright'):
-                $this->valueForceSinceCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcesincecopyright'):
+                    $this->isForceSinceCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforcecopyright'):
-                $this->valueForceCopyright = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforceactcopyrighttotoday'):
+                    $this->isForceActCopyrightToToday = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforcelicense'):
-                $this->valueForceLicense = $option->value;
-                $isDefinedOption  = true;
-                break;
+                case strtolower('isforcelicense'):
+                    $this->isForceLicense = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-            case strtolower('valueforceauthor'):
-                $this->valueForceAuthor = $option->value;
-                $isDefinedOption  = true;
-                break;
-
-        } // switch
+                case strtolower('isforceauthor'):
+                    $this->isForceAuthor = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
 
-        return $isDefinedOption;
+                case strtolower('valueforcepackage'):
+                    $this->valueForcePackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforcesubpackage'):
+                    $this->valueForceSubpackage = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforceactcopyright'):
+                    $this->valueForceActCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforcesincecopyright'):
+                    $this->valueForceSinceCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforcecopyright'):
+                    $this->valueForceCopyright = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforcelicense'):
+                    $this->valueForceLicense = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('valueforceauthor'):
+                    $this->valueForceAuthor = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+            } // switch
+        }
+
+        return $isOptionConsumed;
     }
 
     public function execute(): int

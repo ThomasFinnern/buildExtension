@@ -9,6 +9,8 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileHeaderLib_JG\fileHeaderByFileData;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class updateAll_fileHeaders
@@ -34,20 +36,67 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
-            throw new \Exception("not adjusted to JG ");
-
             //--- use file header author task ----------------------
 
             $this->fileHeaderByFileData = new fileHeaderByFileData();
 
-
-
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
         }
-
     }
 
+
+    /**
+     * @param options $options
+     * @param task $task
+     * @return void
+     */
+    protected function assignLocalOption(option $option): bool
+    {
+        $isOptionConsumed = false;
+
+        $isOptionConsumed = $this->fileHeaderByFileData->assignOption($option);
+
+//        if (!$isOptionConsumed) {
+//
+//            switch (strtolower($option->name)) {
+//                case strtolower('X'):
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                    $isOptionConsumed = true;
+//                    break;
+//
+//            } // switch
+//        }
+
+        return $isOptionConsumed;
+    }
+
+    public function execute(): int
+    {
+        //--- collect files ---------------------------------------
+
+//        // files not set already use local file names task
+//        if (count($this->fileNamesList->fileNames) == 0) {
+//            $fileNamesList = new fileNamesList ($this->srcRoot, 'php ts',
+//                '', $this->isNoRecursion);
+//            $this->fileNamesList = $fileNamesList;
+//
+//            $fileNamesList->scan4Filenames();
+//        }
+
+        // collect file list if not existing
+        if (count($this->fileNamesList->fileNames) == 0) {
+            $this->fileNamesList->execute();
+        }
+
+        //--- iterate over all files -------------------------------------
+
+        foreach ($this->fileNamesList->fileNames as $fileName) {
+            $this->fileHeaderByFileData->upgradeHeader($fileName->srcPathFileName);
+        }
+
+        return 0;
+    }
 
     public function text(): string
     {
@@ -69,75 +118,5 @@ class updateAll_fileHeaders extends baseExecuteTasks
     }
 
 
-    // Task name with options
-    public function assignTask(task $task): int
-    {
-        $this->taskName = $task->name;
-
-        $options = $task->options;
-
-        foreach ($options->options as $option) {
-
-            $isBaseOption = $this->assignBaseOption($option);
-
-            // base options are already handled
-            if (!$isBaseOption) {
-                $isFileHeaderOption = $this->fileHeaderByFileData->assignOption($option);
-            }
-
-            if ( ! $isBaseOption && ! $isFileHeaderOption) {
-
-                switch (strtolower($option->name)) {
-//				case strtolower('X'):
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//					break;
-
-                    default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
-                } // switch
-
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
-    }
-
-    public function executeFile(string $filePathName): int
-    {
-        // create a one file 'fileNamesList' object
-        $this->fileNamesList = new fileNamesList();
-        $this->fileNamesList[] = $filePathName;
-
-        $this->execute();
-
-        return 0;
-    }
-
-    public function execute(): int
-    {
-        //--- collect files ---------------------------------------
-
-        // files not set already use local file names task
-        if (count($this->fileNamesList->fileNames) == 0) {
-            $fileNamesList = new fileNamesList ($this->srcRoot, 'php ts',
-                '', $this->isNoRecursion);
-            $this->fileNamesList = $fileNamesList;
-
-            $fileNamesList->scan4Filenames();
-        }
-//        else {
-//            // use given files
-//            // $fileNamesList = $this->fileNamesList;
-//        }
-
-        //--- iterate over all files -------------------------------------
-
-        foreach ($this->fileNamesList->fileNames as $fileName) {
-            $this->fileHeaderByFileData->upgradeHeader($fileName->srcPathFileName);
-        }
-
-        return 0;
-    }
 } // updateAll_fileHeaders
 

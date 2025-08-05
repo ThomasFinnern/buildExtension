@@ -8,6 +8,8 @@ use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\versionLib\versionId;
 
 /*================================================================================
@@ -217,33 +219,33 @@ class manifestFile extends baseExecuteTasks
 //        return $manifestPathFileName;
 //    }
 
-    // Task name with options
-    public function assignTask(task $task): int
-    {
-        $this->taskName = $task->name;
-
-        $options = $task->options;
-
-        foreach ($options->options as $option) {
-
-            $isBaseOption = $this->assignBaseOption($option);
-
-            // version: ToDo: create on construct and use flags on execute
-
-            // base options are already handled
-            if (!$isBaseOption) {
-                $isVersionOption = $this->versionId->assignVersionOption($option);
-            }
-
-            if (!$isBaseOption && !$isVersionOption) {
-
-                $this->assignManifestOption($option);
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
-    }
+//    // Task name with options
+//    public function assignTask(task $task): int
+//    {
+//        $this->taskName = $task->name;
+//
+//        $options = $task->options;
+//
+//        foreach ($options->options as $option) {
+//
+//            $isBaseOption = $this->assignBaseOption($option);
+//
+//            // version: ToDo: create on construct and use flags on execute
+//
+//            // base options are already handled
+//            if (!$isBaseOption) {
+//                $isVersionOption = $this->versionId->assignVersionOption($option);
+//            }
+//
+//            if (!$isBaseOption && !$isVersionOption) {
+//
+//                $this->assignManifestOption($option);
+//                // $OutTxt .= $task->text() . "\r\n";
+//            }
+//        }
+//
+//        return 0;
+//    }
 
     /**
      *
@@ -252,16 +254,19 @@ class manifestFile extends baseExecuteTasks
      *
      * @return bool
      */
-    public function assignManifestOption(mixed $option): bool
+    public function assignOption(option $option): bool
     {
         // ToDo: on each option assign isForce... , then use it on write
         // Actual assigned options are only used if the value is not set in the manifest file
 
-        $isManifestOption = false;
+        $isOptionConsumed = parent::assignOption($option);
 
-        $isVersionOption = $this->versionId->assignVersionOption($option);
+        if ( ! $isOptionConsumed) {
 
-        if ( ! $isVersionOption) {
+            $isOptionConsumed = $this->versionId->assignVersionOption($option);
+        }
+
+        if ( ! $isOptionConsumed) {
 
             if(str_starts_with($option->name, 'mani:')) {
 
@@ -271,7 +276,7 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('manifestFile'):
                         print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->manifestPathFileName = $option->value;
-                        $isManifestOption = true;
+                        $isOptionConsumed = true;
                         break;
 
                     //--- xml elements values to be written --------------------------------------
@@ -304,7 +309,7 @@ class manifestFile extends baseExecuteTasks
 
                         print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->requests[$name] = $option->value;
-                        $isManifestOption = true;
+                        $isOptionConsumed = true;
                         break;
 
                     //--- flags to execute --------------------------------------
@@ -312,27 +317,27 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('isUpdateCreationDate'):
                         print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->isUpdateCreationDate = $option->value;
-                        $isManifestOption = true;
+                        $isOptionConsumed = true;
                         break;
 
                     // done automatically below with flags for versionId
 //                case strtolower('isIncrementVersion_build'):
 //                    print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
 //                    $this->isIncrementVersion_build = $option->value;
-//                    $isManifestOption = true;
+//                    $isOptionConsumed = true;
 //                    break;
 
                     case strtolower('isUpdateActCopyrightYear '):
                         print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
                         $this->isUpdateActCopyrightYear = $option->value;
-                        $isManifestOption = true;
+                        $isOptionConsumed = true;
                         break;
 
                 } // switch
             }
         }
 
-        return $isManifestOption ||  $isVersionOption;
+        return $isOptionConsumed;
     }
 
     public function execute(): int // $hasError

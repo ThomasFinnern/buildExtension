@@ -28,7 +28,7 @@ use Finnern\BuildExtension\src\tasksLib\tasks;
 
 $HELP_MSG = <<<EOT
     >>>
-    doBuildTasks class
+    doFileTasks class
 
     ToDo: option commands , example
 
@@ -37,10 +37,10 @@ $HELP_MSG = <<<EOT
 
 
 /*================================================================================
-Class doBuildTasks
+Class doFileTasks
 ================================================================================*/
 
-class doBuildTasks
+class doFileTasks
 {
 
     /**
@@ -197,65 +197,90 @@ class doBuildTasks
 
 //                    case strtolower('forceversionid'):
 //                        $this->actTask = $this->createTask(new forceVersionId (), $textTask);
+//                        // run task
+//                        $hasError = $this->actTask->execute();
 //                        break;
 
                     case strtolower('forcecreationdate'):
                         $this->actTask = $this->createTask(new forceCreationDate (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
                         break;
 
 //                    case strtolower('increaseversionid'):
 //                        $this->actTask = $this->createTask(new increaseVersionId (), $textTask);
+//                        // run task
+//                        $hasError = $this->actTask->execute();
 //                        break;
 
                     case strtolower('clean4gitcheckin'):
                         $this->actTask = $this->createTask(new clean4GitCheckin (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
                         break;
 
                     case strtolower('clean4release'):
 //                        ToDo: $this->actTask = $this->createTask (new clean4release (), $textTask);
+//                        $this->actTask = $this->createTask(new increaseVersionId (), $textTask);
+//                        // run task
+//                        $hasError = $this->actTask->execute();
                         break;
 
 
                     //--- exchange header tasks --------------------------------------------------
 
-                    case strtolower('exchangeall_licenselines'):
+                    case strtolower('exchangeAll_licenselines'):
                         $this->actTask = $this->createTask(new exchangeAll_licenseLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_actcopyrightyearlines'):
-                        $this->actTask = $this->createTask(new exchangeAll_actCopyrightYearLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_authorlines'):
-                        $this->actTask = $this->createTask(new exchangeAll_authorLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_linklines'):
-                        $this->actTask = $this->createTask(new exchangeAll_linkLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_packages'):
-                        $this->actTask = $this->createTask(new exchangeAll_packages (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_sincecopyrightyear'):
-                        $this->actTask = $this->createTask(new exchangeAll_sinceCopyrightYearLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_subpackagelines'):
-                        $this->actTask = $this->createTask(new exchangeAll_subPackageLines (), $textTask);
-                        break;
-
-                    case strtolower('exchangeall_headers'):
-                        $this->actTask = $this->createTask(new buildExtension (), $textTask);
-                        break;
-
-                    case strtolower('updateall_fileheaders'):
-                        $this->actTask = $this->createTask(new updateAll_fileHeaders (), $textTask);
-
                         // run task
                         $hasError = $this->actTask->execute();
+                        break;
 
+                    case strtolower('exchangeAll_actcopyrightyearlines'):
+                        $this->actTask = $this->createTask(new exchangeAll_actCopyrightYearLines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_authorlines'):
+                        $this->actTask = $this->createTask(new exchangeAll_authorLines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_linklines'):
+                        $this->actTask = $this->createTask(new exchangeAll_linkLines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_packages'):
+                        $this->actTask = $this->createTask(new exchangeAll_packages (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_sincecopyrightyear'):
+                        $this->actTask = $this->createTask(new exchangeAll_sinceCopyrightYearLines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_subpackagelines'):
+                        $this->actTask = $this->createTask(new exchangeAll_subPackageLines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_headers'):
+                        $this->actTask = $this->createTask(new buildExtension (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('updateAll_fileheaders'):
+                        $this->actTask = $this->createTask(new updateAll_fileHeaders (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
                         break;
 
                     default:
@@ -289,7 +314,7 @@ class doBuildTasks
         // $OutTxt = "------------------------------------------" . "\r\n";
         $OutTxt = "";
 
-        $OutTxt .= "--- doBuildTasks: Tasks ---" . "\r\n";
+        $OutTxt .= "--- doFileTasks: Tasks ---" . "\r\n";
 
         // $OutTxt .= "Tasks count: " . $this->textTasks->count() . "\r\n";
 
@@ -301,7 +326,7 @@ class doBuildTasks
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- doBuildTasks: class  ---" . "\r\n";
+        $OutTxt .= "--- doFileTasks: class  ---" . "\r\n";
 
 
         $OutTxt .= "Not defined yet " . "\r\n";
@@ -317,11 +342,13 @@ class doBuildTasks
         return $OutTxt;
     }
 
-    public function extractTasksFromFile(mixed $taskFile): void
+    public function extractTasksFromFile(mixed $taskFile) : doFileTasks
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromFile($taskFile));
+
+        return $this;
     }
 
-} // doBuildTasks
+} // doFileTasks
 

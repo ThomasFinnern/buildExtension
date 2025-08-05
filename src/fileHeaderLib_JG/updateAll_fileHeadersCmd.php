@@ -16,9 +16,6 @@ $HELP_MSG = <<<EOT
     <<<
     EOT;
 
-throw new \Exception("not adjusted to JG ");
-
-
 /*================================================================================
 main (used from command line)
 ================================================================================*/
@@ -96,8 +93,8 @@ $tasksLine = ' task:updateAll_fileHeaders'
 
 ;
 
-// $taskFile = "";
-$taskFile="./updateAll_fileHeaders.tsk";
+$taskFile = "";
+// $taskFile="./updateAll_fileHeaders.tsk";
 $tasksLine = "";
 
 //$optionFile = '';

@@ -148,7 +148,7 @@ class options
                 $idxEqual = strpos($optionsString, "=");
 
                 # value found ?
-                if ($idxEqual) {
+                if ($idxEqual && strlen($optionsString) > $idxEqual +1) {
 
                     $quotation = $optionsString[$idxEqual + 1];
 

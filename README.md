@@ -12,14 +12,37 @@ General tasks
   Exchange header parts like actual year, copyright texts ...
 * future:   
 
-## Calling a task
+## Executing a task
 
-A \*.bat calling buildExtensionCmd.php with references to task(s) (\*.tsk) and option(s) (\*.opt) are the normal path to build an extension (component, module, ...)  
+All \<task\>cmd.php files accept task and options file in the commandline.  
+Example: ```doFileTasksCmd.php -f updateAll_fileHeaders.tsk -o options_version_tsk\build_develop.opt```
+
+It will call a matching class \<task\>.php file to assign the options and execute the task.
+
+Expected extension but not enforced: Task file: \*.tsk, Options file: \*.opt. More below.
+
+### doFileTasksCmd.php: general tasks executer
+
+Nearl all task can be adressed by calling doFileTasksCmd with task matching *tsk file. Inside doFileTasks.php a distributer calls the intended task file
+
+The doBuildTasksCmd.php file is also intended for calling multiple tasks defined in single \*.tsk file
+
+### buildExtensionCmd.php: general build start
+
+As this is the main task for all joomla! extensions the buildExtensionCmd.php file is located directly in the src folder next to the doFileTasksCmd.php file
+
+SIt support to build an extension (component, module, ...)  *.zip file
 See examples in folder build_tsk
 
-The bat should address a task-matching ...cmd.php file, which collects options and calls the task-php file to apply the options and execute the task
+The build process will call several of the subtasks in the subfolders
 
-The doBuildTasksCmd.php file is intended for calling multiple task from one \*.tsk file
+### \<subtask\>cmd.php: base classes
+
+The subfolders contain several 'subtask' cmd files. These can be called directly if needed. 
+
+Example: ```src/fileHeaderLib/updateAll_fileHeadersCmd.php -f updateAll_fileHeaders.tsk -o options_version_tsk\build_develop.opt```
+
+Attetion: The calling batch and the *.tsk file need to regard the deeper folder for referencing the calling project folder
 
 ### Task file
 

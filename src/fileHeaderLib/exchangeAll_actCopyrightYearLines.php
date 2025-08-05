@@ -8,6 +8,8 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class exchangeAll_actCopyrightYear
@@ -46,6 +48,65 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     }
 
 
+    /**
+     * @param options $options
+     * @param task $task
+     * @return void
+     */
+    public function assignOption(option $option): bool
+    {
+        $isOptionConsumed = parent::assignOption($option);
+
+        if ( ! $isOptionConsumed) {
+            switch (strtolower($option->name)) {
+
+                case strtolower('yearText'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->yearText = $option->value;
+                    break;
+
+            } // switch
+        }
+
+        return $isOptionConsumed;
+    }
+
+
+    public function execute(): int
+    {
+        //--- collect files ---------------------------------------
+
+//        // files not set already
+//        if (count($this->fileNamesList->fileNames) == 0) {
+//            $fileNamesList = new fileNamesList ($this->srcRoot, 'php',
+//                '', $this->isNoRecursion);
+//            $this->fileNamesList = $fileNamesList;
+//
+//            $fileNamesList->scan4Filenames();
+//        }
+
+        // collect file list if not existing
+        if (count($this->fileNamesList->fileNames) == 0) {
+            $this->fileNamesList->execute();
+        }
+
+        //--- use file header license task ----------------------
+
+        $fileHeaderByFileLine = new fileHeaderByFileLine();
+
+        //--- iterate over all files -------------------------------------
+
+        foreach ($this->fileNamesList->fileNames as $fileName) {
+            $fileHeaderByFileLine->exchangeActCopyrightYear(
+                $fileName->srcPathFileName,
+                $this->yearText,
+            );
+        }
+
+        return 0;
+    }
+
+
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . "\r\n";
@@ -65,77 +126,5 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
         return $OutTxt;
     }
 
-    // Task name with options
-    public function assignTask(task $task): int
-    {
-        $this->taskName = $task->name;
-
-        $options = $task->options;
-
-        foreach ($options->options as $option) {
-
-            $isBaseOption = $this->assignBaseOption($option);
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
-
-                    case strtolower('yeartext'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-                        $this->yearText = $option->value;
-                        break;
-
-
-                    default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
-                } // switch
-
-                // $OutTxt .= $task->text() . "\r\n";
-            }
-        }
-
-        return 0;
-    }
-
-    public function executeFile(string $filePathName): int
-    {
-        // create a one file 'fileNamesList' object
-        $this->fileNamesList = new fileNamesList();
-        $this->fileNamesList[] = $filePathName;
-
-        $this->execute();
-
-        return 0;
-    }
-
-    public function execute(): int
-    {
-        //--- collect files ---------------------------------------
-
-        // files not set already
-        if (count($this->fileNamesList->fileNames) == 0) {
-            $fileNamesList = new fileNamesList ($this->srcRoot, 'php',
-                '', $this->isNoRecursion);
-            $this->fileNamesList = $fileNamesList;
-
-            $fileNamesList->scan4Filenames();
-        } else {
-            // use given files
-            // $fileNamesList = $this->fileNamesList;
-        }
-
-        //--- use file header license task ----------------------
-
-        $fileHeaderByFileLine = new fileHeaderByFileLine();
-
-        //--- iterate over all files -------------------------------------
-
-        foreach ($this->fileNamesList->fileNames as $fileName) {
-            $fileHeaderByFileLine->exchangeActCopyrightYear(
-                $fileName->srcPathFileName,
-                $this->yearText,
-            );
-        }
-
-        return 0;
-    }
 } // exchangeAll_actCopyrightYear
 

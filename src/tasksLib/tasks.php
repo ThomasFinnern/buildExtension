@@ -173,7 +173,7 @@ class tasks
             $tasksLine = Trim($inTasksLine);
 
             if ($tasksLine != '') {
-                while ($this->isStringStartsWithTask($tasksLine)) {
+                while ($this->isTaskStart($tasksLine)) {
 
                     //--- extract next task -------------------------------
 
@@ -207,23 +207,6 @@ class tasks
         return $this;
     }
 
-    // extract multiple tasks from string
-
-    private function isStringStartsWithTask(string $tasksLine)
-    {
-        $isTask = false;
-
-        $tasksLine = Trim($tasksLine);
-        $checkPart = strtolower(substr($tasksLine, 0, 5));
-
-        // /option1 /option2=xxx /option3="01 test space string"
-        if ($checkPart == 'task:') {
-            $isTask = true;
-        }
-
-        return $isTask;
-    }
-
     // ToDo: A task may have more attributes like *.ext to
 
     public function addTask(task $task): void
@@ -232,6 +215,15 @@ class tasks
             // $this->tasks [$task->name] = $task;
             $this->tasks [] = $task;
         }
+    }
+
+    public function assignTasks(tasks $tasks): tasks
+    {
+        foreach ($tasks as $task) {
+            $this->tasks[] = $tasks;
+        }
+
+        return $this;
     }
 
     /*

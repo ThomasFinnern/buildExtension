@@ -16,6 +16,10 @@ interface executeTasksInterface
     // Task with options
     public function assignTask(task $task): int;
 
+    public function assignOptions(options $options, string $taskName): int;
+    public function assignOption(option $option): bool;
+//    function assignLocalOption(option $option): bool;
+
     public function execute(): int; // $hasError
 
     public function executeFile(string $filePathName): int;

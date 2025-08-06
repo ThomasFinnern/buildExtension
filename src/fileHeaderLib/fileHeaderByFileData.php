@@ -370,7 +370,7 @@ class fileHeaderByFileData // extends fileHeaderData
             }
 
             // Check for ' * @ ....
-            $this->isValid = $this->check4ValidHeaderLines($this->fileHeaderLines);
+            $this->isValid = $this->oFileHeader->check4ValidHeaderLines($this->fileHeaderLines);
 
 
             // todo: print ("headerLines: " . $headerLines . "\r\n");
@@ -475,25 +475,9 @@ class fileHeaderByFileData // extends fileHeaderData
         return;
     }
 
-    private function check4ValidHeaderLines(array|string $headerLines): bool
-    {
-        $isValid = false;
-
-        foreach ($headerLines as $line) {
-
-            // Check for ' * @ ....
-            if (str_contains($line, ' * @')) {
-                $isValid = true;
-                break;
-            }
-        }
-
-        return $isValid;
-    }
-
     private function replaceStandardHeaderLines(): void
     {
-        $standardHeader = new fileHeaderData();
+        $standardHeader = fileHeaderDataFactory::oFileHeaderData($this->callerProjectId);
 
         if ($this->isForceStdPackage) {
             $this->oFileHeader->package = $standardHeader->package;
@@ -569,7 +553,7 @@ class fileHeaderByFileData // extends fileHeaderData
 
     }
 
-    private function compareHeaderLines(): bool
+    protected function compareHeaderLines(): bool
     {
         // create actual header lines
         $this->newHeaderLines = $this->oFileHeader->headerLines();

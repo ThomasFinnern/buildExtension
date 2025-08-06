@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
 use Exception;
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\fileHeaderLib_JG\copyrightText;
 
@@ -47,7 +48,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
 
     // copyright
     // " * @copyright  2008 - 2025  JoomGallery::ProjectTeam
-    public copyrightText $copyright;
+    public copyrightTextBase|null $oCopyright;
 
 //    public string $yearToday = "????";
 
@@ -76,9 +77,11 @@ class fileHeaderData_JG extends fileHeaderDataBase
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    protected int $middlePadCount = 18; // By 'subpackage' name length
+    protected int $middlePadCount = 17; // By 'subpackage' name length
     protected int $endPadCount = 88; // xxx [spaces] **
     // private int $middlePadCountCopyright = 15; // By 'subpackage' name length
+
+    public string $callerProjectId = 'JG'; // ToDo: create at start or assing before use
 
 
     /*--------------------------------------------------------------------
@@ -105,14 +108,16 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $this->author = self::AUTHOR;
         $this->link = self::LINK;
 
-        $this->copyright = new copyrightText();
+        if (!empty($this->oCopyright)) {
+            $this->oCopyright->init();
+        }
     }
 
     /*--------------------------------------------------------------------
     extractNameFromHeaderLine
     --------------------------------------------------------------------*/
 
-    function extractHeaderValuesFromLines(array $headerLines = [])
+    public function extractHeaderValuesFromLines(array $headerLines = [])
     {
         $hasError = 0;
 
@@ -134,7 +139,9 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
-                        $this->copyright = new copyrightText($line);
+
+                        $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
+                        $this->oCopyright->scan4CopyrightInLine ($line);
                     } else {
                         $value = $this->scan4HeaderValueInLine($name, $line);
 
@@ -223,34 +230,13 @@ class fileHeaderData_JG extends fileHeaderDataBase
         return $value;
     }
 
-    public function text(): string
-    {
-        $OutTxt = "";
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fileHeader ---" . "\r\n";
-
-        $OutTxt .= "/**" . "\r\n";
-        $OutTxt .= "******************************************************************************************" . "\r\n";
-
-//        $OutTxt .= $this->headerFormat('package', $this->package);
-//        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
-        $OutTxt .= $this->headerFormat('package', $this->subpackage);
-//        $OutTxt .= $this->headerFormat('subpackage', $this->package);
-        $OutTxt .= $this->headerFormat('author', $this->author);
-        $OutTxt .= $this->headerFormatCopyright();
-        $OutTxt .= $this->headerFormat('license', $this->license);
-
-        $OutTxt .= "*****************************************************************************************/" . "\r\n";
-
-        return $OutTxt;
-    }
-
     public function headerLines(): array
     {
         $outLines = [];
 
         try {
             $outLines[] = "/**" . "\r\n";
+            $outLines[] = "******************************************************************************************" . "\r\n";
 
 //            $outLines[] = $this->headerFormat('package', $this->package);
 //            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
@@ -260,7 +246,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
             $outLines[] = $this->headerFormatCopyright();
             $outLines[] = $this->headerFormat('license', $this->license);
 
-            $outLines[] = " */" . "\r\n";
+            $outLines[] = "*****************************************************************************************/" . "\r\n";
 
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
@@ -284,19 +270,42 @@ class fileHeaderData_JG extends fileHeaderDataBase
         return $headerLine;
     }
 
-    public function headerFormatCopyright(): string // , int $middlePadCount
-    {
-        // copyright begins earlier
-//        $middlePadCount = $this->middlePadCount;
+//    public function headerFormatCopyright(): string // , int $middlePadCount
+//    {
+//        // copyright begins earlier
+////        $middlePadCount = $this->middlePadCount;
+////
+////        $headerLine = str_pad("**   @" . $this->copyrightPreHeader, $middlePadCount, " ", STR_PAD_RIGHT);
+////        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
+////        $headerLine .= ' ' . $this->postCopyrightAuthor;
 //
-//        $headerLine = str_pad("**   @" . $this->copyrightPreHeader, $middlePadCount, " ", STR_PAD_RIGHT);
-//        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
-//        $headerLine .= ' ' . $this->postCopyrightAuthor;
+//        $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
+//
+//        $headerLine = $this->oCopyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
+//        $headerLine = rtrim($headerLine) . "\r\n";
+//
+//        return $headerLine;
+//    }
 
-        $headerLine = $this->copyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
-        $headerLine = rtrim($headerLine) . "\r\n";
+    public function headerText() : string
+    {
+        $OutTxt = "";
+        $OutTxt .= "/**" . "\r\n";
+        $OutTxt .= "******************************************************************************************" . "\r\n";
 
-        return $headerLine;
+//        $OutTxt .= $this->headerFormat('package', $this->package);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+        $OutTxt .= $this->headerFormat('package', $this->subpackage);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->package);
+        $OutTxt .= $this->headerFormat('author', $this->author);
+        $OutTxt .= $this->headerFormatCopyright();
+        $OutTxt .= $this->headerFormat('license', $this->license);
+
+//       $OutTxt .= $this->headerFormat('link', $this->link);
+
+        $OutTxt .= "*****************************************************************************************/" . "\r\n";
+
+        return $OutTxt;
     }
 
     public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
@@ -315,9 +324,34 @@ class fileHeaderData_JG extends fileHeaderDataBase
         return $headerLocal !== $headerExtern;
     }
 
-    public function headerText() : string
+    public function check4ValidHeaderLines(array|string $headerLines): bool
+    {
+        $isValid = false;
+
+        foreach ($headerLines as $line) {
+
+            // ToDo: use regex to ignore number of spaces
+            // Check for '**...@ ....
+            if (str_contains($line, '**   @')) {
+                $isValid = true;
+                break;
+            } else {
+                if (str_contains($line, '@package')) {
+                    $isValid = true;
+                    break;
+                }
+            }
+        }
+
+        return $isValid;
+    }
+
+    public function text(): string
     {
         $OutTxt = "";
+        $OutTxt = "------------------------------------------" . "\r\n";
+        $OutTxt .= "--- fileHeader ---" . "\r\n";
+
         $OutTxt .= "/**" . "\r\n";
         $OutTxt .= "******************************************************************************************" . "\r\n";
 
@@ -328,8 +362,6 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $OutTxt .= $this->headerFormat('author', $this->author);
         $OutTxt .= $this->headerFormatCopyright();
         $OutTxt .= $this->headerFormat('license', $this->license);
-
-//       $OutTxt .= $this->headerFormat('link', $this->link);
 
         $OutTxt .= "*****************************************************************************************/" . "\r\n";
 

@@ -64,7 +64,7 @@ class fileHeaderData
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    private int $padCount = 20; // By 'subpackage' name length
+    private int $middlePadCount = 20; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
 
 
@@ -92,11 +92,11 @@ class fileHeaderData
         $this->copyright = new copyrightText();
     }
 
-/*--------------------------------------------------------------------
+    /*--------------------------------------------------------------------
     extractNameFromHeaderLine
     --------------------------------------------------------------------*/
 
-    function extractHeaderValuesFromLines(array $headerLines = [])
+    public function extractHeaderValuesFromLines(array $headerLines = [])
     {
         $hasError = 0;
 
@@ -174,7 +174,7 @@ class fileHeaderData
     --------------------------------------------------------------------*/
 
     // '(c)' of copyright will be ignored here
-    private function extractNameFromHeaderLine(string $line) : array
+    public function extractNameFromHeaderLine(string $line) : array
     {
         $name = '';
         $behind = '';
@@ -252,7 +252,7 @@ class fileHeaderData
     public function headerFormat($name, $value): string // , int $padCount
     {
         // copyright begins earlier
-        $padCount = $this->padCount;
+        $padCount = $this->middlePadCount;
 
         $headerLine = str_pad(" * @" . $name, $padCount, " ", STR_PAD_RIGHT);
         $headerLine .= $value;

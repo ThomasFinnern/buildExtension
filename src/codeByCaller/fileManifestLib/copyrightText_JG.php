@@ -85,9 +85,14 @@ class copyrightText_JG extends copyrightTextBase
 
                 // author from line is last part
                 $pieces = explode($this->actCopyrightDate, $line);
+
                 $count = count($pieces);
                 if ($count > 0) {
-                    $this->postCopyrightAuthor = trim($pieces[$count-1]);
+
+                    $outer = trim($pieces[$count-1]);
+                    $postCopyrightAuthor = trim(substr($outer, 0, strrpos($outer, ' ')));
+
+                    $this->postCopyrightAuthor = $postCopyrightAuthor;
                 }
 
             }
@@ -131,10 +136,10 @@ class copyrightText_JG extends copyrightTextBase
 
         $copyrightLine = str_pad("**   " . $this->copyrightPrePhp, $middlePadCount, " ", STR_PAD_RIGHT);
         $copyrightLine .= $sinceCopyrightDate . ' - ' . $actCopyrightDate;
-        $copyrightLine .= ' ' . $this->postCopyrightAuthor;
+        $copyrightLine .= '  ' . $this->postCopyrightAuthor;
         $copyrightLine = str_pad($copyrightLine, $endPadCount, " ", STR_PAD_RIGHT) . '**';
 
-        return rtrim($copyrightLine);
+        return rtrim($copyrightLine) . "\r\n";
     }
 
     // ToDo: just since may not exist

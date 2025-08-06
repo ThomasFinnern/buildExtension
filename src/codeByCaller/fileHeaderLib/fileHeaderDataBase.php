@@ -71,7 +71,7 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 
     // adjust length of 'name' before value
     //protected int $padCount = 20; // By 'subpackage' name length
-    protected int $padCount = 19; // By 'subpackage' name length
+    protected int $middlePadCount = 19; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
 
     protected int $endPadCount = 88; // By 'subpackage' name length
@@ -112,7 +112,7 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     extractNameFromHeaderLine
     --------------------------------------------------------------------*/
 
-    function extractHeaderValuesFromLines(array $headerLines = [])
+    public function extractHeaderValuesFromLines(array $headerLines = [])
     {
         $hasError = 0;
 
@@ -228,25 +228,6 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         return $value;
     }
 
-    public function text(): string
-    {
-        $OutTxt = "";
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fileHeader ---" . "\r\n";
-
-        $OutTxt .= "/**" . "\r\n";
-
-        $OutTxt .= $this->headerFormat('package', $this->package);
-        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
-        $OutTxt .= $this->headerFormat('author', $this->author);
-        $OutTxt .= $this->headerFormatCopyright();
-        $OutTxt .= $this->headerFormat('license', $this->license);
-
-        $OutTxt .= " */" . "\r\n";
-
-        return $OutTxt;
-    }
-
     public function headerLines(): array
     {
         $outLines = [];
@@ -272,7 +253,7 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     public function headerFormat($name, $value): string // , int $padCount
     {
         // copyright begins earlier
-        $padCount = $this->padCount;
+        $padCount = $this->middlePadCount;
 
         $headerLine = str_pad(" * @" . $name, $padCount, " ", STR_PAD_RIGHT);
         $headerLine .= $value;
@@ -282,21 +263,39 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         return $headerLine;
     }
 
-    public function headerFormatCopyright(): string // , int $padCount
+    public function headerFormatCopyright(): string // , int $middlePadCount
     {
         // copyright begins earlier
-//        $padCount = $this->padCount;
+//        $middlePadCount = $this->middlePadCount;
 //
-//        $headerLine = str_pad(" * @" . $this->copyrightPreHeader, $padCount, " ", STR_PAD_RIGHT);
+//        $headerLine = str_pad("**   @" . $this->copyrightPreHeader, $middlePadCount, " ", STR_PAD_RIGHT);
 //        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
 //        $headerLine .= ' ' . $this->postCopyrightAuthor;
 
         $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
 
-        $headerLine = $this->oCopyright->formatCopyrightPhp($this->padCount, $this->endPadCount);
+        $headerLine = $this->oCopyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
         $headerLine = rtrim($headerLine) . "\r\n";
 
         return $headerLine;
+    }
+
+    public function headerText() : string
+    {
+        $OutTxt = "";
+        $OutTxt .= "/**" . "\r\n";
+
+        $OutTxt .= $this->headerFormat('package', $this->package);
+        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+        $OutTxt .= $this->headerFormat('author', $this->author);
+        $OutTxt .= $this->headerFormatCopyright();
+        $OutTxt .= $this->headerFormat('license', $this->license);
+
+//       $OutTxt .= $this->headerFormat('link', $this->link);
+
+        $OutTxt .= " */" . "\r\n";
+
+        return $OutTxt;
     }
 
     public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
@@ -317,9 +316,33 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         return $headerLocal !== $headerExtern;
     }
 
-    public function headerText() : string
+    public function check4ValidHeaderLines(array|string $headerLines): bool
+    {
+        $isValid = false;
+
+        foreach ($headerLines as $line) {
+
+            // Check for ' * @ ....
+            if (str_contains($line, ' * @')) {
+                $isValid = true;
+                break;
+            } else {
+                if (str_contains($line, '@package')) {
+                    $isValid = true;
+                    break;
+                }
+            }
+        }
+
+        return $isValid;
+    }
+
+    public function text(): string
     {
         $OutTxt = "";
+        $OutTxt = "------------------------------------------" . "\r\n";
+        $OutTxt .= "--- fileHeader ---" . "\r\n";
+
         $OutTxt .= "/**" . "\r\n";
 
         $OutTxt .= $this->headerFormat('package', $this->package);
@@ -327,8 +350,6 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         $OutTxt .= $this->headerFormat('author', $this->author);
         $OutTxt .= $this->headerFormatCopyright();
         $OutTxt .= $this->headerFormat('license', $this->license);
-
-//       $OutTxt .= $this->headerFormat('link', $this->link);
 
         $OutTxt .= " */" . "\r\n";
 

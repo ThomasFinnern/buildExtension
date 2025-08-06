@@ -21,7 +21,7 @@ interface fileHeaderDataInterface
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct();
+    function __construct();
 
     function init() : void;
 
@@ -29,20 +29,23 @@ interface fileHeaderDataInterface
 
     function extractNameFromHeaderLine(string $line) : array;
 
-    public function scan4HeaderValueInLine(string $name, string $line): string;
+    function scan4HeaderValueInLine(string $name, string $line): string;
 
-    public function text(): string;
+    function text(): string;
 
-    public function headerLines(): array;
+    function headerLines(): array;
 
-    public function headerFormat($name, $value): string;
+    function headerFormat($name, $value): string;
 
-    public function headerFormatCopyright(): string;
+    function headerFormatCopyright(): string;
 
-    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool;
+    function headerText() : string;
 
-    public function isDifferentByString(string $externHeaderAsString): bool;
+    function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool;
 
-    public function headerText() : string;
+    function isDifferentByString(string $externHeaderAsString): bool;
+
+    function check4ValidHeaderLines(array|string $headerLines): bool;
+
 
 } // fileHeader

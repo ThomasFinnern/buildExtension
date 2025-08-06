@@ -68,7 +68,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    protected int $padCount = 20; // By 'subpackage' name length
+    protected int $middlePadCount = 20; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
 
     /*--------------------------------------------------------------------
@@ -102,7 +102,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
     extractNameFromHeaderLine
     --------------------------------------------------------------------*/
 
-    function extractHeaderValuesFromLines(array $headerLines = [])
+    public function extractHeaderValuesFromLines(array $headerLines = [])
     {
         $hasError = 0;
 
@@ -258,7 +258,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
     public function headerFormat($name, $value): string // , int $padCount
     {
         // copyright begins earlier
-        $padCount = $this->padCount;
+        $padCount = $this->middlePadCount;
 
         $headerLine = str_pad(" * @" . $name, $padCount, " ", STR_PAD_RIGHT);
         $headerLine .= $value;
@@ -277,7 +277,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
 //        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
 //        $headerLine .= ' ' . $this->postCopyrightAuthor;
 
-        $headerLine = $this->copyright->formatCopyrightPhp($this->padCount, $this->endPadCount);
+        $headerLine = $this->copyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
         $headerLine = rtrim($headerLine) . "\r\n";
 
         return $headerLine;

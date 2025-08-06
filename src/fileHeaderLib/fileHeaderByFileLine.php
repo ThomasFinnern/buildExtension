@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
 use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 use Finnern\BuildExtension\src\tasksLib\task;
 

@@ -4,6 +4,7 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 

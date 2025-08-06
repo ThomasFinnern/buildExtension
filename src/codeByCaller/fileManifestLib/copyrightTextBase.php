@@ -1,8 +1,6 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileManifestLib;
-
-use Exception;
+namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
 
 /**
  * container for inner copyright line like "(c) 2005-2024 RSGallery2 Team"
@@ -12,7 +10,9 @@ use Exception;
  * *.php
  *    @copyright   (c) 2003-2024 RSGallery2 Team
  */
-class copyrightText {
+class copyrightTextBase
+    implements copyrightTextInterface
+{
 
     const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
     const COPYRIGHT_PRE_PHP_FILE = "copyright  (c)";
@@ -27,9 +27,6 @@ class copyrightText {
     public string $actCopyrightDate; // = "2024";
     public string $sinceCopyrightDate; // = "2019";
     private string $postCopyrightAuthor; // = "RSGallery2 Team";
-
-    private string $yearToday;
-
 
     /*--------------------------------------------------------------------
     construction
@@ -70,7 +67,6 @@ class copyrightText {
         $yearToday = date($date_format);
 
         $this->actCopyrightDate = $yearToday;
-        $this->yearToday = $yearToday;
 
     }
 
@@ -80,7 +76,7 @@ class copyrightText {
         $date_format = 'Y';
         $yearToday = date($date_format);
 
-        $this->actCopyrightDate = $yearToday;
+        $this->sinceCopyrightDate = $yearToday;
 
     }
 
@@ -139,7 +135,7 @@ class copyrightText {
 
     //  = "(c)";
     // = "copyright  (c)";
-    public function formatCopyrightPhp($padCount, $endPadCount, $sinceCopyrightDate='', $actCopyrightDate=''): string // , int $padCount
+    public function formatCopyrightPhp($middlePadCount, $endPadCount, $sinceCopyrightDate='', $actCopyrightDate=''): string // , int $padCount
     {
         // ToDo: try, catch
 
@@ -163,7 +159,7 @@ class copyrightText {
         // copyright begins earlier
         // $padCount = $this->padCount;
 
-        $copyrightLine = str_pad(" * @" . $this->copyrightPrePhp, $padCount, " ", STR_PAD_RIGHT);
+        $copyrightLine = str_pad(" * @" . $this->copyrightPrePhp, $middlePadCount, " ", STR_PAD_RIGHT);
         $copyrightLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
         $copyrightLine .= ' ' . $this->postCopyrightAuthor;
 

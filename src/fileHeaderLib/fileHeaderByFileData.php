@@ -1,12 +1,16 @@
 <?php
 // ToDo: Init write to log file with actual name
 
-namespace Finnern\BuildExtension\src\fileHeaderLib;;
+namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class fileHeaderByFileData
@@ -21,7 +25,7 @@ Class fileHeaderByFileData
  * ??? ToDo: Call with property values in task option ???
  * To force the exchange of a single line use fileHeaderByFileLine
  */
-class fileHeaderByFileData extends fileHeaderData
+class fileHeaderByFileData // extends fileHeaderData
 {
     public string $fileName;
 
@@ -36,12 +40,13 @@ class fileHeaderByFileData extends fileHeaderData
     /** * @var string array */
     public array $postFileLines = [];
 
-    public fileHeaderData $oForceHeader;
+    protected fileHeaderDataBase|null $oFileHeader;
 
     public bool $isValid = false;
 
     public task $task;
     public readonly string $name;
+
 
     //--- flags ----------------------------------
 
@@ -74,6 +79,9 @@ class fileHeaderByFileData extends fileHeaderData
     public string $valueForceLicense = "";
     public string $valueForceAuthor = "";
 
+    // just an indicator can be removed later
+    private string $callerProjectId = "";
+
 
     /*--------------------------------------------------------------------
     construction
@@ -82,10 +90,9 @@ class fileHeaderByFileData extends fileHeaderData
 
     public function __construct($srcFile = "")
     {
-        parent::__construct();
+        // parent::__construct();
 
-        //
-        $this->oForceHeader = new fileHeaderData();
+        $this->oFileHeader = null; // assign on need
 
         $this->fileName = $srcFile;
 
@@ -312,6 +319,10 @@ class fileHeaderByFileData extends fileHeaderData
 
     public function upgradeHeader(string $srcPathFileName): int
     {
+        print('upgradeHeader' . "\r\n");
+        print ("srcPathFileName: " . $srcPathFileName . "\r\n");
+        print('---------------------------------------------------------' . "\r\n");
+
         $hasError = 0;
 
         // read header
@@ -348,15 +359,14 @@ class fileHeaderByFileData extends fileHeaderData
             print ("FileName in: " . $fileName . "\r\n");
             print('---------------------------------------------------------' . "\r\n");
 
-            // sepearate lines to section header-, pre-, post-lines
+            // separate lines to section header-, pre-, post-lines
             $this->importLines($fileName);
 
             $headerCount = count($this->fileHeaderLines);
 
             if (0 < $headerCount && $headerCount < 20) {
 
-                $this->extractHeaderValuesFromLines($this->fileHeaderLines);
-
+                $this->oFileHeader->extractHeaderValuesFromLines($this->fileHeaderLines);
             }
 
             // Check for ' * @ ....
@@ -383,6 +393,16 @@ class fileHeaderByFileData extends fileHeaderData
      */
     public function importLines(string $fileName): void
     {
+        // ToDo: '/*' may be a commant before the header but it may just start the header => improve by following
+        // ToDo: Detect @package as indicator
+        // ToDo: Detect max end of header ->
+        //          ->namespace in line
+        //          ->line starts with use
+        //          ->defined in line
+
+
+
+
         if (!empty ($fileName)) {
             $this->fileName = $fileName;
         } else {
@@ -399,7 +419,6 @@ class fileHeaderByFileData extends fileHeaderData
 
         $headerLines = [];
 //            $originalLines = [];
-
 
         $isHasStart = false;
         $isHasEnd = false;
@@ -477,29 +496,29 @@ class fileHeaderByFileData extends fileHeaderData
         $standardHeader = new fileHeaderData();
 
         if ($this->isForceStdPackage) {
-            $this->package = $standardHeader->package;
+            $this->oFileHeader->package = $standardHeader->package;
         }
 
         if ($this->isForceStdSubpackage) {
-            $this->subpackage = $standardHeader->subpackage;
+            $this->oFileHeader->subpackage = $standardHeader->subpackage;
         }
 
         if ($this->isForceStdActCopyright) {
             // ToDo: update actual ...
-            $this->copyright->actCopyrightDate = $standardHeader->copyright->actCopyrightDate;
+            $this->oFileHeader->copyright->actCopyrightDate = $standardHeader->copyright->actCopyrightDate;
         }
 
         if ($this->isForceStdSinceCopyright) {
             // ToDo: update actual ...
-            $this->copyright->sinceCopyrightDate = $standardHeader->copyright->sinceCopyrightDate;
+            $this->oFileHeader->copyright->sinceCopyrightDate = $standardHeader->copyright->sinceCopyrightDate;
         }
 
         if ($this->isForceStdLicense) {
-            $this->license = $standardHeader->license;
+            $this->oFileHeader->license = $standardHeader->license;
         }
 
         if ($this->isForceStdAuthor) {
-            $this->author = $standardHeader->author;
+            $this->oFileHeader->author = $standardHeader->author;
         }
 
     }
@@ -509,43 +528,43 @@ class fileHeaderByFileData extends fileHeaderData
         // see also isForceActCopyrightToToday
         if ($this->isUpdateActCopyrightDate) {
             // $this->copyright->actCopyrightDate = $this->copyright->yearToday;
-            $this->copyright->setActCopyright2Today ();
+            $this->oFileHeader->oCopyright->setActCopyright2Today ();
         }
 
 
         if ($this->isForcePackage) {
-            $this->package = $this->valueForcePackage;
+            $this->oFileHeader->package = $this->valueForcePackage;
         }
 
         if ($this->isForceSubpackage) {
-            $this->subpackage = $this->valueForceSubpackage;
+            $this->oFileHeader->subpackage = $this->valueForceSubpackage;
         }
 
         if ($this->isForceActCopyright) {
-            $this->copyright->actCopyrightDate = $this->valueForceCopyright;
+            $this->oFileHeader->copyright->actCopyrightDate = $this->valueForceCopyright;
         }
 
         if ($this->isForceSinceCopyrightToToday) {
             // $this->copyright->sinceCopyrightDate = $this->copyright->yearToday;
-            $this->copyright->setSinceCopyright2Today ();
+            $this->oFileHeader->copyright->setSinceCopyright2Today ();
         }
 
         if ($this->isForceSinceCopyright) {
-            $this->copyright->sinceCopyrightDate = $this->valueForceCopyright;
+            $this->oFileHeader->copyright->sinceCopyrightDate = $this->valueForceCopyright;
         }
 
         // see also isUpdateCreationDate
         if ($this->isForceActCopyrightToToday) {
             // $this->copyright->actCopyrightDate = $this->copyright->yearToday;
-            $this->copyright->setActCopyright2Today ();
+            $this->oFileHeader->copyright->setActCopyright2Today ();
         }
 
         if ($this->isForceLicense) {
-            $this->license = $this->valueForceLicense;
+            $this->oFileHeader->license = $this->valueForceLicense;
         }
 
         if ($this->isForceAuthor) {
-            $this->author = $this->valueForceAuthor;
+            $this->oFileHeader->author = $this->valueForceAuthor;
         }
 
     }
@@ -553,7 +572,7 @@ class fileHeaderByFileData extends fileHeaderData
     private function compareHeaderLines(): bool
     {
         // create actual header lines
-        $this->newHeaderLines = $this->headerLines();
+        $this->newHeaderLines = $this->oFileHeader->headerLines();
 
         $isChanged = $this->newHeaderLines <=> $this->fileHeaderLines;
 
@@ -585,7 +604,7 @@ class fileHeaderByFileData extends fileHeaderData
 
             $headerLines = $this->newHeaderLines;
             if (count($headerLines) == 0) {
-                $headerLines = $this->headerText();
+                $headerLines = $this->oFileHeader->headerText();
             }
 
             foreach ($headerLines as $line) {
@@ -608,6 +627,13 @@ class fileHeaderByFileData extends fileHeaderData
         return $isSaved;
     }
 
+    public function assignOptionCallerProjectId(string $callerProjectId)
+    {
+        $this->callerProjectId = $callerProjectId;
+
+        $this->oFileHeader = fileHeaderDataFactory::oFileHeaderData($callerProjectId);
+    }
+
     public function byFileText()
     {
         $OutTxt = "";
@@ -616,7 +642,7 @@ class fileHeaderByFileData extends fileHeaderData
 
         $OutTxt .= ">>> --- result ----------------" . "\r\n";
 
-        $OutTxt .= $this->text() . "\r\n";
+        $OutTxt .= $this->oFileHeader->text() . "\r\n";
 
         $OutTxt .= ">>> --- file data ----------------" . "\r\n";
 

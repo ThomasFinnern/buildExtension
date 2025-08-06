@@ -92,6 +92,9 @@ class updateAll_fileHeaders extends baseExecuteTasks
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $this->fileHeaderByFileData->upgradeHeader($fileName->srcPathFileName);
         }
 

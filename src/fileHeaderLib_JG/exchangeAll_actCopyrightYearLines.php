@@ -138,6 +138,9 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $fileHeaderByFileLine->exchangeActCopyrightYear(
                 $fileName->srcPathFileName,
                 $this->yearText,

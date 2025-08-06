@@ -127,6 +127,9 @@ class exchangeAll_linkLines extends baseExecuteTasks
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $fileHeaderByFileLine->exchangeLink($fileName->srcPathFileName);
         }
 

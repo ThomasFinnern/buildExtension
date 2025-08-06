@@ -124,6 +124,9 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $fileHeaderByFileLine->exchangeSubpackage($fileName->srcPathFileName);
         }
 

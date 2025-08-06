@@ -131,6 +131,9 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $fileHeaderByFileLine->exchangeSinceCopyrightYear(
                 $fileName->srcPathFileName,
                 $this->yearText,

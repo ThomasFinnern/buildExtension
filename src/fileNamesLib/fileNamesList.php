@@ -23,8 +23,8 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class fileNamesList
 ================================================================================*/
 
-class fileNamesList // extends baseExecuteTasks
-//    implements executeTasksInterface
+class fileNamesList extends baseExecuteTasks
+    implements executeTasksInterface
 {
 
     /** @var fithFileName[] $fileNames */

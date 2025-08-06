@@ -1,5 +1,9 @@
 
+# Code internals
 
+**WIP** Work In Progress
+
+The following information only shows the current status without completeness at the time of writing \:\-\(
 
 ##  general task structure 
 
@@ -27,7 +31,39 @@ class updateAll_fileHeaders extends baseExecuteTasks
 ````
 
 
+# task descriptions
+
+
+## updateAll_fileHeaders
+
+used for filetypes "php Ts" or ? "JS"
+
+updateAll_fileHeaders->fileHeaderByFileData->upgradeHeader
+    ->replaceStandardHeaderLines
+    ->replaceForcedHeaderLines
+
+2025.08.05:  
+\>>>  
+fileHeaderByFileData derives from fileHeaderData
+
+
+* fileHeaderData is the base data which is different to each calling project type
+* Attention: fileHeaderData references external copyright data which is used also in manifest file- **ToDo:** use seperate copyright definition *.xml and *.php/ts
+
+===
+New ?
+fileHeaderByFileData includes from fileHeaderDataBase
+
+fileHeaderDataBase
+
+
+\<<<
 
 
 
+upgradeHeader
+
+
+
+fileHeaderByFileData
 

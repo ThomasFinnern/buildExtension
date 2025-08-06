@@ -128,6 +128,8 @@ class exchangeAll_authorLines extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
+        print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
         foreach ($this->fileNamesList->fileNames as $fileName) {
             $fileHeaderByFileLine->exchangeAuthor($fileName->srcPathFileName);
         }

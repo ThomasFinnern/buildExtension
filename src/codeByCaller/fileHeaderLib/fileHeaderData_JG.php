@@ -1,13 +1,24 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileHeaderLib;
+namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 use Exception;
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
+use Finnern\BuildExtension\src\fileHeaderLib_JG\copyrightText;
 
 /*================================================================================
 Class fileHeader data
 ================================================================================*/
+
+// expected header
+// < ? p h p
+//**
+//******************************************************************************************
+//**   @package    com_joomgallery                                                        **
+//**   @author     JoomGallery::ProjectTeam <team@joomgalleryfriends.net>                 **
+//**   @copyright  2008 - 2025  JoomGallery::ProjectTeam                                  **
+//**   @license    GNU General Public License version 3 or later                          **
+//*****************************************************************************************/
 
 /**
  * keeps all variables of a PHP package description header
@@ -18,39 +29,40 @@ Class fileHeader data
  * The variables are global so you may read a file header, change data like actual year,
  * create the lines again here and replace the original file part
  */
-class fileHeaderData
+class fileHeaderData_JG extends fileHeaderDataBase
+    implements fileHeaderDataInterface
 {
-    const PACKAGE = "RSGallery2";
-    const SUBPACKAGE = "com_rsgallery2";
+    const PACKAGE = "JoomGallery";
+    const SUBPACKAGE = "com_joomgallery";
 
-    const LICENSE = "GNU General Public License version 2 or later";
+    const LICENSE = "GNU General Public License version 3 or later";
     //$this->license = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-    const AUTHOR = "RSGallery2 Team <team2@rsgallery2.org>";
-    const LINK = "https://www.rsgallery2.org";
+    const AUTHOR = "JoomGallery::ProjectTeam <team@joomgalleryfriends.net>";
+    const LINK = "https://www.joomgalleryfriends.net";
 
     //
-    public string $package; // = "RSGallery2";
+    public string $package; // = "JoomGallery";
     //
-    public string $subpackage; // = "com_rsgallery2";
+    public string $subpackage; // = "com_joomgallery";
 
     // copyright
-    // " * @copyright  (c)  2003-2024 RSGallery2 Team"
+    // " * @copyright  2008 - 2025  JoomGallery::ProjectTeam
     public copyrightText $copyright;
 
 //    public string $yearToday = "????";
 
     //public string $license = "GNU General Public License version 3 or later";
-    public string $license = "GNU General Public License version 2 or later";
+    public string $license = "GNU General Public License version 3 or later";
     //public string $license = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
 
     //
-    public string $author = "RSGallery2 Team <team2@rsgallery2.org>";
+    public string $author = ""; // "JoomGallery::ProjectTeam <team@joomgalleryfriends.net>";
 
     //
-    public string $link = "https://www.rsgallery2.org";
+    public string $link = ""; // https://www.joomgalleryfriends.net";
 
     //
-    // public string $addition = "RSGallery is Free Software";
+    // public string $addition = "";
 
     //
     // public string $since = ""; see constManifest.php
@@ -64,8 +76,9 @@ class fileHeaderData
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    private int $padCount = 20; // By 'subpackage' name length
-    // private int $padCountCopyright = 15; // By 'subpackage' name length
+    protected int $middlePadCount = 18; // By 'subpackage' name length
+    protected int $endPadCount = 88; // xxx [spaces] **
+    // private int $middlePadCountCopyright = 15; // By 'subpackage' name length
 
 
     /*--------------------------------------------------------------------
@@ -74,7 +87,10 @@ class fileHeaderData
 
     public function __construct()
     {
-        $this->init();
+        parent::__construct();
+
+        // joomGallery copyright handling
+        $this->oCopyright = copyrightTextFactory::oCopyrightText('JG');
     }
 
     public function init() : void
@@ -92,7 +108,7 @@ class fileHeaderData
         $this->copyright = new copyrightText();
     }
 
-/*--------------------------------------------------------------------
+    /*--------------------------------------------------------------------
     extractNameFromHeaderLine
     --------------------------------------------------------------------*/
 
@@ -174,13 +190,12 @@ class fileHeaderData
     --------------------------------------------------------------------*/
 
     // '(c)' of copyright will be ignored here
-    private function extractNameFromHeaderLine(string $line) : array
+    public function extractNameFromHeaderLine(string $line) : array
     {
         $name = '';
         $behind = '';
 
-        //  * @copyright (c) 2005-2024 RSGallery2 Team
-        //  * @subpackage      com_rsgallery2
+        //  * @copyright  2008 - 2025  JoomGallery::ProjectTeam
         $atIdx = strpos($line, '@');
         if (!empty($atIdx)) {
             $blankIdx = strpos($line, ' ', $atIdx + 1);
@@ -215,14 +230,17 @@ class fileHeaderData
         $OutTxt .= "--- fileHeader ---" . "\r\n";
 
         $OutTxt .= "/**" . "\r\n";
+        $OutTxt .= "******************************************************************************************" . "\r\n";
 
-        $OutTxt .= $this->headerFormat('package', $this->package);
-        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+//        $OutTxt .= $this->headerFormat('package', $this->package);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+        $OutTxt .= $this->headerFormat('package', $this->subpackage);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->package);
         $OutTxt .= $this->headerFormat('author', $this->author);
         $OutTxt .= $this->headerFormatCopyright();
         $OutTxt .= $this->headerFormat('license', $this->license);
 
-        $OutTxt .= " */" . "\r\n";
+        $OutTxt .= "*****************************************************************************************/" . "\r\n";
 
         return $OutTxt;
     }
@@ -234,8 +252,10 @@ class fileHeaderData
         try {
             $outLines[] = "/**" . "\r\n";
 
-            $outLines[] = $this->headerFormat('package', $this->package);
-            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
+//            $outLines[] = $this->headerFormat('package', $this->package);
+//            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
+            $outLines[] = $this->headerFormat('package', $this->subpackage);
+//            $outLines[] = $this->headerFormat('subpackage', $this->package);
             $outLines[] = $this->headerFormat('author', $this->author);
             $outLines[] = $this->headerFormatCopyright();
             $outLines[] = $this->headerFormat('license', $this->license);
@@ -249,35 +269,37 @@ class fileHeaderData
         return $outLines;
     }
 
-    public function headerFormat($name, $value): string // , int $padCount
+    public function headerFormat($name, $value): string // , int $middlePadCount
     {
         // copyright begins earlier
-        $padCount = $this->padCount;
+        $middlePadCount = $this->middlePadCount;
+        $endPadCount    = $this->endPadCount;
 
-        $headerLine = str_pad(" * @" . $name, $padCount, " ", STR_PAD_RIGHT);
+        $headerLine = str_pad("**   @" . $name, $middlePadCount, " ", STR_PAD_RIGHT);
         $headerLine .= $value;
+        $headerLine = str_pad($headerLine, $endPadCount, " ", STR_PAD_RIGHT) . '**';
 
         $headerLine = rtrim($headerLine) . "\r\n";
 
         return $headerLine;
     }
 
-    public function headerFormatCopyright(): string // , int $padCount
+    public function headerFormatCopyright(): string // , int $middlePadCount
     {
         // copyright begins earlier
-//        $padCount = $this->padCount;
+//        $middlePadCount = $this->middlePadCount;
 //
-//        $headerLine = str_pad(" * @" . $this->copyrightPreHeader, $padCount, " ", STR_PAD_RIGHT);
+//        $headerLine = str_pad("**   @" . $this->copyrightPreHeader, $middlePadCount, " ", STR_PAD_RIGHT);
 //        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
 //        $headerLine .= ' ' . $this->postCopyrightAuthor;
 
-        $headerLine = $this->copyright->formatCopyrightPhp($this->padCount);
+        $headerLine = $this->copyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
         $headerLine = rtrim($headerLine) . "\r\n";
 
         return $headerLine;
     }
 
-    public function isDifferent(fileHeaderData $fileHeaderExtern): bool
+    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
     {
         $headerLocal = $this->headerText();
         $headerExtern = $fileHeaderExtern->headerText();
@@ -297,16 +319,19 @@ class fileHeaderData
     {
         $OutTxt = "";
         $OutTxt .= "/**" . "\r\n";
+        $OutTxt .= "******************************************************************************************" . "\r\n";
 
-        $OutTxt .= $this->headerFormat('package', $this->package);
-        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+//        $OutTxt .= $this->headerFormat('package', $this->package);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
+        $OutTxt .= $this->headerFormat('package', $this->subpackage);
+//        $OutTxt .= $this->headerFormat('subpackage', $this->package);
         $OutTxt .= $this->headerFormat('author', $this->author);
         $OutTxt .= $this->headerFormatCopyright();
         $OutTxt .= $this->headerFormat('license', $this->license);
 
 //       $OutTxt .= $this->headerFormat('link', $this->link);
 
-        $OutTxt .= " */" . "\r\n";
+        $OutTxt .= "*****************************************************************************************/" . "\r\n";
 
         return $OutTxt;
     }

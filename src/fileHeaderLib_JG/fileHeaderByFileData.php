@@ -347,7 +347,7 @@ class fileHeaderByFileData extends fileHeaderData
             print ("FileName in: " . $fileName . "\r\n");
             print('---------------------------------------------------------' . "\r\n");
 
-            // sepearate lines to section header-, pre-, post-lines
+            // separate lines to section header-, pre-, post-lines
             $this->importLines($fileName);
 
             $headerCount = count($this->fileHeaderLines);

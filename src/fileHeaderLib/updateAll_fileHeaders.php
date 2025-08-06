@@ -6,8 +6,7 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileData;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+//use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileData;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
@@ -81,15 +80,6 @@ class updateAll_fileHeaders extends baseExecuteTasks
     {
         //--- collect files ---------------------------------------
 
-//        // files not set already use local file names task
-//        if (count($this->fileNamesList->fileNames) == 0) {
-//            $fileNamesList = new fileNamesList ($this->srcRoot, 'php ts',
-//                '', $this->isNoRecursion);
-//            $this->fileNamesList = $fileNamesList;
-//
-//            $fileNamesList->scan4Filenames();
-//        }
-
         // collect file list if not existing
         if (count($this->fileNamesList->fileNames) == 0) {
             $this->fileNamesList->execute();
@@ -97,8 +87,20 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
+
+        $this->fileHeaderByFileData->assignOptionCallerProjectId($this->callerProjectId);
+
         foreach ($this->fileNamesList->fileNames as $fileName) {
+
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+
             $this->fileHeaderByFileData->upgradeHeader($fileName->srcPathFileName);
+
+
+//            // !!! test single file
+//            break;
+//            // !!! test single file
+
         }
 
         return 0;

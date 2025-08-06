@@ -1,34 +1,36 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileManifestLib;
-
-use Exception;
+namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
 
 /**
  * container for inner copyright line like "(c) 2005-2024 RSGallery2 Team"
  * used in
  * manifest file:
- *    <copyright>(c) 2005-2024 RSGallery2 Team</copyright>
+ *    <copyright>2008 - 2025  JoomGallery::ProjectTeam</copyright>
  * *.php
  *    @copyright   (c) 2003-2024 RSGallery2 Team
  */
-class copyrightText {
+class copyrightText_JG extends copyrightTextBase
+    implements copyrightTextInterface
+{
 
-    const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
-    const COPYRIGHT_PRE_PHP_FILE = "copyright  (c)";
+    //**   @copyright  2008 - 2025  JoomGallery::ProjectTeam                                  **
+
+    // const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
+    const COPYRIGHT_PRE_PHP_FILE = "@copyright  ";
     // 2019 start of J!4 version
-    const SINCE_COPYRIGHT_DATE = "2019";
+    const SINCE_COPYRIGHT_DATE = "2008";
 
-    const POST_COPYRIGHT_AUTHOR  = "RSGallery2 Team";
+    const POST_COPYRIGHT_AUTHOR  = "JoomGallery::ProjectTeam";
 
 
-    public string $copyrightPrePhp; // = "copyright  (c)" | "(c)";
+    public string $copyrightPrePhp; // = "@copyright  " | "(c)";
     public string $copyrightPreManifest; // "(c)";
     public string $actCopyrightDate; // = "2024";
-    public string $sinceCopyrightDate; // = "2019";
-    private string $postCopyrightAuthor; // = "RSGallery2 Team";
+    public string $sinceCopyrightDate; // = "2008";
+    private string $postCopyrightAuthor; // = "JoomGallery::ProjectTeam";
 
-    private string $yearToday;
+//    private string $yearToday;
 
 
     /*--------------------------------------------------------------------
@@ -37,6 +39,8 @@ class copyrightText {
 
     // ToDo: a lot of parameters ....
     public function __construct($copyrightText = "") {
+
+        parent::__construct($copyrightText);
 
         $this->init();
 
@@ -54,48 +58,9 @@ class copyrightText {
         $this->postCopyrightAuthor = self::POST_COPYRIGHT_AUTHOR;
 
         $this->copyrightPrePhp = self::COPYRIGHT_PRE_PHP_FILE;
-        $this->copyrightPreManifest = self::COPYRIGHT_PRE_MANIFEST_FILE;
+        //$this->copyrightPreManifest = self::COPYRIGHT_PRE_MANIFEST_FILE;
     }
 
-//    function useActual4SinceDate () {
-//
-//        $this->sinceCopyrightDate  = $this->actCopyrightDate;
-//
-//    }
-
-    public function setActCopyright2Today ()  : void {
-
-        // $date_format        = 'Ymd';
-        $date_format = 'Y';
-        $yearToday = date($date_format);
-
-        $this->actCopyrightDate = $yearToday;
-        $this->yearToday = $yearToday;
-
-    }
-
-    public function setSinceCopyright2Today ()  : void {
-
-        // $date_format        = 'Ymd';
-        $date_format = 'Y';
-        $yearToday = date($date_format);
-
-        $this->actCopyrightDate = $yearToday;
-
-    }
-
-
-    public function setActCopyright (string $year)  : void {
-
-        $this->actCopyrightDate = $year;
-
-    }
-
-    public function setSinceCopyright (string $year) : void {
-
-        $this->actCopyrightDate = $year;
-
-    }
 
     public function scan4CopyrightInLine(string $line) : array
     {
@@ -105,7 +70,7 @@ class copyrightText {
 
         $this->init();
 
-        //   * @copyright (c)  2020-2022 RSGallery2 Team
+        //  **   @copyright  2008 - 2025  JoomGallery::ProjectTeam
         $idx = stripos($line, '(c)');
         if ($idx !== false) {
             //$valuePart = trim(substr($line, $idx));
@@ -139,7 +104,8 @@ class copyrightText {
 
     //  = "(c)";
     // = "copyright  (c)";
-    public function formatCopyrightPhp($padCount, $endPadCount, $sinceCopyrightDate='', $actCopyrightDate=''): string // , int $padCount
+    public function formatCopyrightPhp($middlePadCount, $endPadCount,
+                                       $sinceCopyrightDate='', $actCopyrightDate=''): string // , int $padCount
     {
         // ToDo: try, catch
 
@@ -163,9 +129,10 @@ class copyrightText {
         // copyright begins earlier
         // $padCount = $this->padCount;
 
-        $copyrightLine = str_pad(" * @" . $this->copyrightPrePhp, $padCount, " ", STR_PAD_RIGHT);
-        $copyrightLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
+        $copyrightLine = str_pad("**   " . $this->copyrightPrePhp, $middlePadCount, " ", STR_PAD_RIGHT);
+        $copyrightLine .= $sinceCopyrightDate . ' - ' . $actCopyrightDate;
         $copyrightLine .= ' ' . $this->postCopyrightAuthor;
+        $copyrightLine = str_pad($copyrightLine, $endPadCount, " ", STR_PAD_RIGHT) . '**';
 
         return rtrim($copyrightLine);
     }

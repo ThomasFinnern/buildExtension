@@ -71,14 +71,14 @@ class copyrightText_JG extends copyrightTextBase
         $this->init();
 
         //  **   @copyright  2008 - 2025  JoomGallery::ProjectTeam
-        $idx = stripos($line, '(c)');
+        $idx = stripos($line, '@copyright');
         if ($idx !== false) {
             //$valuePart = trim(substr($line, $idx));
             // preg_match_all('/\d+/', $valuePart, $matches);
             preg_match_all('/\d+/', $line, $matches);
 
             $finds = $matches [0];
-            if (count ($finds) > 2)
+            if (count ($finds) > 1)
             {
                 $this->sinceCopyrightDate = $finds[0];
                 $this->actCopyrightDate = $finds[1];

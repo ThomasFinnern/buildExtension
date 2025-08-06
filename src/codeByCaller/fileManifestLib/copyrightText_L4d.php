@@ -73,7 +73,7 @@ class copyrightText_L4d extends copyrightTextBase
             preg_match_all('/\d+/', $line, $matches);
 
             $finds = $matches [0];
-            if (count ($finds) > 2)
+            if (count ($finds) > 1)
             {
                 $this->sinceCopyrightDate = $finds[0];
                 $this->actCopyrightDate = $finds[1];

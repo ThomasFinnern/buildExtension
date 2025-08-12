@@ -78,7 +78,7 @@ class tasks
             $this->extractTasksFromLines($lines);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -140,7 +140,7 @@ class tasks
             // print ($this->tasksText ());
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -200,7 +200,7 @@ class tasks
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

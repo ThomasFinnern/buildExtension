@@ -52,7 +52,7 @@ class forceVersionId extends baseExecuteTasks
             $this->manifestXml = new manifestXml();
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -122,7 +122,7 @@ class forceVersionId extends baseExecuteTasks
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -166,7 +166,7 @@ class forceVersionId extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

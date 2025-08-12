@@ -146,7 +146,7 @@ class filesByManifest extends baseExecuteTasks
 
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
         // print('exit __construct: ' . $hasError . "\r\n");
     }
@@ -435,7 +435,7 @@ class filesByManifest extends baseExecuteTasks
             // }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

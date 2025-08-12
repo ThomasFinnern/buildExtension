@@ -34,7 +34,7 @@ class options
 
             $this->options = $options;
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 //        // print('exit __construct: ' . $hasError . "\r\n");
@@ -96,7 +96,7 @@ class options
             $this->extractOptionsFromLines($lines);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -187,7 +187,7 @@ class options
                 $this->addOption($option);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

@@ -54,7 +54,7 @@ class increaseVersionId extends baseExecuteTasks
             $this->versionId = new versionId();
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
 //            $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -122,7 +122,7 @@ class increaseVersionId extends baseExecuteTasks
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -181,7 +181,7 @@ class increaseVersionId extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

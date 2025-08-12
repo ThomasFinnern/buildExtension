@@ -31,7 +31,7 @@ class XXX
             $this->srcFile = $srcFile;
             $this->dstFile = $dstFile;
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -52,7 +52,7 @@ class XXX
             print ("zzz: " . $zzz . "\r\n");
             print('---------------------------------------------------------' . "\r\n");
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

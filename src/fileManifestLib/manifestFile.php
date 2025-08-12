@@ -204,7 +204,7 @@ class manifestFile extends baseExecuteTasks
             //$this->copyright = new copyrightText();
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
         // print('exit __construct: ' . $hasError . "\r\n");
     }
@@ -424,7 +424,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -445,7 +445,7 @@ class manifestFile extends baseExecuteTasks
             $isChanged = $this->assignActCopyrightYear( $actYear);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -479,7 +479,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -513,7 +513,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -545,7 +545,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         return $isChanged;
@@ -614,7 +614,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -683,7 +683,7 @@ class manifestFile extends baseExecuteTasks
 ////            }
 //
 //        } catch (Exception $e) {
-//            echo 'Message: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
 //            $hasError = -101;
 //        }
 //
@@ -711,7 +711,7 @@ class manifestFile extends baseExecuteTasks
 //            $isSaved = True;
 //
 //        } catch (Exception $e) {
-//            echo 'Message: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
 //            $hasError = -101;
 //        }
 //
@@ -941,7 +941,7 @@ class manifestFile extends baseExecuteTasks
 //                $this->scriptFile =  $this->extractContent($line);
 //            }
 //        } catch (Exception $e) {
-//            echo 'Message: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
 //            $hasError = -101;
 //        }
 //

@@ -375,7 +375,7 @@ class fileHeaderByFileData // extends fileHeaderData
             // todo: print ("headerLines: " . $headerLines . "\r\n");
             // ToDo: print result
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -603,7 +603,7 @@ class fileHeaderByFileData // extends fileHeaderData
             $isSaved = file_put_contents($fileName, $outLines);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

@@ -46,7 +46,7 @@ class baseExecuteTasks
             $this->fileNamesList = new fileNamesList($srcRoot, '', '', $isNoRecursion);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
         // print('exit __construct: ' . $hasError . "\r\n");
     }

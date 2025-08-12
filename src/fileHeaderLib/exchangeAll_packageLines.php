@@ -36,7 +36,7 @@ class exchangeAll_packages extends baseExecuteTasks
             $this->packageText = $packageText;
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");

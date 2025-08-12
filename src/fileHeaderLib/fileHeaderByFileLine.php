@@ -156,7 +156,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -311,7 +311,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -392,7 +392,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -453,7 +453,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -532,7 +532,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -611,7 +611,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -695,7 +695,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -769,7 +769,7 @@ class fileHeaderByFileLine // extends fileHeaderData
             }
         } catch
         (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

@@ -41,7 +41,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
 
     }

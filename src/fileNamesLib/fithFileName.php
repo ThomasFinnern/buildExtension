@@ -44,7 +44,7 @@ class fithFileName
 
             $this->extractNameParts($srcFile);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             //$hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -78,7 +78,7 @@ class fithFileName
             $this->fileBaseName = $path_parts['basename'];
             $this->filePath = $path_parts['dirname'];
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

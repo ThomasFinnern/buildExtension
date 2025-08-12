@@ -81,7 +81,7 @@ class fileNamesList extends baseExecuteTasks
 
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // // print('exit __construct: ' . $hasError . "\r\n");
@@ -302,7 +302,7 @@ class fileNamesList extends baseExecuteTasks
         try {
             [$files, $folders] = $this->filesAndFoldersInDir($inPath);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -331,7 +331,7 @@ class fileNamesList extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -347,7 +347,7 @@ class fileNamesList extends baseExecuteTasks
             // [$files, $folders] = $this->filesAndFoldersInDir($inPath);
             [, $folders] = $this->filesAndFoldersInDir($inPath);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -414,7 +414,7 @@ class fileNamesList extends baseExecuteTasks
 
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -496,7 +496,7 @@ class fileNamesList extends baseExecuteTasks
                 print ("NoRecursion: Exit after base folder requested: : " . count($folders) . "\r\n");
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
     }
@@ -521,7 +521,7 @@ class fileNamesList extends baseExecuteTasks
                 $isValid = false;
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -540,7 +540,7 @@ class fileNamesList extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -559,7 +559,7 @@ class fileNamesList extends baseExecuteTasks
                 $isValid = false;
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

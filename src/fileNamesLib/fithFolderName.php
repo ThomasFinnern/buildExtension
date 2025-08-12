@@ -47,7 +47,7 @@ class fithFolderName
 
             $this->extractNameParts($srcFolder);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -80,7 +80,7 @@ class fithFolderName
             $this->folderName = $path_parts['basename'];
             $this->folderPath = $path_parts['dirname'];
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

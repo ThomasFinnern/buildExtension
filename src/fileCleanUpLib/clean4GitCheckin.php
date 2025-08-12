@@ -36,7 +36,7 @@ class clean4GitCheckin extends baseExecuteTasks
 
 //            $this->fileNamesList = new fileNamesList();
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
         // print('exit __construct: ' . $hasError . "\r\n");
     }
@@ -143,7 +143,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -173,7 +173,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -200,7 +200,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

@@ -80,7 +80,7 @@ class doFileTasks
             }
             // print ($this->tasksText ());
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -291,7 +291,7 @@ class doFileTasks
                 // $OutTxt .= $task->text() . "\r\n";
             }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

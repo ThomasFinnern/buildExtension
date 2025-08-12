@@ -44,7 +44,7 @@ class forceCreationDate extends baseExecuteTasks
             $this->creationDate = date($date_format);
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
         // print('exit __construct: ' . $hasError . "\r\n");
@@ -112,7 +112,7 @@ class forceCreationDate extends baseExecuteTasks
 
             $hasError = $this->exchangeCreationDateInManifestFile($manifestPathFileName, $creationDate);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -182,7 +182,7 @@ class forceCreationDate extends baseExecuteTasks
             //$isSaved = File::write($manifestFileName, $fileLines);
             $isSaved = file_put_contents($manifestFileName, $outLines);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

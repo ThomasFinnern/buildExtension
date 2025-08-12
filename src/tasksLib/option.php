@@ -33,7 +33,7 @@ class option
             //ToDo: $this->value = $this->assignValue (value); // remove '"' at start and end
             $this->value = $this->removeQuotation($value);
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 //        // print('exit __construct: ' . $hasError . "\r\n");
@@ -84,7 +84,7 @@ class option
             $this->name = $optionName;
             $this->value = $optionValue;
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 

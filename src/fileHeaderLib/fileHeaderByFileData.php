@@ -4,10 +4,10 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
+//use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
+//use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
-use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -81,7 +81,6 @@ class fileHeaderByFileData // extends fileHeaderData
 
     // just an indicator can be removed later
     private string $callerProjectId = "";
-
 
     /*--------------------------------------------------------------------
     construction
@@ -164,8 +163,8 @@ class fileHeaderByFileData // extends fileHeaderData
     // ToDo: Extract assignOption on all assignTask
     public function assignOption(option $option): bool
     {
-//        $isOptionConsumed = parent::assignOption($option);
         $isOptionConsumed = false;
+//        $isOptionConsumed = parent::assignOption($option);
 
         if ( ! $isOptionConsumed) {
             switch (strtolower($option->name)) {

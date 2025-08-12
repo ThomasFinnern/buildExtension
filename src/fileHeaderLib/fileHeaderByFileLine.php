@@ -3,8 +3,12 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
+//use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
+//use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
+use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
@@ -15,16 +19,17 @@ Class fileHeaderByFile
  * Exchange one header line in given file
  * Call with property value in task option
  */
-class fileHeaderByFileLine extends fileHeaderData
+class fileHeaderByFileLine // extends fileHeaderData
 {
-
-    //
-    // public fileHeaderData $oByFile;
-
     public string $fileName;
 
     public task $task;
     public readonly string $name;
+
+    protected fileHeaderDataBase|null $oFileHeader;
+
+    // just an indicator can be removed later
+    private string $callerProjectId = "";
 
     /*--------------------------------------------------------------------
     construction
@@ -32,13 +37,71 @@ class fileHeaderByFileLine extends fileHeaderData
 
     public function __construct($srcFile = "")
     {
-        parent::__construct();
+//        parent::__construct();
 
-        // dummy
-        //$this->oByFile = new fileHeaderData();
+        $this->oFileHeader = null; // assign on need
 
         $this->fileName = $srcFile;
     }
+
+    /*--------------------------------------------------------------------
+    assignTask
+    --------------------------------------------------------------------*/
+
+    public function assignTask(task $task): int
+    {
+        $hasError = 0;
+
+        $this->task = $task;
+
+        // $this->taskName = $task->name;
+
+        $options = $task->options;
+
+        // ToDo: Extract assignOption on all assignTask
+        foreach ($options->options as $option) {
+
+//            $isBaseOption = $this->assignBaseOption($option);
+//            if (!$isBaseOption) {
+            $this->assignOption($option);//, $task->name);
+//            }
+        }
+
+        return $hasError;
+    }
+
+    /**
+     * @param   option  $option
+     *
+     * @return void
+     */
+    // ToDo: Extract assignOption on all assignTask
+    public function assignOption(option $option): bool
+    {
+        $isOptionConsumed = false;
+//        $isOptionConsumed = parent::assignOption($option);
+
+        if ( ! $isOptionConsumed) {
+            switch (strtolower($option->name)) {
+                case strtolower('filename'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    $this->fileName = $option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+            } // switch
+        }
+
+        return $isOptionConsumed;
+    }
+
+    public function assignOptionCallerProjectId(string $callerProjectId)
+    {
+        $this->callerProjectId = $callerProjectId;
+
+        $this->oFileHeader = fileHeaderDataFactory::oFileHeaderData($callerProjectId);
+    }
+
 
 
     /*--------------------------------------------------------------------
@@ -104,7 +167,7 @@ class fileHeaderByFileLine extends fileHeaderData
 
 
     /*--------------------------------------------------------------------
-    exchangeSubPackage
+    replacePackageLine
     --------------------------------------------------------------------*/
 
     /**
@@ -113,12 +176,81 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replacePackageLine(mixed $line): string
     {
-        $oldValue = $this->scan4HeaderValueInLine('package', $line);
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('package', $line);
 
         // assign standard
-        $packageLine = $this->headerFormat('package', $this->package);
+        $packageLine = $this->oFileHeader->headerFormat('package', $this->oFileHeader->package);
 
         return $packageLine;
+    }
+
+    public function execute(): int
+    {
+
+        $task = $this->task;
+        switch (strtolower($task->name)) {
+            case strtolower('exchangepackage'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+
+                break;
+
+            case strtolower('exchangesubpackage'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+
+                break;
+
+            case strtolower('exchangelicense'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+                $options = $task->options;
+                $fileName = $options->getOption('fileName');
+                $this->exchangeLicense($fileName);
+                break;
+
+            case strtolower('exchangeActCopyrightYear'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+                $options = $task->options;
+                $fileName = $options->getOption('fileName');
+                $copyrightDate = $options->getOption('copyrightDate');
+
+                $this->exchangeActCopyrightYear($fileName, $copyrightDate);
+                break;
+
+            case strtolower('exchangeSinceCopyrightYear'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+                $options = $task->options;
+                $fileName = $options->getOption('fileName');
+                $copyrightDate = $options->getOption('copyrightDate');
+
+                // ToDo: create exchangeSinceCopyrightYear function
+                $this->exchangeSinceCopyrightYear($fileName, $copyrightDate);
+                break;
+
+            case strtolower('exchangeauthor'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+                $options = $task->options;
+                $fileName = $options->getOption('fileName');
+                $this->exchangeAuthor($fileName);
+                break;
+
+            case strtolower('exchangersglink'):
+                print ('Execute task: ' . $task->name . "\r\n");
+
+
+                break;
+
+            default:
+                print ('!!! Task not executed: ' . $task->name . '!!!' . "\r\n");
+
+                break;
+        }
+
+        return 0;
     }
 
     /*--------------------------------------------------------------------
@@ -199,10 +331,10 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceSubPackageLine(mixed $line): string
     {
-        $oldValue = $this->scan4HeaderValueInLine('subpackage', $line);
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('subpackage', $line);
 
         // assign standard
-        $subPackageLine = $this->headerFormat('subpackage', $this->subpackage);
+        $subPackageLine = $this->oFileHeader->headerFormat('subpackage', $this->oFileHeader->subpackage);
 
         return $subPackageLine;
     }
@@ -341,102 +473,12 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceLinkLine(mixed $line): string
     {
-        $oldValue = $this->scan4HeaderValueInLine('link', $line);
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('link', $line);
 
         // assign standard
-        $LinkLine = $this->headerFormat('link', $this->link);
+        $LinkLine = $this->oFileHeader->headerFormat('link', $this->oFileHeader->link);
 
         return $LinkLine;
-    }
-
-    /*--------------------------------------------------------------------
-    exchangeLink
-    --------------------------------------------------------------------*/
-
-    public function assignTask(task $task): int
-    {
-        $this->task = $task;
-
-//        $options = $task->options;
-//
-//        foreach ($options->options as $option) {
-//
-//            switch (strtolower($option->name)) {
-//
-//                case strtolower('???'):
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
-//                    $this->??? = $option->value;
-//                    break;
-
-        return 0;
-    }
-
-    public function execute(): int
-    {
-        $task = $this->task;
-        switch (strtolower($task->name)) {
-            case strtolower('exchangepackage'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-
-                break;
-
-            case strtolower('exchangesubpackage'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-
-                break;
-
-            case strtolower('exchangelicense'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-                $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $this->exchangeLicense($fileName);
-                break;
-
-            case strtolower('exchangeActCopyrightYear'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-                $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $copyrightDate = $options->getOption('copyrightDate');
-
-                $this->exchangeActCopyrightYear($fileName, $copyrightDate);
-                break;
-
-            case strtolower('exchangeSinceCopyrightYear'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-                $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $copyrightDate = $options->getOption('copyrightDate');
-
-                // ToDo: create exchangeSinceCopyrightYear function
-                $this->exchangeSinceCopyrightYear($fileName, $copyrightDate);
-                break;
-
-            case strtolower('exchangeauthor'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-                $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $this->exchangeAuthor($fileName);
-                break;
-
-            case strtolower('exchangersglink'):
-                print ('Execute task: ' . $task->name . "\r\n");
-
-
-                break;
-
-            default:
-                print ('!!! Task not executed: ' . $task->name . '!!!' . "\r\n");
-
-                break;
-        }
-
-        return 0;
     }
 
     function exchangeLicense(string $fileName = "")
@@ -505,10 +547,10 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceLicenseLine(mixed $line): string
     {
-        $oldValue = $this->scan4HeaderValueInLine('license', $line);
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('license', $line);
 
         // assign standard
-        $licenseLine = $this->headerFormat('license', $this->license);
+        $licenseLine = $this->oFileHeader->headerFormat('license', $this->oFileHeader->license);
 
         return $licenseLine;
     }
@@ -585,10 +627,10 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceActCopyrightLine(string $line, string $year): string
     {
-        $this->copyright = new copyrightText($line);
-        $this->copyright->actCopyrightDate = $year;
+        $this->oFileHeader->extractHeaderValuesFromLines([$line]);
+        $this->oFileHeader->oCopyright->actCopyrightDate = $year;
 
-        $copyrightLine = $this->headerFormatCopyright();
+        $copyrightLine = $this->oFileHeader->headerFormatCopyright();
 
         return $copyrightLine;
     }
@@ -669,10 +711,10 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceSinceCopyrightLine(string $line, string $year): string
     {
-        $this->copyright = new copyrightText($line);
-        $this->copyright->sinceCopyrightDate = $year;
+        $this->oFileHeader->extractHeaderValuesFromLines([$line]);
+        $this->oFileHeader->oCopyright->sinceCopyrightDate = $year;
 
-        $copyrightLine = $this->headerFormatCopyright();
+        $copyrightLine = $this->oFileHeader->headerFormatCopyright();
 
         return $copyrightLine;
     }
@@ -742,24 +784,24 @@ class fileHeaderByFileLine extends fileHeaderData
      */
     public function replaceAuthorLine(mixed $line): string
     {
-        $oldValue = $this->scan4HeaderValueInLine('author', $line);
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('author', $line);
 
         // keep author
         if ($oldValue == 'finnern') {
             // "RSGallery2 Team <team2@rsgallery2.org>";
-            $newValue = $this->author;
+            $newValue = $this->oFileHeader->author;
         } else {
             // keep author
             if (str_starts_with(strtolower($oldValue), 'rsgallery2')) {
                 // "RSGallery2 Team <team2@rsgallery2.org>";
-                $newValue = $this->author;
+                $newValue = $this->oFileHeader->author;
             } else {
                 // $newValue      = $author; // not given then format old value
                 $newValue = $oldValue;
             }
         }
 
-        $authorLine = $this->headerFormat('author', $newValue);
+        $authorLine = $this->oFileHeader->headerFormat('author', $newValue);
         return $authorLine;
     }
 
@@ -771,7 +813,7 @@ class fileHeaderByFileLine extends fileHeaderData
 
         $OutTxt .= ">>> --- result ----------------" . "\r\n";
 
-        $OutTxt .= $this->text() . "\r\n";
+        $OutTxt .= $this->oFileHeader->text() . "\r\n";
 
         $OutTxt .= ">>> --- file data ----------------" . "\r\n";
 

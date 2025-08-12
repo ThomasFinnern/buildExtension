@@ -18,6 +18,10 @@ Class exchangeAll_actCopyrightYear
 class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     implements executeTasksInterface
 {
+    //--- use file lines for task ----------------------
+
+    public fileHeaderByFileLine $fileHeaderByFileLine;
+
     public string $yearText = "";
     /**
      * @var fileNamesList
@@ -40,6 +44,10 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
             $this->yearText = $yearText;
 
+            //--- use file lines for task ----------------------
+
+            $this->fileHeaderByFileLine = new fileHeaderByFileLine();
+
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
@@ -48,6 +56,28 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     }
 
 
+//    public function assignTask(task $task): int
+//    {
+//        $hasError = 0;
+//
+//        $this->task = $task;
+//
+//        // $this->taskName = $task->name;
+//
+//        $options = $task->options;
+//
+//        // ToDo: Extract assignOption on all assignTask
+//        foreach ($options->options as $option) {
+//
+////            $isBaseOption = $this->assignBaseOption($option);
+////            if (!$isBaseOption) {
+//            $this->assignOption($option);//, $task->name);
+////            }
+//        }
+//
+//        return $hasError;
+//    }
+//
     /**
      * @param options $options
      * @param task $task
@@ -57,12 +87,18 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     {
         $isOptionConsumed = parent::assignOption($option);
 
+        if (!$isOptionConsumed) {
+
+            $isOptionConsumed = $this->fileHeaderByFileLine->assignOption($option);
+        }
+
         if ( ! $isOptionConsumed) {
             switch (strtolower($option->name)) {
 
                 case strtolower('yearText'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
                     $this->yearText = $option->value;
+                    $isOptionConsumed = true;
                     break;
 
             } // switch
@@ -90,9 +126,8 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
             $this->fileNamesList->execute();
         }
 
-        //--- use file header license task ----------------------
-
-        $fileHeaderByFileLine = new fileHeaderByFileLine();
+        // tell factory to use classes
+        $this->fileHeaderByFileLine->assignOptionCallerProjectId($this->callerProjectId);
 
         //--- iterate over all files -------------------------------------
 
@@ -100,7 +135,7 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
 
-            $fileHeaderByFileLine->exchangeActCopyrightYear(
+            $this->fileHeaderByFileLine->exchangeActCopyrightYear(
                 $fileName->srcPathFileName,
                 $this->yearText,
             );

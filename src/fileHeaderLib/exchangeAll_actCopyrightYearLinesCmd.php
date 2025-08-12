@@ -2,7 +2,7 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-require_once 'autoload/autoload.php';
+require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
@@ -57,8 +57,9 @@ $yearText = '';
 //$taskFile="./exchangeAll_actCopyrightYearLines.tsk";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
-$taskFile = "";
-$taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/exchangeAll_actCopyrightYearLines.tsk';
+// $taskFile = "";
+// $taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/exchangeAll_actCopyrightYearLines.tsk';
+$taskFile = '../tsk_file_examples/exchangeAll_actCopyrightYearLines.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

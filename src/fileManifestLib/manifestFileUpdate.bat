@@ -3,8 +3,11 @@ REM build_release.bat
 REM
 CLS
 
+ECHO PHP manifestFileCmd.php
+ECHO.
+
 REM Path for calling
-set ExePath=C:\Program Files\php82\
+set ExePath=e:\wamp64\bin\php\php8.4.5\
 REM ECHO ExePath: "%ExePath%"
 
 if exist "%ExePath%php.exe" (
@@ -16,7 +19,7 @@ if exist "%ExePath%php.exe" (
     set ExePath=
 )
 
-REM "C:\Program Files\php82\php.exe" --version
+REM "%ExePath% --version
 "%ExePath%php.exe" --version
 ECHO.
 

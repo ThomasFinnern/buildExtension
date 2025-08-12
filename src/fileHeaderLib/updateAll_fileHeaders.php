@@ -18,7 +18,7 @@ Class updateAll_fileHeaders
 class updateAll_fileHeaders extends baseExecuteTasks
     implements executeTasksInterface
 {
-    //--- use file header author task ----------------------
+    //--- use file header for task ----------------------
 
     public fileHeaderByFileData $fileHeaderByFileData;
 
@@ -35,7 +35,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
-            //--- use file header author task ----------------------
+            //--- use file header for task ----------------------
 
             $this->fileHeaderByFileData = new fileHeaderByFileData();
 
@@ -85,10 +85,10 @@ class updateAll_fileHeaders extends baseExecuteTasks
             $this->fileNamesList->execute();
         }
 
-        //--- iterate over all files -------------------------------------
-
-
+        // tell factory to use classes
         $this->fileHeaderByFileData->assignOptionCallerProjectId($this->callerProjectId);
+
+        //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
 

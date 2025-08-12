@@ -1,9 +1,9 @@
 @ECHO OFF
-REM exchangeAll_actCopyrightYearLines.bat
+REM updateAll_fileHeaders.bat
 REM
 CLS
 
-ECHO PHP exchangeAll_actCopyrightYearLinesCmd.php
+ECHO PHP updateAll_fileHeaders.php updateAll_fileHeaders_JG.tsk
 ECHO.
 
 REM Path for calling
@@ -36,10 +36,8 @@ pushd  ..\fileHeaderLib
 REM pushd  ..\
 ECHO Path: %cd% 
 
-echo --- "%ExePath%php.exe" exchangeAll_actCopyrightYearLinesCmd.php -f ..\tsk_file_examples/exchangeAll_actCopyrightYearLines.tsk %1
-"%ExePath%php.exe" exchangeAll_actCopyrightYearLinesCmd.php -f ..\tsk_file_examples/exchangeAll_actCopyrightYearLines.tsk %1
-
-popd
+echo --- "%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders_JG.tsk %1
+"%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders_JG.tsk %1
 
 goto :EOF
 

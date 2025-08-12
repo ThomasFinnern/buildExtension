@@ -1,9 +1,9 @@
 @ECHO OFF
-REM build_fix.bat
+REM updateAll_fileHeaders.bat
 REM
 CLS
 
-ECHO PHP exchangeAll_actCopyrightYearLinesCmd.php
+ECHO PHP updateAll_fileHeadersCmd.php
 ECHO.
 
 REM Path for calling
@@ -25,8 +25,19 @@ REM "%ExePath% --version
 ECHO ----------------------------------------------
 ECHO.
 
-echo --- "%ExePath%php.exe" exchangeAll_actCopyrightYearLinesCmd.php -f ../../LangMan4DevProject/.buildPHP/exchangeAll_actCopyrightYearLines.tsk %1
-"%ExePath%php.exe" exchangeAll_actCopyrightYearLinesCmd.php -f ../../LangMan4DevProject/.buildPHP/exchangeAll_actCopyrightYearLines.tsk %1
+REM more otions 
+
+set OptionFile=
+
+ECHO ----------------------------------------------
+ECHO.
+
+pushd  ..\fileHeaderLib
+REM pushd  ..\
+ECHO Path: %cd% 
+
+echo --- "%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders.tsk %1
+"%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders.tsk %1
 
 goto :EOF
 

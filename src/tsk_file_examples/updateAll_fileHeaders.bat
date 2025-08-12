@@ -39,6 +39,8 @@ ECHO Path: %cd%
 echo --- "%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders.tsk %1
 "%ExePath%php.exe" updateAll_fileHeadersCmd.php -f ..\tsk_file_examples/updateAll_fileHeaders.tsk %1
 
+popd
+
 goto :EOF
 
 REM ------------------------------------------

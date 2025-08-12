@@ -3,6 +3,9 @@ REM build_develop.bat
 REM
 CLS
 
+ECHO PHP buildExtensionCmd build_develop.tsk
+ECHO.
+
 REM Path for calling
 set ExePath=e:\wamp64\bin\php\php8.4.5\
 REM ECHO ExePath: "%ExePath%"
@@ -16,7 +19,7 @@ if exist "%ExePath%php.exe" (
     set ExePath=
 )
 
-REM "C:\Program Files\php82\php.exe" --version
+REM "%ExePath% --version
 "%ExePath%php.exe" --version
 
 ECHO ----------------------------------------------

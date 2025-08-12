@@ -1,7 +1,10 @@
 @ECHO OFF
-REM build_release.bat
-REM
+REM build_step.bat
+REM like build_develop but does increase minor 'build' number 
 CLS
+
+ECHO PHP buildExtensionCmd build_step.tsk
+ECHO.
 
 REM Path for calling
 set ExePath=e:\wamp64\bin\php\php8.4.5\
@@ -16,16 +19,16 @@ if exist "%ExePath%php.exe" (
     set ExePath=
 )
 
-REM "C:\Program Files\php82\php.exe" --version
+REM "%ExePath% --version
 "%ExePath%php.exe" --version
 
 ECHO ----------------------------------------------
 ECHO.
 
-echo --- "%ExePath%php.exe" ..\buildExtensionCmd.php -f ../../../LangMan4DevProject/.buildPHP/build_release.tsk %1
-"%ExePath%php.exe" ..\buildExtensionCmd.php -f ../../../LangMan4DevProject/.buildPHP/build_release.tsk %1
+echo --- "%ExePath%php.exe" ..\buildExtensionCmd.php -f ../../../LangMan4DevProject/.buildPHP/build_step.tsk %1
+"%ExePath%php.exe" ..\buildExtensionCmd.php -f ../../../LangMan4DevProject/.buildPHP/build_step.tsk %1
 
-goto :EOF
+GOTO :EOF
 
 REM ------------------------------------------
 REM Adds given argument to the already known command arguments
@@ -34,3 +37,4 @@ REM Adds given argument to the already known command arguments
     Set CmdArgs=%CmdArgs% %NextArg%
     ECHO  '%NextArg%'
 GOTO :EOF
+

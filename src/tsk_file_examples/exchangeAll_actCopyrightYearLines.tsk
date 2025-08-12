@@ -1,0 +1,13 @@
+task:exchangeAll_actCopyrightYearLines
+/callerProjectId=RSG2
+// /srcRoot="../../../LangMan4Dev"
+// /srcRoot="../../../joomGallery_fith"
+/srcRoot="../../testData"
+	// /isNoRecursion=true
+/includeExt = "php"
+	// excludeExt = "ini"
+/isWriteListToFile
+/listFileName="../../testData/FoundFileNamesList.txt"
+/yeartext=2025
+	// without: actual year
+

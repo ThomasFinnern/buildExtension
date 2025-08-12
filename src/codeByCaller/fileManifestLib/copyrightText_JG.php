@@ -62,50 +62,6 @@ class copyrightText_JG extends copyrightTextBase
     }
 
 
-    public function scan4CopyrightInLine(string $line) : array
-    {
-        // ToDo: try, catch
-
-        // fall back, preset result
-
-        $this->init();
-
-        //  **   @copyright  2008 - 2025  JoomGallery::ProjectTeam
-        $idx = stripos($line, '@copyright');
-        if ($idx !== false) {
-            //$valuePart = trim(substr($line, $idx));
-            // preg_match_all('/\d+/', $valuePart, $matches);
-            preg_match_all('/\d+/', $line, $matches);
-
-            $finds = $matches [0];
-            if (count ($finds) > 1)
-            {
-                $this->sinceCopyrightDate = $finds[0];
-                $this->actCopyrightDate = $finds[1];
-
-                // author from line is last part
-                $pieces = explode($this->actCopyrightDate, $line);
-
-                $count = count($pieces);
-                if ($count > 0) {
-
-                    $outer = trim($pieces[$count-1]);
-                    $postCopyrightAuthor = trim(substr($outer, 0, strrpos($outer, ' ')));
-
-                    $this->postCopyrightAuthor = $postCopyrightAuthor;
-                }
-
-            }
-        } else {
-
-            print ('!!! Unexpected copyright line: "' . $line . '" !!!');
-            throw new \Exception('!!! Unexpected copyright line: "' . $line . '" !!!');
-        }
-
-        return [$this->sinceCopyrightDate, $this->actCopyrightDate];
-        // return [$this->actCopyrightDate, $this->sinceCopyrightDate];
-    }
-
 
     //  = "(c)";
     // = "copyright  (c)";

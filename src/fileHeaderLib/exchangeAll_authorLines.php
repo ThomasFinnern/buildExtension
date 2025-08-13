@@ -13,6 +13,10 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class exchangeAll_authorLines
 ================================================================================*/
 
+/**
+ * Reads file, exchanges one 'author' line
+ * Standard replace text is defined in class fileHeaderData
+ */
 class exchangeAll_authorLines extends baseExecuteTasks
     implements executeTasksInterface
 {
@@ -99,7 +103,7 @@ class exchangeAll_authorLines extends baseExecuteTasks
     {
         // create a one file 'fileNamesList' object
         $this->fileNamesList = new fileNamesList();
-        $this->fileNamesList[] = $filePathName;
+        $this->fileNamesList->fileNames[] = $filePathName;
 
         $this->execute();
 

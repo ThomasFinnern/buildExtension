@@ -99,7 +99,7 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
     {
         // create a one file 'fileNamesList' object
         $this->fileNamesList = new fileNamesList();
-        $this->fileNamesList[] = $filePathName;
+        $this->fileNamesList->fileNames[] = $filePathName;
 
         $this->execute();
 

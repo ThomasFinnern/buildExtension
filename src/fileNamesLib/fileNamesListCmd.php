@@ -5,7 +5,7 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 require_once '../autoload/autoload.php';
 
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /**
  * ToDo:
@@ -15,7 +15,14 @@ use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
 $HELP_MSG = <<<EOT
     >>>
-    Call FileNameList class ...
+    calls FileNameList class ...
+    
+    Collects all files in srcRott folder and below
+    Extensions can be included or excluded
+    Folders can be excluded 
+    
+    A file list can be generated to check on files found 
+    Recursion can be prevented
     <<<
     EOT;
 
@@ -23,7 +30,8 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "e:i:p:w:no:h12345";
+//$optDefinition = "e:i:p:w:no:h12345";
+$optDefinition = "f:t:s:y:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -56,15 +64,15 @@ variables
 //$srcRoot = "./../../RSGallery2_J4/administrator";
 //$srcRoot = "./../../RSGallery2_J4/component";
 //$srcRoot = "./../../RSGallery2_J4/media";
-$srcRoot = "./../../../LangMan4Dev";
-//$srcRoot = "..\\..\\..\\LangMan4Dev";
+//$srcRoot = "./../../../LangMan4Dev";
+$srcRoot = "../../testData";
 
 $includeExt = "";
 //$includeExt = "php xmp ini";
 //$includeExt = "php";
 //$includeExt = "xmp";
 //$includeExt = "ini";
-$includeExt = "ts";
+$includeExt = "php";
 
 //$excludeExt = "php xmp ini";
 //$excludeExt = "php";
@@ -87,31 +95,53 @@ $writeListToFile = "./FileNamesList.txt";
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
+
+$taskFile = '../tsk_file_examples/fileNamesList.tsk';
+
+
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
-        case 'p':
+//        case 'p':
+//            $srcRoot = $option;
+//            break;
+//
+//        case 'i':
+//            $includeExt = $option;
+//            break;
+//
+//        case 'e':
+//            $excludeExt = $option;
+//            break;
+//
+//        case 'n':
+//            $isNoRecursion = true;
+//            break;
+//
+//        case 'w':
+//            $writeListToFile = $option;
+//            break;
+//
+//
+//        case 'o':
+//            $optionFiles[] = $option;
+//            break;
+//
+
+        case 't':
+            $tasksLine = $option;
+            break;
+
+        case 'f':
+            $taskFile = $option;
+            break;
+
+        case 's':
             $srcRoot = $option;
             break;
-
-        case 'i':
-            $includeExt = $option;
-            break;
-
-        case 'e':
-            $excludeExt = $option;
-            break;
-
-        case 'n':
-            $isNoRecursion = true;
-            break;
-
-        case 'w':
-            $writeListToFile = $option;
-            break;
-
 
         case 'o':
             $optionFiles[] = $option;
@@ -154,17 +184,55 @@ foreach ($options as $idx => $option) {
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-// ToDo: assign task instead if exist
+//--- create class object ---------------------------------
 
-$oFileNamesList = new fileNamesList($srcRoot, $includeExt, $excludeExt, $isNoRecursion, $writeListToFile);
+$task = new task();
 
-$hasError = $oFileNamesList->scan4Filenames();
+//--- extract tasks from string or file ---------------------------------
 
-if ($hasError) {
-    print ("!!! Error on function scan4Filenames:" . $hasError . PHP_EOL);
+if (!empty ($taskFile)) {
+    $testTask = $task->extractTaskFromFile($taskFile);
+    //if (empty ($task->name)) {
+    //    print ("!!! Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile);
+    //    $hasError = -301;
+    //}
 } else {
-    print ("--- result -------------------" . PHP_EOL);
-    print ($oFileNamesList->text() . PHP_EOL);
+    $testTask = $task->extractTaskFromString($tasksLine);
+    //if (empty ($task->name)) {
+    //    print ("!!! Error on function extractTaskFromString:" . $hasError
+    //        . ' tasksLine: ' . $tasksLine . PHP_EOL);
+    //    $hasError = -302;
+    //}
+}
+
+print ($task->text());
+
+/*--------------------------------------------------
+   execute task
+--------------------------------------------------*/
+
+if (empty ($hasError)) {
+
+    $oFileNamesList = new fileNamesList();
+
+    //--- assign tasks ---------------------------------
+
+    $hasError = $oFileNamesList->assignTask($task);
+    if ($hasError) {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
+
+    //--- execute tasks ---------------------------------
+
+    if (!$hasError) {
+        $hasError = $oFileNamesList->execute(); // scan4Filenames();
+        if ($hasError) {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+
+        print ($oFileNamesList->text() . PHP_EOL);
+    }
 }
 
 commandLineLib::print_end($start);

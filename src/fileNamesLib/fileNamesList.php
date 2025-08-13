@@ -6,12 +6,8 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-
-//use Finnern\BuildExtension\src\fileNamesLib\fithFileName;
-//use Finnern\BuildExtension\src\fileNamesLib\fithFolderName;
-// use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-
 use Finnern\BuildExtension\src\tasksLib\option;
+use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /**
@@ -23,7 +19,15 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class fileNamesList
 ================================================================================*/
 
-class fileNamesList extends baseExecuteTasks
+/**
+ * Collects all files in srcRott folder and below
+ * Extensions can be included or excluded
+ * Folders can be excluded
+ *
+ * A file list can be generated to check on files found
+ * Recursion can be prevented
+ */
+class fileNamesList
     implements executeTasksInterface
 {
 
@@ -36,12 +40,14 @@ class fileNamesList extends baseExecuteTasks
     private array $includeExtList;
 
     private bool $isExcludeExt = false;
+
     /** @var string [] */
     private array $excludeExtList;
 
     private bool $isExcludeFolder = false;
     /** @var string [] */
     private array $excludeFolderList;
+
 
     private bool $isWriteListToFile = false;
 
@@ -50,6 +56,8 @@ class fileNamesList extends baseExecuteTasks
     public string $srcRoot = "";
 
     public bool $isNoRecursion = false;
+
+    private string $taskName;
 
     /*--------------------------------------------------------------------
     construction
@@ -103,6 +111,9 @@ class fileNamesList extends baseExecuteTasks
         $this->isExcludeExt = false;
         $this->excludeExtList = [];
 
+        $this->isExcludeFolder = false;
+        $this->excludeFolderList = [];
+
         $this->isNoRecursion = false;
 
         $this->isWriteListToFile = false;
@@ -131,7 +142,7 @@ class fileNamesList extends baseExecuteTasks
 
         [$this->isIncludeExt, $this->includeExtList] =
             $this->splitExtensionString($includeExt);
-        [$this->isExcludeExt, $this->excludeExtList] =
+        [$this->isExcludeExt, $this->excludeExtList] =  // wrong
             $this->splitExtensionString($excludeExt);
 
         $this->isNoRecursion = $isNoRecursion;
@@ -152,12 +163,11 @@ class fileNamesList extends baseExecuteTasks
 //        $isOptionConsumed = parent::assignOption($option);
         $isOptionConsumed = false;
 
-        if ( ! $isOptionConsumed) {
+        if (!$isOptionConsumed) {
 
             switch (strtolower($option->name)) {
                 case strtolower('includeExt'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    //$this->yearText = $option->value;
                     [$this->isIncludeExt, $this->includeExtList] =
                         $this->splitExtensionString($option->value);
                     $isOptionConsumed = true;
@@ -165,9 +175,15 @@ class fileNamesList extends baseExecuteTasks
 
                 case strtolower('excludeExt'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    //$this->yearText = $option->value;
-                    [$this->isExcludeExt, $this->excludeExtList] =
+                   [$this->isExcludeExt, $this->excludeExtList] =
                         $this->splitExtensionString($option->value);
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('excludeFolderList'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    // $this->isExcludeFolder, $this->excludeFolderList[]
+                    $this->addExcludeFolder ($option->value);
                     $isOptionConsumed = true;
                     break;
 
@@ -271,6 +287,10 @@ class fileNamesList extends baseExecuteTasks
         $OutTxt .= "excludeExtList: " .
             $this->combineExtensionString($this->excludeExtList) . PHP_EOL;
 
+        $OutTxt .= "isExcludeFolder: " . $this->isExcludeFolder . PHP_EOL;
+        $OutTxt .= "excludeFolderList: " .
+            $this->combineExtensionString($this->excludeFolderList) . PHP_EOL;
+
         $OutTxt .= "isNoRecursion: " . $this->isNoRecursion . PHP_EOL;
         $OutTxt .= "isWriteListToFile: " . $this->isWriteListToFile . PHP_EOL;
 
@@ -362,6 +382,8 @@ class fileNamesList extends baseExecuteTasks
         $this->includeExtList = $fileNamesList->includeExtList;
         $this->isExcludeExt = $fileNamesList->isExcludeExt;
         $this->excludeExtList = $fileNamesList->excludeExtList;
+        $this->isExcludeFolder = $fileNamesList->isExcludeFolder;
+        $this->excludeFolderList = $fileNamesList->excludeFolderList;
         $this->isNoRecursion = $fileNamesList->isNoRecursion;
         $this->isWriteListToFile = $fileNamesList->isWriteListToFile;
         $this->listFileName = $fileNamesList->listFileName;
@@ -479,14 +501,8 @@ class fileNamesList extends baseExecuteTasks
                 // print ('    folders count: ' . count($folders) . PHP_EOL);
 
                 foreach ($folders as $folder) {
+
                     $isExpected = $this->check4ValidFolderName($folder);
-
-                    // $isExpected = False;
-                    // $isExpected = True;
-
-
-                    // ToDo: handle include / exclude
-
 
                     if ($isExpected) {
                         $this->scanPath4Filenames($folder);
@@ -547,6 +563,8 @@ class fileNamesList extends baseExecuteTasks
         return $isFound;
     }
 
+    // ToDo: handle include lists
+
     private function check4ValidFolderName(string $folder)
     {
         $isValid = true;
@@ -554,10 +572,32 @@ class fileNamesList extends baseExecuteTasks
         try {
             $fithFolderName = new fithFolderName($folder);
 
+            //--- root hidden folders -------------------------------------------
 
             if ($fithFolderName->folderName == '.git') {
                 $isValid = false;
+            } elseif ($fithFolderName->folderName == '.idea') {
+                $isValid = false;
+            } elseif ($fithFolderName->folderName == '..github') {
+                $isValid = false;
+            } elseif ($this->isExcludeFolder) {
+
+                //--- exclude folders -------------------------------------------
+
+                foreach ($this->excludeFolderList as $excludeFolder) {
+
+                    $isExcluded = $this->check4ExcludedFolder ($folder, $excludeFolder);
+
+                    if ($isExcluded) {
+
+                        $isValid = false;
+                        break;
+                    }
+
+                }
+
             }
+
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -566,6 +606,27 @@ class fileNamesList extends baseExecuteTasks
         return $isValid;
     }
 
+    private function check4ExcludedFolder(string $folder, string $excludeFolderPart)
+    {
+        $isExcluded = false;
+
+        //--- source folder real ------------
+
+        $srcFolder = realpath ($this->srcRoot);
+
+        //--- create exclude folder ------------
+
+        $excludeFolderBase = $srcFolder . '/' . $excludeFolderPart;
+        $excludeFolder = realpath ($excludeFolderBase);
+
+        //--- compare ------------
+
+        if ($excludeFolder == $folder) {
+            $isExcluded = true;
+        }
+
+        return $isExcluded;
+    }
 
 //    public function subFileListByExtensions (string $includeExtList, string $excludeExtList): fileNamesList
 //    {
@@ -584,11 +645,61 @@ class fileNamesList extends baseExecuteTasks
         $fileNamesList->includeExtList = $this->includeExtList;
         $fileNamesList->isExcludeExt = $this->isExcludeExt;
         $fileNamesList->excludeExtList = $this->excludeExtList;
+        $fileNamesList->isExcludeFolder = $this->isExcludeFolder;
+        $fileNamesList->excludeFolderList = $this->excludeFolderList;
         $fileNamesList->isNoRecursion = $this->isNoRecursion;
         $fileNamesList->isWriteListToFile = $this->isWriteListToFile;
         $fileNamesList->listFileName = $this->listFileName;
 
         return $fileNamesList;
+    }
+
+    /**
+     * Assign task name and  options
+     *
+     * @param task $task
+     * @return int
+     */
+    public function assignTask(task $task): int
+    {
+        $this->taskName = $task->name;
+
+        $options = $task->options;
+
+        $this->assignOptions($options, $task->name);
+
+        return 0;
+    }
+
+
+    /**
+     * @param options $options
+     * @param task $task
+     * @return bool
+     */
+    public function assignOptions(options $options, $taskName): int
+    {
+
+        foreach ($options->options as $option) {
+
+            $isParentOption = $this->assignOption($option);
+            if (! $isParentOption) {
+                print ('%%% warning: requested option is not supported: ' . $taskName . '.' . $option->name . ' !!!' . PHP_EOL);
+            }
+        }
+
+        return 0;
+    }
+
+    public function executeFile(string $filePathName): int
+    {
+        return -1;
+    }
+
+    private function addExcludeFolder(string $folderPart): void
+    {
+        $this->isExcludeFolder = true;
+        $this->excludeFolderList[] = $folderPart;
     }
 
 } // fileNamesList

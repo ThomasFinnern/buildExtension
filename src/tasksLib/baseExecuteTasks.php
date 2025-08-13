@@ -61,7 +61,12 @@ class baseExecuteTasks
         return 0;
     }
 
-    // Task name with options
+    /**
+     * Assign task name and  options
+     *
+     * @param task $task
+     * @return int
+     */
     public function assignTask(task $task): int
     {
         $this->taskName = $task->name;
@@ -130,10 +135,16 @@ class baseExecuteTasks
         return $isOptionConsumed;
     }
 
+    /**
+     * Execute action on one file
+     *
+     * @param string $filePathName
+     * @return int
+     */
     public function executeFile(string $filePathName): int
     {
         $this->fileNamesList = new fileNamesList();
-        $this->fileNamesList[] = $filePathName;
+        $this->fileNamesList->fileNames[] = $filePathName;
 
         $this->execute();
 

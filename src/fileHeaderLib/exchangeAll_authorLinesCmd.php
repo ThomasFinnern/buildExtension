@@ -10,7 +10,7 @@ use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    class exchangeAll_authorLines
+    calls class exchangeAll_authorLines
 
     Reads file, exchanges one 'author' line
     Standard replace text is defined in class fileHeaderData

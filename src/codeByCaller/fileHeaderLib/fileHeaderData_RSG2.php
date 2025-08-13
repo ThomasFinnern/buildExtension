@@ -1,12 +1,8 @@
 <?php
-
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
-
-// ToDo: make copyright local
-
 /*================================================================================
-Class fileHeader data
+Class fileHeaderData_RSG2
 ================================================================================*/
 
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;

@@ -7,10 +7,6 @@ use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 
-// ToDo: make copyright local
-
-// ToDo: can variables $padCount/$endPadCount ... be set from *.tsk file ?
-
 /*================================================================================
 Class fileHeader data
 ================================================================================*/
@@ -180,7 +176,7 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 //
 //            }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -244,7 +240,7 @@ class fileHeaderDataBase implements fileHeaderDataInterface
             $outLines[] = " */" . "\r\n";
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
 
         return $outLines;

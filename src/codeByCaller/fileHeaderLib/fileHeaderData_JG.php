@@ -183,7 +183,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //
 //            }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -249,7 +249,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
             $outLines[] = "*****************************************************************************************/" . "\r\n";
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
 
         return $outLines;

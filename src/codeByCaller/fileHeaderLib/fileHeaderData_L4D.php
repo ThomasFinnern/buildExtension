@@ -166,7 +166,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
 //
 //            }
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
             $hasError = -101;
         }
 
@@ -249,7 +249,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase
             $outLines[] = " */" . "\r\n";
 
         } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
         }
 
         return $outLines;

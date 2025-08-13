@@ -61,8 +61,8 @@ $yearText = '';
 //$taskFile="./build_release.tsk";
 // $taskFile = "";
 // $taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/alignAll_use_Lines.tsk';
-//$taskFile = '../tsk_file_examples/alignAll_use_Lines.tsk';
-$taskFile = '../tsk_file_examples/alignAll_use_Lines_JG.tsk';
+$taskFile = '../tsk_file_examples/alignAll_use_Lines.tsk';
+//$taskFile = '../tsk_file_examples/alignAll_use_Lines_JG.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

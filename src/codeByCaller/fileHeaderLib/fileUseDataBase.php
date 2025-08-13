@@ -108,7 +108,7 @@ class fileUseDataBase implements fileUseDataInterface
     {
         if ($isSortByLength) {
 
-            usort($lines, function($a, $b) {
+            usort($lines, function ($a, $b) {
                 // return strlen($b) <=> strlen($a);   // desc
                 return strlen($a) <=> strlen($b);
             });
@@ -139,9 +139,7 @@ class fileUseDataBase implements fileUseDataInterface
                 $this->useLinesSorted = self::sortUseLines($this->useLines, $this->isSortByLength);
             }
 
-            $useLinesSorted = $this->applyBackslashType($this->useLinesSorted, $this->isPrependBackSlash, $this->isRemoveBackSlash);
-
-            $fileLines = array_merge($this->preLines, $useLinesSorted, $this->postLines);
+            $fileLines = array_merge($this->preLines, $this->useLinesSorted, [PHP_EOL], $this->postLines);
 
         } catch (\Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
@@ -163,7 +161,7 @@ class fileUseDataBase implements fileUseDataInterface
 
         // $arraysAreEqual = ($linesSorted == $this->useLines); // TRUE if $a and $b have the same key/value pairs.
         $arraysAreEqual = ($linesSorted === $this->useLines); // TRUE if $a and $b have the same key/value pairs in the same order and of the same types.
-        if ($arraysAreEqual  == false) {
+        if ($arraysAreEqual == false) {
             $isChanged = true;
         }
         return $isChanged;
@@ -241,9 +239,13 @@ class fileUseDataBase implements fileUseDataInterface
         return $isValidUseLine;
     }
 
-    private function applyBackslashType(array $useLinesIn, bool $isPrependBackSlash, bool $isRemoveBackSlash): array
+    public function applyBackslashType(): array
     {
         $useLines = [];
+
+        $useLinesIn = $this->useLinesSorted;
+        $isPrependBackSlash = $this->isPrependBackSlash;
+        $isRemoveBackSlash = $this->isRemoveBackSlash;
 
         if ($isPrependBackSlash) {
             $useLines = $this->prependBackslash($useLinesIn);
@@ -254,6 +256,8 @@ class fileUseDataBase implements fileUseDataInterface
                 $useLines[] = $useLine;
             }
         }
+
+        $this->useLinesSorted = $useLines;
 
         return $useLines;
     }

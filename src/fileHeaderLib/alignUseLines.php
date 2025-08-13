@@ -117,6 +117,7 @@ class alignUseLines
             } else {
                 $fileName = $this->fileName;
             }
+
             print ("FileName use: " . $fileName . "\r\n");
 
             $lines = file($fileName);
@@ -126,12 +127,16 @@ class alignUseLines
             // Not needed but doe prepare sorted lines
             $this->oFileUseData->useLinesSorted();
 
+            $this->oFileUseData->applyBackslashType();
+
             // write to file
             if ($this->oFileUseData->isChanged() == true) {
 
                 $outLines = $this->oFileUseData->fileLines();
 
                 $isSaved = file_put_contents($fileName, $outLines);
+
+                print (">> Changed FileName: " . $fileName . "\r\n");
             }
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";

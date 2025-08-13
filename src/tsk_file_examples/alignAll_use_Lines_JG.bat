@@ -32,7 +32,7 @@ set OptionFile=
 ECHO ----------------------------------------------
 ECHO.
 
-pushd  ..\fileHeaderLib
+pushd  ..\
 REM pushd  ..\
 ECHO Path: %cd% 
 

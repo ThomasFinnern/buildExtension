@@ -36,8 +36,8 @@ pushd  ..\fileHeaderLib
 REM pushd  ..\
 ECHO Path: %cd% 
 
-echo --- "%ExePath%php.exe" alignAll_use_LinesCmd.php -f ..\tsk_file_examples/alignAll_use_Lines.tsk %1
-"%ExePath%php.exe" alignAll_use_LinesCmd.php -f ..\tsk_file_examples/alignAll_use_Lines.tsk %1
+echo --- "%ExePath%php.exe" alignAll_use_LinesCmd.php -f ..\tsk_file_examples/alignAll_use_Lines_direct.tsk %1
+"%ExePath%php.exe" alignAll_use_LinesCmd.php -f ..\tsk_file_examples/alignAll_use_Lines_direct.tsk %1
 
 popd
 

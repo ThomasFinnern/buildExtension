@@ -7,6 +7,6 @@ task:alignAll_use_Lines
 /includeExt = "php"
 	// excludeExt = "ini"
 /isWriteListToFile
-/listFileName="../testData/FoundFileNamesList.txt"
+/listFileName="../../testData/FoundFileNamesList.txt"
 	// without: actual year
 

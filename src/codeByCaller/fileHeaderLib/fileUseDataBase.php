@@ -190,44 +190,60 @@ class fileUseDataBase implements fileUseDataInterface
      */
     private function is_a_postLine(string $line): bool
     {
-        $is_a_postLine = false;
+// First try: check what is forbidden
+//        $is_a_postLine = false;
+//        $testLine = trim($line);
+//        if (str_starts_with($testLine, "class")) {
+//            $is_a_postLine = true;
+////        } elseif (strlen($testLine) == 0) {
+////            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "require")) {
+//            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "interface")) {
+//            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "\$HELP_MSG")) {
+//            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "/*==")) {
+//            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "/**")) {
+//            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "/*--")) {
+//            $is_a_postLine = true;
+////        } elseif (str_starts_with($testLine, "")) {
+////            $is_a_postLine = true;
+//        }
+//
+//        //--- detected too late -----------------------------------------
+//
+//        // Some lines too late , so code must be changed if found
+//
+//
+//        if (str_starts_with($testLine, "{")) {
+//            throw new \Exception('!!! Unexpected after "use ..." line: "' . $line . '" !!!' . PHP_EOL
+//                . "Beginning of the “Post” lines not correctly recognized");
+//            // $is_a_postLine = true;
+//        }
+
+        $is_a_postLine = true;
         $testLine = trim($line);
 
-        if (str_starts_with($testLine, "class")) {
-            $is_a_postLine = true;
-//        } elseif (strlen($testLine) == 0) {
-//            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "require")) {
-            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "interface")) {
-            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "\$HELP_MSG")) {
-            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "/*==")) {
-            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "/**")) {
-            $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "/*--")) {
-            $is_a_postLine = true;
-//        } elseif (str_starts_with($testLine, "")) {
-//            $is_a_postLine = true;
-        }
 
-        //--- detected too late -----------------------------------------
+        //--- what is allowed ---------------------------------------
 
-        // Some lines too late , so code must be changed if found
+        // Check what is allowed instead of what is forbidden
+        // Attention: Actually comments between use namespacese lines are not allowed
 
-
-        if (str_starts_with($testLine, "{")) {
-            throw new \Exception('!!! Unexpected after "use ..." line: "' . $line . '" !!!' . PHP_EOL
-                . "Beginning of the “Post” lines not correctly recognized");
-            // $is_a_postLine = true;
+        if (str_starts_with($testLine, "use ")) {
+            $is_a_postLine = false;
+        } elseif (strlen($testLine) == 0) {
+            $is_a_postLine = false;
         }
 
         return $is_a_postLine;
     }
 
-    private function isValidUseLine(mixed $line): bool
+    private
+    function isValidUseLine(mixed $line): bool
     {
         $isValidUseLine = false;
 
@@ -239,7 +255,8 @@ class fileUseDataBase implements fileUseDataInterface
         return $isValidUseLine;
     }
 
-    public function applyBackslashType(): array
+    public
+    function applyBackslashType(): array
     {
         $useLines = [];
 
@@ -262,7 +279,8 @@ class fileUseDataBase implements fileUseDataInterface
         return $useLines;
     }
 
-    private function prependBackslash(array $useLinesIn): array
+    private
+    function prependBackslash(array $useLinesIn): array
     {
         $useLines = [];
 
@@ -290,7 +308,8 @@ class fileUseDataBase implements fileUseDataInterface
         return $useLines;
     }
 
-    private function removeBackSlash(array $useLinesIn): array
+    private
+    function removeBackSlash(array $useLinesIn): array
     {
         $useLines = [];
 

@@ -5,7 +5,6 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -15,12 +14,12 @@ use Finnern\BuildExtension\src\tasksLib\options;
 Class exchangeAll_actCopyrightYear
 ================================================================================*/
 
-class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
+class alignAll_use_Lines extends baseExecuteTasks
     implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
-    public fileHeaderByFileLine $fileHeaderByFileLine;
+    public alignUseLines $alignUseLines;
 
     public string $yearText = "";
 
@@ -28,7 +27,7 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct($srcRoot = "", $isNoRecursion=false, $yearText = "")
+    public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
         try {
@@ -37,13 +36,13 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 //            print ("yearText: " . $yearText . "\r\n");
 //            print('---------------------------------------------------------' . "\r\n");
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
             $this->yearText = $yearText;
 
             //--- use file lines for task ----------------------
 
-            $this->fileHeaderByFileLine = new fileHeaderByFileLine();
+            $this->alignUseLines = new alignUseLines();
 
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
@@ -52,32 +51,9 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
         // print('exit __construct: ' . $hasError . "\r\n");
     }
 
-
-//    public function assignTask(task $task): int
-//    {
-//        $hasError = 0;
-//
-//        $this->task = $task;
-//
-//        // $this->taskName = $task->name;
-//
-//        $options = $task->options;
-//
-//        // ToDo: Extract assignOption on all assignTask
-//        foreach ($options->options as $option) {
-//
-////            $isBaseOption = $this->assignBaseOption($option);
-////            if (!$isBaseOption) {
-//            $this->assignOption($option);//, $task->name);
-////            }
-//        }
-//
-//        return $hasError;
-//    }
-//
     /**
      * @param option $option
-     * @return bool
+     * * @return bool
      */
     public function assignOption(option $option): bool
     {
@@ -85,7 +61,7 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
         if (!$isOptionConsumed) {
 
-            $isOptionConsumed = $this->fileHeaderByFileLine->assignOption($option);
+            $isOptionConsumed = $this->alignUseLines->assignOption($option);
         }
 
         if ( ! $isOptionConsumed) {
@@ -102,7 +78,6 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
         return $isOptionConsumed;
     }
-
 
     public function execute(): int
     {
@@ -123,7 +98,7 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
         }
 
         // tell factory to use classes
-        $this->fileHeaderByFileLine->assignOptionCallerProjectId($this->callerProjectId);
+        $this->alignUseLines->assignOptionCallerProjectId($this->callerProjectId);
 
         //--- iterate over all files -------------------------------------
 
@@ -131,20 +106,16 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
 
-            $this->fileHeaderByFileLine->exchangeActCopyrightYear(
-                $fileName->srcPathFileName,
-                $this->yearText,
-            );
+            $this->alignUseLines->alignUseLines($fileName->srcPathFileName);
         }
 
         return 0;
     }
 
-
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- exchangeAll_actCopyrightYearLines ---" . "\r\n";
+        $OutTxt .= "--- alignAll_use_Lines ---" . "\r\n";
 
 
         $OutTxt .= "Not defined yet " . "\r\n";

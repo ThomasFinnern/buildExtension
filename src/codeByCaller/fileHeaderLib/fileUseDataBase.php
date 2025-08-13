@@ -109,7 +109,8 @@ class fileUseDataBase implements fileUseDataInterface
         if ($isSortByLength) {
 
             usort($lines, function($a, $b) {
-                return strlen($b) <=> strlen($a);
+                // return strlen($b) <=> strlen($a);   // desc
+                return strlen($a) <=> strlen($b);
             });
         } else {
 
@@ -153,7 +154,6 @@ class fileUseDataBase implements fileUseDataInterface
     {
         $isChanged = false;
 
-        // TODO: Implement isChanged() method.
         $linesSorted = $this->useLinesSorted();
 
 //        $array_diff = array_diff($linesSorted, $this->useLines);
@@ -163,7 +163,7 @@ class fileUseDataBase implements fileUseDataInterface
 
         // $arraysAreEqual = ($linesSorted == $this->useLines); // TRUE if $a and $b have the same key/value pairs.
         $arraysAreEqual = ($linesSorted === $this->useLines); // TRUE if $a and $b have the same key/value pairs in the same order and of the same types.
-        if (!$arraysAreEqual) {
+        if ($arraysAreEqual  == false) {
             $isChanged = true;
         }
         return $isChanged;
@@ -197,8 +197,8 @@ class fileUseDataBase implements fileUseDataInterface
 
         if (str_starts_with($testLine, "class")) {
             $is_a_postLine = true;
-        } elseif (strlen($testLine) == 0) {
-            $is_a_postLine = true;
+//        } elseif (strlen($testLine) == 0) {
+//            $is_a_postLine = true;
         } elseif (str_starts_with($testLine, "require")) {
             $is_a_postLine = true;
         } elseif (str_starts_with($testLine, "interface")) {
@@ -211,8 +211,8 @@ class fileUseDataBase implements fileUseDataInterface
             $is_a_postLine = true;
         } elseif (str_starts_with($testLine, "/*--")) {
             $is_a_postLine = true;
-        } elseif (str_starts_with($testLine, "")) {
-            $is_a_postLine = true;
+//        } elseif (str_starts_with($testLine, "")) {
+//            $is_a_postLine = true;
         }
 
         //--- detected too late -----------------------------------------
@@ -273,16 +273,14 @@ class fileUseDataBase implements fileUseDataInterface
 
                 if ($namespace[0] != '\\') {
                     $namespace = '\\' . $namespace;
-                    $useLine = substr($useLine, 0, $idxNameSpace) . ' ' . $namespace;
+                    $useLine = substr($useLine, 0, $idxNameSpace) . $namespace . PHP_EOL;
 
                     $useLines[] = $useLine;
                 } else {
 
-                    $useLines[] = $useLinesIn;
+                    $useLines[] = $useLine;
                 }
             }
-
-            $useLines[] = $useLine;
         }
 
         return $useLines;
@@ -303,16 +301,14 @@ class fileUseDataBase implements fileUseDataInterface
 
                 if ($namespace[0] == '\\') {
                     $namespace = substr($namespace, 1);
-                    $useLine = substr($useLine, 0, $idxNameSpace) . ' ' . $namespace;
+                    $useLine = substr($useLine, 0, $idxNameSpace) . $namespace . PHP_EOL;
 
                     $useLines[] = $useLine;
                 } else {
 
-                    $useLines[] = $useLinesIn;
+                    $useLines[] = $useLine;
                 }
             }
-
-            $useLines[] = $useLine;
         }
 
         return $useLines;

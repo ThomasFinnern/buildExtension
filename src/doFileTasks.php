@@ -4,6 +4,7 @@ namespace Finnern\BuildExtension\src;
 
 use Exception;
 use Finnern\BuildExtension\src\cleanUpLib\clean4GitCheckin;
+use Finnern\BuildExtension\src\fileHeaderLib\alignAll_use_Lines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
 use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
@@ -283,8 +284,14 @@ class doFileTasks
                         $hasError = $this->actTask->execute();
                         break;
 
+                    case strtolower('alignAll_use_Lines'):
+                        $this->actTask = $this->createTask(new alignAll_use_Lines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
                     default:
-                        print ('!!! Execute unknown task: "' . $textTask->name . '" !!!');
+                        print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . "\r\n");
                         throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
                 } // switch
 

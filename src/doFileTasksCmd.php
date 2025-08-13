@@ -318,9 +318,10 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
+$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
-$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+//$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

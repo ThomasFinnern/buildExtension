@@ -36,12 +36,8 @@ pushd  ..\fileHeaderLib
 REM pushd  ..\
 ECHO Path: %cd% 
 
-REM echo --- "%ExePath%php.exe" alignAll_use_Lines_JGCmd.php -f ../../../JoomGallery_fith_dev/.buildPHP/alignAll_use_Lines_JG.tsk %1
-REM "%ExePath%php.exe" alignAll_use_Lines_JGCmd.php -f ../../../JoomGallery_fith_dev/.buildPHP/alignAll_use_Lines_JG.tsk %1
-REM echo --- "%ExePath%php.exe" fileHeaderLib/alignAll_use_Lines_JGCmd.php -f tsk_file_examples/alignAll_use_Lines_JG.tsk %1
-REM "%ExePath%php.exe" fileHeaderLib/alignAll_use_Lines_JGCmd.php -f tsk_file_examples/alignAll_use_Lines_JG.tsk %1
-echo --- "%ExePath%php.exe" alignAll_use_Lines_JGCmd.php -f ..\tsk_file_examples/alignAll_use_Lines_JG.tsk %1
-"%ExePath%php.exe" alignAll_use_Lines_JGCmd.php -f ..\tsk_file_examples/alignAll_use_Lines_JG.tsk %1
+echo --- "%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/alignAll_use_Lines_JG.tsk %1
+"%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/alignAll_use_Lines_JG.tsk %1
 
 popd
 

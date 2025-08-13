@@ -21,7 +21,7 @@ interface fileUseDataInterface
 
     function extractUseLines(array $lines = []) : void;
 
-    static function sortUseLines(array $lines = [], bool $isSortByLength);
+    static function sortUseLines(array $lines = [], bool $isSortByLength = false);
 
     // function extractNameFromHeaderLine(string $line) : array;
 

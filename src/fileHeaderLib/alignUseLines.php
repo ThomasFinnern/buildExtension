@@ -123,6 +123,9 @@ class alignUseLines
 
             $this->oFileUseData->extractUseLines($lines);
 
+            // Not needed but doe prepare sorted lines
+            $this->oFileUseData->useLinesSorted();
+
             // write to file
             if ($this->oFileUseData->isChanged() == true) {
 

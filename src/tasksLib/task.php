@@ -126,6 +126,7 @@ class task // extends options
 
         try {
             if (!is_file($taskFile)) {
+                print ('!!! Task file not found: "' . $taskFile . '" !!!' . "\r\n");
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }

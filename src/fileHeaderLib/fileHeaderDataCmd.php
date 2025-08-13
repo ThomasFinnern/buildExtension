@@ -47,8 +47,8 @@ variables
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
 
@@ -95,10 +95,10 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 $oFileHeader = new fileHeaderData();
 
-print ($oFileHeader->text() . "\r\n");
-print ("Line: '" . $oFileHeader->headerText() . "'" . "\r\n");
+print ($oFileHeader->text() . PHP_EOL);
+print ("Line: '" . $oFileHeader->headerText() . "'" . PHP_EOL);
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

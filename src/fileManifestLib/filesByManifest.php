@@ -146,9 +146,9 @@ class filesByManifest extends baseExecuteTasks
 
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
 
@@ -175,7 +175,7 @@ class filesByManifest extends baseExecuteTasks
             if (!$isBaseOption) {
 
                 $this->assignManifestOption($option);
-                // $OutTxt .= $task->text() . "\r\n";
+                // $OutTxt .= $task->text() . PHP_EOL;
             }
         }
 
@@ -203,7 +203,7 @@ class filesByManifest extends baseExecuteTasks
                 switch (strtolower($option->name)) {
                     // filesByManifest
                     case strtolower('manifestFile'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->manifestPathFileName = $option->value;
                         $isManifestOption = true;
                         break;
@@ -219,9 +219,9 @@ class filesByManifest extends baseExecuteTasks
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . "\r\n");
-        print("Execute filesByManifest: " . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print("Execute filesByManifest: " . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $hasError = 0;
 
@@ -251,7 +251,7 @@ class filesByManifest extends baseExecuteTasks
                         break;
 
                     default:
-                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder" element found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
+                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder" element found: "' . (string)$name . '"->"' . (string)$item . '"' . PHP_EOL);
                         break;
                 }
             }
@@ -285,7 +285,7 @@ class filesByManifest extends baseExecuteTasks
                         break;
 
                     default:
-                        print ('%%% extractLanguageFilesFromSection: "language" element not found: "' . (string)$name . '"->"' . (string)$item . '"' . "\r\n");
+                        print ('%%% extractLanguageFilesFromSection: "language" element not found: "' . (string)$name . '"->"' . (string)$item . '"' . PHP_EOL);
                         break;
                 }
             }
@@ -325,7 +325,7 @@ class filesByManifest extends baseExecuteTasks
     public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
     {
         print ("\r\n");
-        print ('--- collect files and folders -----------------' . "\r\n");
+        print ('--- collect files and folders -----------------' . PHP_EOL);
 
         $this->files = [];
         $this->folders = [];
@@ -425,7 +425,7 @@ class filesByManifest extends baseExecuteTasks
 
                         // // component name like com_rsgallery2
                         // // direct assignment to XML element
-                        // print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        // print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         // $this->manifestXml->setByXml($requestName, $requestValue);
 
                         // $isChanged = true;
@@ -435,7 +435,7 @@ class filesByManifest extends baseExecuteTasks
             // }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -445,23 +445,23 @@ class filesByManifest extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- filesByManifest ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- filesByManifest ---" . PHP_EOL;
 
-        $OutTxt .= "manifestPathFileName: " . $this->manifestPathFileName . "\r\n";
+        $OutTxt .= "manifestPathFileName: " . $this->manifestPathFileName . PHP_EOL;
 
-        $OutTxt .= "[files] ("  . count($this->files) . ')' . "\r\n";
-        //$OutTxt .= "   " . "files count: " . count($this->files) . "\r\n";
+        $OutTxt .= "[files] ("  . count($this->files) . ')' . PHP_EOL;
+        //$OutTxt .= "   " . "files count: " . count($this->files) . PHP_EOL;
 
         foreach ($this->files as $file) {
-            $OutTxt .= "   * " . $file . "\r\n";
+            $OutTxt .= "   * " . $file . PHP_EOL;
         }
 
-        $OutTxt .= "[folders] (" . count($this->folders) . ')' . "\r\n";
-        //$OutTxt .= "   " . "folders count: " . count($this->folders) . "\r\n";
+        $OutTxt .= "[folders] (" . count($this->folders) . ')' . PHP_EOL;
+        //$OutTxt .= "   " . "folders count: " . count($this->folders) . PHP_EOL;
 
         foreach ($this->folders as $folder) {
-            $OutTxt .= "   * " . $folder . "\r\n";
+            $OutTxt .= "   * " . $folder . PHP_EOL;
         }
 
         return $OutTxt;

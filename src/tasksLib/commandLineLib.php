@@ -19,12 +19,12 @@ class commandLineLib
     {
         $start = new DateTime();
 
-        print('------------------------------------------' . "\r\n");
+        print('------------------------------------------' . PHP_EOL);
         print ('Command line: ');
 
         // caller
         if (count($inArgs) > 0) {
-            print ($inArgs[0] . "\r\n" . " ");
+            print ($inArgs[0] . PHP_EOL . " ");
         }
 
         // option '/name '
@@ -37,10 +37,10 @@ class commandLineLib
             print ($inArgs[$i] . " ");
         }
 
-        print('' . "\r\n");
+        print('' . PHP_EOL);
 
-        print('Start time:   ' . $start->format('Y-m-d H:i:s') . "\r\n");
-        print('------------------------------------------' . "\r\n");
+        print('Start time:   ' . $start->format('Y-m-d H:i:s') . PHP_EOL);
+        print('------------------------------------------' . PHP_EOL);
 
         return $start;
     }
@@ -54,13 +54,13 @@ class commandLineLib
     {
         global $argc, $argv;
 
-        print('------------------------------------------' . "\r\n");
+        print('------------------------------------------' . PHP_EOL);
         print ('Direct Command line: ');
 
         for ($i = 1; $i < $argc; $i++) {
             echo ($argv[$i]) . " ";
         }
-        print('' . "\r\n");
+        print('' . PHP_EOL);
     }
 
     /*--------------------------------------------------------------------
@@ -70,10 +70,10 @@ class commandLineLib
     public static function print_end(DateTime $start)
     {
         $now = new DateTime ();
-        print('' . "\r\n");
-        print('End time:               ' . $now->format('Y-m-d H:i:s') . "\r\n");
+        print('' . PHP_EOL);
+        print('End time:               ' . $now->format('Y-m-d H:i:s') . PHP_EOL);
         $difference = $start->diff($now);
-        print('Time of run:            ' . $difference->format("%H:%I:%S") . "\r\n");
+        print('Time of run:            ' . $difference->format("%H:%I:%S") . PHP_EOL);
     }
 
     /**
@@ -89,7 +89,7 @@ class commandLineLib
             //--- argv ---------------------------------
 
             if ($isPrintArguments) {
-                print ("--- argv ---" . "\r\n");
+                print ("--- argv ---" . PHP_EOL);
                 var_dump($argv);
             }
 
@@ -101,7 +101,7 @@ class commandLineLib
             }
             if ($isPrintArguments) {
                 if (!empty ($inArgs)) {
-                    print ("--- inArgs ---" . "\r\n");
+                    print ("--- inArgs ---" . PHP_EOL);
                     var_dump($inArgs);
                 }
             }
@@ -112,13 +112,13 @@ class commandLineLib
 
             if ($isPrintArguments) {
                 if (!empty ($inArgs)) {
-                    print ("--- in options ---" . "\r\n");
+                    print ("--- in options ---" . PHP_EOL);
                     var_dump($options);
                 }
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

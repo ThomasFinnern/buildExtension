@@ -61,8 +61,8 @@ $packageText = '';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -123,15 +123,15 @@ $task = new task();
 if ( ! empty ($taskFile)) {
     $testTask = $task->extractTaskFromFile($taskFile);
     //if (empty ($task->name)) {
-    //    print ("%%% Error on function extractTaskFromFile:" // . $hasError
-    //        . ' Task file: ' . $taskFile . "\n");
+    //    print ("!!! Error on function extractTaskFromFile:" // . $hasError
+    //        . ' Task file: ' . $taskFile . PHP_EOL);
     //    $hasError = -301;
     //}
 } else {
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
-    //    print ("%%% Error on function extractTaskFromString:" . $hasError
-    //        . ' tasksLine: ' . $tasksLine . "\n");
+    //    print ("!!! Error on function extractTaskFromString:" . $hasError
+    //        . ' tasksLine: ' . $tasksLine . PHP_EOL);
     //    $hasError = -302;
     //}
 }
@@ -150,7 +150,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oExchangeAll_packages->assignTask($task);
 	if ($hasError) {
-		print ("%%% Error on function assignTask:" . $hasError . "\n");
+		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -158,14 +158,14 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oExchangeAll_packages->execute();
 		if ($hasError) {
-			print ("%%% Error on function execute:" . $hasError . "\n");
+			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
 		}
 	}
 
-	print ($oExchangeAll_packages->text() . "\r\n");
+	print ($oExchangeAll_packages->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

@@ -204,9 +204,9 @@ class manifestFile extends baseExecuteTasks
             //$this->copyright = new copyrightText();
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
 
@@ -240,7 +240,7 @@ class manifestFile extends baseExecuteTasks
 //            if (!$isBaseOption && !$isVersionOption) {
 //
 //                $this->assignManifestOption($option);
-//                // $OutTxt .= $task->text() . "\r\n";
+//                // $OutTxt .= $task->text() . PHP_EOL;
 //            }
 //        }
 //
@@ -274,7 +274,7 @@ class manifestFile extends baseExecuteTasks
                 switch (strtolower($name)) {
                     // manifestFile
                     case strtolower('manifestFile'):
-                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->manifestPathFileName = $option->value;
                         $isOptionConsumed = true;
                         break;
@@ -307,7 +307,7 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('sinceYear'):
                     case strtolower('actYear'):
 
-                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->requests[$name] = $option->value;
                         $isOptionConsumed = true;
                         break;
@@ -315,20 +315,20 @@ class manifestFile extends baseExecuteTasks
                     //--- flags to execute --------------------------------------
 
                     case strtolower('isUpdateCreationDate'):
-                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->isUpdateCreationDate = $option->value;
                         $isOptionConsumed = true;
                         break;
 
                     // done automatically below with flags for versionId
 //                case strtolower('isIncrementVersion_build'):
-//                    print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+//                    print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
 //                    $this->isIncrementVersion_build = $option->value;
 //                    $isOptionConsumed = true;
 //                    break;
 
                     case strtolower('isUpdateActCopyrightYear '):
-                        print ('     option ' . $name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->isUpdateActCopyrightYear = $option->value;
                         $isOptionConsumed = true;
                         break;
@@ -342,9 +342,9 @@ class manifestFile extends baseExecuteTasks
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . "\r\n");
-        print("Execute manifestFile: " . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print("Execute manifestFile: " . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $hasError = 0;
 
@@ -424,7 +424,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -445,7 +445,7 @@ class manifestFile extends baseExecuteTasks
             $isChanged = $this->assignActCopyrightYear( $actYear);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -479,7 +479,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -513,7 +513,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -545,7 +545,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
         return $isChanged;
@@ -580,7 +580,7 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('namespace'):
                     case strtolower('type'):
                         // direct assignment to XML element
-                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         $this->manifestXml->setByXml($requestName, $requestValue);
 
                         $isChanged = true;
@@ -595,18 +595,18 @@ class manifestFile extends baseExecuteTasks
                         $elementAttributeName = substr($requestName, 9);
 
                         // direct assignment to XML attribute
-                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         $this->manifestXml->setAttributeByXml($elementName, $elementAttributeName, $requestValue);
                         $isChanged = true;
                     break;
 
                     case strtolower('actYear'):
-                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         $isChanged = $this->assignActCopyrightYear($requestValue);
                         break;
 
                     case strtolower('sinceYear'):
-                        print ('     request: ' . $requestName . ' ' . $requestValue . "\r\n");
+                        print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         $isChanged = $this->assignSinceCopyrightYear($requestValue);
                         break;
 
@@ -614,7 +614,7 @@ class manifestFile extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -683,7 +683,7 @@ class manifestFile extends baseExecuteTasks
 ////            }
 //
 //        } catch (Exception $e) {
-//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
 //
@@ -711,7 +711,7 @@ class manifestFile extends baseExecuteTasks
 //            $isSaved = True;
 //
 //        } catch (Exception $e) {
-//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
 //
@@ -731,18 +731,18 @@ class manifestFile extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- versionId ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- versionId ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;
@@ -941,7 +941,7 @@ class manifestFile extends baseExecuteTasks
 //                $this->scriptFile =  $this->extractContent($line);
 //            }
 //        } catch (Exception $e) {
-//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
 //
@@ -984,7 +984,7 @@ class manifestFile extends baseExecuteTasks
        $actValue =  $this->manifestXml->getByXml($name, '');
 
         if ($actValue == '') {
-            print ("%%% Error: Can't update ' . $name . ': It does not exist in manifest file" . "\r\n");
+            print ("!!! Error: Can't update ' . $name . ': It does not exist in manifest file" . PHP_EOL);
         } else {
 
 

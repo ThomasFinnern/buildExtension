@@ -61,8 +61,8 @@ $licenseText = '';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -148,7 +148,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oExchangeAllLicenses->assignTask($task);
 	if ($hasError) {
-		print ("%%% Error on function assignTask:" . $hasError . "\n");
+		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -156,14 +156,14 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oExchangeAllLicenses->execute();
 		if ($hasError) {
-			print ("%%% Error on function execute:" . $hasError . "\n");
+			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
 		}
 	}
 
-	print ($oExchangeAllLicenses->text() . "\r\n");
+	print ($oExchangeAllLicenses->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

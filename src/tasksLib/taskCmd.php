@@ -44,8 +44,8 @@ $optionFile = '';
 //$optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 't':
@@ -104,9 +104,9 @@ $oTaskResult = $oTask->extractTaskFromString($taskLine);
    tell task definition
 --------------------------------------------------*/
 
-print (">>>result 01" . "\r\n");
-print ($oTask->text() . "\r\n");
-print ("Line: '" . $oTaskResult . "'" . "\r\n");
+print (">>>result 01" . PHP_EOL);
+print ($oTask->text() . PHP_EOL);
+print ("Line: '" . $oTaskResult . "'" . PHP_EOL);
 
 /*--------------------------------------------------
    extract options from file(s)
@@ -114,16 +114,16 @@ print ("Line: '" . $oTaskResult . "'" . "\r\n");
 
 if ( ! empty($optionFiles) ) {
     foreach ($optionFiles as $optionFile) {
-        // print ("Option file: '" . $optionFile . "'" . "\r\n");
+        // print ("Option file: '" . $optionFile . "'" . PHP_EOL);
         $oTaskResult->extractOptionsFromFile($optionFile);
     }
 
-    print (">>>result 02" . "\r\n");
-    print ($oTask->text() . "\r\n");
-    print ("Line: '" . $oTaskResult . "'" . "\r\n");
+    print (">>>result 02" . PHP_EOL);
+    print ($oTask->text() . PHP_EOL);
+    print ("Line: '" . $oTaskResult . "'" . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

@@ -40,8 +40,8 @@ $optionsLine = '/option1 /option2=01_Option /option3="02 test space string"';
 //$optionsLine = '/option1 ';
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 'o':
@@ -89,10 +89,10 @@ $oOptions = new options();
 
 $oOptionsResult = $oOptions->extractOptionsFromString($optionsLine);
 
-print ($oOptions->text() . "\r\n");
-print ("Resulting line: '" . str($oOptionsResult) . "'" . "\r\n");
+print ($oOptions->text() . PHP_EOL);
+print ("Resulting line: '" . str($oOptionsResult) . "'" . PHP_EOL);
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

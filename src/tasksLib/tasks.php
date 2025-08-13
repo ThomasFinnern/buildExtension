@@ -62,13 +62,13 @@ class tasks
 
     public function extractTasksFromFile(string $taskFile): tasks
     {
-        //print('*********************************************************' . "\r\n");
-        print ("extractTasksFromFile: " . $taskFile . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        //print('*********************************************************' . PHP_EOL);
+        print ("extractTasksFromFile: " . $taskFile . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         try {
             if (!is_file($taskFile)) {
-                print ('!!! Task file not found: "' . $taskFile . '" !!!' . "\r\n");
+                print ('!!! Task file not found: "' . $taskFile . '" !!!' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }
@@ -79,7 +79,7 @@ class tasks
             $this->extractTasksFromLines($lines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -141,7 +141,7 @@ class tasks
             // print ($this->tasksText ());
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -201,7 +201,7 @@ class tasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -246,12 +246,12 @@ class tasks
      */
     public function text(): string
     {
-        $OutTxt = "--- Tasks: ---" . "\r\n";
+        $OutTxt = "--- Tasks: ---" . PHP_EOL;
 
-        $OutTxt .= "Tasks count: " . count($this->tasks) . "\r\n";
+        $OutTxt .= "Tasks count: " . count($this->tasks) . PHP_EOL;
 
         foreach ($this->tasks as $task) {
-            $OutTxt .= $task->text() . "\r\n";
+            $OutTxt .= $task->text() . PHP_EOL;
         }
 
         return $OutTxt;

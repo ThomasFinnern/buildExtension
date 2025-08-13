@@ -38,16 +38,16 @@ class fithFileName
     {
         //$hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("srcFile: " . $srcFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("srcFile: " . $srcFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->extractNameParts($srcFile);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             //$hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     /*--------------------------------------------------------------------
@@ -59,11 +59,11 @@ class fithFileName
         $hasError = 0;
 
         try {
-//            print('*********************************************************' . "\r\n");
-//            print('extractNameParts' . "\r\n");
-//            print("srcSpecifiedName: " . $srcFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
-            print("    " . $srcFile . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print('extractNameParts' . PHP_EOL);
+//            print("srcSpecifiedName: " . $srcFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
+            print("    " . $srcFile . PHP_EOL);
 
             $this->clear();
 
@@ -78,11 +78,11 @@ class fithFileName
             $this->fileBaseName = $path_parts['basename'];
             $this->filePath = $path_parts['dirname'];
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-//        print('exit extractNameParts: ' . $hasError . "\r\n");
+//        print('exit extractNameParts: ' . $hasError . PHP_EOL);
         return $hasError;
     }
 
@@ -167,15 +167,15 @@ class fithFileName
     public function text(): string
     {
         $OutTxt = "";
-        $OutTxt .= "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fithFileName ---" . "\r\n";
+        $OutTxt .= "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fithFileName ---" . PHP_EOL;
 
-        $OutTxt .= "srcSpecifiedName: " . $this->srcSpecifiedName . "\r\n";
-        $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-        $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-        $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-        $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-        $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+        $OutTxt .= "srcSpecifiedName: " . $this->srcSpecifiedName . PHP_EOL;
+        $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+        $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+        $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+        $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+        $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
 
         return $OutTxt;
     }

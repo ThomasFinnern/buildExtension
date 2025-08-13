@@ -162,18 +162,18 @@ class copyrightText_L4d extends copyrightTextBase
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- copyrightText ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- copyrightText ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;

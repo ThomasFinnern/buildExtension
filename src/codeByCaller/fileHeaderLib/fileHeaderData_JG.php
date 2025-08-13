@@ -126,10 +126,10 @@ class fileHeaderData_JG extends fileHeaderDataBase
         try {
             $this->init();
 
-            print('*********************************************************' . "\r\n");
-            print('extractHeaderValuesFromLines' . "\r\n");
-            print ("header lines in: " . count($headerLines) . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('extractHeaderValuesFromLines' . PHP_EOL);
+            print ("header lines in: " . count($headerLines) . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             foreach ($headerLines as $line) {
                 [$name, $behind] = $this->extractNameFromHeaderLine($line);
@@ -178,16 +178,16 @@ class fileHeaderData_JG extends fileHeaderDataBase
             } // for lines n section
 
 //            // ToDo: Write to log file with actual name
-//            print ('!!! additional header line found: "' . $name . '" !!!' . "\r\n");
+//            print ('!!! additional header line found: "' . $name . '" !!!' . PHP_EOL);
 //            if (count ($this-> additional Lines)) {
 //
 //            }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit extractHeaderValuesFromLines: ' . $hasError . "\r\n");
+        print('exit extractHeaderValuesFromLines: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -235,8 +235,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $outLines = [];
 
         try {
-            $outLines[] = "/**" . "\r\n";
-            $outLines[] = "******************************************************************************************" . "\r\n";
+            $outLines[] = "/**" . PHP_EOL;
+            $outLines[] = "******************************************************************************************" . PHP_EOL;
 
 //            $outLines[] = $this->headerFormat('package', $this->package);
 //            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
@@ -246,10 +246,10 @@ class fileHeaderData_JG extends fileHeaderDataBase
             $outLines[] = $this->headerFormatCopyright();
             $outLines[] = $this->headerFormat('license', $this->license);
 
-            $outLines[] = "*****************************************************************************************/" . "\r\n";
+            $outLines[] = "*****************************************************************************************/" . PHP_EOL;
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
         return $outLines;
@@ -265,7 +265,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $headerLine .= $value;
         $headerLine = str_pad($headerLine, $endPadCount, " ", STR_PAD_RIGHT) . '**';
 
-        $headerLine = rtrim($headerLine) . "\r\n";
+        $headerLine = rtrim($headerLine) . PHP_EOL;
 
         return $headerLine;
     }
@@ -282,7 +282,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //        $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
 //
 //        $headerLine = $this->oCopyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
-//        $headerLine = rtrim($headerLine) . "\r\n";
+//        $headerLine = rtrim($headerLine) . PHP_EOL;
 //
 //        return $headerLine;
 //    }
@@ -290,8 +290,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
     public function headerText() : string
     {
         $OutTxt = "";
-        $OutTxt .= "/**" . "\r\n";
-        $OutTxt .= "******************************************************************************************" . "\r\n";
+        $OutTxt .= "/**" . PHP_EOL;
+        $OutTxt .= "******************************************************************************************" . PHP_EOL;
 
 //        $OutTxt .= $this->headerFormat('package', $this->package);
 //        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
@@ -303,7 +303,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
 
 //       $OutTxt .= $this->headerFormat('link', $this->link);
 
-        $OutTxt .= "*****************************************************************************************/" . "\r\n";
+        $OutTxt .= "*****************************************************************************************/" . PHP_EOL;
 
         return $OutTxt;
     }
@@ -349,11 +349,11 @@ class fileHeaderData_JG extends fileHeaderDataBase
     public function text(): string
     {
         $OutTxt = "";
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fileHeader ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fileHeader ---" . PHP_EOL;
 
-        $OutTxt .= "/**" . "\r\n";
-        $OutTxt .= "******************************************************************************************" . "\r\n";
+        $OutTxt .= "/**" . PHP_EOL;
+        $OutTxt .= "******************************************************************************************" . PHP_EOL;
 
 //        $OutTxt .= $this->headerFormat('package', $this->package);
 //        $OutTxt .= $this->headerFormat('subpackage', $this->subpackage);
@@ -363,7 +363,7 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $OutTxt .= $this->headerFormatCopyright();
         $OutTxt .= $this->headerFormat('license', $this->license);
 
-        $OutTxt .= "*****************************************************************************************/" . "\r\n";
+        $OutTxt .= "*****************************************************************************************/" . PHP_EOL;
 
         return $OutTxt;
     }

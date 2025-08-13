@@ -62,8 +62,8 @@ $tasksLine="";
 $optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 't':
@@ -153,7 +153,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oXXX->assignTask($task);
     if ($hasError) {
-        print ("%%% Error on function assignTask:" . $hasError . "\n");
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
     }
 
 	//--- execute tasks ---------------------------------
@@ -161,14 +161,14 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 	    $hasError = $oXXX->execute();
 	    if ($hasError) {
-	        print ("%%% Error on function execute:" . $hasError . "\n");
+	        print ("!!! Error on function execute:" . $hasError . PHP_EOL);
 	    }
 	}
 	
-	print ($oXXX->text() . "\r\n");
+	print ($oXXX->text() . PHP_EOL);
 	
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);

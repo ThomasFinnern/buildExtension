@@ -82,7 +82,7 @@ class fileHeaderByFileLine // extends fileHeaderData
         if ( ! $isOptionConsumed) {
             switch (strtolower($option->name)) {
                 case strtolower('filename'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->fileName = $option->value;
                     $isOptionConsumed = true;
                     break;
@@ -111,17 +111,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangePackage' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangePackage' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -154,11 +154,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangePackage: ' . $hasError . "\r\n");
+        print('exit exchangePackage: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -188,19 +188,19 @@ class fileHeaderByFileLine // extends fileHeaderData
         $task = $this->task;
         switch (strtolower($task->name)) {
             case strtolower('exchangepackage'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
 
                 break;
 
             case strtolower('exchangesubpackage'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
 
                 break;
 
             case strtolower('exchangelicense'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
                 $fileName = $options->getOption('fileName');
@@ -208,7 +208,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 break;
 
             case strtolower('exchangeActCopyrightYear'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
                 $fileName = $options->getOption('fileName');
@@ -218,7 +218,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 break;
 
             case strtolower('exchangeSinceCopyrightYear'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
                 $fileName = $options->getOption('fileName');
@@ -229,7 +229,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 break;
 
             case strtolower('exchangeauthor'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
                 $fileName = $options->getOption('fileName');
@@ -237,13 +237,13 @@ class fileHeaderByFileLine // extends fileHeaderData
                 break;
 
             case strtolower('exchangersglink'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
 
                 break;
 
             default:
-                print ('!!! Task not executed: ' . $task->name . '!!!' . "\r\n");
+                print ('!!! Task not executed: ' . $task->name . '!!!' . PHP_EOL);
 
                 break;
         }
@@ -260,17 +260,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeSubPackage' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeSubPackage' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -309,11 +309,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeSubPackage: ' . $hasError . "\r\n");
+        print('exit exchangeSubPackage: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -347,17 +347,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('insertSubPackage' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('insertSubPackage' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -390,11 +390,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit insertSubPackage: ' . $hasError . "\r\n");
+        print('exit insertSubPackage: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -408,17 +408,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeLink' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeLink' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -451,11 +451,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeLink: ' . $hasError . "\r\n");
+        print('exit exchangeLink: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -484,17 +484,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeLicense' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeLicense' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -530,11 +530,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeLicense: ' . $hasError . "\r\n");
+        print('exit exchangeLicense: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -558,24 +558,24 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeActCopyrightYear' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print ("Up to year in: " . $toYear . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeActCopyrightYear' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print ("Up to year in: " . $toYear . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             if (empty ($toYear)) {
                 $date_format = 'Y';
                 $toYear = date($date_format);
             }
-            print ("Up to year use: " . $toYear . "\r\n");
+            print ("Up to year use: " . $toYear . PHP_EOL);
 
 
             $lines = file($fileName);
@@ -609,11 +609,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeActCopyrightYear: ' . $hasError . "\r\n");
+        print('exit exchangeActCopyrightYear: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -642,24 +642,24 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeSinceCopyrightYear' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print ("Since year in: " . $sinceYear . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeSinceCopyrightYear' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print ("Since year in: " . $sinceYear . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             if (empty ($sinceYear)) {
                 $date_format = 'Y';
                 $sinceYear = date($date_format);
             }
-            print ("Since year use: " . $sinceYear . "\r\n");
+            print ("Since year use: " . $sinceYear . PHP_EOL);
 
 
             $lines = file($fileName);
@@ -693,11 +693,11 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeSinceCopyrightYear: ' . $hasError . "\r\n");
+        print('exit exchangeSinceCopyrightYear: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -722,17 +722,17 @@ class fileHeaderByFileLine // extends fileHeaderData
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeAuthor' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeAuthor' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
             $outLines = [];
@@ -767,11 +767,11 @@ class fileHeaderByFileLine // extends fileHeaderData
             }
         } catch
         (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeAuthor: ' . $hasError . "\r\n");
+        print('exit exchangeAuthor: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -806,21 +806,21 @@ class fileHeaderByFileLine // extends fileHeaderData
     public function byFileText()
     {
         $OutTxt = "";
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fileHeaderByFile ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fileHeaderByFile ---" . PHP_EOL;
 
-        $OutTxt .= ">>> --- result ----------------" . "\r\n";
+        $OutTxt .= ">>> --- result ----------------" . PHP_EOL;
 
-        $OutTxt .= $this->oFileHeader->text() . "\r\n";
+        $OutTxt .= $this->oFileHeader->text() . PHP_EOL;
 
-        $OutTxt .= ">>> --- file data ----------------" . "\r\n";
+        $OutTxt .= ">>> --- file data ----------------" . PHP_EOL;
 
-        $OutTxt .= "fileName: " . $this->fileName . "\r\n";
+        $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
 //        $OutTxt .= $this->oByFile->text();
 
-        $OutTxt .= ">>> --- file lines ----------------" . "\r\n";
+        $OutTxt .= ">>> --- file lines ----------------" . PHP_EOL;
 
-        $OutTxt .= "fileName: " . $this->fileName . "\r\n";
+        $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
 
         return $OutTxt;
     }

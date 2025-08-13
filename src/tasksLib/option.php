@@ -24,19 +24,19 @@ class option
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("name: " . $name . "\r\n");
-//            print ("value: " . $value . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("name: " . $name . PHP_EOL);
+//            print ("value: " . $value . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->name = $name;
             //ToDo: $this->value = $this->assignValue (value); // remove '"' at start and end
             $this->value = $this->removeQuotation($value);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-//        // print('exit __construct: ' . $hasError . "\r\n");
+//        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     private function removeQuotation(string $optionValuePart)
@@ -84,7 +84,7 @@ class option
             $this->name = $optionName;
             $this->value = $optionValue;
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -121,15 +121,15 @@ class option
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- option ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- option ---" . PHP_EOL;
 
-        $OutTxt .= "name: " . $this->name . "\r\n";
+        $OutTxt .= "name: " . $this->name . PHP_EOL;
         // not outer quotation marks like xxx="value" or xxx='value' instead of xxx=value
         if ($this->quotation == '') {
-            $OutTxt .= "value: " . "'" . $this->value . "'" . "\r\n";
+            $OutTxt .= "value: " . "'" . $this->value . "'" . PHP_EOL;
         } else {
-            $OutTxt .= "value: " . "'" . $this->quotation . $this->value . $this->quotation . "'" . "\r\n";
+            $OutTxt .= "value: " . "'" . $this->quotation . $this->value . $this->quotation . "'" . PHP_EOL;
         }
 
         return $OutTxt;

@@ -39,9 +39,9 @@ variables
 
 $collectedTasks = new tasks;
 
-//$tasksLine = "task:task00" . "\r\n"
-//    . 'task:task01 /option1 /option2=xxx /option3="01teststring"' . "\r\n"
-//    . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"' . "\r\n"
+//$tasksLine = "task:task00" . PHP_EOL
+//    . 'task:task01 /option1 /option2=xxx /option3="01teststring"' . PHP_EOL
+//    . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"' . PHP_EOL
 //;
 //$collectedTasks->extractTasksFromString($tasksLine);
 //$collectedTasks->extractTasksFromString('task:execute');
@@ -319,7 +319,10 @@ $basePath = "..\\..\\LangMan4Dev";
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
 $tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
+//$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
+
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
+
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
@@ -332,8 +335,8 @@ $tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
 //$optionFiles [] = '.\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -403,8 +406,8 @@ if ( ! empty ($tasksFile)) {
     } else {
         $testTasks = $tasks->extractTasksFromString($tasksLine);
         if (!empty ($hasError)) {
-            print ("%%% Error on function extractTasksFromString:" . $hasError
-                . ' path: ' . $basePath . "\n");
+            print ("!!! Error on function extractTasksFromString:" . $hasError
+                . ' path: ' . $basePath . PHP_EOL);
         }
     }
 }
@@ -422,8 +425,8 @@ print ($tasks->text());
 // if ($tasksFile != "") {
     // $hasError = $oDoFileTasks->extractTasksFromFile($tasksFile);
     // if (!empty ($hasError)) {
-        // print ("%%% Error on function extractTasksFromFile:" . $hasError
-            // . ' path: ' . $basePath . "\n");
+        // print ("!!! Error on function extractTasksFromFile:" . $hasError
+            // . ' path: ' . $basePath . PHP_EOL);
     // }
 
 // } else {
@@ -432,8 +435,8 @@ print ($tasks->text());
     // } else {
         // $testTasks = $oDoFileTasks->extractTasksFromString($tasksLine);
         // //if (!empty ($hasError)) {
-        // //    print ("%%% Error on function extractTasksFromString:" . $hasError
-        // //        . ' path: ' . $basePath . "\n");
+        // //    print ("!!! Error on function extractTasksFromString:" . $hasError
+        // //        . ' path: ' . $basePath . PHP_EOL);
         // //}
     // }
 // }
@@ -456,14 +459,16 @@ if (empty ($hasError)) {
     $hasError = $oDoFileTasks->execute();
 
     if ($hasError) {
-        print ("%%% Error on function collectFiles:" . $hasError
-            . ' path: ' . $basePath . "\n");
+        print ("%%% doFileTaskCmd Error: " . $hasError . " on execute task: " . $oDoFileTasks->actTaskName . PHP_EOL);
     }
 
-    print ($oDoFileTasks->text() . "\r\n");
+    if (! $hasError) {
+        print ($oDoFileTasks->text() . PHP_EOL);
+    }
+
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

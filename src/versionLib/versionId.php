@@ -127,7 +127,7 @@ class versionId {
                 $patch++;
                 $build = 0;
                 $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
-                print ("isBuildFix (patch++): " . $this->outVersionId) . "\r\n";
+                print ("isBuildFix (patch++): " . $this->outVersionId) . PHP_EOL;
                 $isChanged = true;
             }
             else
@@ -138,7 +138,7 @@ class versionId {
                     $patch = 0;
                     $build = 0;
                     $this->outVersionId = self::numbers_2_id_release($major, $minor, $patch, $build);
-                    print ("isBuildRelease (minor++): " . $this->outVersionId) . "\r\n";
+                    print ("isBuildRelease (minor++): " . $this->outVersionId) . PHP_EOL;
                     $isChanged = true;
                 }
                 else {
@@ -188,7 +188,7 @@ class versionId {
 
                     $this->outVersionId = self::numbers_2_id($major, $minor, $patch, $build);
                     if ($isChanged) {
-                        print ("increased Version: " . $this->outVersionId) . "\r\n";
+                        print ("increased Version: " . $this->outVersionId) . PHP_EOL;
                     }
                 }
             }
@@ -206,44 +206,44 @@ class versionId {
             //--- Version flags -------------------------------------------------------------
 
             case strtolower('forceversion'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->forceVersionId = $option->value;
                 $this->isForceVersion = true;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isincreasemajor'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isIncreaseMajor = true;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isincreaseminor'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isIncreaseMinor = true;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isincreasepatch'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isIncreasePatch = true;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isincreasebuild'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isIncreaseBuild = true;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isbuildrelease'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isBuildRelease = $option->value;
                 $isVersionOption  = true;
                 break;
 
             case strtolower('isbuildfix'):
-                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isBuildFix = $option->value;
                 $isVersionOption  = true;
                 break;
@@ -321,18 +321,18 @@ class versionId {
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- versionId ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- versionId ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;

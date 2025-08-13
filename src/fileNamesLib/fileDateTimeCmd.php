@@ -41,8 +41,8 @@ $isPrintArguments = false;
 //
 //foreach ($options as $idx => $option)
 //{
-//    print ("idx: " . $idx . "\r\n");
-//    print ("option: " . $option . "\r\n");
+//    print ("idx: " . $idx . PHP_EOL);
+//    print ("option: " . $option . PHP_EOL);
 //
 //    switch ($idx)
 //    {
@@ -96,10 +96,10 @@ $isPrintArguments = false;
 // for start / end diff
 $start = commandLineLib::print_header($options, $inArgs);
 
-print ("Date file format: " . fileDateTime::stdFileDateTimeFormatString()) . "\n";
-print ("Date expizit" . fileDateTime::DateTimeFormatString()) . "\n";
-print ("Date file format (msec): " . fileDateTime::StdFileDateTimeFormatStringMsec()) . "\n";
+print ("Date file format: " . fileDateTime::stdFileDateTimeFormatString()) . PHP_EOL;
+print ("Date expizit" . fileDateTime::DateTimeFormatString()) . PHP_EOL;
+print ("Date file format (msec): " . fileDateTime::StdFileDateTimeFormatStringMsec()) . PHP_EOL;
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);

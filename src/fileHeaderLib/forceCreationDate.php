@@ -31,11 +31,11 @@ class forceCreationDate extends baseExecuteTasks
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("Construct forceCreationDate: " . "\r\n");
-////            print ("srcFile: " . $srcFile . "\r\n");
-////            print ("dstFile: " . $dstFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("Construct forceCreationDate: " . PHP_EOL);
+////            print ("srcFile: " . $srcFile . PHP_EOL);
+////            print ("dstFile: " . $dstFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             parent::__construct ($srcRoot = "", $isNoRecursion=false);
 
@@ -44,10 +44,10 @@ class forceCreationDate extends baseExecuteTasks
             $this->creationDate = date($date_format);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     // Task name with options
@@ -64,20 +64,20 @@ class forceCreationDate extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case strtolower('name'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->name = $option->value;
                         break;
 
                     case strtolower('date'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->creationDate = $option->value;
                         break;
 
                     default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
+                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . PHP_EOL);
                 } // switch
 
-                // $OutTxt .= $task->text() . "\r\n";
+                // $OutTxt .= $task->text() . PHP_EOL;
             }
         }
 
@@ -86,9 +86,9 @@ class forceCreationDate extends baseExecuteTasks
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . "\r\n");
-        print("Execute forceCreationDate : " . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print("Execute forceCreationDate : " . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $hasError = $this->exchangeCreationDate();
 
@@ -100,23 +100,23 @@ class forceCreationDate extends baseExecuteTasks
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeCreationDate' . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeCreationDate' . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             $manifestPathFileName = $this->manifestPathFileName();
-            print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+            print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
             $creationDate = $this->creationDate;
-            print ("CreationDate: " . $creationDate . "\r\n");
+            print ("CreationDate: " . $creationDate . PHP_EOL);
 
             $hasError = $this->exchangeCreationDateInManifestFile($manifestPathFileName, $creationDate);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeCreationDate: ' . $hasError . "\r\n");
+        print('exit exchangeCreationDate: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -182,7 +182,7 @@ class forceCreationDate extends baseExecuteTasks
             //$isSaved = File::write($manifestFileName, $fileLines);
             $isSaved = file_put_contents($manifestFileName, $outLines);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -200,18 +200,18 @@ class forceCreationDate extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- forceCreationDate ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- forceCreationDate ---" . PHP_EOL;
 
 
-        $OutTxt .= "Text(): Not defined yet " . "\r\n";
+        $OutTxt .= "Text(): Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;

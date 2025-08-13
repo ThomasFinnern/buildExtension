@@ -41,16 +41,16 @@ class fithFolderName
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("srcFolder: " . $srcFolder . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("srcFolder: " . $srcFolder . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->extractNameParts($srcFolder);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     /*--------------------------------------------------------------------
@@ -62,11 +62,11 @@ class fithFolderName
         $hasError = 0;
 
         try {
-//            print('*********************************************************' . "\r\n");
-//            print('extractNameParts' . "\r\n");
-//            print("srcSpecifiedName: " . $srcFolder . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
-//            print("Collect folder: " . $srcFolder . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print('extractNameParts' . PHP_EOL);
+//            print("srcSpecifiedName: " . $srcFolder . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
+//            print("Collect folder: " . $srcFolder . PHP_EOL);
 
             $this->clear();
 
@@ -80,11 +80,11 @@ class fithFolderName
             $this->folderName = $path_parts['basename'];
             $this->folderPath = $path_parts['dirname'];
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-//        print('exit extractNameParts: ' . $hasError . "\r\n");
+//        print('exit extractNameParts: ' . $hasError . PHP_EOL);
         return $hasError;
     }
 
@@ -107,13 +107,13 @@ class fithFolderName
     public function text(): string
     {
         $OutTxt = "";
-        $OutTxt .= "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fithFolderName ---" . "\r\n";
+        $OutTxt .= "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fithFolderName ---" . PHP_EOL;
 
-        $OutTxt .= "srcSpecifiedName: " . $this->srcSpecifiedName . "\r\n";
-        $OutTxt .= "folderName: " . $this->folderName . "\r\n";
-        $OutTxt .= "folderPath: " . $this->folderPath . "\r\n";
-        $OutTxt .= "srcPathFolderName: " . $this->srcPathFolderName . "\r\n";
+        $OutTxt .= "srcSpecifiedName: " . $this->srcSpecifiedName . PHP_EOL;
+        $OutTxt .= "folderName: " . $this->folderName . PHP_EOL;
+        $OutTxt .= "folderPath: " . $this->folderPath . PHP_EOL;
+        $OutTxt .= "srcPathFolderName: " . $this->srcPathFolderName . PHP_EOL;
 
         return $OutTxt;
     }

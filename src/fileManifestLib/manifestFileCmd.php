@@ -76,8 +76,8 @@ $taskFile = "./build_tsk/build_test.tsk";
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -163,7 +163,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oManifestFile->assignTask($task);
 	if ($hasError) {
-		print ("%%% Error on function assignTask:" . $hasError . "\n");
+		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
 	}
 
 	//--- execute tasks ---------------------------------
@@ -171,11 +171,11 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oManifestFile->execute();
 		if ($hasError) {
-			print ("%%% Error on function execute:" . $hasError . "\n");
+			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
 		}
 	}
 
-    print ($oManifestFile->text() . "\r\n");
+    print ($oManifestFile->text() . PHP_EOL);
 
 //	if (!$hasError) {
 //		$manifestPathFileName = $oManifestFile->manifestPathFileName;
@@ -183,7 +183,7 @@ if (empty ($hasError)) {
 //
 //		$hasError = ! $oManifestFile->writeFile($outManifestPathFileName);
 //		if ($hasError) {
-//			print ("%%% Error on function writeFile:" . $hasError . "\n");
+//			print ("!!! Error on function writeFile:" . $hasError . PHP_EOL);
 //		}
 //	}
 
@@ -192,5 +192,5 @@ if (empty ($hasError)) {
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

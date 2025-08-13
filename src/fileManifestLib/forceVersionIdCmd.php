@@ -60,8 +60,8 @@ $tasksLine = ' task:forceVersionId'
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -147,7 +147,7 @@ if (empty ($hasError)) {
 
 	$hasError = $oForceVersionId->assignTask($task);
 	if ($hasError) {
-		print ("%%% Error on function assignTask:" . $hasError . "\n");
+		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
 	}
 	
 	//--- execute tasks ---------------------------------
@@ -155,14 +155,14 @@ if (empty ($hasError)) {
 	if (!$hasError) {
 		$hasError = $oForceVersionId->execute();
 		if ($hasError) {
-			print ("%%% Error on function execute:" . $hasError . "\n");
+			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
 		}
 	}
 	
-	print ($oForceVersionId->text() . "\r\n");
+	print ($oForceVersionId->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

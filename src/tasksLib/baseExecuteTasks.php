@@ -34,10 +34,10 @@ class baseExecuteTasks
     public function __construct(string $srcRoot = "", bool $isNoRecursion = false)
     {
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("srcRoot: " . $srcRoot . "\r\n");
-//            print ("yearText: " . $yearText . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("srcRoot: " . $srcRoot . PHP_EOL);
+//            print ("yearText: " . $yearText . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             //$this->srcRoot       = $srcRoot;
             //$this->isNoRecursion = $isNoRecursion;
@@ -46,9 +46,9 @@ class baseExecuteTasks
             $this->fileNamesList = new fileNamesList($srcRoot, '', '', $isNoRecursion);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     // TODO: check all extends to remove double function
@@ -85,7 +85,7 @@ class baseExecuteTasks
 
             $isParentOption = $this->assignOption($option);
             if (! $isParentOption) {
-                print ('%%% warning: requested option is not supported: ' . $taskName . '.' . $option->name . ' !!!' . "\r\n");
+                print ('%%% warning: requested option is not supported: ' . $taskName . '.' . $option->name . ' !!!' . PHP_EOL);
             }
         }
 
@@ -105,7 +105,7 @@ class baseExecuteTasks
 
             switch (strtolower($option->name)) {
 //                case strtolower('srcroot'):
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //                    $this->srcRoot = $option->value;
 //                    $this->filenamesList->srcRoot = $this->srcRoot;
 //
@@ -113,13 +113,13 @@ class baseExecuteTasks
 //                    break;
 
                 case strtolower('callerProjectId'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->callerProjectId = $option->value;
                     $isOptionConsumed = true;
                     break;
 
 //                case strtolower('isnorecursion'):
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //                    $this->isNoRecursion = boolval($option->value);
 //                    $isOptionConsumed = true;
 //                    break;

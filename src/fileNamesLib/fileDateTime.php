@@ -85,8 +85,8 @@ $isPrintArguments = false;
 //
 //foreach ($options as $idx => $option)
 //{
-//    print ("idx: " . $idx . "\r\n");
-//    print ("option: " . $option . "\r\n");
+//    print ("idx: " . $idx . PHP_EOL);
+//    print ("option: " . $option . PHP_EOL);
 //
 //    switch ($idx)
 //    {
@@ -143,5 +143,5 @@ print ("Date file format (msec): " . fileDateTime::StdFileDateTimeFormatStringMs
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

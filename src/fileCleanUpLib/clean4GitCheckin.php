@@ -27,32 +27,32 @@ class clean4GitCheckin extends baseExecuteTasks
     public function __construct($srcRoot = "", $isNoRecursion = False)
     {
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("srcRoot: " . $srcRoot . "\r\n");
-//            print ("linkText: " . $linkText . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("srcRoot: " . $srcRoot . PHP_EOL);
+//            print ("linkText: " . $linkText . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
 //            $this->fileNamesList = new fileNamesList();
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- clean4GitCheckin ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- clean4GitCheckin ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;
@@ -74,14 +74,14 @@ class clean4GitCheckin extends baseExecuteTasks
 
 // ? separate class ?
 //				case strtolower('cleanlines'): // trim / no tabs
-//					print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //					break;
 
                     default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
+                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . PHP_EOL);
                 } // switch
 
-                // $OutTxt .= $task->text() . "\r\n";
+                // $OutTxt .= $task->text() . PHP_EOL;
             }
         }
 
@@ -103,22 +103,22 @@ class clean4GitCheckin extends baseExecuteTasks
     {
         //--- collect files ---------------------------------------
 
-        // files not set already
+        // collect file list if not existing
         if (count($this->fileNamesList->fileNames) == 0) {
-            $fileNamesList = new fileNamesList ($this->srcRoot, '');
-            $this->fileNamesList = $fileNamesList;
+            $this->fileNamesList->execute();
 
-            $fileNamesList->scan4Filenames();
-        } else {
-            // use given files
-            // $fileNamesList = $this->fileNamesList;
+            if (count($this->fileNamesList->fileNames) == 0) {
+
+                echo '%%% Attention: No files retrieved from: ' . $this->fileNamesList->srcRoot . '%%%' . PHP_EOL;
+                return -975;
+            }
         }
 
         //--- iterate over all files -------------------------------------
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
 
-            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
             $this->beautifyFile($fileName->srcPathFileName);
         }
@@ -143,7 +143,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -162,9 +162,9 @@ class clean4GitCheckin extends baseExecuteTasks
             // all lines
             foreach ($lines as $line) {
                 if ($isExchanged) {
-                    $outLines [] = rtrim($line) . "\r\n";
+                    $outLines [] = rtrim($line) . PHP_EOL;
                 } else {
-                    $trimmed = rtrim($line) . "\r\n";
+                    $trimmed = rtrim($line) . PHP_EOL;
                     $outLines [] = $trimmed;
 
                     if (strlen($trimmed) < strlen($line)) {
@@ -173,7 +173,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -200,7 +200,7 @@ class clean4GitCheckin extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

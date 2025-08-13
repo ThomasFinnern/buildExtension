@@ -76,9 +76,9 @@ class buildExtension extends baseExecuteTasks
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-            print ("Construct buildExtension: " . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+            print ("Construct buildExtension: " . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             parent::__construct($srcRoot, false);
 
@@ -91,10 +91,10 @@ class buildExtension extends baseExecuteTasks
             $this->element = "";
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
 //    // Task name with options
@@ -123,7 +123,7 @@ class buildExtension extends baseExecuteTasks
 //            if (!$isBaseOption && !$isManifestOption) {
 //
 //                $this->assignBuildExtensionOption($option);
-//                // $OutTxt .= $task->text() . "\r\n";
+//                // $OutTxt .= $task->text() . PHP_EOL;
 //            }
 //        }
 //
@@ -151,21 +151,21 @@ class buildExtension extends baseExecuteTasks
 
             switch (strtolower($option->name)) {
                 case strtolower('builddir'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->buildDir = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 // com_rsgallery2'
                 case strtolower('name'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->extName = $option->value;
                     $isOptionConsumed = true;
                     break;
 
 //                    // component name like rsgallery2 (but see above)
 //                    case strtolower(''):
-//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //                        $this->name = $option->value;
 //                    $isOptionConsumed  = true;
 //                        break;
@@ -173,45 +173,45 @@ class buildExtension extends baseExecuteTasks
                 // extension (<element> name like RSGallery2
                 case strtolower('element'):
                 case strtolower('extension'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->element = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('type'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->componentType = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('isCollectPluginsModule'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isCollectPluginsModule = boolval($option->value);
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('prefixZipName'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->prefixZipName = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('isDoNotUpdateCreationDate'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isDoNotUpdateCreationDate = boolval($option->value);
                     $isOptionConsumed = true;
                     break;
 
 
 //            case strtolower('isincrementversion_build'):
-//                print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //                $this->isIncrementVersion_build = $option->value;
 //                $isOptionConsumed  = true;
 //                break;
 //
 
                 default:
-                    print ('!!! error: requested option is not supported: ' . $option->name . ' !!!' . "\r\n");
+                    print ('!!! error: requested option is not supported: ' . $option->name . ' !!!' . PHP_EOL);
             } // switch
         }
 
@@ -220,9 +220,9 @@ class buildExtension extends baseExecuteTasks
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . "\r\n");
-        print("Execute buildExtension: " . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print("Execute buildExtension: " . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         //--- validation checks --------------------------------------
 
@@ -279,7 +279,7 @@ class buildExtension extends baseExecuteTasks
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
-        print ('manifestPathFileName: "' . $manifestPathFileName . '"' . "\r\n");
+        print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
 
         //--- update date and version --------------------------------------
 
@@ -288,7 +288,7 @@ class buildExtension extends baseExecuteTasks
 
         if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
-            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . PHP_EOL);
             return '';
         }
 
@@ -298,7 +298,7 @@ class buildExtension extends baseExecuteTasks
         // component folder. Actually the root file is copied to the component
         // folder
         $manifestAdminPathFileName = $this->manifestAdminPathFileName();
-        print('manifestAdminPathFileName: "' . $manifestAdminPathFileName . '"' . "\r\n");
+        print('manifestAdminPathFileName: "' . $manifestAdminPathFileName . '"' . PHP_EOL);
         // is folder structure similar to joomla folders (RSG2)
         //    -> sometimes folder 'components' is left out
         if (is_dir(dirname($manifestAdminPathFileName))) {
@@ -310,11 +310,11 @@ class buildExtension extends baseExecuteTasks
         // destination temp folder
         //--------------------------------------------------------------------
 
-        print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+        print ('build dir: "' . $this->buildDir . '"' . PHP_EOL);
 
         $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
-            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            print ('main path does not exist : "' . $parentPath . '"' . PHP_EOL);
             exit(557);
         }
 
@@ -323,9 +323,9 @@ class buildExtension extends baseExecuteTasks
         }
 
         $dstRoot = realpath($this->buildDir);
-        print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
+        print ('dstRoot: "' . $dstRoot . '"' . PHP_EOL);
         $tmpFolder = $this->buildDir . '/tmp';
-        print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
+        print ('temp folder(1): "' . $tmpFolder . '"' . PHP_EOL);
 
         //--------------------------------------------------------------------
         // handle temp folder
@@ -337,12 +337,12 @@ class buildExtension extends baseExecuteTasks
             if (strLen($tmpFolder) < 10) {
                 exit (555);
             }
-            print ('Delete dir: "' . $tmpFolder . '"' . "\r\n");
+            print ('Delete dir: "' . $tmpFolder . '"' . PHP_EOL);
             delDir($tmpFolder);
         }
 
         // create tmp folder
-        print ('Create dir: "' . $tmpFolder . '"' . "\r\n");
+        print ('Create dir: "' . $tmpFolder . '"' . PHP_EOL);
         mkdir($tmpFolder, 0777, true);
 
         //--------------------------------------------------------------------
@@ -453,7 +453,7 @@ class buildExtension extends baseExecuteTasks
     {
         $extName = $this->extName;
 
-        print ('extension extName: "' . $extName . '"' . "\r\n");
+        print ('extension extName: "' . $extName . '"' . PHP_EOL);
 
         // com / mod / plg extension
         if (str_starts_with($extName, 'com_')) {
@@ -475,7 +475,7 @@ class buildExtension extends baseExecuteTasks
             }
         }
 
-        print ('short extName: "' . $extName . '"' . "\r\n");
+        print ('short extName: "' . $extName . '"' . PHP_EOL);
         return $extName;
     }
 
@@ -525,7 +525,7 @@ class buildExtension extends baseExecuteTasks
         $manifestFile = $this->manifestFile;
 
         try {
-            print ("exchangeDataInManifestFile manifestPathFileName: " . $manifestPathFileName . "\r\n");
+            print ("exchangeDataInManifestFile manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 //            // read
 //            // keep flags
 //            $manifestFile->versionId = $this->versionId;
@@ -545,7 +545,7 @@ class buildExtension extends baseExecuteTasks
 //                if ($this->isIncrementVersion_build) {
 //                    // $manifestFile->versionId->isBuildRelease = false;
 //                    $manifestFile->versionId->isBuildRelease = true;
-////                    print ("buildExtension: isBuildRelease: " .  $this->versionId->isBuildRelease  . "\r\n");
+////                    print ("buildExtension: isBuildRelease: " .  $this->versionId->isBuildRelease  . PHP_EOL);
 //                }
 
                 if ($this->element != '') {
@@ -574,7 +574,7 @@ class buildExtension extends baseExecuteTasks
             $this->manifestFile = $manifestFile;
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -615,7 +615,7 @@ class buildExtension extends baseExecuteTasks
 //            }
 //
 //        } catch (Exception $e) {
-//            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+//            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
 //
@@ -633,7 +633,7 @@ class buildExtension extends baseExecuteTasks
 
             $srcPathTest = realpath($srcPath);
             if (empty ($srcPathTest)) {
-                print ("%%% Warning: Path/file to copy could not be found: " . $srcPath . "\r\n");
+                print ("%%% Warning: Path/file to copy could not be found: " . $srcPath . PHP_EOL);
             } else {
 
                 //--- create path ------------------------------------------
@@ -661,13 +661,13 @@ class buildExtension extends baseExecuteTasks
                         print ('.');
                         copy($srcPath, $dstPath);
                     } else {
-                        print ("%%% Warning: Path/file could not be copied: " . $srcPath . "\r\n");
+                        print ("%%% Warning: Path/file could not be copied: " . $srcPath . PHP_EOL);
                     }
                 }
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
     }
@@ -705,13 +705,13 @@ class buildExtension extends baseExecuteTasks
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
-        print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+        print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
         $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
 
         if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
-            print('exit buildModule: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            print('exit buildModule: error manifestPathFileName could not be read: ' . $manifestPathFileName . PHP_EOL);
             return '';
         }
 
@@ -719,11 +719,11 @@ class buildExtension extends baseExecuteTasks
         // destination temp folder
         //--------------------------------------------------------------------
 
-        print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+        print ('build dir: "' . $this->buildDir . '"' . PHP_EOL);
 
         $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
-            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            print ('main path does not exist : "' . $parentPath . '"' . PHP_EOL);
             exit(557);
         }
 
@@ -732,9 +732,9 @@ class buildExtension extends baseExecuteTasks
         }
 
         $dstRoot = realpath($this->buildDir);
-        print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
+        print ('dstRoot: "' . $dstRoot . '"' . PHP_EOL);
         $tmpFolder = $this->buildDir . '/tmp';
-        print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
+        print ('temp folder(1): "' . $tmpFolder . '"' . PHP_EOL);
 
         //--------------------------------------------------------------------
         // handle temp folder
@@ -746,12 +746,12 @@ class buildExtension extends baseExecuteTasks
             if (strLen($tmpFolder) < 10) {
                 exit (555);
             }
-            print ('Delete dir: "' . $tmpFolder . '"' . "\r\n");
+            print ('Delete dir: "' . $tmpFolder . '"' . PHP_EOL);
             delDir($tmpFolder);
         }
 
         // create tmp folder
-        print ('Create dir: "' . $tmpFolder . '"' . "\r\n");
+        print ('Create dir: "' . $tmpFolder . '"' . PHP_EOL);
         mkdir($tmpFolder, 0777, true);
 
         //--------------------------------------------------------------------
@@ -839,7 +839,7 @@ class buildExtension extends baseExecuteTasks
 
         $bareName = $this->shortExtensionName();
         $manifestPathFileName = $this->manifestPathFileName();
-        print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+        print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
         //--- update date and version --------------------------------------
 
@@ -848,7 +848,7 @@ class buildExtension extends baseExecuteTasks
 
         if (!$this->manifestFile->manifestXml->isXmlLoaded) {
 
-            print('exit buildPlugin: error manifestPathFileName could not be read: ' . $manifestPathFileName . "\r\n");
+            print('exit buildPlugin: error manifestPathFileName could not be read: ' . $manifestPathFileName . PHP_EOL);
             return '';
         }
 
@@ -856,11 +856,11 @@ class buildExtension extends baseExecuteTasks
         // destination temp folder
         //--------------------------------------------------------------------
 
-        print ('build dir: "' . $this->buildDir . '"' . "\r\n");
+        print ('build dir: "' . $this->buildDir . '"' . PHP_EOL);
 
         $parentPath = dirname($this->buildDir);
         if (!is_dir($parentPath)) {
-            print ('main path does not exist : "' . $parentPath . '"' . "\r\n");
+            print ('main path does not exist : "' . $parentPath . '"' . PHP_EOL);
             exit(557);
         }
 
@@ -869,9 +869,9 @@ class buildExtension extends baseExecuteTasks
         }
 
         $dstRoot = realpath($this->buildDir);
-        print ('dstRoot: "' . $dstRoot . '"' . "\r\n");
+        print ('dstRoot: "' . $dstRoot . '"' . PHP_EOL);
         $tmpFolder = $this->buildDir . '/tmp';
-        print ('temp folder(1): "' . $tmpFolder . '"' . "\r\n");
+        print ('temp folder(1): "' . $tmpFolder . '"' . PHP_EOL);
 
         //--------------------------------------------------------------------
         // handle temp folder
@@ -883,12 +883,12 @@ class buildExtension extends baseExecuteTasks
             if (strLen($tmpFolder) < 10) {
                 exit (555);
             }
-            print ('Delete dir: "' . $tmpFolder . '"' . "\r\n");
+            print ('Delete dir: "' . $tmpFolder . '"' . PHP_EOL);
             delDir($tmpFolder);
         }
 
         // create tmp folder
-        print ('Create dir: "' . $tmpFolder . '"' . "\r\n");
+        print ('Create dir: "' . $tmpFolder . '"' . PHP_EOL);
         mkdir($tmpFolder, 0777, true);
 
         //--------------------------------------------------------------------
@@ -989,17 +989,17 @@ class buildExtension extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- buildExtension --------" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- buildExtension --------" . PHP_EOL;
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcRootFileName: " . $this->fileNamesList->srcRootFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcRootFileName: " . $this->fileNamesList->srcRootFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;
@@ -1028,7 +1028,7 @@ class buildExtension extends baseExecuteTasks
     public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
     {
         print ("\r\n");
-        print ('--- copy to temp ------------------------------' . "\r\n");
+        print ('--- copy to temp ------------------------------' . PHP_EOL);
 
         $srcRoot = realpath($this->fileNamesList->srcRoot);
 
@@ -1092,27 +1092,27 @@ class buildExtension extends baseExecuteTasks
 
         //option type: "component"
         if (empty ($this->componentType)) {
-            print ("option type: not set" . "\r\n");
+            print ("option type: not set" . PHP_EOL);
             $isValid = false;
         }
         //option buildDir: "../../LangMan4Dev"
         if (empty ($this->fileNamesList->srcRoot)) {
-            print ("option buildDir: not set" . "\r\n");
+            print ("option buildDir: not set" . PHP_EOL);
             $isValid = false;
         }
         //option buildDir: "../../LangMan4DevProject/.packages"
         if (empty ($this->buildDir)) {
-            print ("option buildDir: not set" . "\r\n");
+            print ("option buildDir: not set" . PHP_EOL);
             $isValid = false;
         }
         //option extName: "com_lang4dev"
         if (empty ($this->extName)) {
-            print ("option extName: not set" . "\r\n");
+            print ("option extName: not set" . PHP_EOL);
             $isValid = false;
         }
         //option extension: "Lang4Dev"
         if (empty ($this->element)) {
-            print ("option extension: not set" . "\r\n");
+            print ("option extension: not set" . PHP_EOL);
             $isValid = false;
         }
 
@@ -1178,11 +1178,11 @@ function delDir($dir)
 
 function zipItRelative($sourcePath, $zipFilename)
 {
-    print ('sourcePath: "' . $sourcePath . '"' . "\r\n");
-    print ('zipFilename: "' . $zipFilename . '"' . "\r\n");
+    print ('sourcePath: "' . $sourcePath . '"' . PHP_EOL);
+    print ('zipFilename: "' . $zipFilename . '"' . PHP_EOL);
 
     print ("\r\n");
-    print ('--- zip it ------------------------------' . "\r\n");
+    print ('--- zip it ------------------------------' . PHP_EOL);
     print ("\r\n");
 
     //--- files within folders ------------------------------
@@ -1193,8 +1193,8 @@ function zipItRelative($sourcePath, $zipFilename)
     if ($zip->open($zipFilename, ZipArchive::CREATE) === true | ZipArchive::OVERWRITE) {
 
         $sourcePathSlash = str_replace('\\', '/', $sourcePath);
-        // print ('glob: "' . $sourcePathSlash . '/' . '"' . "\r\n");
-        // print ('sourcePathSlash: "' . $sourcePathSlash . '"' . "\r\n");
+        // print ('glob: "' . $sourcePathSlash . '/' . '"' . PHP_EOL);
+        // print ('sourcePathSlash: "' . $sourcePathSlash . '"' . PHP_EOL);
 
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($sourcePathSlash),
@@ -1229,7 +1229,7 @@ function zipItRelative($sourcePath, $zipFilename)
         $zip->close();
     } else {
 
-        print ("\r\n" . 'Can not create zip file: "' . $zipFilename . '"' . "\r\n");
+        print ("\r\n" . 'Can not create zip file: "' . $zipFilename . '"' . PHP_EOL);
     }
 
 }

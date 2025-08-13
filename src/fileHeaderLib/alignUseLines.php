@@ -83,7 +83,7 @@ class alignUseLines
         if ( ! $isOptionConsumed) {
             switch (strtolower($option->name)) {
                 case strtolower('filename'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->fileName = $option->value;
                     $isOptionConsumed = true;
                     break;
@@ -107,10 +107,10 @@ class alignUseLines
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('alignUseLines' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('alignUseLines' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             if (!empty ($fileName)) {
                 $this->fileName = $fileName;
@@ -118,7 +118,7 @@ class alignUseLines
                 $fileName = $this->fileName;
             }
 
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
             $lines = file($fileName);
 
@@ -136,14 +136,14 @@ class alignUseLines
 
                 $isSaved = file_put_contents($fileName, $outLines);
 
-                print (">> Changed FileName: " . $fileName . "\r\n");
+                print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit alignUseLines: ' . $hasError . "\r\n");
+        print('exit alignUseLines: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }

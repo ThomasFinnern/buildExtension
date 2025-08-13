@@ -109,7 +109,7 @@ class manifestXml
         } catch (\RuntimeException $e) {
             $OutTxt = '';
             $OutTxt .= 'Error executing readManifestXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
         }
 
@@ -191,9 +191,9 @@ class manifestXml
         } catch (\RuntimeException $e) {
             $OutTxt = '';
             $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
-            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
-            $OutTxt .= 'default: "' . $default . '"' . "\r\n";
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
+            $OutTxt .= 'default: "' . $default . '"' . PHP_EOL;
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
 
             // $hasError = -987;
@@ -225,9 +225,9 @@ class manifestXml
         } catch (\RuntimeException $e) {
             $OutTxt = '';
             $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
-            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
-            $OutTxt .= 'default: "' . $default . '"' . "\r\n";
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
+            $OutTxt .= 'default: "' . $default . '"' . PHP_EOL;
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
 
             // $hasError = -987;
@@ -266,9 +266,9 @@ class manifestXml
         } catch (\RuntimeException $e) {
             $OutTxt = '';
             $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
-            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
-            $OutTxt .= 'value: "' . $value . '"' . "\r\n";
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
+            $OutTxt .= 'value: "' . $value . '"' . PHP_EOL;
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
 
             $hasError = -987;
@@ -320,9 +320,9 @@ class manifestXml
         } catch (\RuntimeException $e) {
             $OutTxt = '';
             $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"' .  "\r\n";
-            $OutTxt .= 'name: "' . $name . '"' . "\r\n";
-            $OutTxt .= 'value: "' . $value . '"' . "\r\n";
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . "\r\n";
+            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
+            $OutTxt .= 'value: "' . $value . '"' . PHP_EOL;
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
 
             $hasError = -987;
@@ -477,7 +477,7 @@ class manifestXml
 
     public function __toString()
     {
-        $OutTxt = 'manifestXml' . "\r\n";
+        $OutTxt = 'manifestXml' . PHP_EOL;
         $OutTxt .= implode("\r\n", $this->__toDataLines());
 
         return $OutTxt;

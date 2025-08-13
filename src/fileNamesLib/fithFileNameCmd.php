@@ -39,8 +39,8 @@ $srcFile = "../original.php";
 $optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -90,17 +90,17 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 $oFileName = new fithFileName($srcFile);
 // $hasError = $oFileName->extractNameParts();
-print ($oFileName->text() . "\r\n");
+print ($oFileName->text() . PHP_EOL);
 
 if ($oFileName->hasExtension('php')) {
-    print("yes hasExtension('php')" . "\r\n");
+    print("yes hasExtension('php')" . PHP_EOL);
 }
 
 if ($oFileName->nameMatchesRegEx("/i.*i/")) {
-    print("yes nameMatchesRegEx('/i.*i/')" . "\r\n");
+    print("yes nameMatchesRegEx('/i.*i/')" . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

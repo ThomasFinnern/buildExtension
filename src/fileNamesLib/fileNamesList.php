@@ -66,14 +66,14 @@ class fileNamesList extends baseExecuteTasks
         $hasError = 0;
 
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("construct: " . "\r\n");
-//            print ("path: " . $path . "\r\n");
-//            print ("includeExt: " . $includeExt . "\r\n");
-//            print ("excludeExt: " . $excludeExt . "\r\n");
-//            print ("isNoRecursion: " . $isNoRecursion . "\r\n");
-//            print ("writeListToFile: " . $writeListToFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("construct: " . PHP_EOL);
+//            print ("path: " . $path . PHP_EOL);
+//            print ("includeExt: " . $includeExt . PHP_EOL);
+//            print ("excludeExt: " . $excludeExt . PHP_EOL);
+//            print ("isNoRecursion: " . $isNoRecursion . PHP_EOL);
+//            print ("writeListToFile: " . $writeListToFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->clean();
 
@@ -81,10 +81,10 @@ class fileNamesList extends baseExecuteTasks
 
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // // print('exit __construct: ' . $hasError . "\r\n");
+        // // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     /*--------------------------------------------------------------------
@@ -156,7 +156,7 @@ class fileNamesList extends baseExecuteTasks
 
             switch (strtolower($option->name)) {
                 case strtolower('includeExt'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     //$this->yearText = $option->value;
                     [$this->isIncludeExt, $this->includeExtList] =
                         $this->splitExtensionString($option->value);
@@ -164,7 +164,7 @@ class fileNamesList extends baseExecuteTasks
                     break;
 
                 case strtolower('excludeExt'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     //$this->yearText = $option->value;
                     [$this->isExcludeExt, $this->excludeExtList] =
                         $this->splitExtensionString($option->value);
@@ -172,25 +172,25 @@ class fileNamesList extends baseExecuteTasks
                     break;
 
                 case strtolower('isNoRecursion'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isNoRecursion = boolval($option->value);
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('iswritelisttofile'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isWriteListToFile = boolval($option->value);
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('listfilename'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->listFileName = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('srcRoot'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->srcRoot = $option->value;
                     $isOptionConsumed = true;
                     break;
@@ -234,13 +234,13 @@ class fileNamesList extends baseExecuteTasks
     public function text(): string
     {
         $OutTxt = "";
-        $OutTxt .= "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fithFileNameList ---" . "\r\n";
+        $OutTxt .= "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fithFileNameList ---" . PHP_EOL;
 
-        $OutTxt .= "Properties:" . "\r\n";
+        $OutTxt .= "Properties:" . PHP_EOL;
         $OutTxt .= $this->text_listFileNames();
 
-        $OutTxt .= "File list:" . "\r\n";
+        $OutTxt .= "File list:" . PHP_EOL;
         $OutTxt .= $this->text_listFileNames();
 
         return $OutTxt;
@@ -251,7 +251,7 @@ class fileNamesList extends baseExecuteTasks
         $OutTxt = "";
 
         foreach ($this->fileNames as $fileName) {
-            $OutTxt .= $fileName->text_NamePathLine() . "\r\n";
+            $OutTxt .= $fileName->text_NamePathLine() . PHP_EOL;
         }
 
         return $OutTxt;
@@ -261,18 +261,18 @@ class fileNamesList extends baseExecuteTasks
     {
         $OutTxt = "";
 
-        $OutTxt .= "path: " . $this->srcRoot . "\r\n";
+        $OutTxt .= "path: " . $this->srcRoot . PHP_EOL;
 
-        $OutTxt .= "isIncludeExt: " . $this->isIncludeExt . "\r\n";
+        $OutTxt .= "isIncludeExt: " . $this->isIncludeExt . PHP_EOL;
         $OutTxt .= "includeExtList: " .
-            $this->combineExtensionString($this->includeExtList) . "\r\n";
+            $this->combineExtensionString($this->includeExtList) . PHP_EOL;
 
-        $OutTxt .= "isExcludeExt: " . $this->isExcludeExt . "\r\n";
+        $OutTxt .= "isExcludeExt: " . $this->isExcludeExt . PHP_EOL;
         $OutTxt .= "excludeExtList: " .
-            $this->combineExtensionString($this->excludeExtList) . "\r\n";
+            $this->combineExtensionString($this->excludeExtList) . PHP_EOL;
 
-        $OutTxt .= "isNoRecursion: " . $this->isNoRecursion . "\r\n";
-        $OutTxt .= "isWriteListToFile: " . $this->isWriteListToFile . "\r\n";
+        $OutTxt .= "isNoRecursion: " . $this->isNoRecursion . PHP_EOL;
+        $OutTxt .= "isWriteListToFile: " . $this->isWriteListToFile . PHP_EOL;
 
         /**/
 
@@ -302,7 +302,7 @@ class fileNamesList extends baseExecuteTasks
         try {
             [$files, $folders] = $this->filesAndFoldersInDir($inPath);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -331,7 +331,7 @@ class fileNamesList extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -347,7 +347,7 @@ class fileNamesList extends baseExecuteTasks
             // [$files, $folders] = $this->filesAndFoldersInDir($inPath);
             [, $folders] = $this->filesAndFoldersInDir($inPath);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -389,14 +389,14 @@ class fileNamesList extends baseExecuteTasks
         $hasError = 0;
 
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("scan4Filenames: " . "\r\n");
-//            print ("path: " . $path . "\r\n");
-//            print ("includeExt: " . $includeExt . "\r\n");
-//            print ("excludeExt: " . $excludeExt . "\r\n");
-//            print ("isNoRecursion: " . $isNoRecursion . "\r\n");
-//            print ("writeListToFile: " . $writeListToFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("scan4Filenames: " . PHP_EOL);
+//            print ("path: " . $path . PHP_EOL);
+//            print ("includeExt: " . $includeExt . PHP_EOL);
+//            print ("excludeExt: " . $excludeExt . PHP_EOL);
+//            print ("isNoRecursion: " . $isNoRecursion . PHP_EOL);
+//            print ("writeListToFile: " . $writeListToFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             // merge with parameters (empty values will use local value
             $this->mergeParameter2Class(
@@ -414,11 +414,11 @@ class fileNamesList extends baseExecuteTasks
 
         } /*--- exception ----------------------------------------------------*/
         catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-//        print('exit scan4Filenames: ' . $hasError . "\r\n");
+//        print('exit scan4Filenames: ' . $hasError . PHP_EOL);
         return $hasError;
     }
 
@@ -451,15 +451,15 @@ class fileNamesList extends baseExecuteTasks
 
     private function scanPath4Filenames(string $inPath)
     {
-        //print('*********************************************************' . "\r\n");
-//            print (">>> scanPath4Filenames: " . "\r\n");
-//            print ("    inPath: " . $inPath . "\r\n");
-        print (">>> scanPath4Filenames: " . $inPath . "\r\n");
+        //print('*********************************************************' . PHP_EOL);
+//            print (">>> scanPath4Filenames: " . PHP_EOL);
+//            print ("    inPath: " . $inPath . PHP_EOL);
+        print (">>> scanPath4Filenames: " . $inPath . PHP_EOL);
 
         try {
             [$files, $folders] = $this->filesAndFoldersInDir($inPath);
 
-            // print ("    files count: " . count($files) . "\r\n");
+            // print ("    files count: " . count($files) . PHP_EOL);
 
             foreach ($files as $file) {
                 $fithFileName = new fithFileName($file);
@@ -476,7 +476,7 @@ class fileNamesList extends baseExecuteTasks
 
             // follow sub folders
             if (!$this->isNoRecursion) {
-                // print ('    folders count: ' . count($folders) . "\r\n");
+                // print ('    folders count: ' . count($folders) . PHP_EOL);
 
                 foreach ($folders as $folder) {
                     $isExpected = $this->check4ValidFolderName($folder);
@@ -493,10 +493,10 @@ class fileNamesList extends baseExecuteTasks
                     }
                 }
             } else {
-                print ("NoRecursion: Exit after base folder requested: : " . count($folders) . "\r\n");
+                print ("NoRecursion: Exit after base folder requested: : " . count($folders) . PHP_EOL);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
     }
@@ -521,7 +521,7 @@ class fileNamesList extends baseExecuteTasks
                 $isValid = false;
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -540,7 +540,7 @@ class fileNamesList extends baseExecuteTasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -559,7 +559,7 @@ class fileNamesList extends baseExecuteTasks
                 $isValid = false;
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

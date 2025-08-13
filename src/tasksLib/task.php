@@ -102,7 +102,7 @@ class task // extends options
 
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -118,15 +118,15 @@ class task // extends options
      */
     public function extractTaskFromFile(string $taskFile): task
     {
-        print('*********************************************************' . "\r\n");
-        print ("extractTaskFromFile: " . $taskFile . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print ("extractTaskFromFile: " . $taskFile . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $this->clear();
 
         try {
             if (!is_file($taskFile)) {
-                print ('!!! Task file not found: "' . $taskFile . '" !!!' . "\r\n");
+                print ('!!! Task file not found: "' . $taskFile . '" !!!' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }
@@ -137,7 +137,7 @@ class task // extends options
             $this->extractTaskFromLines($lines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -232,12 +232,12 @@ class task // extends options
      */
     public function text(): string
     {
-        // $OutTxt = "------------------------------------------" . "\r\n";
+        // $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt = "";
-        $OutTxt .= "--- task: " . $this->name . "\r\n";
+        $OutTxt .= "--- task: " . $this->name . PHP_EOL;
         if ($this->options->count() > 0) {
             // $OutTxt .= "options: ";
-            $OutTxt .= $this->options->text(); // . "\r\n";
+            $OutTxt .= $this->options->text(); // . PHP_EOL;
         }
 
         return $OutTxt;

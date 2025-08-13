@@ -142,7 +142,7 @@ class fileUseDataBase implements fileUseDataInterface
             $fileLines = array_merge($this->preLines, $this->useLinesSorted, [PHP_EOL], $this->postLines);
 
         } catch (\Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
         return $fileLines;

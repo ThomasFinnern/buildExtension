@@ -29,9 +29,9 @@ class updateAll_fileHeaders extends baseExecuteTasks
     public function __construct($srcRoot = "", $isNoRecursion = false)
     {
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("srcRoot: " . $srcRoot . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("srcRoot: " . $srcRoot . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
@@ -41,7 +41,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
     }
@@ -65,7 +65,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
 //
 //            switch (strtolower($option->name)) {
 //                case strtolower('X'):
-//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //                    $isOptionConsumed = true;
 //                    break;
 //
@@ -83,6 +83,12 @@ class updateAll_fileHeaders extends baseExecuteTasks
         // collect file list if not existing
         if (count($this->fileNamesList->fileNames) == 0) {
             $this->fileNamesList->execute();
+
+            if (count($this->fileNamesList->fileNames) == 0) {
+
+                echo '%%% Attention: No files retrieved from: ' . $this->fileNamesList->srcRoot . '%%%' . PHP_EOL;
+                return -975;
+            }
         }
 
         // tell factory to use classes
@@ -92,7 +98,7 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
         foreach ($this->fileNamesList->fileNames as $fileName) {
 
-            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . "\r\n");
+            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
             $this->fileHeaderByFileData->upgradeHeader($fileName->srcPathFileName);
 
@@ -108,18 +114,18 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- updateAll_fileHeaders ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- updateAll_fileHeaders ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;

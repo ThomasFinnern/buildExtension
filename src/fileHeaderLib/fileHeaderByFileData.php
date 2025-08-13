@@ -169,13 +169,13 @@ class fileHeaderByFileData // extends fileHeaderData
         if ( ! $isOptionConsumed) {
             switch (strtolower($option->name)) {
                 case strtolower('filename'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->fileName = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('isupdatecreationdate'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isUpdateActCopyrightDate = $option->value;
                     $isOptionConsumed = true;
                     break;
@@ -302,13 +302,13 @@ class fileHeaderByFileData // extends fileHeaderData
 
         switch (strtolower($task->name)) {
             case strtolower('upgradeheader'):
-                print ('Execute task: ' . $task->name . "\r\n");
+                print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $this->upgradeHeader($this->fileName);
                 break;
 
             default:
-                print ('!!! Task not executed: ' . $task->name . '!!!' . "\r\n");
+                print ('!!! Task not executed: ' . $task->name . '!!!' . PHP_EOL);
 
                 break;
         }
@@ -318,9 +318,9 @@ class fileHeaderByFileData // extends fileHeaderData
 
     public function upgradeHeader(string $srcPathFileName): int
     {
-        print('upgradeHeader' . "\r\n");
-        print ("srcPathFileName: " . $srcPathFileName . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('upgradeHeader' . PHP_EOL);
+        print ("srcPathFileName: " . $srcPathFileName . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $hasError = 0;
 
@@ -353,10 +353,10 @@ class fileHeaderByFileData // extends fileHeaderData
         $this->isValid = false;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('importFileData' . "\r\n");
-            print ("FileName in: " . $fileName . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('importFileData' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             // separate lines to section header-, pre-, post-lines
             $this->importLines($fileName);
@@ -372,14 +372,14 @@ class fileHeaderByFileData // extends fileHeaderData
             $this->isValid = $this->oFileHeader->check4ValidHeaderLines($this->fileHeaderLines);
 
 
-            // todo: print ("headerLines: " . $headerLines . "\r\n");
+            // todo: print ("headerLines: " . $headerLines . PHP_EOL);
             // ToDo: print result
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit extractFileHeader: ' . $hasError . "\r\n");
+        print('exit extractFileHeader: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -407,7 +407,7 @@ class fileHeaderByFileData // extends fileHeaderData
         } else {
             $fileName = $this->fileName;
         }
-        print ("FileName use: " . $fileName . "\r\n");
+        print ("FileName use: " . $fileName . PHP_EOL);
 
         $lines = file($fileName);
 
@@ -572,7 +572,7 @@ class fileHeaderByFileData // extends fileHeaderData
             } else {
                 $fileName = $this->fileName;
             }
-            print ("FileName use: " . $fileName . "\r\n");
+            print ("FileName use: " . $fileName . PHP_EOL);
 
 
             $outLines = [];
@@ -603,7 +603,7 @@ class fileHeaderByFileData // extends fileHeaderData
             $isSaved = file_put_contents($fileName, $outLines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -620,20 +620,20 @@ class fileHeaderByFileData // extends fileHeaderData
     public function byFileText()
     {
         $OutTxt = "";
-        $OutTxt .= "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- fileHeaderByFile ---" . "\r\n";
+        $OutTxt .= "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- fileHeaderByFile ---" . PHP_EOL;
 
-        $OutTxt .= ">>> --- result ----------------" . "\r\n";
+        $OutTxt .= ">>> --- result ----------------" . PHP_EOL;
 
-        $OutTxt .= $this->oFileHeader->text() . "\r\n";
+        $OutTxt .= $this->oFileHeader->text() . PHP_EOL;
 
-        $OutTxt .= ">>> --- file data ----------------" . "\r\n";
+        $OutTxt .= ">>> --- file data ----------------" . PHP_EOL;
 
-        $OutTxt .= "fileName: " . $this->fileName . "\r\n";
+        $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
 
-        $OutTxt .= ">>> --- file lines ----------------" . "\r\n";
+        $OutTxt .= ">>> --- file lines ----------------" . PHP_EOL;
 
-        $OutTxt .= "fileName: " . $this->fileName . "\r\n";
+        $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
 
         return $OutTxt;
     }

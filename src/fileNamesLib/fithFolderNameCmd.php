@@ -50,8 +50,8 @@ $srcFolder = "..\\..\\..\\LangMan4Dev";
 $optionFiles [] = 'xTestOptionFile.opt';
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 's':
@@ -101,9 +101,9 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 $oFolderName = new fithFolderName($srcFolder);
 // $hasError = $oFolderName->extractNameParts();
-print ($oFolderName->text() . "\r\n");
+print ($oFolderName->text() . PHP_EOL);
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);
 

@@ -38,11 +38,11 @@ class forceVersionId extends baseExecuteTasks
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("Construct forceVersionId: " . "\r\n");
-////            print ("srcFile: " . $srcFile . "\r\n");
-////            print ("dstFile: " . $dstFile . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("Construct forceVersionId: " . PHP_EOL);
+////            print ("srcFile: " . $srcFile . PHP_EOL);
+////            print ("dstFile: " . $dstFile . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
@@ -52,10 +52,10 @@ class forceVersionId extends baseExecuteTasks
             $this->manifestXml = new manifestXml();
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     // Task name with options
@@ -74,20 +74,20 @@ class forceVersionId extends baseExecuteTasks
             if (!$isBaseOption) {
                 switch (strtolower($option->name)) {
                     case strtolower('name'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->componentName = $option->value;
                         break;
 
                     case strtolower('version'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . "\r\n");
+                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->componentVersion = $option->value;
                         break;
 
                     default:
-                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . "\r\n");
+                        print ('!!! error: requested option is not supported: ' . $task->name . '.' . $option->name . ' !!!' . PHP_EOL);
                 } // switch
 
-                // $OutTxt .= $task->text() . "\r\n";
+                // $OutTxt .= $task->text() . PHP_EOL;
             }
         }
 
@@ -96,9 +96,9 @@ class forceVersionId extends baseExecuteTasks
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . "\r\n");
-        print("Execute forceVersionId : " . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        print('*********************************************************' . PHP_EOL);
+        print("Execute forceVersionId : " . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         $hasError = $this->exchangeVersionId();
 
@@ -110,23 +110,23 @@ class forceVersionId extends baseExecuteTasks
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('exchangeVersionId' . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeVersionId' . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             $manifestPathFileName = $this->manifestPathFileName();
-            print ("manifestPathFileName: " . $manifestPathFileName . "\r\n");
+            print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
             $componentVersion = $this->componentVersion;
-            print ("version: " . $componentVersion . "\r\n");
+            print ("version: " . $componentVersion . PHP_EOL);
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit force:exchangeVersionId: ' . $hasError . "\r\n");
+        print('exit force:exchangeVersionId: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -166,7 +166,7 @@ class forceVersionId extends baseExecuteTasks
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -184,18 +184,18 @@ class forceVersionId extends baseExecuteTasks
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- forceVersionId ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- forceVersionId ---" . PHP_EOL;
 
 
-        // $OutTxt .= "Not defined yet " . "\r\n";
+        // $OutTxt .= "Not defined yet " . PHP_EOL;
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
         $OutTxt .= $this->manifestXml;
 

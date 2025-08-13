@@ -88,8 +88,8 @@ $writeListToFile = "./FileNamesList.txt";
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 foreach ($options as $idx => $option) {
-    print ("idx: " . $idx . "\r\n");
-    print ("option: " . $option . "\r\n");
+    print ("idx: " . $idx . PHP_EOL);
+    print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
         case 'p':
@@ -161,12 +161,12 @@ $oFileNamesList = new fileNamesList($srcRoot, $includeExt, $excludeExt, $isNoRec
 $hasError = $oFileNamesList->scan4Filenames();
 
 if ($hasError) {
-    print ("%%% Error on function scan4Filenames:" . $hasError . "\n");
+    print ("!!! Error on function scan4Filenames:" . $hasError . PHP_EOL);
 } else {
-    print ("--- result -------------------" . "\r\n");
-    print ($oFileNamesList->text() . "\r\n");
+    print ("--- result -------------------" . PHP_EOL);
+    print ($oFileNamesList->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);
 
-print ("--- end  ---" . "\n");
+print ("--- end  ---" . PHP_EOL);

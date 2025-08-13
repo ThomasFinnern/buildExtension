@@ -50,6 +50,7 @@ class doFileTasks
     public tasks $tasks;
 
     public executeTasksInterface $actTask;
+    public string $actTaskName;
     /**
      * @var fileNamesList
      */
@@ -67,10 +68,10 @@ class doFileTasks
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print("basePath: " . $basePath . "\r\n");
-//            print("tasks: " . $tasksLine . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print("basePath: " . $basePath . PHP_EOL);
+//            print("tasks: " . $tasksLine . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->basePath = $basePath;
             $this->tasks = new tasks();
@@ -81,10 +82,10 @@ class doFileTasks
             }
             // print ($this->tasksText ());
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-        // print('exit __construct: ' . $hasError . "\r\n");
+        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     /*--------------------------------------------------------------------
@@ -109,14 +110,16 @@ class doFileTasks
         $hasError = 0;
 
         try {
-            print('*********************************************************' . "\r\n");
-            print('applyTasks' . "\r\n");
-            // print ("task: " . $textTask . "\r\n");
-            print('---------------------------------------------------------' . "\r\n");
+            print('*********************************************************' . PHP_EOL);
+            print('applyTasks' . PHP_EOL);
+            // print ("task: " . $textTask . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
             foreach ($this->tasks->tasks as $textTask) {
-                // print ("--- apply task: " . $textTask->name . "\r\n");
-                print (">>>---------------------------------" . "\r\n");
+                // print ("--- apply task: " . $textTask->name . PHP_EOL);
+                print (">>>---------------------------------" . PHP_EOL);
+
+                $this->actTaskName = $textTask->name;
 
                 switch (strtolower($textTask->name)) {
                     //--- let the task run -------------------------
@@ -124,7 +127,7 @@ class doFileTasks
                     case strtolower('execute'):
                         print ('>>> Call execute task: "'
                             // . $this->actTask->name
-                        . '"  >>>' . "\r\n");
+                        . '"  >>>' . PHP_EOL);
 
                         // ToDo: dummy task
 //                        if (empty ($this->actTask)){
@@ -145,13 +148,13 @@ class doFileTasks
                     //--- assign files to task -----------------------
 
                     case strtolower('createfilenameslist'):
-                        print ('Execute task: ' . $textTask->name . "\r\n");
+                        print ('Execute task: ' . $textTask->name . PHP_EOL);
 
                         $filenamesList = new fileNamesList ();
                         $this->actTask = $this->createTask($filenamesList, $textTask);
                         $filenamesList->execute();
 
-                        print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . "\r\n");
+                        print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . PHP_EOL);
 
                         $this->fileNamesList = $filenamesList;
 
@@ -160,7 +163,7 @@ class doFileTasks
                     //--- add more files to task -----------------------
 
                     case strtolower('add2filenameslist'):
-                        print ('Execute task: ' . $textTask->name . "\r\n");
+                        print ('Execute task: ' . $textTask->name . PHP_EOL);
                         $filenamesList = new fileNamesList ();
                         $filenamesList->assignTask($textTask);
                         $filenamesList->execute();
@@ -169,7 +172,7 @@ class doFileTasks
                             $this->fileNamesList = new fileNamesList ();
                         }
 
-                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNamesList->fileNames) . "\r\n");
+                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNamesList->fileNames) . PHP_EOL);
 
                         $this->fileNamesList->addFilenames($filenamesList->fileNames);
                         break;
@@ -291,25 +294,25 @@ class doFileTasks
                         break;
 
                     default:
-                        print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . "\r\n");
+                        print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . PHP_EOL);
                         throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
                 } // switch
 
-                // $OutTxt .= $task->text() . "\r\n";
+                // $OutTxt .= $task->text() . PHP_EOL;
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit applyTasks: ' . $hasError . "\r\n");
+        print('exit applyTasks: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
 
     private function createTask(executeTasksInterface $execTask, task $textTask): executeTasksInterface
     {
-        print ('Assign task: ' . $textTask->name . "\r\n");
+        print ('Assign task: ' . $textTask->name . PHP_EOL);
 
         $execTask->assignTask($textTask);
 
@@ -318,32 +321,32 @@ class doFileTasks
 
     public function tasksText(): string
     {
-        // $OutTxt = "------------------------------------------" . "\r\n";
+        // $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt = "";
 
-        $OutTxt .= "--- doFileTasks: Tasks ---" . "\r\n";
+        $OutTxt .= "--- doFileTasks: Tasks ---" . PHP_EOL;
 
-        // $OutTxt .= "Tasks count: " . $this->textTasks->count() . "\r\n";
+        // $OutTxt .= "Tasks count: " . $this->textTasks->count() . PHP_EOL;
 
-        $OutTxt .= $this->tasks->text() . "\r\n";
+        $OutTxt .= $this->tasks->text() . PHP_EOL;
 
         return $OutTxt;
     }
 
     public function text(): string
     {
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- doFileTasks: class  ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- doFileTasks ==> " . $this->actTaskName . " ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . "\r\n";
+        $OutTxt .= $this->actTask->text();
 
         /**
-         * $OutTxt .= "fileName: " . $this->fileName . "\r\n";
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . "\r\n";
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . "\r\n";
-         * $OutTxt .= "filePath: " . $this->filePath . "\r\n";
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . "\r\n";
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
          * /**/
 
         return $OutTxt;

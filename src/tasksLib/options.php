@@ -28,16 +28,16 @@ class options
     {
         $hasError = 0;
         try {
-//            print('*********************************************************' . "\r\n");
-//            print ("count options: " . count ($options) . "\r\n");
-//            print('---------------------------------------------------------' . "\r\n");
+//            print('*********************************************************' . PHP_EOL);
+//            print ("count options: " . count ($options) . PHP_EOL);
+//            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->options = $options;
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
-//        // print('exit __construct: ' . $hasError . "\r\n");
+//        // print('exit __construct: ' . $hasError . PHP_EOL);
     }
 
     public function clear(): void
@@ -80,9 +80,9 @@ class options
      */
     public function extractOptionsFromFile(string $optionsFile): options
     {
-        // print('*********************************************************' . "\r\n");
-        print ("extractOptionsFromFile: " . $optionsFile . "\r\n");
-        print('---------------------------------------------------------' . "\r\n");
+        // print('*********************************************************' . PHP_EOL);
+        print ("extractOptionsFromFile: " . $optionsFile . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
 
         try {
             if (!is_file($optionsFile)) {
@@ -96,7 +96,7 @@ class options
             $this->extractOptionsFromLines($lines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -187,7 +187,7 @@ class options
                 $this->addOption($option);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . "\r\n";
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -244,13 +244,13 @@ class options
     public function text(): string
     {
         $OutTxt = "";
-        $OutTxt = "------------------------------------------" . "\r\n";
-        $OutTxt .= "--- options ---" . "\r\n";
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- options ---" . PHP_EOL;
 
-        $OutTxt .= "Options count: " . count($this->options) . "\r\n";
+        $OutTxt .= "Options count: " . count($this->options) . PHP_EOL;
 
         foreach ($this->options as $option) {
-            $OutTxt .= "   " . $option . "\r\n";
+            $OutTxt .= "   " . $option . PHP_EOL;
         }
 
         return $OutTxt;

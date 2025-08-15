@@ -74,7 +74,11 @@ class fithFileName
             $path_parts = pathinfo($srcFile);
 
             $this->fileName = $path_parts['filename'];
-            $this->fileExtension = $path_parts['extension'];
+            if ( ! empty($path_parts['extension'])) {
+                $this->fileExtension = $path_parts['extension'];
+            } else {
+                $this->fileExtension = "";
+            }
             $this->fileBaseName = $path_parts['basename'];
             $this->filePath = $path_parts['dirname'];
         } catch (Exception $e) {

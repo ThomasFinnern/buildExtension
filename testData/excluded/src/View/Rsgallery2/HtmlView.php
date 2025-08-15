@@ -13,8 +13,8 @@ namespace Rsgallery2\Component\Rsgallery2\Administrator\View\Rsgallery2;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
@@ -29,7 +29,6 @@ use Rsgallery2\Component\Rsgallery2\Administrator\Model\ConfigRawModel;
 use Rsgallery2\Component\Rsgallery2\Administrator\Model\GalleriesModel;
 use Rsgallery2\Component\Rsgallery2\Administrator\Model\ImagesModel;
 use Rsgallery2\Component\Rsgallery2\Administrator\Model\J3xExistModel;
-
 
 //use Joomla\CMS\Helper\ContentHelper;
 //use Joomla\CMS\Factory;

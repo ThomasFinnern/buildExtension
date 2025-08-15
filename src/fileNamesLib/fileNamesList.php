@@ -221,6 +221,10 @@ class fileNamesList
     {
         $this->scan4Filenames();
 
+        if($this->isWriteListToFile) {
+            $this->writeFileNamesList_to_File();
+        }
+
         return 0;
     }
 
@@ -253,9 +257,9 @@ class fileNamesList
         $OutTxt .= "------------------------------------------" . PHP_EOL;
         $OutTxt .= "--- fithFileNameList ---" . PHP_EOL;
 
-        $OutTxt .= "Properties:" . PHP_EOL;
-        $OutTxt .= $this->text_listFileNames();
-
+//        $OutTxt .= "Properties:" . PHP_EOL;
+//        $OutTxt .= $this->text_listFileNames();
+//
         $OutTxt .= "File list:" . PHP_EOL;
         $OutTxt .= $this->text_listFileNames();
 
@@ -582,11 +586,14 @@ class fileNamesList
                 $isValid = false;
             } elseif ($this->isExcludeFolder) {
 
+                $baseFolder = $fithFolderName->folderPath;
+                $actFolder = $fithFolderName->srcPathFolderName;
+
                 //--- exclude folders -------------------------------------------
 
                 foreach ($this->excludeFolderList as $excludeFolder) {
 
-                    $isExcluded = $this->check4ExcludedFolder ($folder, $excludeFolder);
+                    $isExcluded = $this->check4ExcludedFolder ($actFolder, $excludeFolder);
 
                     if ($isExcluded) {
 
@@ -671,7 +678,6 @@ class fileNamesList
         return 0;
     }
 
-
     /**
      * @param options $options
      * @param task $task
@@ -700,6 +706,14 @@ class fileNamesList
     {
         $this->isExcludeFolder = true;
         $this->excludeFolderList[] = $folderPart;
+    }
+
+    private function writeFileNamesList_to_File()
+    {
+//        file_put_contents (implode(PHP_EOL, $this->fileNames);
+//        file_put_contents ($this->text_listFileNames());
+        file_put_contents ($this->listFileName, $this->text());
+
     }
 
 } // fileNamesList

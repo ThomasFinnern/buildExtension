@@ -36,10 +36,6 @@ pushd  ..\fileNamesLib
 REM pushd  ..\
 ECHO Path: %cd% 
 
-
-REM dir *Cmd.php
-type 
-
 echo --- "%ExePath%php.exe" fileNamesListCmd.php -f ..\tsk_file_examples/fileNamesList_direct.tsk %1
 "%ExePath%php.exe" fileNamesListCmd.php -f ..\tsk_file_examples/fileNamesList_direct.tsk %1
 

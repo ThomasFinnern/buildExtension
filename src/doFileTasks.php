@@ -50,7 +50,7 @@ class doFileTasks
     public tasks $tasks;
 
     public executeTasksInterface $actTask;
-    public string $actTaskName;
+    public string $actTaskName = 'no task defined';
     /**
      * @var fileNamesList
      */
@@ -147,16 +147,15 @@ class doFileTasks
 
                     //--- assign files to task -----------------------
 
-                    case strtolower('createfilenameslist'):
+                    case strtolower('fileNamesList'):
+                    case strtolower('createFileNamesList'):
                         print ('Execute task: ' . $textTask->name . PHP_EOL);
 
-                        $filenamesList = new fileNamesList ();
-                        $this->actTask = $this->createTask($filenamesList, $textTask);
-                        $filenamesList->execute();
+                        $this->actTask = $this->createTask(new fileNamesList (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
 
                         print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . PHP_EOL);
-
-                        $this->fileNamesList = $filenamesList;
 
                         break;
 
@@ -172,7 +171,7 @@ class doFileTasks
                             $this->fileNamesList = new fileNamesList ();
                         }
 
-                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNamesList->fileNames) . PHP_EOL);
+                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNames) . PHP_EOL);
 
                         $this->fileNamesList->addFilenames($filenamesList->fileNames);
                         break;
@@ -301,7 +300,7 @@ class doFileTasks
                 // $OutTxt .= $task->text() . PHP_EOL;
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! applyTasks: Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -338,9 +337,11 @@ class doFileTasks
         $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt .= "--- doFileTasks ==> " . $this->actTaskName . " ---" . PHP_EOL;
 
-
-        $OutTxt .= $this->actTask->text();
-
+        if ( !empty ($this->actTask)) {
+            $OutTxt .= $this->actTask->text();
+        } else {
+            $OutTxt .= ">>> text(): object actTask is not defined" . PHP_EOL;
+        }
         /**
          * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
          * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;

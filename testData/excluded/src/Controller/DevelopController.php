@@ -12,17 +12,14 @@ namespace Rsgallery2\Component\Rsgallery2\Administrator\Controller;
 \defined('_JEXEC') or die;
 
 use DateTime;
-use Joomla\CMS\Input\Input;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Rsgallery2\Component\Rsgallery2\Administrator\Model\Rsg2ExtensionModel;
-
-
-
 
 // use Rsgallery2\Component\Rsgallery2\Administrator\Model\ImagePathsModel;
 

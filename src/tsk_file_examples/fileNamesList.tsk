@@ -1,0 +1,10 @@
+task:fileNamesList
+/callerProjectId=RSG2
+/srcRoot="../testData"
+	// /isNoRecursion=true
+/includeExt = "php"
+	// excludeExt = "ini"
+/isWriteListToFile=true
+/listFileName="../testData/FoundFileNamesList.txt"
+	// without: actual year
+/excludeFolderList=excluded

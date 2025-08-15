@@ -12,7 +12,7 @@ namespace Joomgallery\Component\Joomgallery\Site\Controller;
 // No direct access
 \defined('_JEXEC') or die;
 
-use \Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Uri\Uri;
 
 /**
 * Trait implementing methods for URL manipulation.

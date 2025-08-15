@@ -46,8 +46,8 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-// ToDo: use tasklines as command
-
+//$tasksLine = 'not defined ...';
+//$tasksLine = "task:fileNamesList /callerProjectId=RSG2 /srcRoot='../../../LangMan4Dev' /includeExt='php' /isWriteListToFile=true /listFileName='../../testData/FoundFileNamesList.txt'";
 //$tasksLine .= "task:createFilenamesList"
 //    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
@@ -96,8 +96,14 @@ $writeListToFile = "./FileNamesList.txt";
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
 
-$taskFile = '../tsk_file_examples/fileNamesList.tsk';
+print ('..: ' . realpath('../') . PHP_EOL);
+print ('../..: ' . realpath('../..') . PHP_EOL);
+print ('../tsk_file_examples: ' . realpath('../tsk_file_examples') . PHP_EOL);
+print ('../../..: ' . realpath('../../..') . PHP_EOL);
 
+
+//$taskFile = '../tsk_file_examples/fileNamesList.tsk';
+$taskFile = '../tsk_file_examples/fileNamesList_direct.tsk';
 
 
 foreach ($options as $idx => $option) {
@@ -133,6 +139,7 @@ foreach ($options as $idx => $option) {
 
         case 't':
             $tasksLine = $option;
+            print('In taskLine: "' . $tasksLine . '"');
             break;
 
         case 'f':

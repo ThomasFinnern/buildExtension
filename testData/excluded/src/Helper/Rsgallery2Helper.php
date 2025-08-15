@@ -12,8 +12,8 @@ namespace Rsgallery2\Component\Rsgallery2\Administrator\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 
 /**

@@ -97,6 +97,14 @@ class tasks
         $taskLines = [];
 
         try {
+            print ("extractTasksFromLines: (" . count ($lines) . ')' . PHP_EOL);
+
+            if (empty($lines)) {
+                print ('!!! Task file empty and contains no lines' . PHP_EOL);
+                // not working $realPath = realpath($taskFile);
+                throw new Exception('Task file empty and contains no lines: "');
+            }
+
             foreach ($lines as $line) {
 
                 //--- comments and trim -------------------------------------------
@@ -136,6 +144,13 @@ class tasks
                 $actTask->extractTaskFromLines($taskLines);
 
                 $this->addTask($actTask);
+            } else {
+
+//                print ('!!! Task start Id found in lines !!!' . PHP_EOL);
+                print ('!!! No Task lines detected !!!' . PHP_EOL);
+                // not working $realPath = realpath($taskFile);
+//                throw new Exception('!!!No  Task Id found in lines !!!');
+                throw new Exception('!!! No Task lines detected !!!');
             }
 
             // print ($this->tasksText ());

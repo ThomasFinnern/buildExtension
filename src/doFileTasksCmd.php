@@ -301,6 +301,9 @@ $collectedTasks->extractTasksFromString($tasksLine);
 $collectedTasks->extractTasksFromString('task:execute');
 
 
+$tasksLine = 'not defined ...';
+// $tasksLine = "task:createFileNamesList /callerProjectId=RSG2 /srcRoot='../../../LangMan4Dev' /includeExt='php' /isWriteListToFile=true /listFileName='../../testData/FoundFileNamesList.txt'";
+
 //========================================================
 // test external directories tasks
 
@@ -318,13 +321,15 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
-$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
+//$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
 //$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
 
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
+
+$tasksFile=".\tsk_file_examples/fileNamesList.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -399,11 +404,13 @@ $tasks = new tasks();
 //--- extract tasks from string or file ------------------
 
 if ( ! empty ($tasksFile)) {
+    print ("taskFile found: " . $tasksFile . PHP_EOL);
     $tasks = $tasks->extractTasksFromFile($tasksFile);
 } else {
     if ($collectedTasks->count() > 0) {
         $tasks->assignTasks($collectedTasks);
     } else {
+        print ("taskFile empty, TaskLine: " . $tasksLine . PHP_EOL);
         $testTasks = $tasks->extractTasksFromString($tasksLine);
         if (!empty ($hasError)) {
             print ("!!! Error on function extractTasksFromString:" . $hasError

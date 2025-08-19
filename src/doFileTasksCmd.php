@@ -329,7 +329,9 @@ $basePath = "..\\..\\LangMan4Dev";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
-$tasksFile=".\tsk_file_examples/fileNamesList.tsk";
+// $tasksFile=".\tsk_file_examples/fileNamesList.tsk";
+$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
+// $tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_admin.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

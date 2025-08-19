@@ -12,6 +12,8 @@ class copyrightTextFactory
      */
     public static function oCopyrightText(string $callerProjectId): copyrightTextBase
     {
+        print ("oCopyrightText:callerProjectId: " . $callerProjectId . PHP_EOL);
+
         switch (strtolower($callerProjectId)) {
             // rsgallery2
             case strtolower("RSG2"):

@@ -169,11 +169,18 @@ class fileUseDataBase implements fileUseDataInterface
 
     private function is_a_preLine(string $line): bool
     {
-        $is_a_preLine = false;
+        $is_a_preLine = true;
 
         $testLine = trim($line);
-        if (!str_starts_with($testLine, "use ")) {
-            $is_a_preLine = true;
+
+        // use found
+        if (str_starts_with($testLine, "use ")) {
+            $is_a_preLine = false;
+        }
+
+        // code found   (use trait may be inside code)
+        if (str_starts_with($testLine, "{")) {
+            $is_a_preLine = false;
         }
 
         return $is_a_preLine;

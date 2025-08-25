@@ -392,14 +392,12 @@ class fileHeaderByFileData // extends fileHeaderData
      */
     public function importLines(string $fileName): void
     {
-        // ToDo: '/*' may be a commant before the header but it may just start the header => improve by following
+        // ToDo: '/*' may be a comment before the header but it may just start the header => improve by following
         // ToDo: Detect @package as indicator
         // ToDo: Detect max end of header ->
         //          ->namespace in line
         //          ->line starts with use
         //          ->defined in line
-
-
 
 
         if (!empty ($fileName)) {
@@ -431,9 +429,10 @@ class fileHeaderByFileData // extends fileHeaderData
 
                 // start comment
                 if (!str_starts_with(trim($line), '/**')) {
-                    // first lines
-                    $preFileLines [] = $line;
-
+                    if ($line != '') {
+                        // first lines    <php , comments
+                        $preFileLines [] = $line;
+                    }
                 } else {
 
                     // header lines start line

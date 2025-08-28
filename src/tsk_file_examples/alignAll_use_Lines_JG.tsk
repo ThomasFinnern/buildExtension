@@ -1,7 +1,5 @@
 task:alignAll_use_Lines
 /callerProjectId=JG
-// /srcRoot="../../../LangMan4Dev"
-// /srcRoot="../../../joomGallery_fith"
 /srcRoot="../testData"
 	// /isNoRecursion=true
 /includeExt="php"

@@ -68,10 +68,16 @@ class fileUseDataBase implements fileUseDataInterface
 
                     $this->preLines[] = $line;
                 } else {
-                    $this->useLines[] = $line;
-
                     $isInPreLines = false;
-                    $isInUseLines = true;
+
+                    $isValidUseLine = $this->isValidUseLine($line);
+                    if ($isValidUseLine) {
+                        $isInUseLines = true;
+                        $this->useLines[] = $line;
+                    } else {
+                        $is_a_postLine = true;
+                        $this->postLines[] = $line;
+                    }
                 }
 
             } else {
@@ -179,7 +185,7 @@ class fileUseDataBase implements fileUseDataInterface
         }
 
         // code found   (use trait may be inside code)
-        if (str_starts_with($testLine, "{")) {
+        if (str_starts_with($testLine, '{')) {
             $is_a_preLine = false;
         }
 

@@ -322,7 +322,7 @@ $basePath = "..\\..\\LangMan4Dev";
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
 //$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
-//$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
+$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
 
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 
@@ -330,7 +330,7 @@ $basePath = "..\\..\\LangMan4Dev";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
 // $tasksFile=".\tsk_file_examples/fileNamesList.tsk";
-$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
+//$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
 // $tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_admin.tsk";
 
 //$optionFile = '';

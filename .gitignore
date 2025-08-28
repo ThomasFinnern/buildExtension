@@ -10,7 +10,7 @@
 .test/RSG2_Backup/
 .test/.idea 
 
-testData\FoundFileNamesList.txt
+testData/FoundFileNamesList.txt
 
 # org and temp files
 **/*.org.*

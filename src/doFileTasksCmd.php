@@ -321,8 +321,8 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
-//$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
-$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
+$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
+//$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
 
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 

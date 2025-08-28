@@ -7,4 +7,6 @@ task:alignAll_use_Lines
 /isWriteListToFile
 /listFileName="../../testData/FoundFileNamesList.txt"
 	// without: actual year
+/excludeFolderList=excluded
+/excludeFolderList=postponed
 

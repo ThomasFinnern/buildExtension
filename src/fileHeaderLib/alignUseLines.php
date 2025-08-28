@@ -3,9 +3,8 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataFactory;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;

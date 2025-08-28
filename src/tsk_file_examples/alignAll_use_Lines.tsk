@@ -4,9 +4,10 @@ task:alignAll_use_Lines
 // /srcRoot="../../../joomGallery_fith"
 /srcRoot="../testData"
 	// /isNoRecursion=true
-/includeExt = "php"
-	// excludeExt = "ini"
+/includeExt="php"
+	// excludeExt="ini"
 /isWriteListToFile
 /listFileName="../testData/FoundFileNamesList.txt"
 	// without: actual year
 /excludeFolderList=excluded
+/excludeFolderList=postponed

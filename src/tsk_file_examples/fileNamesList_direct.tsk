@@ -4,12 +4,13 @@ task:fileNamesList
 // /srcRoot="../../../joomGallery_fith"
 /srcRoot="../../testData"
 	// /isNoRecursion=true
-/includeExt = "php"
-	// excludeExt = "ini"
+/includeExt="php"
+	// excludeExt="ini"
 /isWriteListToFile=true
 /listFileName="../../testData/FoundFileNamesList.txt"
 	// without: actual year
 /excludeFolderList=excluded
+/excludeFolderList=postponed
 
 // d:\Entwickl\2025\_gitHub\buildExtension\testData\excluded\src\Controller 
 // d:\Entwickl\2025\_gitHub\buildExtension\testData\excluded\src\Model 

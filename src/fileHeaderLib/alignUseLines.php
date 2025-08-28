@@ -123,7 +123,7 @@ class alignUseLines
 
             $this->oFileUseData->extractUseLines($lines);
 
-            // Not needed but doe prepare sorted lines
+            // Not needed but do prepare sorted lines
             $this->oFileUseData->useLinesSorted();
 
             $this->oFileUseData->applyBackslashType();

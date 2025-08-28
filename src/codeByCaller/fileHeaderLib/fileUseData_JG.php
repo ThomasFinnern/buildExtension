@@ -22,6 +22,8 @@ class fileUseData_JG extends fileUseDataBase
     {
         parent::__construct();
 
+        print ("->fileUseData_JG: " . PHP_EOL);
+
         // JG sorting
         $this->isSortByLength = true;
 

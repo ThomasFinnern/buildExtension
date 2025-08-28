@@ -318,6 +318,7 @@ class fileHeaderByFileData // extends fileHeaderData
 
     public function upgradeHeader(string $srcPathFileName): int
     {
+        print('*********************************************************' . PHP_EOL);
         print('upgradeHeader' . PHP_EOL);
         print ("srcPathFileName: " . $srcPathFileName . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);

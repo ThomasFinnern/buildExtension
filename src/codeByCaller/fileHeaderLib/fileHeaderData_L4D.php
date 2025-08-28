@@ -79,6 +79,9 @@ class fileHeaderData_L4D extends FileHeaderDataBase
     {
         parent::__construct();
 
+        print ("->fileHeaderData_L4D: " . PHP_EOL);
+
+
         // lang4dev copyright handling
         $this->oCopyright = copyrightTextFactory::oCopyrightText('L4D');
     }

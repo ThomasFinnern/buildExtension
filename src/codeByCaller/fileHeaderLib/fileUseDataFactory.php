@@ -12,7 +12,7 @@ class fileUseDataFactory
      */
     public static function oFileUseData(string $callerProjectId): fileUseDataBase
     {
-        print ("oCopyrightText:callerProjectId: " . $callerProjectId . PHP_EOL);
+        print ("fileUseDataFactory:callerProjectId: " . $callerProjectId . PHP_EOL);
 
         switch (strtolower($callerProjectId)) {
             // rsgallery2
@@ -27,8 +27,6 @@ class fileUseDataFactory
             default:
                 throw new \Exception("Invalid caller project id");
         }
-throw new \Exception("dummy throw for exit");
-        exit(-99);
     }
 
 }

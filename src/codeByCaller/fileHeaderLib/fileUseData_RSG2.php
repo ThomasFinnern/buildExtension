@@ -22,6 +22,8 @@ class fileUseData_RSG2 extends fileUseDataBase
     {
         parent::__construct();
 
+        print ("->fileUseData_RSG2: " . PHP_EOL);
+
         // rsg2 sorting
         $this->isSortByLength = false;
 

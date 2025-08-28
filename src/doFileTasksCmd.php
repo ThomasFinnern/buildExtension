@@ -310,7 +310,6 @@ $tasksLine = 'not defined ...';
 // clean $collectedTasks
 $collectedTasks = new tasks;
 
-
 $basePath = "..\\..\\LangMan4Dev";
 
 //--- build_develop.tsk --------------------------------

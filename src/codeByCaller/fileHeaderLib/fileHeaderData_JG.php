@@ -92,6 +92,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
     {
         parent::__construct();
 
+        print ("->fileHeaderData_JG: " . PHP_EOL);
+
         // joomGallery copyright handling
         $this->oCopyright = copyrightTextFactory::oCopyrightText('JG');
     }

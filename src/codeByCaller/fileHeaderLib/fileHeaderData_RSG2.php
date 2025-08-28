@@ -23,6 +23,8 @@ class fileHeaderData_RSG2 extends fileHeaderDataBase
     {
         parent::__construct();
 
+        print ("->fileHeaderData_RSG2: " . PHP_EOL);
+
         // rsg2 copyright handling
         $this->oCopyright = copyrightTextFactory::oCopyrightText('RSG2');
     }

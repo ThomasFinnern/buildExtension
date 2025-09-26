@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:t:f:o:h12345";
+$optDefinition = "s:t:c:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -355,6 +355,11 @@ foreach ($options as $idx => $option) {
 
         case 'f':
             $tasksFile = $option;
+            break;
+
+            // separate list of task files
+        case 'c':
+            $collectedTasks->extractTasksFromFile($option);
             break;
 
         case 'o':

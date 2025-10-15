@@ -1,27 +1,27 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileHeaderLib;
+namespace Finnern\BuildExtension\src\fileSinceLib;
 
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class exchangeAll_actCopyrightYear
 ================================================================================*/
 
-class alignAll_use_Lines extends baseExecuteTasks
+class exchangeAll_sinceInFiles extends baseExecuteTasks
     implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
-    public alignUseLinesFile $alignUseLines;
+    public exchangeSinceLinesFile $exchangeSinceLinesFile;
 
-    public string $yearText = "";
+    public bool $isForceOverwrite = false;
+    public bool $isForceVersion = false;
+    public bool $isLogOnly = false;
+    public string $versionId = "xx.xx.xx";
 
     /*--------------------------------------------------------------------
     construction
@@ -38,11 +38,14 @@ class alignAll_use_Lines extends baseExecuteTasks
 
             parent::__construct($srcRoot, $isNoRecursion);
 
-            $this->yearText = $yearText;
+            $this->isForceOverwrite = false;
+            $this->isForceVersion = false;
+            $this->isLogOnly = false;
+            $this->versionId = "xx.xx.xx";
 
             //--- use file lines for task ----------------------
 
-            $this->alignUseLines = new alignUseLinesFile();
+            $this->exchangeSinceLinesFile = new exchangeSinceLinesFile();
 
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
@@ -61,15 +64,33 @@ class alignAll_use_Lines extends baseExecuteTasks
 
         if (!$isOptionConsumed) {
 
-            $isOptionConsumed = $this->alignUseLines->assignOption($option);
+            $isOptionConsumed = $this->exchangeSinceLinesFile->assignOption($option);
         }
 
-        if ( ! $isOptionConsumed) {
+        if (!$isOptionConsumed) {
             switch (strtolower($option->name)) {
 
-                case strtolower('yearText'):
+                case strtolower('isForceOverwrite'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->yearText = $option->value;
+                    $this->isForceOverwrite = (bool)$option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('isForceVersion'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->isForceVersion = (bool)$option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('isLogOnly'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->isLogOnly = (bool)$option->value;
+                    $isOptionConsumed = true;
+                    break;
+
+                case strtolower('versionId'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->versionId = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -104,7 +125,10 @@ class alignAll_use_Lines extends baseExecuteTasks
         }
 
         // tell factory to use classes
-        $this->alignUseLines->assignOptionCallerProjectId($this->callerProjectId);
+        $this->exchangeSinceLinesFile->assignOptionCallerProjectId($this->callerProjectId);
+
+        $this->exchangeSinceLinesFile->assignOptions($this->isForceOverwrite,
+            $this->isForceVersion, $this->isLogOnly, $this->versionId);
 
         //--- iterate over all files -------------------------------------
 
@@ -112,7 +136,7 @@ class alignAll_use_Lines extends baseExecuteTasks
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
-            $this->alignUseLines->alignUseLines($fileName->srcPathFileName);
+            $this->exchangeSinceLinesFile->exchangeSinceLines($fileName->srcPathFileName, $this->versionId);
         }
 
         return 0;
@@ -121,7 +145,7 @@ class alignAll_use_Lines extends baseExecuteTasks
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . PHP_EOL;
-        $OutTxt .= "--- alignAll_use_Lines ---" . PHP_EOL;
+        $OutTxt .= "--- exchangeAll_sinceInFiles ---" . PHP_EOL;
 
 
         $OutTxt .= "Not defined yet " . PHP_EOL;

@@ -8,7 +8,7 @@ Each caller project has different needs like
 * ? Other count of tab characters (not supported)
 * ?  (not supported)
 * copyright  (not supported)
-* .
+* ? Since format ? (spaces)
 
 
 Project ID helps a 'factory' pattern code to select the matching files

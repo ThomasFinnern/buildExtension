@@ -1,32 +1,34 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileHeaderLib;
+namespace Finnern\BuildExtension\src\fileSinceLib;
 
 use Exception;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataFactory;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
-use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
-use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\tasksLib\task;
+use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileSinceDataFactory;
+use Finnern\BuildExtension\src\codeByCaller\fileSinceLib\fileSinceDataBase;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
-Class alignUseLines
+Class exchangeSinceLinesFile
 ================================================================================*/
 
-class alignUseLinesFile
+class exchangeSinceLinesFile
 {
     public string $fileName;
 
     public task $task;
     public readonly string $name;
 
-    protected fileUseDataBase|null $oFileUseData;
+    protected fileSinceDataBase|null $oSinceFileData;
 
     // just an indicator can be removed later
     private string $callerProjectId = "";
+
+    public bool $isForceOverwrite = false;
+    public bool $isForceVersion = false;
+    public bool $isLogOnly = false;
+    public string $versionId = "xx.xx.xx";
+
 
     /*--------------------------------------------------------------------
     construction
@@ -36,7 +38,7 @@ class alignUseLinesFile
     {
 //        parent::__construct();
 
-        $this->oFileUseData = null; // assign on need
+        $this->oSinceFileData = null; // assign on need
 
         $this->fileName = $srcFile;
     }
@@ -69,7 +71,7 @@ class alignUseLinesFile
     }
 
     /**
-     * @param  option  $option
+     * @param option $option
      *
      * @return bool
      */
@@ -79,7 +81,7 @@ class alignUseLinesFile
         $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-        if ( ! $isOptionConsumed) {
+        if (!$isOptionConsumed) {
             switch (strtolower($option->name)) {
                 case strtolower('filename'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
@@ -93,21 +95,22 @@ class alignUseLinesFile
         return $isOptionConsumed;
     }
 
-    public function assignOptionCallerProjectId(string $callerProjectId):void
+    public function assignOptionCallerProjectId(string $callerProjectId): void
     {
         $this->callerProjectId = $callerProjectId;
 
-        $this->oFileUseData = fileUseDataFactory::oFileUseData($callerProjectId);
+        $this->oSinceFileData = fileSinceDataFactory::oSinceFileData($callerProjectId);
     }
 
-    public function alignUseLines(string $fileName): int
+    // ToDo: force overwrite
+    public function exchangeSinceLines(string $fileName, string $versionId): int
     {
 
         $hasError = 0;
 
         try {
             print('*********************************************************' . PHP_EOL);
-            print('alignUseLines' . PHP_EOL);
+            print('exchangeSinceLines' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
@@ -119,19 +122,45 @@ class alignUseLinesFile
 
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            $lines = file($fileName);
+            $inLines = file($fileName);
 
-            $this->oFileUseData->extractUseLines($lines);
+            $scanCodeLines = new scanPreHeader();
 
-            // Not needed but do prepare sorted lines
-            $this->oFileUseData->useLinesSorted();
+            $outLines = [];
+            foreach ($inLines as $line) {
 
-            $this->oFileUseData->applyBackslashType();
+                $nextLine = $line;
+
+                // keep state of brackets and comments
+                $scanCodeLines->nextLine($line);
+
+                if($scanCodeLines->isInPreFunctionComment) {
+                    if (str_contains($line, '@since')) {
+
+//                        $isWrong = $this->oSinceFileData->checkLine($line);
+//
+//                        if ($isWrong)
+                        {
+                            // Align version to above lines space
+                            $alignIdx = $scanCodeLines->alignIdx;
+                            $lineNbr = $scanCodeLines->lineNumber;
+
+                            $nextLine = $this->oSinceFileData->exchangeLine($line,
+                                $this->versionId,
+                                $alignIdx,
+                                $this->isForceVersion, $this->isLogOnly,
+                                $lineNbr);
+                        }
+                    }
+                }
+
+                $outLines[] = $nextLine;
+            }
 
             // write to file
-            if ($this->oFileUseData->isChanged() == true) {
+            if ($this->oSinceFileData->isChanged() == true) {
 
-                $outLines = $this->oFileUseData->fileLines();
+                //$outLines = $this->oSinceFileData->fileLines();
 
                 $isSaved = file_put_contents($fileName, $outLines);
 
@@ -142,8 +171,17 @@ class alignUseLinesFile
             $hasError = -101;
         }
 
-        print('exit alignUseLines: ' . $hasError . PHP_EOL);
+        print('exit exchangeSinceLines: ' . $hasError . PHP_EOL);
 
         return $hasError;
+    }
+
+    public function assignOptions(bool $isForceOverwrite, bool $isForceVersion, bool $isLogOnly, string $versionId)
+    {
+        $this->isForceOverwrite = $isForceOverwrite;
+        $this->isForceVersion = $isForceVersion;
+        $this->isLogOnly = $isLogOnly;
+
+        $this->versionId = $versionId;
     }
 }

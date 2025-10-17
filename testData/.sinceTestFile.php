@@ -40,8 +40,11 @@ class sinceTestFile
      *
      * @var    string
      * @since __BUMP_VERSION__
+     * @var    string
      * @since version
+     * @var    string
      * @since __BUMP_VERSION__
+     * @var    string
      * @since version 4.2
      */
     protected $langIdPrefix = 'COM_LANG4DEV';

@@ -7,7 +7,7 @@ Class fileHeader data
 ================================================================================*/
 
 /**
- * 
+ *
  */
 interface fileSinceDataInterface
 {
@@ -17,15 +17,18 @@ interface fileSinceDataInterface
 
     function __construct();
 
-    function init() : void;
+    function init(): void;
 
     function checkLine(string $line): bool;
-    function exchangeLine(string $line='', string $versionId='xx.xx',
-                          int $alignIdx = 0,
-                          bool $isForceVersion = false, bool $isLogOnly = false,
-                          int $lineNbr=1): string;
+
+    function exchangeLine(string $line = '', string $versionId = 'xx.xx',
+                          int    $alignIdx = 0,
+                          bool   $isForceVersion = false, bool $isLogOnly = false,
+                          int    $lineNbr = 1,
+                          string $prevAtLine = "",
+                          bool   $isTabFound = true): string;
 
 
-    function isChanged() : bool;
+    function isChanged(): bool;
 
 } // fileHeader

@@ -61,12 +61,14 @@ class fileSinceDataBase implements fileSinceDataInterface
     function exchangeLine(string $line = '', string $versionId = 'xx.xx',
                           int    $alignIdx = 0,
                           bool   $isForceVersion = false, bool $isLogOnly = false,
-                          int    $lineNbr = 1): string
+                          int    $lineNbr = 1,
+                          string $prevAtLine = "",
+                          bool   $isTabFound = false): string
     {
         $isChanged = false;
         $exchangedLine = $line;
 
-        $sinceLine = $this->createSinceLine($alignIdx, $versionId);
+        $sinceLine = $this->createSinceLine($alignIdx, $versionId, $isTabFound);
 
         if (str_contains($line, "@since")) {
 
@@ -84,11 +86,11 @@ class fileSinceDataBase implements fileSinceDataInterface
                         $isChanged = true;
                     } else {
 
-                        // needs codescanner as base class and then derived ... class checking just pre function comments
-
-
-                        // check length of space after since
-                        $test = 5;
+                        /*
+                         * code for align existing definition is postponed
+                         */
+                        // $actAlignIdx = yyyy
+                        // check actual align length
 
                     }
 
@@ -104,6 +106,7 @@ class fileSinceDataBase implements fileSinceDataInterface
                     print ("@since diff line: " . $lineNbr . PHP_EOL);
                     print ("original: '" . rtrim($line) . "'" . PHP_EOL);
                     print ("improved: '" . $exchangedLine . "'" . PHP_EOL);
+                    print ("align   : '" . $prevAtLine . "'" . PHP_EOL);
 
                     $exchangedLine = $line;
                 }
@@ -127,9 +130,13 @@ class fileSinceDataBase implements fileSinceDataInterface
      * @return string
      */
     public
-    function createSinceLine(int $startIdx, string $versionId): string
+    function createSinceLine(int $startIdx, string $versionId, bool $isTabFound = false): string
     {
-        $sinceStart = str_repeat(' ', $this->identSize) . " * @since ";
+        if ($isTabFound) {
+            $sinceStart = "\t" . " * @since ";
+        } else {
+            $sinceStart = str_repeat(' ', $this->identSize) . " * @since ";
+        }
         $sinceLine = str_pad($sinceStart, $startIdx) . $versionId;
         return $sinceLine;
     }

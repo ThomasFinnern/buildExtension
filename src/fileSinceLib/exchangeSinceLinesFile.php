@@ -107,6 +107,7 @@ class exchangeSinceLinesFile
     {
 
         $hasError = 0;
+        $prevAtLine = '';
 
         try {
             print('*********************************************************' . PHP_EOL);
@@ -131,29 +132,28 @@ class exchangeSinceLinesFile
 
                 $nextLine = $line;
 
-                // keep state of brackets and comments
+                // keep state of brackets and comments and remove comment lines
                 $scanCodeLines->nextLine($line);
 
-                if($scanCodeLines->isInPreFunctionComment) {
-                    if (str_contains($line, '@since')) {
+                if ($scanCodeLines->isInPreFunctionComment) {
 
-//                        $isWrong = $this->oSinceFileData->checkLine($line);
-//
-//                        if ($isWrong)
+                    // if (str_contains($line, '@since')) {
+                    if ($scanCodeLines->isAtSinceLine) {
                         {
                             // Align version to above lines space
-                            $alignIdx = $scanCodeLines->alignIdx;
+
                             $lineNbr = $scanCodeLines->lineNumber;
 
                             $nextLine = $this->oSinceFileData->exchangeLine($line,
                                 $this->versionId,
-                                $alignIdx,
+                                $scanCodeLines->prevAlignIdx,
                                 $this->isForceVersion, $this->isLogOnly,
-                                $lineNbr);
+                                $lineNbr,
+                                $scanCodeLines->prevAtLine,
+                                $scanCodeLines->isTabFound);
                         }
                     }
                 }
-
                 $outLines[] = $nextLine;
             }
 
@@ -184,4 +184,5 @@ class exchangeSinceLinesFile
 
         $this->versionId = $versionId;
     }
+
 }

@@ -48,7 +48,7 @@ class codeScannerByLine
 
     }
 
-    public function nextLine($line)
+    public function nextLine($line): string
     {
 
         $this->lineNumber++;
@@ -65,6 +65,7 @@ class codeScannerByLine
 
         $this->checkInPreFunctionComment($line);
 
+        return $bareLine;
     }
 
     /**

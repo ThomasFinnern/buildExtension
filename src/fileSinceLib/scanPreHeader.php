@@ -7,6 +7,11 @@ use Finnern\BuildExtension\src\codeScanner\codeScannerByLine;
 class scanPreHeader extends codeScannerByLine
 {
     public int $alignIdx = 0; // number of integer where all variables shoud start
+    public bool $isTabFound = false;
+    public bool $isAtSinceLine = false;
+    public int $prevAlignIdx = 0;
+    public string $prevAtLine = '';
+    private string $actAtLine = '';
 
     public function __construct()
     {
@@ -18,20 +23,44 @@ class scanPreHeader extends codeScannerByLine
 
     protected function init()
     {
-        $alignIdx = 0;
+        $this->alignIdx = 0;
+        $this->isTabFound = false;
+
+        $this->prevAlignIdx = 0;
+        $this->isAtSinceLine = false;
+        $this->prevAtLine = '';
+        $this->actAtLine = '';
     }
 
-    public function nextLine($line)
+    public function nextLine($line): string
     {
-
-        parent::nextLine($line);
+        $bareLine = parent::nextLine($line);
 
         if ($this->isInPreFunctionComment) {
 
-            $this->alignIdx = $this->findAlignIdx($line, $this->alignIdx);
+            $bareLine = $this->removeCommentLine($line);
 
+            if (str_contains($line, '@')) {
+
+                // keep track of last @ format
+                $this->prevAlignIdx = $this->alignIdx;
+                $this->prevAtLine = $this->actAtLine;
+
+                // align index  behind first empty space
+                $this->alignIdx = $this->findAlignIdx($bareLine, $this->alignIdx);
+                $this->actAtLine = $bareLine;
+
+                // Tab before '@' set ?
+                if (!$this->isTabFound) {
+                    $this->check4TabUse($line);
+                }
+
+                // indicate since
+                $this->isAtSinceLine = str_contains($bareLine, '@since');
+            }
         }
 
+        return $bareLine;
     }
 
     /**
@@ -40,7 +69,7 @@ class scanPreHeader extends codeScannerByLine
      *
      * @param $line
      * @param int $inAlignIdx
-     * @return int Index to first non ' ' chanracter after @... indicator
+     * @return int Index to first non ' ' character after @... indicator
      */
     private function findAlignIdx($line, int $inAlignIdx)
     {
@@ -53,21 +82,60 @@ class scanPreHeader extends codeScannerByLine
         //	 * @since   4.0.0
 
         // line with '@'
-        $atIdx=strpos($line, '@');
+        $atIdx = strpos($line, '@');
 
         if ($atIdx !== false) {
             $lastBlankIdx = strpos($line, ' ', $atIdx);
 
-            if($lastBlankIdx !== false) {
-                while($line[$lastBlankIdx] === ' ') {
+            if ($lastBlankIdx !== false) {
+                while ($line[$lastBlankIdx] === ' ') {
                     $lastBlankIdx++;
                 }
 
-                $AlignIdx = $lastBlankIdx -1;
+                $AlignIdx = $lastBlankIdx;
             }
         }
 
         return $AlignIdx;
     }
 
-}
+    private function check4TabUse($line)
+    {
+        // line with '@'
+        $atIdx = strpos($line, '@');
+
+        if ($atIdx !== false) {
+
+            $preAt = substr($line, 0, $atIdx);
+            if (str_contains($preAt, "\t")) {
+                $this->isTabFound = true;
+            }
+
+        }
+    }
+
+    private function removeCommentLine(mixed $line)
+    {
+        $bareLine = $line;
+
+        try {
+
+            $doubleSlashIdx = strpos($line, '//');
+
+            // double slash '//'
+            if ($doubleSlashIdx !== false) {
+                $bareLine = substr($line, 0, $doubleSlashIdx);
+            }
+
+        } catch (\RuntimeException $e) {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing removeCommentPHP: "' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+
+            print ($OutTxt);
+        }
+
+        return $bareLine;
+    }
+
+} // class

@@ -101,15 +101,14 @@ class fileSinceDataBase implements fileSinceDataInterface
                 if (!$isLogOnly) {
                     $this->isChanged = true;
                 } else {
-
-                    // ToDo: ? line
-                    print ("@since diff line: " . $lineNbr . PHP_EOL);
-                    print ("original: '" . rtrim($line) . "'" . PHP_EOL);
-                    print ("improved: '" . $exchangedLine . "'" . PHP_EOL);
-                    print ("align   : '" . $prevAtLine . "'" . PHP_EOL);
-
                     $exchangedLine = $line;
                 }
+
+                // ToDo: ? line
+                print ("@since diff line: " . $lineNbr . PHP_EOL);
+                print ("original: '" . rtrim($line) . "'" . PHP_EOL);
+                print ("improved: '" . $exchangedLine . "'" . PHP_EOL);
+                print ("align   : '" . $prevAtLine . "'" . PHP_EOL);
 
             }
 
@@ -137,7 +136,9 @@ class fileSinceDataBase implements fileSinceDataInterface
         } else {
             $sinceStart = str_repeat(' ', $this->identSize) . " * @since ";
         }
-        $sinceLine = str_pad($sinceStart, $startIdx) . $versionId;
+
+        $sinceLine = str_pad($sinceStart, $startIdx) . $versionId . PHP_EOL;
+
         return $sinceLine;
     }
 

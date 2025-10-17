@@ -154,6 +154,7 @@ class exchangeSinceLinesFile
                         }
                     }
                 }
+
                 $outLines[] = $nextLine;
             }
 

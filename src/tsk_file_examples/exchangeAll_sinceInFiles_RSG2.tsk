@@ -9,4 +9,4 @@ task:exchangeAll_sinceInFiles_RSG2
    // ToDo: isForceVersion
 /excludeFolderList=excluded
 /excludeFolderList=postponed
-/isLogOnly=true
+  // /isLogOnly=true

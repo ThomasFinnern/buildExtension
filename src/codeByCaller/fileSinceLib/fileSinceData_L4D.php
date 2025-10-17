@@ -24,4 +24,11 @@ class fileSinceData_L4D extends fileSinceDataBase
 
     }
 
+//    public function init(): void
+//    {
+//        parent::init();
+//
+//        $this->identSize = 4;
+//    }
+
 } // fileHeader

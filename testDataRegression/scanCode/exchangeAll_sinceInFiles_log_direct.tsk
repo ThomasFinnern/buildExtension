@@ -1,0 +1,13 @@
+task:exchangeAll_sinceInFiles_RSG2
+// test scan code bracket level
+/callerProjectId=RSG2
+/srcRoot="../../testDataRegression/scanCode"
+	// /isNoRecursion=true
+/includeExt="php"
+	// /fileName="../testDataRegression/scanCode/ConfigController.php"
+/VersionId="5.0.1"
+   // ToDo: isForceOverwrite
+   // ToDo: isForceVersion
+/excludeFolderList=excluded
+/excludeFolderList=postponed
+/isLogOnly=true

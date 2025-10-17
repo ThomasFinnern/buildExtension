@@ -24,4 +24,13 @@ class fileSinceData_RSG2 extends fileSinceDataBase
 
     }
 
+
+//    public function init(): void
+//    {
+//        parent::init();
+//
+//        $this->identSize = 4;
+//    }
+
+
 } // fileHeader

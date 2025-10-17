@@ -18,6 +18,7 @@ Class fileHeader data
 class fileSinceDataBase implements fileSinceDataInterface
 {
     protected bool $isChanged;
+    protected int $identSize = 4;
 
     // protected string $commentSpaces=4;
 
@@ -31,7 +32,7 @@ class fileSinceDataBase implements fileSinceDataInterface
     public function init(): void
     {
         $this->isChanged = false;
-
+        $this->identSize = 4;
     }
 
 
@@ -110,6 +111,7 @@ class fileSinceDataBase implements fileSinceDataInterface
             }
 
         }
+
         return $exchangedLine;
     }
 
@@ -127,7 +129,8 @@ class fileSinceDataBase implements fileSinceDataInterface
     public
     function createSinceLine(int $startIdx, string $versionId): string
     {
-        $sinceLine = str_pad(" * @since ", $startIdx) . $versionId;
+        $sinceStart = str_repeat(' ', $this->identSize) . " * @since ";
+        $sinceLine = str_pad($sinceStart, $startIdx) . $versionId;
         return $sinceLine;
     }
 

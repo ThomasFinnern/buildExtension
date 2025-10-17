@@ -24,5 +24,12 @@ class fileSinceData_JG extends fileSinceDataBase
 
     }
 
+    public function init(): void
+    {
+        parent::init();
+
+        $this->identSize = 2;
+    }
+
 
 } // fileHeader

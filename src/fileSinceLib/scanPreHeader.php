@@ -16,7 +16,7 @@ class scanPreHeader extends codeScannerByLine
         $this->init();
     }
 
-    private function init()
+    protected function init()
     {
         $alignIdx = 0;
     }

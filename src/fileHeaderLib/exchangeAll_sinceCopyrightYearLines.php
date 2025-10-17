@@ -114,7 +114,7 @@ class exchangeAll_sinceCopyrightYearLines extends baseExecuteTasks
 
             if (count($this->fileNamesList->fileNames) == 0) {
 
-                echo '%%% Attention: No files retrieved from: ' . $this->fileNamesList->srcRoot . '%%%' . PHP_EOL;
+                echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
                 return -975;
             }
         }

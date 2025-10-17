@@ -13,19 +13,13 @@ use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
+use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\fileHeaderLib\forceCreationDate;
-//use Finnern\BuildExtension\src\fileHeaderLib\forceVersionId;
-//use Finnern\BuildExtension\src\fileHeaderLib\increaseVersionId;
 
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\tasks;
-
-
-//use Finnern\BuildExtension\src\tasksLib\option;
-//use Finnern\BuildExtension\src\tasksLib\options;
-//use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -288,6 +282,12 @@ class doFileTasks
 
                     case strtolower('alignAll_use_Lines'):
                         $this->actTask = $this->createTask(new alignAll_use_Lines (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('exchangeAll_sinceInFiles_RSG2'):
+                        $this->actTask = $this->createTask(new exchangeAll_sinceInFiles (), $textTask);
                         // run task
                         $hasError = $this->actTask->execute();
                         break;

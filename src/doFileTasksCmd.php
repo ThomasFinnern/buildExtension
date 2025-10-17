@@ -320,15 +320,16 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
-$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
-//$tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
+// $tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
+// $tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
+// $tasksFile="./tsk_file_examples/exchangeAll_sinceInFiles_RSG2.tsk";
 
 // $tasksFile="../../LangMan4DevProject/.buildPHP/updateAll_fileHeaders.tsk";
 
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop.tsk";
 //$tasksFile="../../LangMan4DevProject/.buildPHP/build_develop_plg_webservices.tsk";
 
-// $tasksFile=".\tsk_file_examples/fileNamesList.tsk";
+// $tasksFile=".\\tsk_file_examples/fileNamesList.tsk";
 //$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
 // $tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_admin.tsk";
 
@@ -430,8 +431,6 @@ print ($tasks->text());
 /*----------------------------------------------------------
    assign tasks to DoFileTasks class
 ----------------------------------------------------------*/
-
-
 
 // //--- extract tasks from string or file ---------------------------------
 

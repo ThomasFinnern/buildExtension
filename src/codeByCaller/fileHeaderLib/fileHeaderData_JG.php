@@ -103,6 +103,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //        $date_format = 'Y';
 //        $this->yearToday = date($date_format);
 
+        parent::init();
+
         $this->package = self::PACKAGE;
         $this->subpackage = self::SUBPACKAGE;
 

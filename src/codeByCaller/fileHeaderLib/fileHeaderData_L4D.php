@@ -91,6 +91,8 @@ class fileHeaderData_L4D extends FileHeaderDataBase
 //        $date_format = 'Y';
 //        $this->yearToday = date($date_format);
 
+        parent::init();
+
         $this->package = self::PACKAGE;
         $this->subpackage = self::SUBPACKAGE;
 

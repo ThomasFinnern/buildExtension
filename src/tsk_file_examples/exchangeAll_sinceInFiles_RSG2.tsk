@@ -1,0 +1,12 @@
+task:exchangeAll_sinceInFiles_RSG2
+/callerProjectId=RSG2
+/srcRoot="../../testData"
+	// /isNoRecursion=true
+/includeExt="php"
+/fileName="../testData/sinceTestFile.php"
+/VersionId="5.0.1"
+   // ToDo: isForceOverwrite
+   // ToDo: isForceVersion
+/excludeFolderList=excluded
+/excludeFolderList=postponed
+/isLogOnly=true

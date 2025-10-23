@@ -1,4 +1,4 @@
-task:exchangeAll_sinceInFiles_RSG2
+task:exchangeAll_sinceInFiles
 /callerProjectId=RSG2
 /srcRoot="../../testData"
 	// /isNoRecursion=true

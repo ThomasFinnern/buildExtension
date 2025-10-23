@@ -1,4 +1,4 @@
-task:alignAll_use_Lines
+task:exchangeAll_sinceInFiles
 /callerProjectId=RSG2
 /srcRoot="../../testData"
 	// /isNoRecursion=true
@@ -9,4 +9,4 @@ task:alignAll_use_Lines
    // ToDo: isForceVersion
 /excludeFolderList=excluded
 /excludeFolderList=postponed
-   // /isLogOnly=true
+/isLogOnly=true

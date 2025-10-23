@@ -73,8 +73,12 @@ class fileSinceDataBase implements fileSinceDataInterface
         if (str_contains($line, "@since")) {
 
             if ($isForceVersion) {
-                $exchangedLine = $sinceLine;
-                $isChanged = true;
+
+                if ($exchangedLine != $sinceLine) {
+                    $exchangedLine = $sinceLine;
+                    $isChanged = true;
+                }
+
             } else {
                 if (str_contains($line, "__BUMP_VERSION__")) {
                     $exchangedLine = $sinceLine;
@@ -98,17 +102,22 @@ class fileSinceDataBase implements fileSinceDataInterface
             }
 
             if ($isChanged) {
+
+                if ($isLogOnly) {
+                    print ("--- log only ------------------------------" . PHP_EOL);
+                }
+
+                print ("@since diff line: " . $lineNbr . PHP_EOL);
+                print ("original: '" . rtrim($line) . "'" . PHP_EOL);
+                print ("improved: '" . rtrim($exchangedLine) . "'" . PHP_EOL);
+                print ("align   : '" . rtrim($prevAtLine) . "'" . PHP_EOL);
+
                 if (!$isLogOnly) {
+
                     $this->isChanged = true;
                 } else {
                     $exchangedLine = $line;
                 }
-
-                // ToDo: ? line
-                print ("@since diff line: " . $lineNbr . PHP_EOL);
-                print ("original: '" . rtrim($line) . "'" . PHP_EOL);
-                print ("improved: '" . $exchangedLine . "'" . PHP_EOL);
-                print ("align   : '" . $prevAtLine . "'" . PHP_EOL);
 
             }
 

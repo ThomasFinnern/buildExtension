@@ -4,6 +4,10 @@ namespace Finnern\BuildExtension\src\fileSinceLib;
 
 use Finnern\BuildExtension\src\codeScanner\codeScannerByLine;
 
+/**
+ * Not standard scan part: detect pre header and @since line
+ * Align with previous line indent after @
+ */
 class scanPreHeader extends codeScannerByLine
 {
     public int $alignIdx = 0; // number of integer where all variables shoud start

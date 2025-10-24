@@ -10,254 +10,383 @@ namespace Finnern\BuildExtension\src\codeScanner;
  *  - inside pre function comments
  *
  * ToDo:
- *  - tell mismatch of brackets with line logs l114: } (4) -> Type and actual level (python: buildTree)
- *  - codeScanner command file: using codeScanner from command line
- *  - Python see remove comments Python.zip: \ifdef_endif\ifdef_endif.py
- *  - see LangMan4Dev: searchTransStrings function searchTransStrings_in_PHP_file ....
- *    removeCommentPHP
  */
 class codeScannerByLine
 {
-    protected bool $isInCommentSection = false; // Section -> /*...*/
-    public bool $isInPreFunctionComment = false; // -> /**...*/ .. function
-    protected bool $isInsideFunction = false;
+	public bool $isInCommentSection = false; // Section -> /*...*/
+	public bool $isInPreFunctionComment = false; // -> /**...*/ .. function
+	public bool $isInsideFunction = false;
 
-    public int $lineNumber = 0; // 1...
-    public int $depthCount = 0; // 0... depth count
+	public bool $isFunctionStartLine = false;
+	public bool $isFunctionReturnLine = false;
+	public bool $isPreFuncCommentStartLine = false;
 
-    // public string $bracketStack ='';
-    public bool $isBracketLevelChanged = false;
+	// ToDo: public bool $isAfterNamespace = false;
+	// ToDo: public bool $isAfterUse = false;
+	public bool $isInClass = false;
 
-    public function __construct()
-    {
+	public int $lineNumber = 0; // 1...
+	public int $depthCount = 0; // 0... depth count
+	public int $functionDepth = 0; // 0:without/outside class 1:within class
 
-        print ("codeScanner __construct: " . PHP_EOL);
-        $this->init();
+	// public string $bracketStack ='';
+	public bool $isBracketLevelChanged = false;
 
-    }
+	public function __construct()
+	{
+		print ("codeScanner __construct: " . PHP_EOL);
+		$this->init();
+	}
 
-    protected function init()
-    {
-        $this->isInCommentSection = false; // Section -> /*...*/
-        $this->isInPreFunctionComment = false; // -> /**...*/ .. function
-        $this->isInsideFunction = false;
+	protected function init()
+	{
+		$this->isInCommentSection       = false; // Section -> /*...*/
+		$this->isInPreFunctionComment   = false; // -> /**...*/ .. function
+		$this->isInsideFunction         = false;
+		$this->isFunctionStartLine      = false;
+		$this->isFunctionReturnLine     = false;
+		$this->isPreFuncCommentStartLine = false;
+		$this->isInClass                = false;
 
-        $this->lineNumber = 0; // 1...
-        $this->depthCount = 0; // 0... depth count
+		$this->lineNumber = 0; // 1...
+		$this->depthCount = 0; // 0... depth count
 
+	}
 
-    }
+	public function nextLine($line): string
+	{
 
-    public function nextLine($line): string
-    {
+		$this->lineNumber++;
 
-        $this->lineNumber++;
+		// WIP: actual pre comment and just inside function , more to code ;-)
 
-        // WIP: actual pre comment and just inside function , more to code ;-)
+		//--- remove comments --------------
 
-        //--- remove comments --------------
+		$bareLine = $this->removeCommentPHP($line, $this->isInCommentSection);
 
-        $bareLine = $this->removeCommentPHP($line, $this->isInCommentSection);
+		$this->isBracketLevelChanged = $this->checkBracketLevel($bareLine); // $depthCount
 
-        $this->isBracketLevelChanged = $this->checkBracketlLevel($bareLine); // $depthCount
+		if (!$this->isInCommentSection)
+		{
+			$this->checkInsideFunction($bareLine);
 
-        $this->checkInsideFunction($bareLine);
+			if (!$this->isInClass)
+			{
+				$this->isInClass = $this->isInClass($bareLine);
 
-        $this->checkInPreFunctionComment($line);
+				if ($this->isInClass)
+				{
+					$this->functionDepth = 1;
+				}
+			}
+		}
 
-        return $bareLine;
-    }
+		if ($this->depthCount == $this->functionDepth)
+		{
+			$this->checkInPreFunctionComment($line);
+		}
 
-    /**
-     * Removes comment part of the line
-     * a) Only '//...' then delete the rest of the line
-     *    This will only be checked if not inside lines comment '/* ...'
-     * b) On '/*' check the rest of the line
-     *    => recursive call with the following characters
-     *    => add call result to start of line
-     * c) On '...* /' (end of lines comment) check the rest of the line
-     *    => recursive call with the following characters
-     *    => add call result to start of line
-     *
-     * @param $line
-     * @param $isInComment
-     *
-     * @return false|mixed|string
-     *
-     * @since version
-     */
-    // ToDo: &$isInComment => use local class variable
-    public function removeCommentPHP($line, &$isInComment)
-    {
-        $bareLine = $line;
+		return $bareLine;
+	}
 
-        try {
-            // Not inside a '/*' comment
-            if (!$isInComment) {
+	/**
+	 * Removes comment part of the line
+	 * a) Only '//...' then delete the rest of the line
+	 *    This will only be checked if not inside lines comment '/* ...'
+	 * b) On '/*' check the rest of the line
+	 *    => recursive call with the following characters
+	 *    => add call result to start of line
+	 * c) On '...* /' (end of lines comment) check the rest of the line
+	 *    => recursive call with the following characters
+	 *    => add call result to start of line
+	 *
+	 * @param $line
+	 * @param $isInComment
+	 *
+	 * @return false|mixed|string
+	 *
+	 * @since version
+	 */
+	// ToDo: &$isInComment => use local class variable
+	public function removeCommentPHP($line, &$isInComment)
+	{
+		$bareLine = $line;
 
-                //--- check for comment positions ---------------------------------------
+		try
+		{
+			// Not inside a '/*' comment
+			if (!$isInComment)
+			{
 
-                $doubleSlashIdx = strpos($line, '//');
-                $slashAsteriskIdx = strpos($line, '/*');
+				//--- check for comment positions ---------------------------------------
 
-                // One or both comment types are present
-                if ($doubleSlashIdx !== false || $slashAsteriskIdx !== false) {
+				$doubleSlashIdx   = strpos($line, '//');
+				$slashAsteriskIdx = strpos($line, '/*');
 
-                    // both in one line => set later one to false
-                    if ($doubleSlashIdx !== false && $slashAsteriskIdx !== false) {
+				// One or both comment types are present
+				if ($doubleSlashIdx !== false || $slashAsteriskIdx !== false)
+				{
 
-                        if ($doubleSlashIdx < $slashAsteriskIdx) {
-                            // open first
-                            $slashAsteriskIdx = false;
-                        } else {
-                            // close first
-                            $doubleSlashIdx = false;
-                        }
-                    }
+					// both in one line => set later one to false
+					if ($doubleSlashIdx !== false && $slashAsteriskIdx !== false)
+					{
 
-                    // double slash '//'
-                    if ($doubleSlashIdx !== false) {
-                        $bareLine = substr($line, 0, $doubleSlashIdx);
-                    } else {
-                        // lines comment found '/*'
-                        if ($doubleSlashIdx === false && $slashAsteriskIdx !== false) {
+						if ($doubleSlashIdx < $slashAsteriskIdx)
+						{
+							// open first
+							$slashAsteriskIdx = false;
+						}
+						else
+						{
+							// close first
+							$doubleSlashIdx = false;
+						}
+					}
 
-                            $isInComment = true;
+					// double slash '//'
+					if ($doubleSlashIdx !== false)
+					{
+						$bareLine = substr($line, 0, $doubleSlashIdx);
+					}
+					else
+					{
+						// lines comment found '/*'
+						if ($doubleSlashIdx === false && $slashAsteriskIdx !== false)
+						{
 
-                            $bareLine = substr($line, 0, $slashAsteriskIdx);
-                            $behindLine = substr($line, $slashAsteriskIdx + 2);
-                            $bareLine .= $this->removeCommentPHP($behindLine, $isInComment);
-                        }
-                    }
-                }
+							$isInComment = true;
 
-            } else {
-                //--- Inside a '/*' comment
+							$bareLine   = substr($line, 0, $slashAsteriskIdx);
+							$behindLine = substr($line, $slashAsteriskIdx + 2);
+							$bareLine   .= $this->removeCommentPHP($behindLine, $isInComment);
+						}
+					}
+				}
 
-                $bareLine = '';
+			}
+			else
+			{
+				//--- Inside a '/*' comment
 
-                $asteriskSlash = '*/';
-                $asteriskSlashIdx = strpos($line, $asteriskSlash);
+				$bareLine = '';
 
-                // end found ?
-                if ($asteriskSlashIdx !== false) {
+				$asteriskSlash    = '*/';
+				$asteriskSlashIdx = strpos($line, $asteriskSlash);
 
-                    $isInComment = false;
+				// end found ?
+				if ($asteriskSlashIdx !== false)
+				{
 
-                    // Keep end of string for further checks
-                    $behindLine = substr($line, $asteriskSlashIdx + 2);
-                    $bareLine    .= $this->removeCommentPHP($behindLine, $isInComment);
-                }
-            }
-        } catch (\RuntimeException $e) {
-            $OutTxt = '';
-            $OutTxt .= 'Error executing removeCommentPHP: "' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+					$isInComment = false;
 
-            print ($OutTxt);
-        }
+					// Keep end of string for further checks
+					$behindLine = substr($line, $asteriskSlashIdx + 2);
+					$bareLine   .= $this->removeCommentPHP($behindLine, $isInComment);
+				}
+			}
+		}
+		catch (\RuntimeException $e)
+		{
+			$OutTxt = '';
+			$OutTxt .= 'Error executing removeCommentPHP: "' . '<br>';
+			$OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
 
-        return $bareLine;
-    }
+			print ($OutTxt);
+		}
 
-    /**
-     *
-     * Attention brackets in text PHP/C++/Python not supported yet. Example:
-     *    $logOptions['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-     *
-     * @param string $inLine
-     * @return bool
-     */
-    private function checkBracketlLevel(string $inLine): bool
-    {
-        $isChanged = false;
+		return $bareLine;
+	}
 
-        $line = trim($inLine);
+	/**
+	 *
+	 * Attention brackets in text PHP/C++/Python not supported yet. Example:
+	 *    $logOptions['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+	 *
+	 * @param   string  $inLine
+	 *
+	 * @return bool
+	 */
+	private function checkBracketLevel(string $inLine): bool
+	{
+		$isChanged = false;
 
-        //--- check for bracket positions ---------------------------------------
+		$line = trim($inLine);
 
-        $openIdx = strpos($line, '{');
-        $closeIdx = strpos($line, '}');
+		//--- check for bracket positions ---------------------------------------
 
-        // One or both comment types are present
-        if ($openIdx !== false || $closeIdx !== false) {
+		$openIdx  = strpos($line, '{');
+		$closeIdx = strpos($line, '}');
 
-            $isChanged = true;
+		// One or both comment types are present
+		if ($openIdx !== false || $closeIdx !== false)
+		{
 
-            // both in one line => set later one to false
-            if ($openIdx !== false && $closeIdx !== false) {
+			$isChanged = true;
 
-                if ($openIdx < $closeIdx) {
-                    // open first
-                    $closeIdx = false;
-                } else {
-                    // close first
-                    $openIdx = false;
-                }
-            }
+			// both in one line => set later one to false
+			if ($openIdx !== false && $closeIdx !== false)
+			{
 
-            // open '{'
-            if ($openIdx !== false) {
-                $this->depthCount++;
+				if ($openIdx < $closeIdx)
+				{
+					// open first
+					$closeIdx = false;
+				}
+				else
+				{
+					// close first
+					$openIdx = false;
+				}
+			}
 
-                $bareLine = substr($line, 0, $openIdx);
-                $behindLine = substr($line, $openIdx + 1);
-                $this->checkBracketlLevel($behindLine);
-            } else {
-                // close '}'
-                $this->depthCount--;
+			// open '{'
+			if ($openIdx !== false)
+			{
+				$this->depthCount++;
 
-                $bareLine = substr($line, 0, $closeIdx);
-                $behindLine = substr($line, $closeIdx + 1);
-                $this->checkBracketlLevel($behindLine);
-            }
+				$bareLine   = substr($line, 0, $openIdx);
+				$behindLine = substr($line, $openIdx + 1);
+				$this->checkBracketLevel($behindLine);
+			}
+			else
+			{
+				// close '}'
+				$this->depthCount--;
 
-            if ($this->depthCount < 0) {
+				$bareLine   = substr($line, 0, $closeIdx);
+				$behindLine = substr($line, $closeIdx + 1);
+				$this->checkBracketLevel($behindLine);
+			}
 
-                print (" !!! ==> negative bracket '0' count in Line: " . $this->lineNumber . " !!!" . PHP_EOL);
-            }
-        }
+			if ($this->depthCount < 0)
+			{
 
-        return $isChanged;
-    }
+				print (" !!! ==> negative bracket '0' count in Line: " . $this->lineNumber . " !!!" . PHP_EOL);
+			}
+		}
 
-    private function checkInsideFunction(string $inLine)
-    {
+		return $isChanged;
+	}
 
-        $line = trim($inLine);
+	private function checkInsideFunction(string $inLine)
+	{
+		$line = trim($inLine);
 
-        $isFunction = strpos($line, ' function ');
-        $close = strpos($line, '}');
+		$this->isFunctionStartLine = false;
 
-        // already back to base level on last bracket level check
-        if ($close !== false && $this->depthCount == 1) {
-            $this->isInsideFunction = false;
-        }
+		// ToDo:  class active -> depth +1 ? ==> not active ?
+		if ($this->depthCount == $this->functionDepth)
+		{
+			//--- start of function --------------------------------
 
-        // ToDO:  class active -> depth +1 ? ==> not active ?
-        if ($isFunction !== false && $this->depthCount == 1) {
-            $this->isInsideFunction = false;
-        }
-    }
+			$isFunctionStartLine = $this->isFunctionStart($inLine);
 
-    private function checkInPreFunctionComment(string $inLine)
-    {
+			if ($isFunctionStartLine)
+			{
+				$this->isInsideFunction = true;
+			}
 
-        $line = trim($inLine);
+			$this->isFunctionStartLine = $isFunctionStartLine;
+		}
 
-        $open = strpos($line, '/**');
-        $close = strpos($line, '*/');
+		// End with fall back (lower)
+		if ($this->depthCount <= $this->functionDepth)
+		{
+			//--- end of function --------------------------------
 
-        // ToDO:  class active -> depth +1 ? ==> not active ?
-        if ($open !== false && $this->depthCount == 1) {
-            $this->isInPreFunctionComment = true;
-        }
+			$isCloseBracket = strpos($line, '}');
 
-        // does even close line: /**/
-        if ($close !== false) {
-            $this->isInPreFunctionComment = false;
-        }
-    }
+			// already back to base level on last bracket level check
+			if ($isCloseBracket && $this->depthCount == $this->functionDepth)
+			{
+				$this->isInsideFunction = false;
+			}
+		}
+
+		// inside function
+		if ($this->isInsideFunction)
+		{
+			if ($this->depthCount == ($this->functionDepth + 1))
+			{
+				$this->isFunctionReturnLine = $this->isFunctionReturn($inLine);
+			}
+		}
+	}
+
+	private function checkInPreFunctionComment(string $inLine)
+	{
+
+		$line = trim($inLine);
+
+		//--- Start of pre function comment --------------------------------
+
+		$isOpenPreComment = strpos($line, '/**');
+
+		// ToDO:  class active -> depth +1 ? ==> not active ?
+		if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)
+		{
+			$this->isInPreFunctionComment    = true;
+			$this->isPreFuncCommentStartLine = true;
+		} else {
+			$this->isPreFuncCommentStartLine = false;
+		}
+
+		//--- end of pre function comment --------------------------------
+
+		$isCloseComment = strpos($line, '*/');
+
+		// does even isCloseComment line: /**/
+		if ($isCloseComment !== false)
+		{
+			$this->isInPreFunctionComment = false;
+		}
+	}
+
+	private function isFunctionStart(string $bareLine)
+	{
+		$isFunctionStartLine = false;
+
+//		// public / protected / ... ???
+		if (str_contains($bareLine, 'function'))
+		{
+//			$isFunctionStartLine = true;
+
+			$exp = "/function/i";
+
+			$isFunctionStartLine = (bool) preg_match($exp, $bareLine);
+			// $isFunctionStartLine = $isFunctionStartLine;
+		}
+
+		return $isFunctionStartLine;
+	}
+
+	private function isFunctionReturn(string $inLine)
+	{
+		$isFunctionReturnLine = false;
+
+		if (str_contains($inLine, 'return'))
+		{
+//		// public / protected / ... ???
+			if (str_starts_with(trim($inLine), 'return'))
+			{
+				$isFunctionReturnLine = true;
+			}
+		}
+
+		return $isFunctionReturnLine;
+	}
+
+	private function isInClass(string $inLine)
+	{
+		$isInClass = false;
+
+		if (str_starts_with(trim($inLine), 'class'))
+		{
+			$isInClass = true;
+		}
+
+		return $isInClass;
+	}
 
 
 }

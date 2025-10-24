@@ -167,14 +167,14 @@ class forceCreationDate extends baseExecuteTasks
 //            // prepare one string
 //            $fileLines = implode("\n", $outLines);
 //
-//            // write to file
+//            // on change write to file
 //            //$isSaved = File::write($manifestFileName, $fileLines);
 //	        $isSaved = file_put_contents($manifestFileName, $fileLines);
 
 //            // prepare one string
 //            $fileLines = implode("", $outLines);
 //
-//            // write to file
+//            // on change write to file
 //            //$isSaved = File::write($manifestFileName, $fileLines);
 //	        $isSaved = file_put_contents($manifestFileName, $fileLines);
 

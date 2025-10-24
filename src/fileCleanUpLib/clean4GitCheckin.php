@@ -138,8 +138,8 @@ class clean4GitCheckin extends baseExecuteTasks
             [$outLines, $isExchanged] = $this->trimLines($outLines, $isExchanged);
             [$outLines, $isExchanged] = $this->tab2spacesLines($outLines, $isExchanged);
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {

@@ -120,7 +120,6 @@ class fileSinceDataBase implements fileSinceDataInterface
                 }
 
             }
-
         }
 
         return $exchangedLine;

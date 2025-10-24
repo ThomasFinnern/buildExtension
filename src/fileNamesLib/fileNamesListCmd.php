@@ -51,7 +51,7 @@ variables
 //$tasksLine .= "task:createFilenamesList"
 //    . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /isNoRecursion=true'
-//    . ' /includeExt = "php"'
+//    . ' /includeExt="php"'
 ////    . ' /includeExt="xmp"'
 ////    . ' /includeExt="ini"'
 ////    . ' /includeExt="ts"'

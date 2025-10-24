@@ -128,7 +128,7 @@ class alignUseLinesFile
 
             $this->oFileUseData->applyBackslashType();
 
-            // write to file
+            // on change write to file
             if ($this->oFileUseData->isChanged() == true) {
 
                 $outLines = $this->oFileUseData->fileLines();

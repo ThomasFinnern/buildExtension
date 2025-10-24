@@ -149,8 +149,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -299,8 +299,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             } else {
                 // insert if not found
@@ -385,8 +385,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -446,8 +446,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -525,8 +525,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -604,8 +604,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -688,8 +688,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -761,8 +761,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 }
             }
 
-            // write to file
-            if ($isExchanged == true) {
+            // on change write to file
+            if ($isExchanged) {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch

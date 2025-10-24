@@ -1,19 +1,19 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileSinceLib;
+namespace Finnern\BuildExtension\src\fileMissingPreFuncComment;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
+use Finnern\BuildExtension\src\fileMissingPreFuncComment\indicateAll_MissPreCommentInFiles;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 
 $HELP_MSG = <<<EOT
     >>>
-    class exchangeAll_sinceInFiles
+    command 
 
-    Reads file, exchanges all @since lines to expected format " * @since v.mm 
+    Reads file, adds "/** ToDo: Add function header here as additional line" when "pre function comment"  not found
     <<<
     EOT;
 
@@ -37,13 +37,14 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:exchangeAll_sinceInFiles'
+$tasksLine = 'task:indicateAll_MissingPreFuncCommentInFiles'
     . ' /callerProjectId=RSG2'
-    . ' /srcRoot="../testData"'
+    . ' /srcRoot="../../testData"'
     . ' /includeExt="php"'
-    . ' /fileName = "../../testData/sinceTestFile.php"'
+//    . ' /fileName = "../../testData/xxxTestFile.php"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    . ' /isNoRecursion=true'//    . ' /s='
+    . ' /isNoRecursion=true'
+	. ' /isLogOnly=true '
 ;
 
 //$tasksLine = "";
@@ -57,12 +58,12 @@ $isNoRecursion = true;
 //$this->license = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
 $yearText = '';
 
-//$taskFile="./exchangeAll_sinceInFiles.tsk";
+//$taskFile="./indicateAll_MissPreHeaderInFiles.tsk";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
 // $taskFile = "";
-// $taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/exchangeAll_sinceInFiles.tsk';
-//**$taskFile = '../tsk_file_examples/exchangeAll_sinceInFiles.tsk';
+// $taskFile = '../../J_LangMan4ExtDevProject/.buildPHP/indicateAll_MissPreHeaderInFiles.tsk';
+//**$taskFile = '../tsk_file_examples/indicateAll_MissPreHeaderInFiles.tsk';
 //$taskFile = '../tsk_file_examples/alignAll_use_Lines_JG.tsk';
 
 //$optionFile = '';
@@ -153,7 +154,7 @@ if (!empty ($taskFile)) {
     //}
 }
 
-print ($task->text());
+print ($testTask->text());
 
 /*--------------------------------------------------
    execute task
@@ -161,7 +162,7 @@ print ($task->text());
 
 if (empty ($hasError)) {
 
-    $oAlignAll_use_LinesLines = new exchangeAll_sinceInFiles();
+    $oAlignAll_use_LinesLines = new indicateAll_MissPreCommentInFiles();
 
     //--- assign tasks ---------------------------------
 

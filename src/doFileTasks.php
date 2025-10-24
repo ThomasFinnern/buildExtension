@@ -13,6 +13,7 @@ use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
+use Finnern\BuildExtension\src\fileMissingPreFuncComment\indicateAll_MissPreCommentInFiles;
 use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
@@ -286,8 +287,14 @@ class doFileTasks
                         $hasError = $this->actTask->execute();
                         break;
 
-                    case strtolower('exchangeAll_sinceInFiles_RSG2'):
+                    case strtolower('exchangeAll_sinceInFiles'):
                         $this->actTask = $this->createTask(new exchangeAll_sinceInFiles (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('indicateAll_MissingPreFuncCommentInFiles'):
+                        $this->actTask = $this->createTask(new indicateAll_MissPreCommentInFiles (), $textTask);
                         // run task
                         $hasError = $this->actTask->execute();
                         break;

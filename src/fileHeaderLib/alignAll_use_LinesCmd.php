@@ -40,7 +40,7 @@ variables
 $tasksLine = ' task:alignAll_use_Lines'
     . ' /callerProjectId=RSG2'
     . ' /srcRoot="../testData"'
-    . ' /includeExt = "php"'
+    . ' /includeExt="php"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
     . ' /isNoRecursion=true'
 //    . ' /s='

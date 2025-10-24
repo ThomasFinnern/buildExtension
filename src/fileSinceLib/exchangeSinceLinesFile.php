@@ -158,8 +158,8 @@ class exchangeSinceLinesFile
                 $outLines[] = $nextLine;
             }
 
-            // write to file
-            if ($this->oSinceFileData->isChanged() == true) {
+            // on change write to file
+            if ($this->oSinceFileData->isChanged()) {
 
                 //$outLines = $this->oSinceFileData->fileLines();
 

@@ -6,5 +6,5 @@ task:indicateAll_MissingPreFuncCommentInFiles
     // /fileName="../testData/sinceTestFile.php"
 /excludeFolderList=excluded
 /excludeFolderList=postponed
-    // /isLogOnly=true
+/isLogOnly=true
 /isLogDev=true

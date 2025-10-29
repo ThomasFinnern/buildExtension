@@ -1,9 +1,9 @@
 @ECHO OFF
-REM indicateAll_MissingPreFuncCommentInFiles.bat
+REM indicateAll_MissingPreFuncCommentInFiles_log.bat
 REM
 CLS
 
-ECHO PHP doFileTasksCmd.php indicateAll_MissingPreFuncCommentInFiles.tsk
+ECHO PHP doFileTasksCmd.php indicateAll_MissingPreFuncCommentInFiles_log.tsk
 ECHO.
 
 REM Path for calling
@@ -32,12 +32,12 @@ set OptionFile=
 ECHO ----------------------------------------------
 ECHO.
 
-pushd  ..\fileSinceLib
+pushd  ..\
 REM pushd  ..\
 ECHO Path: %cd% 
 
-echo --- "%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/indicateAll_MissingPreFuncCommentInFiles.tsk %1
-"%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/indicateAll_MissingPreFuncCommentInFiles.tsk %1
+echo --- "%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/indicateAll_MissingPreFuncCommentInFiles_log.tsk %1
+"%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/indicateAll_MissingPreFuncCommentInFiles_log.tsk %1
 
 popd
 

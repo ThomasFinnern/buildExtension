@@ -20,13 +20,15 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks
     public bool $isForceOverwrite = false;
     public bool $isForceVersion = false;
     public bool $isLogOnly = false;
-    public string $versionId = "xx.xx.xx";
+	private bool $isLogDev = false;
+
+	public string $versionId = "xx.xx.xx";
 
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
+	public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
         try {
@@ -40,6 +42,7 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks
             $this->isForceOverwrite = false;
             $this->isForceVersion = false;
             $this->isLogOnly = false;
+            $this->isLogDev = false;
             $this->versionId = "xx.xx.xx";
 
             //--- use file lines for task ----------------------
@@ -69,29 +72,23 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks
         if (!$isOptionConsumed) {
             switch (strtolower($option->name)) {
 
-                case strtolower('isForceOverwrite'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isForceOverwrite = (bool)$option->value;
-                    $isOptionConsumed = true;
-                    break;
-
-                case strtolower('isForceVersion'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isForceVersion = (bool)$option->value;
-                    $isOptionConsumed = true;
-                    break;
-
-                case strtolower('isLogOnly'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isLogOnly = (bool)$option->value;
-                    $isOptionConsumed = true;
-                    break;
-
-                case strtolower('versionId'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->versionId = $option->value;
-                    $isOptionConsumed = true;
-                    break;
+//                case strtolower('isLogOnly'):
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+//                    $this->isLogOnly = (bool)$option->value;
+//                    $isOptionConsumed = true;
+//                    break;
+//
+//                case strtolower('isLogDev'):
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+//                    $this->isLogDev = (bool)$option->value;
+//                    $isOptionConsumed = true;
+//                    break;
+//
+//                case strtolower('versionId'):
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+//                    $this->versionId = $option->value;
+//                    $isOptionConsumed = true;
+//                    break;
 
             } // switch
         }
@@ -126,8 +123,7 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks
 //        // tell factory to use classes
 //        $this->missPreHeaderInFile->assignOptionCallerProjectId($this->callerProjectId);
 
-        $this->missPreHeaderInFile->assignOptions($this->isForceOverwrite,
-            $this->isForceVersion, $this->isLogOnly, $this->versionId);
+//        $this->missPreHeaderInFile->assignOptions($this->isLogOnly, $this->isLogDev);
 
         //--- iterate over all files -------------------------------------
 
@@ -135,7 +131,7 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
-            $this->missPreHeaderInFile->indicateMissPreHeaderInLines($fileName->srcPathFileName, $this->versionId);
+            $this->missPreHeaderInFile->indicateMissPreHeaderInLines($fileName->srcPathFileName);
         }
 
         return 0;

@@ -26,6 +26,7 @@ class indicateAll_MissPreCommentInFile
 //    private string $callerProjectId = "";
 
 	public bool $isLogOnly = false;
+	public bool $isLogDev = false;
 
 	public bool $isChanged = false;
 
@@ -88,6 +89,17 @@ class indicateAll_MissPreCommentInFile
 		{
 			switch (strtolower($option->name))
 			{
+				case strtolower('isLogOnly'):
+					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+					$this->isLogOnly  = (bool) $option->value;
+					$isOptionConsumed = true;
+					break;
+				case strtolower('isLogDev'):
+					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+					$this->isLogDev   = (bool) $option->value;
+					$isOptionConsumed = true;
+					break;
+
 				case strtolower('filename'):
 					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 					$this->fileName   = $option->value;
@@ -108,7 +120,7 @@ class indicateAll_MissPreCommentInFile
 //    }
 
 	// ToDo: force overwrite
-	public function indicateMissPreHeaderInLines(string $fileName, string $versionId): int
+	public function indicateMissPreHeaderInLines(string $fileName): int
 	{
 
 		$hasError   = 0;
@@ -140,9 +152,10 @@ class indicateAll_MissPreCommentInFile
 			   Attention: may not detect all situations
 			*/
 
-			$isPreCommentFound = false;
-			$lastPreCommentLineNbr = 0;
-			$lastReturnLineNbr = 0;
+			$isPreCommentFound       = false;
+			$isInsidePreCommentFound = false;
+			$lastPreCommentLineNbr   = 0;
+			$lastReturnLineNbr       = 0;
 
 			$outLines = [];
 			foreach ($inLines as $line)
@@ -154,29 +167,70 @@ class indicateAll_MissPreCommentInFile
 				$oScan4Missing->nextLine($line);
 
 				// pre comment may be found
-				if (!$isPreCommentFound)
+				if ($oScan4Missing->isInPreFunctionComment)
 				{
-					if ($oScan4Missing->isInPreFunctionComment)
+					if ($oScan4Missing->isPreFuncCommentStartLine)
 					{
-						print ("Pre function comment in line: " . $oScan4Missing->lineNumber . PHP_EOL);
-						$lastPreCommentLineNbr = $oScan4Missing->lineNumber;
-
 						$isPreCommentFound = true;
+						$isInsidePreCommentFound = true;
+
+						if ($this->isLogDev)
+						{
+							print ("Pre function comment start in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+						}
 					}
+
+					$lastPreCommentLineNbr = $oScan4Missing->lineNumber;
+				}
+
+				if ($isInsidePreCommentFound)
+				{
+					if ($oScan4Missing->isPreFuncCommentEndLine)
+					{
+						$isInsidePreCommentFound = false;
+
+						if ($this->isLogDev)
+						{
+							print ("Pre function comment end in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+						}
+					}
+
 				}
 
 				// Debug
 				// end of 'function' near => return ?
 				if ($oScan4Missing->isFunctionReturnLine)
 				{
-					print ("Function return in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+					if ($this->isLogDev)
+					{
+						print ("Function return in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+					}
+
 					// Debug purposes
 					$lastReturnLineNbr = $oScan4Missing->lineNumber;
+				}
+
+				// Debug
+				// end of 'function' near => return ?
+				if ($oScan4Missing->isFunctionEndLine)
+				{
+					if ($this->isLogDev)
+					{
+						print ("Function end in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+					}
+
+					// Debug purposes
+//					$lastEndLineNbr = $oScan4Missing->lineNumber;
 				}
 
 				// start of 'function' detected ?
 				if ($oScan4Missing->isFunctionStartLine)
 				{
+
+					if ($this->isLogDev)
+					{
+						print ("Function start in line: " . $oScan4Missing->lineNumber . PHP_EOL);
+					}
 
 					if (!$isPreCommentFound)
 					{
@@ -184,7 +238,7 @@ class indicateAll_MissPreCommentInFile
 						$indicator  = "/** ToDo: Add function comment here */" . PHP_EOL;
 						$outLines[] = $indicator;
 
-						print (">>> Missing function comment in line: " . $oScan4Missing->lineNumber . " (" . $lastPreCommentLineNbr . ")". " !!!" . PHP_EOL);
+						print (">>> Missing function comment in line: " . $oScan4Missing->lineNumber . " (" . $lastPreCommentLineNbr . ")" . " !!!" . PHP_EOL);
 
 						$this->isChanged = true;
 					}
@@ -215,9 +269,11 @@ class indicateAll_MissPreCommentInFile
 		return $hasError;
 	}
 
-	public function assignOptions(bool $isForceOverwrite, bool $isForceVersion, bool $isLogOnly, string $versionId)
+	public function assignOptions(bool $isLogOnly, bool $isLogDev)
 	{
-		$this->isLogOnly = $isLogOnly;
+		// direct local assignment above
+//		$this->isLogOnly = $isLogOnly;
+//		$this->isLogDev = $isLogDev;
 	}
 
 }

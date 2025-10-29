@@ -44,7 +44,8 @@ $tasksLine = 'task:indicateAll_MissingPreFuncCommentInFiles'
 //    . ' /fileName = "../../testData/xxxTestFile.php"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
     . ' /isNoRecursion=true'
-	. ' /isLogOnly=true '
+	. ' /isLogOnly=true'
+	. ' /isLogDev=true '
 ;
 
 //$tasksLine = "";

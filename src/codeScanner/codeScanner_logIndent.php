@@ -8,65 +8,64 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
 
 /**
- * Scans code given line by line. It keeps several states
- *  - bracket depth
- *  - inside function
- *  - inside comment
- *  - inside pre function comments
+ * Scans code given line by line.
+ * The class prints a log line on each changed  bracket level '{' '}'
+ *
+ * It keeps state
+ *  - last bracket depth
+ *
+ * ToDo: Actually defined for one file but may be extended to more files ?
+ * ToDo: Collect prints and write on demand and/or return log lines
+ *
  *
  */
 class codeScanner_logIndent extends baseExecuteTasks
-    implements executeTasksInterface
-    // codeScannerByLine
+	implements executeTasksInterface
+	// codeScannerByLine
 {
-//    protected bool $isInCommentSection = false; // Section -> /*...*/
-//    public bool $isInPreFunctionComment = false; // -> /**...*/ .. function
-//    protected bool $isInsideFunction = false;
-//
-//    public int $lineNumber = 0; // 1...
-//    public int $depthCount = 0; // 0... depth count
 
-    // public string $bracketStack ='';
+	private bool $isDummy = false; // testflag may be changed
+	private codeScannerByLine $scanCodeLines;
+	private string $fileName;
+	private int $lastDepthCount = 0;
 
-    private bool $isDummy;
-    private codeScannerByLine $scanCodeLines;
-    private string $fileName;
-    private int $lastDepthCount = 0;
+	public function __construct()
+	{
+		parent::__construct();
+		print ("codeScanner_logIdent __construct: " . PHP_EOL);
 
-    public function __construct()
-    {
-        parent::__construct();
-        print ("codeScanner_logIdent __construct: " . PHP_EOL);
+		$this->init();
+	}
 
-        $this->init ();
-    }
+	protected function init()
+	{
+		$this->fileNamesList = new fileNamesList();
+	}
 
-    protected function init()
-    {
-        $this->fileNamesList = new fileNamesList();
-    }
+	/**
+	 * @param   option  $option
+	 * * @return bool
+	 */
+	public function assignOption(option $option): bool
+	{
+		$isOptionConsumed = parent::assignOption($option);
 
-    /**
-     * @param option $option
-     * * @return bool
-     */
-    public function assignOption(option $option): bool
-    {
-        $isOptionConsumed = parent::assignOption($option);
-
-        if (!$isOptionConsumed) {
+		if (!$isOptionConsumed)
+		{
 
 //            $isOptionConsumed = $this->exchangeSinceLinesFile->assignOption($option);
-        }
+		}
 
-        if (!$isOptionConsumed) {
-            switch (strtolower($option->name)) {
+		if (!$isOptionConsumed)
+		{
+			switch (strtolower($option->name))
+			{
 
-                case strtolower('isDummy'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isDummy = (bool)$option->value;
-                    $isOptionConsumed = true;
-                    break;
+				case strtolower('isDummy'):
+					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+					$this->isDummy    = (bool) $option->value;
+					$isOptionConsumed = true;
+					break;
 
 //                ==>    $this->fileNamesList->srcRoot
 //                case strtolower('srcRoot'):
@@ -75,67 +74,83 @@ class codeScanner_logIndent extends baseExecuteTasks
 //                    $isOptionConsumed = true;
 //                    break;
 
-                case strtolower('fileName'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->fileName = (string)$option->value;
-                    $isOptionConsumed = true;
-                    break;
+				case strtolower('fileName'):
+					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+					$this->fileName   = (string) $option->value;
+					$isOptionConsumed = true;
+					break;
 
-            } // switch
-        }
+			} // switch
+		}
 
-        return $isOptionConsumed;
-    }
+		return $isOptionConsumed;
+	}
 
-    public function nextLine($line)
-    {
+	public function nextLine($line)
+	{
 
-        $lastDepthCount = $this->lastDepthCount;
+		$lastDepthCount = $this->lastDepthCount;
 
-        $this->scanCodeLines->nextLine($line);
+		$this->scanCodeLines->nextLine($line);
 
-        $isChanged = $this->scanCodeLines->isBracketLevelChanged;
-        $newDepthCount = $this->scanCodeLines->depthCount;
-        $actLineNumber = $this->scanCodeLines->lineNumber;
+		$isChanged     = $this->scanCodeLines->isBracketLevelChanged;
+		$newDepthCount = $this->scanCodeLines->depthCount;
+		$actLineNumber = $this->scanCodeLines->lineNumber;
 
-        if ($isChanged) {
-            if ($lastDepthCount != $newDepthCount) {
+		if ($isChanged)
+		{
+			if ($lastDepthCount != $newDepthCount)
+			{
 
-                // next level
-                if ($lastDepthCount < $newDepthCount) {
-                    if ($lastDepthCount > -1) {
-                        print (str_repeat(' ', 3 * $lastDepthCount) . " { "
-                            . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                    } else {
-                        print ($lastDepthCount . ":{ "
-                            . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                    }
-                } else {
-                    if ($newDepthCount > -1) {
-                        print (str_repeat(' ', 3 * $newDepthCount) . " } "
-                            . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                    } else {
-                        print ($newDepthCount . ":{ "
-                            . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                    }
-                }
+				// next level
+				if ($lastDepthCount < $newDepthCount)
+				{
+					if ($lastDepthCount > -1)
+					{
+						print (str_repeat(' ', 3 * $lastDepthCount) . " { "
+							. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+					}
+					else
+					{
+						print ($lastDepthCount . ":{ "
+							. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+					}
+				}
+				else
+				{
+					if ($newDepthCount > -1)
+					{
+						print (str_repeat(' ', 3 * $newDepthCount) . " } "
+							. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+					}
+					else
+					{
+						print ($newDepthCount . ":{ "
+							. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+					}
+				}
 
-                $this->lastDepthCount = $this->scanCodeLines->depthCount;
-            } else {
-                if ($newDepthCount > -1) {
-                    print (str_repeat(' ', 3 * $newDepthCount) . " {...}/}...{ "
-                        . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                } else {
-                    print ($newDepthCount . ":{ "
-                        . $actLineNumber . '/' . $newDepthCount . PHP_EOL);
-                }
-            }
-        }
-    }
+				$this->lastDepthCount = $this->scanCodeLines->depthCount;
+			}
+			else
+			{
+				if ($newDepthCount > -1)
+				{
+					print (str_repeat(' ', 3 * $newDepthCount) . " {...}/}...{ "
+						. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+				}
+				else
+				{
+					print ($newDepthCount . ":{ "
+						. $actLineNumber . '/' . $newDepthCount . PHP_EOL);
+				}
+			}
+		}
+	}
 
-    public function execute(): int
-    {
-        //--- collect files ---------------------------------------
+	public function execute(): int
+	{
+		//--- collect files ---------------------------------------
 
 //        // files not set already
 //        if (count($this->fileNamesList->fileNames) == 0) {
@@ -172,43 +187,47 @@ class codeScanner_logIndent extends baseExecuteTasks
 //            $this->exchangeSinceLinesFile->exchangeSinceLines($fileName->srcPathFileName, $this->versionId);
 //        }
 
-        $filePathName = $this->fileNamesList->srcRoot . '/' . $this->fileName;
+		$filePathName = $this->fileNamesList->srcRoot . '/' . $this->fileName;
 
-        if (is_file($filePathName)) {
+		if (is_file($filePathName))
+		{
 
-            $inLines = file($filePathName);
+			$inLines = file($filePathName);
 
-            $this->scanCodeLines = new codeScannerByLine();
+			$this->scanCodeLines = new codeScannerByLine();
 
-            foreach ($inLines as $line) {
+			foreach ($inLines as $line)
+			{
 
-                $this->nextLine($line);
+				$this->nextLine($line);
 
-            }
-        } else {
-            print ('!!! File for ident log not found: "' . $filePathName . '" !!!' . PHP_EOL);
-        }
+			}
+		}
+		else
+		{
+			print ('!!! File for ident log not found: "' . $filePathName . '" !!!' . PHP_EOL);
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 
-    public function text(): string
-    {
-        $OutTxt = "------------------------------------------" . PHP_EOL;
-        $OutTxt .= "--- exchangeAll_sinceInFiles ---" . PHP_EOL;
+	public function text(): string
+	{
+		$OutTxt = "------------------------------------------" . PHP_EOL;
+		$OutTxt .= "--- codeScanner_logIndent ---" . PHP_EOL;
 
 
-        $OutTxt .= "Not defined yet " . PHP_EOL;
+		$OutTxt .= "Not defined yet " . PHP_EOL;
 
-        /**
-         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
-         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
-         * /**/
+		/**
+		 * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+		 * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+		 * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+		 * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+		 * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
+		 * /**/
 
-        return $OutTxt;
-    }
+		return $OutTxt;
+	}
 
 } // class

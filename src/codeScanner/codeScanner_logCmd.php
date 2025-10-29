@@ -136,7 +136,7 @@ $start = commandLineLib::print_header($options, $inArgs);
 
 //--- create class object ---------------------------------
 
-$oDoFileTasks = new codeScanner_log();
+$oDoFileTasks = new codeScanner_logTasks();
 $tasks = new tasks();
 
 //--- extract tasks from string or file ---------------------------------

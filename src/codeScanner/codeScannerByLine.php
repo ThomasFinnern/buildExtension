@@ -3,13 +3,15 @@
 namespace Finnern\BuildExtension\src\codeScanner;
 
 /**
- * Scans code given line by line. It keeps several states
+ * Scans code given line by line.
+ *
+ * It keeps several states
  *  - bracket depth
  *  - inside function
  *  - inside comment
  *  - inside pre function comments
  *
- * ToDo:
+ * It does no interpret then though
  */
 class codeScannerByLine
 {
@@ -18,8 +20,10 @@ class codeScannerByLine
 	public bool $isInsideFunction = false;
 
 	public bool $isFunctionStartLine = false;
+	public bool $isFunctionEndLine = false;
 	public bool $isFunctionReturnLine = false;
 	public bool $isPreFuncCommentStartLine = false;
+	public bool $isPreFuncCommentEndLine = false;
 
 	// ToDo: public bool $isAfterNamespace = false;
 	// ToDo: public bool $isAfterUse = false;
@@ -40,34 +44,47 @@ class codeScannerByLine
 
 	protected function init()
 	{
-		$this->isInCommentSection       = false; // Section -> /*...*/
-		$this->isInPreFunctionComment   = false; // -> /**...*/ .. function
-		$this->isInsideFunction         = false;
-		$this->isFunctionStartLine      = false;
-		$this->isFunctionReturnLine     = false;
-		$this->isPreFuncCommentStartLine = false;
-		$this->isInClass                = false;
+		$this->isInCommentSection        = false; // Section -> /*...*/
+		$this->isInPreFunctionComment    = false; // -> /**...*/ .. function
+		$this->isInsideFunction          = false;
+		$this->isInClass                 = false;
+
+		$this->clearLineFlags ();
 
 		$this->lineNumber = 0; // 1...
 		$this->depthCount = 0; // 0... depth count
 
 	}
 
+	/**
+	 * Init single line flags
+	 * @return void
+	 */
+	protected function clearLineFlags()
+	{
+		$this->isFunctionStartLine       = false;
+		$this->isFunctionEndLine         = false;
+		$this->isFunctionReturnLine      = false;
+		$this->isPreFuncCommentStartLine = false;
+		$this->isPreFuncCommentEndLine   = false;
+	}
+
 	public function nextLine($line): string
 	{
-
 		$this->lineNumber++;
 
-		// WIP: actual pre comment and just inside function , more to code ;-)
+		//--- reset single line states -------------------------------------------------
 
-		//--- remove comments --------------
+		$this->clearLineFlags ();
+
+		//--- remove comments -------------------------------------------------
 
 		$bareLine = $this->removeCommentPHP($line, $this->isInCommentSection);
 
-		$this->isBracketLevelChanged = $this->checkBracketLevel($bareLine); // $depthCount
-
 		if (!$this->isInCommentSection)
 		{
+			//--- check inside a function states  -------------------------------------------------
+
 			$this->checkInsideFunction($bareLine);
 
 			if (!$this->isInClass)
@@ -81,10 +98,14 @@ class codeScannerByLine
 			}
 		}
 
+		//--- check pre function comment  -------------------------------------------------
+
 		if ($this->depthCount == $this->functionDepth)
 		{
 			$this->checkInPreFunctionComment($line);
 		}
+
+		$this->isBracketLevelChanged = $this->checkBracketLevel($bareLine); // $depthCount
 
 		return $bareLine;
 	}
@@ -226,17 +247,22 @@ class codeScannerByLine
 			// both in one line => set later one to false
 			if ($openIdx !== false && $closeIdx !== false)
 			{
+//				// => set later one to false
+//				if ($openIdx < $closeIdx)
+//				{
+//					// open first
+//					$closeIdx = false;
+//				}
+//				else
+//				{
+//					// close first
+//					$openIdx = false;
+//				}
 
-				if ($openIdx < $closeIdx)
-				{
-					// open first
-					$closeIdx = false;
-				}
-				else
-				{
-					// close first
-					$openIdx = false;
-				}
+				// Attention more than 3 open/close can't be detected actually
+				// depth should be the same
+				$openIdx = false;
+				$closeIdx = false;
 			}
 
 			// open '{'
@@ -248,9 +274,10 @@ class codeScannerByLine
 				$behindLine = substr($line, $openIdx + 1);
 				$this->checkBracketLevel($behindLine);
 			}
-			else
+
+			// close '}'
+			if ($closeIdx !== false)
 			{
-				// close '}'
 				$this->depthCount--;
 
 				$bareLine   = substr($line, 0, $closeIdx);
@@ -272,8 +299,6 @@ class codeScannerByLine
 	{
 		$line = trim($inLine);
 
-		$this->isFunctionStartLine = false;
-
 		// ToDo:  class active -> depth +1 ? ==> not active ?
 		if ($this->depthCount == $this->functionDepth)
 		{
@@ -289,17 +314,25 @@ class codeScannerByLine
 			$this->isFunctionStartLine = $isFunctionStartLine;
 		}
 
-		// End with fall back (lower)
-		if ($this->depthCount <= $this->functionDepth)
+		// Debug
+		$isCloseBracket = strpos($line, '}') !== false;
+		if ($isCloseBracket)
+		{
+			$isCloseBracket = $isCloseBracket;
+		}
+
+		// End with fall back (lower)  (pre depth check. therefor -1
+		if ($this->depthCount-1 <= $this->functionDepth)
 		{
 			//--- end of function --------------------------------
 
-			$isCloseBracket = strpos($line, '}');
+			$isCloseBracket = strpos($line, '}') !== false;
 
 			// already back to base level on last bracket level check
-			if ($isCloseBracket && $this->depthCount == $this->functionDepth)
+			if ($isCloseBracket && $this->depthCount-1 == $this->functionDepth)
 			{
 				$this->isInsideFunction = false;
+				$this->isFunctionEndLine = true;
 			}
 		}
 
@@ -318,28 +351,38 @@ class codeScannerByLine
 
 		$line = trim($inLine);
 
-		//--- Start of pre function comment --------------------------------
-
-		$isOpenPreComment = strpos($line, '/**');
-
-		// ToDO:  class active -> depth +1 ? ==> not active ?
-		if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)
+		if (!$this->isInPreFunctionComment)
 		{
-			$this->isInPreFunctionComment    = true;
-			$this->isPreFuncCommentStartLine = true;
-		} else {
-			$this->isPreFuncCommentStartLine = false;
+			//--- Start of pre function comment --------------------------------
+
+			$isOpenPreComment = strpos($line, '/**') !== false;;
+
+			// ToDO:  class active -> depth +1 ? ==> not active ?
+			if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)
+			{
+				$this->isInPreFunctionComment    = true;
+				$this->isPreFuncCommentStartLine = true;
+			}
+			else
+			{
+				$this->isPreFuncCommentStartLine = false;
+			}
+
+		}
+		else
+		{
+			//--- End of pre function comment --------------------------------
+
+			$isCloseComment = strpos($line, '*/') !== false;
+
+			// does even isCloseComment line: /**/
+			if ($isCloseComment !== false)
+			{
+				$this->isInPreFunctionComment  = false;
+				$this->isPreFuncCommentEndLine = true;
+			}
 		}
 
-		//--- end of pre function comment --------------------------------
-
-		$isCloseComment = strpos($line, '*/');
-
-		// does even isCloseComment line: /**/
-		if ($isCloseComment !== false)
-		{
-			$this->isInPreFunctionComment = false;
-		}
 	}
 
 	private function isFunctionStart(string $bareLine)
@@ -351,7 +394,7 @@ class codeScannerByLine
 		{
 //			$isFunctionStartLine = true;
 
-			$exp = "/function/i";
+			$exp = "/function .*\(/i";
 
 			$isFunctionStartLine = (bool) preg_match($exp, $bareLine);
 			// $isFunctionStartLine = $isFunctionStartLine;

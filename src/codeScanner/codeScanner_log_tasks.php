@@ -12,6 +12,8 @@ use Finnern\BuildExtension\src\tasksLib\tasks;
 $HELP_MSG = <<<EOT
     >>>
     codeScanner_log class
+    
+    
 
     Calls other log tasks
     <<<
@@ -22,7 +24,8 @@ $HELP_MSG = <<<EOT
 Class codeScanner_log
 ================================================================================*/
 
-class codeScanner_log
+class codeScanner_logTasks // extends baseExecuteTasks
+	// implements executeTasksInterface
 {
 
     /**
@@ -205,7 +208,7 @@ class codeScanner_log
         return $OutTxt;
     }
 
-    public function extractTasksFromFile(mixed $taskFile) : codeScanner_log
+    public function extractTasksFromFile(mixed $taskFile) : codeScanner_logTasks
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromFile($taskFile));

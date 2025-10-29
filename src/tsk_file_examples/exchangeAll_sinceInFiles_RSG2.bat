@@ -3,7 +3,7 @@ REM exchangeAll_sinceInFiles_RSG2.bat
 REM
 CLS
 
-ECHO PHP exchangeAll_sinceInFilesCmd.php.php exchangeAll_sinceInFiles_RSG2.tsk
+ECHO PHP exchangeAll_sinceInFilesCmd.php exchangeAll_sinceInFiles_RSG2.tsk
 ECHO.
 
 REM Path for calling

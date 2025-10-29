@@ -1,9 +1,10 @@
 @ECHO OFF
+@ECHO OFF
 REM exchangeAll_sinceInFiles_JG.bat
 REM
 CLS
 
-ECHO PHP exchangeAll_sinceInFilesCmd.php.php exchangeAll_sinceInFiles_JG.tsk
+ECHO PHP exchangeAll_sinceInFilesCmd.php exchangeAll_sinceInFiles_JG.tsk
 ECHO.
 
 REM Path for calling

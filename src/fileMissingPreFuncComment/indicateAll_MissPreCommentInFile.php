@@ -156,6 +156,7 @@ class indicateAll_MissPreCommentInFile
 			$isInsidePreCommentFound = false;
 			$lastPreCommentLineNbr   = 0;
 			$lastReturnLineNbr       = 0;
+			$lastFunctionEndLineNbr  = 0;
 
 			$outLines = [];
 			foreach ($inLines as $line)
@@ -221,6 +222,7 @@ class indicateAll_MissPreCommentInFile
 
 					// Debug purposes
 //					$lastEndLineNbr = $oScan4Missing->lineNumber;
+                    $lastFunctionEndLineNbr = $oScan4Missing->lineNumber;
 				}
 
 				// start of 'function' detected ?
@@ -238,7 +240,8 @@ class indicateAll_MissPreCommentInFile
 						$indicator  = "/** ToDo: Add function comment here */" . PHP_EOL;
 						$outLines[] = $indicator;
 
-						print (">>> Missing function comment in line: " . $oScan4Missing->lineNumber . " (" . $lastPreCommentLineNbr . ")" . " !!!" . PHP_EOL);
+						print (">>> Missing function comment in line: " . $oScan4Missing->lineNumber
+                            . " (" . $lastFunctionEndLineNbr . '/' . $lastPreCommentLineNbr . ")" . " !!!" . PHP_EOL);
 
 						$this->isChanged = true;
 					}

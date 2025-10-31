@@ -399,9 +399,7 @@ class codeScannerByLine
 //		// public / protected / ... ???
 		if (str_contains($bareLine, 'function'))
 		{
-//			$isFunctionStartLine = true;
-
-			$exp = "/function .*\(/i";
+			$exp =   "/\s+function\s+.*\(/i";
 
 			$isFunctionStartLine = (bool) preg_match($exp, $bareLine);
 			// $isFunctionStartLine = $isFunctionStartLine;
@@ -419,7 +417,9 @@ class codeScannerByLine
 		    // public / protected / ... ???
 			if (str_starts_with(trim($inLine), 'return'))
 			{
-				$isFunctionReturnLine = true;
+                $exp = "/\s\breturn\b/";
+
+                $isFunctionReturnLine = (bool) preg_match($exp, $inLine);
 			}
 		}
 

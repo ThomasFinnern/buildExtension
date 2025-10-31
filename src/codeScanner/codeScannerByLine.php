@@ -11,10 +11,17 @@ namespace Finnern\BuildExtension\src\codeScanner;
  *  - inside comment
  *  - inside pre function comments
  *
- * It does no interpret then though
+ * It does indicate start/stop and is within. It does not echo/print the
+ * findings. Any action should be done in calling class
+ *
+ * This is a poor man's detection (low level, n ot detailed enough) so
+ * errors are to be expected.
+ * Especially ...
+ *
  */
 class codeScannerByLine
 {
+    // ToDo: isCommentStartLine, $isCommentEndLine
 	public bool $isInCommentSection = false; // Section -> /*...*/
 	public bool $isInPreFunctionComment = false; // -> /**...*/ .. function
 	public bool $isInsideFunction = false;
@@ -314,12 +321,12 @@ class codeScannerByLine
 			$this->isFunctionStartLine = $isFunctionStartLine;
 		}
 
-		// Debug
-		$isCloseBracket = strpos($line, '}') !== false;
-		if ($isCloseBracket)
-		{
-			$isCloseBracket = $isCloseBracket;
-		}
+//		// Debug
+//		$isCloseBracket = strpos($line, '}') !== false;
+//		if ($isCloseBracket)
+//		{
+//			$isCloseBracket = $isCloseBracket;
+//		}
 
 		// End with fall back (lower)  (pre depth check. therefor -1
 		if ($this->depthCount-1 <= $this->functionDepth)
@@ -409,7 +416,7 @@ class codeScannerByLine
 
 		if (str_contains($inLine, 'return'))
 		{
-//		// public / protected / ... ???
+		    // public / protected / ... ???
 			if (str_starts_with(trim($inLine), 'return'))
 			{
 				$isFunctionReturnLine = true;

@@ -8,7 +8,7 @@ task:updateAll_fileHeaders
 
 // /srcRoot="../../../LangMan4Dev"
 // /srcRoot="../../../joomGallery_fith"
-/srcRoot="../../testData"
+/srcRoot="../testData"
 	//isNoRecursion=true
 /includeExt="php"
 	//fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"
@@ -50,3 +50,5 @@ task:updateAll_fileHeaders
 	//valueForceCopyrightToday=$copyrightDate . "-" . $copyrightDate . " RSGallery2 Team"
 	//valueForceLicense="GNU General Public License version 2 or later"
 // /valueForceAuthor="Thomas Finnern <InsideTheMachine.de>"
+/excludeFolderList=excluded
+/excludeFolderList=postponed

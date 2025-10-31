@@ -337,6 +337,25 @@ class fileHeaderByFileData // extends fileHeaderData
 
         $isChanged = $this->compareHeaderLines();
 
+        // second line should be a blank line
+        $count = empty($this->preFileLines) ? 0 : count($this->preFileLines);
+        // second line is missing
+        if ($count == 1)
+        {
+            $isChanged = true;
+        }
+        else
+        {
+            // second line to be checked
+            if ($count > 1)
+            {
+                if (trim($this->preFileLines[1]) != '')
+                {
+                    $isChanged = true;
+                }
+            }
+        }
+
         //  write back if changed
         if ($isChanged && $this->isValid) {
 
@@ -425,7 +444,7 @@ class fileHeaderByFileData // extends fileHeaderData
 
             //--- pre lines ---------------------------
 
-            // pre lines include without /** line */
+            // pre lines include all lines without "/**" line */
             if ($isHasStart == false) {
 
                 // start comment
@@ -579,8 +598,33 @@ class fileHeaderByFileData // extends fileHeaderData
 
             //--- pre lines ---------------------------
 
-            foreach ($this->preFileLines as $line) {
-                $outLines [] = $line;
+            // pre lines include all lines until first '/**' indicator is found
+            // => keep it but format first three lines
+
+            // One space after "<?php\n"
+            $outLines [] = "<?php" . PHP_EOL;
+            $outLines [] = PHP_EOL;
+
+            $isFirstNoneBlankLine = false;
+            foreach ($this->preFileLines as $idx => $line) {
+
+                // Jump first lines
+                if (!$isFirstNoneBlankLine)
+                {
+                    // One space after "<?php\n"
+                    if ($idx > 0)
+                    {
+                        // take first none empty line
+                        if (trim($line) != '')
+                        {
+                            $isFirstNoneBlankLine = true;
+                            $outLines []          = $line;
+                        }
+                    }
+                } else {
+                    // Later line
+                    $outLines [] = $line;
+                }
             }
 
             //--- changed header lines ---------------------------

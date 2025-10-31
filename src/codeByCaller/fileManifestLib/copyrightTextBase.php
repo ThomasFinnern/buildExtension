@@ -117,14 +117,20 @@ class copyrightTextBase
                 // author from line is last part
                 $pieces = explode($this->actCopyrightDate, $line);
 
-                $count = count($pieces);
-                if ($count > 0) {
-
-                    $outer = trim($pieces[$count-1]);
-                    $postCopyrightAuthor = trim(substr($outer, 0, strrpos($outer, ' ')));
-
-                    $this->postCopyrightAuthor = $postCopyrightAuthor;
-                }
+                // New keep default post author
+                // Old extract and use again. See following lines
+                //$count = count($pieces);
+                //if ($count > 0) {
+                //
+                //    $outer = trim($pieces[$count-1]);
+                //    $postCopyrightAuthor = trim(substr($outer, 0, strrpos($outer, ' ')));
+                //
+                //    // if found
+                //    if ($postCopyrightAuthor != '')
+                //    {
+                //        $this->postCopyrightAuthor = $postCopyrightAuthor;
+                //    }
+                //}
 
             }
         } else {

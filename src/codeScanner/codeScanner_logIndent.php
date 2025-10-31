@@ -21,7 +21,6 @@ use Finnern\BuildExtension\src\tasksLib\option;
  */
 class codeScanner_logIndent extends baseExecuteTasks
 	implements executeTasksInterface
-	// codeScannerByLine
 {
 
 	private bool $isDummy = false; // testflag may be changed

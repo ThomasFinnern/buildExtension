@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @package        RSGallery2
- * @subpackage     com_rsgallery2
- * @author         RSGallery2 Team <team2@rsgallery2.org>
- * @copyright  (c) 2016-2025 RSGallery2 Team
- * @license        GNU General Public License version 2 or later
- */
+******************************************************************************************
+**   @package    com_joomgallery                                                        **
+**   @author     JoomGallery::ProjectTeam <team@joomgalleryfriends.net>                 **
+**   @copyright  2016 - 2025  JoomGallery::ProjectTeam                                  **
+**   @license    GNU General Public License version 3 or later                          **
+*****************************************************************************************/
 
 namespace Rsgallery2\Component\Rsgallery2\Administrator\CliCommand;
 

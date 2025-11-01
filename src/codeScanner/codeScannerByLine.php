@@ -362,7 +362,24 @@ class codeScannerByLine
 		{
 			//--- Start of pre function comment --------------------------------
 
-			$isOpenPreComment = strpos($line, '/**') !== false;;
+            $isOpenPreComment = false;
+
+            // line should be tested for pre comment
+            $isOpenPreCommentCheck = strpos($line, '/**') !== false;
+            if($isOpenPreCommentCheck)
+            {
+                // $isFullComment = strpos($line, '/**/') !== false;
+                // ToDo: regex /\\*\\s\*\\/i
+
+                $exp           = "/\/\*\s*\*\//i";
+                $isFullComment = (bool) preg_match($exp, $line);
+
+                if (!$isFullComment)
+                {
+                    // $isOpenPreComment = strpos($line, '/**') !== false;
+                    $isOpenPreComment = true;
+                }
+            }
 
 			// ToDO:  class active -> depth +1 ? ==> not active ?
 			if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)

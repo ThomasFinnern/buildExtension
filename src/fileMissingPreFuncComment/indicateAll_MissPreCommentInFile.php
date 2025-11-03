@@ -240,7 +240,7 @@ class indicateAll_MissPreCommentInFile
 						$indicator  = "/** ToDo: Add function comment here */" . PHP_EOL;
 						$outLines[] = $indicator;
 
-						print (">>> Missing function comment in line: " . $oScan4Missing->lineNumber
+						print (">>> Missing pre function comment in line: " . $oScan4Missing->lineNumber
                             . " (" . $lastFunctionEndLineNbr . '/' . $lastPreCommentLineNbr . ")" . " !!!" . PHP_EOL);
 
 						$this->isChanged = true;

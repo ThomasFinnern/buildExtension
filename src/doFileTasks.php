@@ -14,6 +14,7 @@ use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
 use Finnern\BuildExtension\src\fileMissingPreFuncComment\indicateAll_MissPreCommentInFiles;
+use Finnern\BuildExtension\src\fileNoDocInPreComment\indicateAll_NoDocInPreCommentInFiles;
 use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
@@ -106,7 +107,7 @@ class doFileTasks
 
         try {
             print('*********************************************************' . PHP_EOL);
-            print('applyTasks' . PHP_EOL);
+            print('applyTasks/create classes' . PHP_EOL);
             // print ("task: " . $textTask . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
@@ -295,6 +296,12 @@ class doFileTasks
 
                     case strtolower('indicateAll_MissingPreFuncCommentInFiles'):
                         $this->actTask = $this->createTask(new indicateAll_MissPreCommentInFiles (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('indicateAll_NoDocInPreCommentInFiles'):
+                        $this->actTask = $this->createTask(new indicateAll_NoDocInPreCommentInFiles (), $textTask);
                         // run task
                         $hasError = $this->actTask->execute();
                         break;

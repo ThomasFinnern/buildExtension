@@ -26,7 +26,7 @@ REM "%ExePath% --version
 ECHO ----------------------------------------------
 ECHO.
 
-REM more otions 
+REM more options 
 
 set OptionFile=
 

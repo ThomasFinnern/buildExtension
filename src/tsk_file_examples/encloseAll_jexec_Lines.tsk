@@ -1,0 +1,7 @@
+task:encloseAll_jexec_Lines
+// /callerProjectId=RSG2
+/srcRoot="../testData"
+/isNoRecursion=true
+/includeExt="php"
+// /excludeFolderList=excluded
+// /excludeFolderList=postponed

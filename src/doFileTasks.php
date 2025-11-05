@@ -4,6 +4,7 @@ namespace Finnern\BuildExtension\src;
 
 use Exception;
 use Finnern\BuildExtension\src\cleanUpLib\clean4GitCheckin;
+use Finnern\BuildExtension\src\fileEncloseJexec\encloseAll_jexec_LinesFiles;
 use Finnern\BuildExtension\src\fileHeaderLib\alignAll_use_Lines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
@@ -302,6 +303,12 @@ class doFileTasks
 
                     case strtolower('indicateAll_NoDocInPreCommentInFiles'):
                         $this->actTask = $this->createTask(new indicateAll_NoDocInPreCommentInFiles (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('encloseAll_jexec_Lines'):
+                        $this->actTask = $this->createTask(new encloseAll_jexec_LinesFiles (), $textTask);
                         // run task
                         $hasError = $this->actTask->execute();
                         break;

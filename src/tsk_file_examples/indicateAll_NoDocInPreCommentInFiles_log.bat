@@ -32,7 +32,7 @@ set OptionFile=
 ECHO ----------------------------------------------
 ECHO.
 
-pushd  ..\
+pushd  ..\..\buildExtension\src
 ECHO Path: %cd% 
 
 echo --- "%ExePath%php.exe" doFileTasksCmd.php -f .\tsk_file_examples/indicateAll_NoDocInPreCommentInFiles_log.tsk %1

@@ -163,6 +163,7 @@ class exchangeSinceLinesFile
 
                 //$outLines = $this->oSinceFileData->fileLines();
 
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
 
                 print (">> Changed FileName: " . $fileName . PHP_EOL);

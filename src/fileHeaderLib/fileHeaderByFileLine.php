@@ -387,6 +387,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -448,6 +449,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -527,6 +529,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -606,6 +609,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -690,6 +694,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch (Exception $e) {
@@ -763,6 +768,7 @@ class fileHeaderByFileLine // extends fileHeaderData
 
             // on change write to file
             if ($isExchanged) {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         } catch

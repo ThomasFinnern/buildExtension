@@ -253,6 +253,7 @@ class indicateAll_MissPreCommentInFile
 			if ($this->isChanged && !$this->isLogOnly)
 			{
 
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
 				$isSaved = file_put_contents($fileName, $outLines);
 
 				print (">> Changed FileName: " . $fileName . PHP_EOL);

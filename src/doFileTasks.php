@@ -14,6 +14,7 @@ use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
+use Finnern\BuildExtension\src\fileIniLanguage\formatAll_ini_LinesFiles;
 use Finnern\BuildExtension\src\fileMissingPreFuncComment\indicateAll_MissPreCommentInFiles;
 use Finnern\BuildExtension\src\fileNoDocInPreComment\indicateAll_NoDocInPreCommentInFiles;
 use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
@@ -309,6 +310,12 @@ class doFileTasks
 
                     case strtolower('encloseAll_jexec_Lines'):
                         $this->actTask = $this->createTask(new encloseAll_jexec_LinesFiles (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
+                    case strtolower('formatAll_ini_Lines'):
+                        $this->actTask = $this->createTask(new formatAll_ini_LinesFiles (), $textTask);
                         // run task
                         $hasError = $this->actTask->execute();
                         break;

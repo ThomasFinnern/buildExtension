@@ -13,7 +13,7 @@ use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
-Class encloseAll_jexec_File
+Class encloseAll_jexec_LinesFile
 ================================================================================*/
 
 class encloseAll_jexec_LinesFile

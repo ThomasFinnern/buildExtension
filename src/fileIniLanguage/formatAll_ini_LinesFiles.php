@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileEncloseJexec;
+namespace Finnern\BuildExtension\src\fileIniLanguage;
 
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
@@ -11,15 +11,18 @@ use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
-Class encloseAll_jexec_LinesFiles
+Class formatAll_ini_LinesFiles
 ================================================================================*/
 
-class encloseAll_jexec_LinesFiles extends baseExecuteTasks
+// ToDo: Force extension lang id ==> COM_RSGALLLERY2___ as start
+// /isForceExtensionId="..."
+
+class formatAll_ini_LinesFiles extends baseExecuteTasks
     implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
-    public encloseAll_jexec_LinesFile $encloseAll_jexec_lines;
+    public formatAll_ini_LinesFile $formatAll_ini_lines;
 
     public string $yearText = "";
 
@@ -42,7 +45,7 @@ class encloseAll_jexec_LinesFiles extends baseExecuteTasks
 
             //--- use file lines for task ----------------------
 
-            $this->encloseAll_jexec_lines = new encloseAll_jexec_LinesFile();
+            $this->formatAll_ini_lines = new formatAll_ini_LinesFile();
 
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
@@ -61,7 +64,7 @@ class encloseAll_jexec_LinesFiles extends baseExecuteTasks
 
         if (!$isOptionConsumed) {
 
-            $isOptionConsumed = $this->encloseAll_jexec_lines->assignOption($option);
+            $isOptionConsumed = $this->formatAll_ini_lines->assignOption($option);
         }
 
         if ( ! $isOptionConsumed) {
@@ -104,7 +107,7 @@ class encloseAll_jexec_LinesFiles extends baseExecuteTasks
         }
 
 //        // tell factory to use classes
-//        $this->encloseAll_jexec_lines->assignOptionCallerProjectId($this->callerProjectId);
+//        $this->formatAll_ini_lines->assignOptionCallerProjectId($this->callerProjectId);
 
         //--- iterate over all files -------------------------------------
 
@@ -112,7 +115,7 @@ class encloseAll_jexec_LinesFiles extends baseExecuteTasks
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
-            $this->encloseAll_jexec_lines->encloseAll_jexec_lines($fileName->srcPathFileName);
+            $this->formatAll_ini_lines->formatAll_ini_lines($fileName->srcPathFileName);
         }
 
         return 0;

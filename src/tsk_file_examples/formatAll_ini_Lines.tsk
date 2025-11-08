@@ -1,10 +1,11 @@
-task:encloseAll_jexec_Lines
+task:formatAll_ini_Lines
 	// /callerProjectId=RSG2
 /srcRoot="../testData"
 /isNoRecursion=true
 /includeExt="php"
 	// /excludeFolderList=excluded
 	// /excludeFolderList=postponed
-	// /isLogOnly=true
 /isLogDev=true
-/isLogOnly=true
+	// /isLogOnly=true
+	// /isRemoveDoubles=true
+	// /isForceExtensionId="..."

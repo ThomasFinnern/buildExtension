@@ -2,10 +2,10 @@ task:formatAll_ini_Lines
 	// /callerProjectId=RSG2
 /srcRoot="../testData"
 /isNoRecursion=true
-/includeExt="php"
+/includeExt="ini"
 	// /excludeFolderList=excluded
 	// /excludeFolderList=postponed
 /isLogDev=true
 	// /isLogOnly=true
-	// /isRemoveDoubles=true
+/isRemoveDoubles=true
 	// /isForceExtensionId="..."

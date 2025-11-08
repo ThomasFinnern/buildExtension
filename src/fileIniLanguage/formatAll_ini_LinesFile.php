@@ -193,7 +193,7 @@ class formatAll_ini_LinesFile
                 }
 
                 // comment '#' or ';'
-                if (str_starts_with($trimmed, '#') == '' || str_starts_with($trimmed, ';'))
+                if (str_starts_with($trimmed, '#') || str_starts_with($trimmed, ';'))
                 {
                     $outLines[] = $line;
 
@@ -218,6 +218,7 @@ class formatAll_ini_LinesFile
             // on change write to file
             if ($this->isChanged && !$this->isLogOnly)
             {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
                 $isSaved = file_put_contents($fileName, $outLines);
 
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
@@ -235,7 +236,7 @@ class formatAll_ini_LinesFile
                     print ($line);
                 }
 
-                print ("<<<===============================================" . $fileName . PHP_EOL);
+                print ("<<<===============================================" . PHP_EOL);
             }
 
         }
@@ -275,7 +276,15 @@ class formatAll_ini_LinesFile
                 $translation = trim($parts[1]);
             }
 
-            $formattedLine = $langId . '="' . $translation . '"';
+            // remove '"' at start and end
+            if (str_starts_with($translation, '"')) {
+                $translation = substr($translation, 1, -1);
+            }
+            if (str_ends_with($translation, '"')) {
+                $translation = substr($translation, 0, -1);
+            }
+
+            $formattedLine = $langId . '="' . $translation . '"' . PHP_EOL;
         }
 
         return $formattedLine;

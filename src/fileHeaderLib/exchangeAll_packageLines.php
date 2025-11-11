@@ -5,7 +5,6 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 

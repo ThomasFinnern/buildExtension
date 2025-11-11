@@ -1,0 +1,14 @@
+task:createNamespace
+	// /callerProjectId=RSG2
+/srcRoot="../testData"
+/isNoRecursion=true
+/includeExt="php"
+	// /excludeFolderList=excluded
+	// /excludeFolderList=postponed
+/isLogDev=true
+	// /isLogOnly=true
+// namespace Mycompany\Component\Example\Site\Model;
+// Rsgallery2\Component\Rsgallery2\Site\Model;
+/company=Rsgallery2
+/extensionType=Component
+/extensionName=Rsgallery2

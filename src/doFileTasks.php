@@ -2,8 +2,8 @@
 
 namespace Finnern\BuildExtension\src;
 
-use Exception;
 use Finnern\BuildExtension\src\cleanUpLib\clean4GitCheckin;
+use Finnern\BuildExtension\src\fileNamespace\createNamespaceFiles;
 use Finnern\BuildExtension\src\fileEncloseJexec\encloseAll_jexec_LinesFiles;
 use Finnern\BuildExtension\src\fileHeaderLib\alignAll_use_Lines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
@@ -79,7 +79,7 @@ class doFileTasks
                 $this->tasks = $this->tasks->extractTasksFromString($tasksLine);
             }
             // print ($this->tasksText ());
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -320,6 +320,12 @@ class doFileTasks
                         $hasError = $this->actTask->execute();
                         break;
 
+                    case strtolower('createNamespace'):
+                        $this->actTask = $this->createTask(new createNamespaceFiles (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+                        break;
+
                     default:
                         print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . PHP_EOL);
                         throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
@@ -327,7 +333,7 @@ class doFileTasks
 
                 // $OutTxt .= $task->text() . PHP_EOL;
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo '!!! applyTasks: Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Finnern\BuildExtension\src\fileIniLanguage;
+namespace Finnern\BuildExtension\src\fileNamespace;
 
 require_once '../autoload/autoload.php';
 
@@ -10,7 +10,7 @@ use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    class formatAll_ini_Lines
+    class createNamespace
 
     Reads file, exchanges one 'copyright' line for actual year part (second year in line)
     Standard replace text is actual year
@@ -37,16 +37,25 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:formatAll_ini_Lines'
-    . ' /srcRoot="../../testData"'
-    . ' /includeExt="ini"'
+$tasksLine = ' task:createNamespace'
+//    . ' /srcRoot="../../testData"'
+    . ' /srcRoot="../../../RSGallery2_J4"'
+    . ' /includeExt="php"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    . ' /isNoRecursion=true'
+//    . ' /isNoRecursion=true'
     . ' /isLogOnly=true'
     . ' /isLogDev=true'
-    . ' /isSortLines=false'
-    . ' /isRemoveDoubles=false'
 //    . ' /isForceExtensionId="..."'
+    . ' /company=Rsgallery2'
+//    . ' /company=Joomgallery'
+    . ' /extensionType=Component'
+//    . ' /extensionType=Component'
+    . ' /extensionName=Rsgallery2'
+//    . ' /extensionName=Joomgallery'
+//    . ' /rootPath=d:\Entwickl\2025\_gitHub\buildExtension\testData'
+    . ' /rootPath=d:\Entwickl\2025\_gitHub\RSGallery2_J4'
+//    . '     . ' /rootPath=e:\wamp64\www\joomla5x'
+//    . '     . ' /rootPath=e:\wamp64\www\joomla5x'
 
 //    . ' /s='
 ;
@@ -165,7 +174,7 @@ print ($task->text());
 
 if (empty ($hasError)) {
 
-    $oEncloseAll_jexec_FilesLines = new formatAll_ini_LinesFiles();
+    $oEncloseAll_jexec_FilesLines = new createNamespaceFiles();
 
     //--- assign tasks ---------------------------------
 

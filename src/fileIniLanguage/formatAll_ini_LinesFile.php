@@ -226,9 +226,9 @@ class formatAll_ini_LinesFile
 
             if ($this->isChanged && $this->isLogDev)
             {
-                print (">>>===============================================" . $fileName . PHP_EOL);
+                print (">>>===============================================" . PHP_EOL);
                 print ("~~~ Changed ~~~ FileName: " . $fileName . PHP_EOL);
-                print (">>>===============================================" . $fileName . PHP_EOL);
+                print (">>>===============================================" . PHP_EOL);
 
                 foreach ($outLines as $lineIdx => $line)
                 {

@@ -20,16 +20,20 @@ class commandLineLib
         $start = new DateTime();
 
         print('------------------------------------------' . PHP_EOL);
-        print ('Command line: ');
+        print ('PHP: Command line extracted: ' . PHP_EOL);
 
         // caller
         if (count($inArgs) > 0) {
-            print ($inArgs[0] . PHP_EOL . " ");
+//            print ('Args:' . PHP_EOL);
+//            print ($inArgs[0] . " " . PHP_EOL);
+            print ($inArgs[0] . " ");
         }
 
-        // option '/name '
-        for ($i = 1; $i < count($options); $i++) {
-            echo ($options[$i] . " ");
+        if (count($options) > 0) {
+            foreach ($options as $idx => $option)
+            {
+                print ('-' . $idx . " '" . $option . "' ");
+            }
         }
 
         // attributes 'name '
@@ -79,7 +83,7 @@ class commandLineLib
     /**
      * @return array
      */
-    public static function argsAndOptions($argv, string $optDefinition, bool $isPrintArguments): array
+    public static function argsAndOptions($argv, string $optDefinition, bool $isPrintArguments = false): array
     {
         $options = [];
         $inArgs = [];
@@ -88,17 +92,28 @@ class commandLineLib
 
             //--- argv ---------------------------------
 
-            if ($isPrintArguments) {
-                print ("--- argv ---" . PHP_EOL);
-                var_dump($argv);
-            }
-
             $inArgs = [];
+
+            $isOption = false;
+
             foreach ($argv as $inArg) {
+
+                // value after '-?' option
+                if ($isOption) {
+                    $isOption = false;
+                    continue;
+                }
+
                 if (!str_starts_with($inArg, '-')) {
                     $inArgs[] = $inArg;
+                } else {
+                    $optChar = $inArg[1];
+
+                    // is option with value ? 'x:' => -X test=yyyyy
+                    $isOption = strpos($optDefinition , $optChar . ':'  ? true : false);
                 }
             }
+
             if ($isPrintArguments) {
                 if (!empty ($inArgs)) {
                     print ("--- inArgs ---" . PHP_EOL);
@@ -111,14 +126,14 @@ class commandLineLib
             $options = getopt($optDefinition, []);
 
             if ($isPrintArguments) {
-                if (!empty ($inArgs)) {
+                if (!empty ($options)) {
                     print ("--- in options ---" . PHP_EOL);
                     var_dump($options);
                 }
             }
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

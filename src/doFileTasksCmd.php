@@ -4,25 +4,25 @@ namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\tasks;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
 $HELP_MSG = <<<EOT
     >>>
-    doFileTasks class
+    doFileTasksCmd module
 
     ToDo: option commands , example
+    ToDo: make Task:execute implicit \$collectedTasks->extractTasksFromString('task:execute'); Where should task auto executet ?
+    ToDo: \$tasks: ? type of input in swich 
 
     <<<
     EOT;
 
-// ToDo: make Task:execute implicit $collectedTasks->extractTasksFromString('task:execute'); Where should task auto executet ?
 /*================================================================================
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:t:c:f:o:h12345";
+$optDefinition = "t:c:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -346,10 +346,6 @@ foreach ($options as $idx => $option) {
     print ("option: " . $option . PHP_EOL);
 
     switch ($idx) {
-        case 's':
-            $tasks = $option;
-            break;
-
         case 't':
             $tasksLine = $option;
             break;

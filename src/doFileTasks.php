@@ -120,70 +120,8 @@ class doFileTasks
                 $this->actTaskName = $textTask->name;
 
                 switch (strtolower($textTask->name)) {
+
                     //--- let the task run -------------------------
-
-                    case strtolower('execute'):
-                        print ('>>> Call execute task: "'
-                            // . $this->actTask->name
-                        . '"  >>>' . PHP_EOL);
-
-                        // ToDo: dummy task
-//                        if (empty ($this->actTask)){
-//                            $this->actTask = new executeTasksInterface ();
-//                        }
-
-                        // prepared filenames list
-                        $this->actTask->assignFilesNames($this->fileNamesList);
-
-                        // run task
-                        $hasError = $this->actTask->execute();
-
-//                        // stop after first task
-//                        exit (99);
-
-                        break;
-
-                    //--- assign files to task -----------------------
-
-                    case strtolower('fileNamesList'):
-                    case strtolower('createFileNamesList'):
-                        print ('Execute task: ' . $textTask->name . PHP_EOL);
-
-                        $this->actTask = $this->createTask(new fileNamesList (), $textTask);
-                        // run task
-                        $hasError = $this->actTask->execute();
-
-                        print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . PHP_EOL);
-
-                        break;
-
-                    //--- add more files to task -----------------------
-
-                    case strtolower('add2filenameslist'):
-                        print ('Execute task: ' . $textTask->name . PHP_EOL);
-                        $filenamesList = new fileNamesList ();
-                        $filenamesList->assignTask($textTask);
-                        $filenamesList->execute();
-
-                        if (empty($this->fileNamesList)) {
-                            $this->fileNamesList = new fileNamesList ();
-                        }
-
-                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNames) . PHP_EOL);
-
-                        $this->fileNamesList->addFilenames($filenamesList->fileNames);
-                        break;
-
-                    case strtolower('clearfilenameslist'):
-                        $this->fileNamesList = new fileNamesList();
-                        break;
-
-                    case strtolower('printfilenameslist'):
-                        print ($this->fileNamesList->text_listFileNames());
-
-                        // stop after print files to check the files
-                        // exit (98);
-                        break;
 
 
                     //=== real task definitions =================================
@@ -326,9 +264,74 @@ class doFileTasks
                         $hasError = $this->actTask->execute();
                         break;
 
+                    //=== supporting tasks content  ===============================
+
+                    case strtolower('execute'):
+                        print ('>>> Call execute task: "'
+                            // . $this->actTask->name
+                            . '"  >>>' . PHP_EOL);
+
+                        // ToDo: dummy task
+//                        if (empty ($this->actTask)){
+//                            $this->actTask = new executeTasksInterface ();
+//                        }
+
+                        // prepared filenames list
+                        $this->actTask->assignFilesNames($this->fileNamesList);
+
+                        // run task
+                        $hasError = $this->actTask->execute();
+
+//                        // stop after first task
+//                        exit (99);
+
+                        break;
+
+                    //--- assign files to task -----------------------
+
+                    case strtolower('fileNamesList'):
+                    case strtolower('createFileNamesList'):
+                        print ('Execute task: ' . $textTask->name . PHP_EOL);
+
+                        $this->actTask = $this->createTask(new fileNamesList (), $textTask);
+                        // run task
+                        $hasError = $this->actTask->execute();
+
+                        print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . PHP_EOL);
+
+                        break;
+
+                    //--- add more files to task -----------------------
+
+                    case strtolower('add2filenameslist'):
+                        print ('Execute task: ' . $textTask->name . PHP_EOL);
+                        $filenamesList = new fileNamesList ();
+                        $filenamesList->assignTask($textTask);
+                        $filenamesList->execute();
+
+                        if (empty($this->fileNamesList)) {
+                            $this->fileNamesList = new fileNamesList ();
+                        }
+
+                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNames) . PHP_EOL);
+
+                        $this->fileNamesList->addFilenames($filenamesList->fileNames);
+                        break;
+
+                    case strtolower('clearfilenameslist'):
+                        $this->fileNamesList = new fileNamesList();
+                        break;
+
+                    case strtolower('printfilenameslist'):
+                        print ($this->fileNamesList->text_listFileNames());
+
+                        // stop after print files to check the files
+                        // exit (98);
+                        break;
+
                     default:
                         print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . PHP_EOL);
-                        throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
+                        throw new \Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
                 } // switch
 
                 // $OutTxt .= $task->text() . PHP_EOL;

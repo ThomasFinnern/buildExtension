@@ -68,7 +68,6 @@ class tasks
 
         try {
             if (!is_file($taskFile)) {
-                print ('!!! Task file not found: "' . $taskFile . '" !!!' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }
@@ -79,7 +78,7 @@ class tasks
             $this->extractTasksFromLines($lines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -156,7 +155,7 @@ class tasks
             // print ($this->tasksText ());
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -216,7 +215,7 @@ class tasks
                 }
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

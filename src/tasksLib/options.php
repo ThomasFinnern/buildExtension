@@ -34,7 +34,7 @@ class options
 
             $this->options = $options;
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 //        // print('exit __construct: ' . $hasError . PHP_EOL);
@@ -96,7 +96,7 @@ class options
             $this->extractOptionsFromLines($lines);
 
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -148,7 +148,7 @@ class options
                 $idxEqual = strpos($optionsString, "=");
 
                 # value found ?
-                if ($idxEqual && strlen($optionsString) > $idxEqual +1) {
+                if ($idxEqual) {
 
                     $quotation = $optionsString[$idxEqual + 1];
 
@@ -187,7 +187,7 @@ class options
                 $this->addOption($option);
             }
         } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

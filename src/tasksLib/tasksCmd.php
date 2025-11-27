@@ -66,6 +66,14 @@ $optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 //$optionFiles [] = 'xTestOptionFile.opt';
 
+//--- regression tasks --------------------------------------------
+
+$tasksFile = "..\\tasksLib_regressionTests\\tasksMultiple\\tasks_optionPerLine.tsk";
+
+//echo "getcwd(): " . getcwd() . PHP_EOL;
+//echo "getcwd(): " . getcwd() . PHP_EOL;
+//exit (-01);
+
 foreach ($options as $idx => $option) {
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
@@ -135,7 +143,7 @@ if ( ! empty ($tasksFile)) {
 }
 
 print ($oTasks->text() . PHP_EOL);
-print ("Resulting line: '" . str($oTasksResult) . "'" . PHP_EOL);
+print ("Resulting line: '" . $oTasksResult . "'" . PHP_EOL);
 
 commandLineLib::print_end($start);
 

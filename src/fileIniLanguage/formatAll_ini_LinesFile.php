@@ -201,10 +201,10 @@ class formatAll_ini_LinesFile
                 }
 
                 $formattedLine = $this->formatIniStyle($line);
-                if ($formattedLine !== $line)
+                if ($formattedLine !== $trimmed)
                 {
                     // already enclosed, direct use of next line
-                    $outLines[] = $formattedLine;
+                    $outLines[] = $formattedLine . '\n';
 
                     $this->isChanged = true;
                 }
@@ -284,7 +284,7 @@ class formatAll_ini_LinesFile
                 $translation = substr($translation, 0, -1);
             }
 
-            $formattedLine = $langId . '="' . $translation . '"' . PHP_EOL;
+            $formattedLine = $langId . '="' . $translation . '"'; // . PHP_EOL;
         }
 
         return $formattedLine;

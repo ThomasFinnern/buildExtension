@@ -4,10 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\task;
-
 $HELP_MSG = <<<EOT
     >>>
     class tasks
@@ -19,7 +15,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:o:h12345";
+$optDefinition    = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -35,9 +31,7 @@ variables
 --------------------------------------------*/
 
 //$tasksLine = '/option1 $optionLine = /option2=Option /option3="01 test space string"';
-$tasksLine = "task:task00 "
-    . 'task:task01 /option1 /option2=xxx /option3="01 test space string" '
-    . 'task:task02 /optionX /option2=Y /optionZ="02_Ztest string" ';
+$tasksLine = "task:task00 " . 'task:task01 /option1 /option2=xxx /option3="01 test space string" ' . 'task:task02 /optionX /option2=Y /optionZ="02_Ztest string" ';
 //$tasksLine = "task:clean4git";
 //$tasksLine = "task:clean4release";
 
@@ -74,11 +68,13 @@ $tasksFile = "..\\tasksLib_regressionTests\\tasksMultiple\\tasks_optionPerLine.t
 //echo "getcwd(): " . getcwd() . PHP_EOL;
 //exit (-01);
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -133,11 +129,15 @@ $oTasks = new tasks();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($tasksFile)) {
+if (!empty ($tasksFile))
+{
     $oTasksResult = $oTasks->extractTasksFromFile($tasksFile);
-} else {
+}
+else
+{
 
-    if ( ! empty ($tasksLine)) {
+    if (!empty ($tasksLine))
+    {
         $oTasksResult = $oTasks->extractTasksFromString($tasksLine);
     }
 }

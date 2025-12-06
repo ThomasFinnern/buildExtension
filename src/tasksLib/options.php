@@ -5,7 +5,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 // use DateTime;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\option;
 
 
 /*================================================================================
@@ -27,13 +26,16 @@ class options
     public function __construct($options = [])
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("count options: " . count ($options) . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->options = $options;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -54,16 +56,21 @@ class options
     {
         $value = '';
 
-        foreach ($this->options as $option) {
+        foreach ($this->options as $option)
+        {
             $isFound = false;
 
-            if ($isIgnoreCase) {
+            if ($isIgnoreCase)
+            {
                 $isFound = strtolower($option->name) === strtolower($name);
-            } else {
+            }
+            else
+            {
                 $isFound = $option->name === $name;
             }
 
-            if ($isFound) {
+            if ($isFound)
+            {
                 $value = $option->value;
             }
         }
@@ -75,7 +82,8 @@ class options
      * Extract single task from lines of file
      * See *.tsk (*.opt) for examples
      *
-     * @param string $optionsFile
+     * @param   string  $optionsFile
+     *
      * @return $this
      */
     public function extractOptionsFromFile(string $optionsFile): options
@@ -84,18 +92,22 @@ class options
         print ("extractOptionsFromFile: " . $optionsFile . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
-        try {
-            if (!is_file($optionsFile)) {
+        try
+        {
+            if (!is_file($optionsFile))
+            {
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Options file not found: "' . $optionsFile . '"');
             }
 
             $content = file_get_contents($optionsFile); //Get the file
-            $lines = explode("\n", $content); //Split the file by each line
+            $lines   = explode("\n", $content); //Split the file by each line
 
             $this->extractOptionsFromLines($lines);
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -104,22 +116,26 @@ class options
     }
 
     /**
-     * @param array $lines
+     * @param   array  $lines
+     *
      * @return void
      */
     public function extractOptionsFromLines(array $lines): void
     {
-        foreach ($lines as $line) {
+        foreach ($lines as $line)
+        {
 
             //--- comments and trim -------------------------------------------
 
             $line = trim($line);
-            if (empty($line)) {
+            if (empty($line))
+            {
                 continue;
             }
 
             // ignore comments
-            if (str_starts_with($line, '//')) {
+            if (str_starts_with($line, '//'))
+            {
                 continue;
             }
 
@@ -127,7 +143,7 @@ class options
 
             //--- useful line -------------------------------------------
 
-            $this->extractOptionsFromString ($line);
+            $this->extractOptionsFromString($line);
         }
 
     }
@@ -136,26 +152,39 @@ class options
     {
         // 2025.03.11 $this->clear();
 
-        try {
+        try
+        {
             $optionsString = Trim($inOptionsString);
 
             // multiple: /optionName or /optionName=value or /optionName="optionValue"
-            while ($this->hasOptionChar($optionsString)) {
-
+            while ($this->hasOptionChar($optionsString))
+            {
                 // --- scan end of option -------------------------------
 
                 // first find '=' then check for '"' .
                 $idxEqual = strpos($optionsString, "=");
 
-                # value found ?
-                if ($idxEqual) {
+                # '=' value found ?
+                if ($idxEqual)
+                {
+                    // string doesn't stop after '='
+                    if (strlen($optionsString) > $idxEqual + 1)
+                    {
+                        $quotation = $optionsString[$idxEqual + 1];
 
-                    $quotation = $optionsString[$idxEqual + 1];
 
-                    // check for '"'
-                    if (in_array($quotation, array('"', '\''))) {
-                        $idxEnd = strpos($optionsString, $quotation, $idxEqual + 2);
-                    } else {
+                        // check for '"'
+                        if (in_array($quotation, array('"', '\'')))
+                        {
+                            $idxEnd = strpos($optionsString, $quotation, $idxEqual + 2);
+                        }
+                        else
+                        {
+                            $idxEnd = strpos($optionsString, " ");
+                        }
+                    }
+                    else
+                    {
                         $idxEnd = strpos($optionsString, " ");
                     }
                 }
@@ -167,13 +196,16 @@ class options
                 # --- extract first option from string -------------------------------
 
                 // last option in string
-                if ($idxEnd === false) {
+                if ($idxEnd === false)
+                {
                     // this option string part
                     $singleOption = $optionsString;
 
                     // No more option parts
                     $optionsString = '';
-                } else {
+                }
+                else
+                {
                     // this option string part
                     $singleOption = substr($optionsString, 0, $idxEnd + 1);
 
@@ -186,7 +218,9 @@ class options
                 $option = (new option())->extractOptionFromString($singleOption);
                 $this->addOption($option);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -205,12 +239,14 @@ class options
         $optionsString = Trim($inOptionsString);
 
         // /option1 /option2=xxx /option3="01 test space string"
-        if (str_starts_with($optionsString, '/')) {
+        if (str_starts_with($optionsString, '/'))
+        {
             $isOption = true;
         }
 
         // -option1 -option2=xxx -option3="01 test space string"
-        if (str_starts_with($optionsString, '-')) {
+        if (str_starts_with($optionsString, '-'))
+        {
             $isOption = true;
         }
 
@@ -219,7 +255,8 @@ class options
 
     public function addOption(option $option): void
     {
-        if (!empty ($option->name)) {
+        if (!empty ($option->name))
+        {
             // $this->options [$option->name] = $option;
             $this->options [] = $option;
         }
@@ -228,10 +265,12 @@ class options
     /*
      * One line representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $optionsLine = '';
 
-        foreach ($this->options as $option) {
+        foreach ($this->options as $option)
+        {
             $optionsLine .= " " . $option;
         }
 
@@ -249,7 +288,8 @@ class options
 
         $OutTxt .= "Options count: " . count($this->options) . PHP_EOL;
 
-        foreach ($this->options as $option) {
+        foreach ($this->options as $option)
+        {
             $OutTxt .= "   " . $option . PHP_EOL;
         }
 

@@ -4,9 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\option;
-
 $HELP_MSG = <<<EOT
     >>>
     optionsCmd supports test of option class by option string
@@ -18,7 +15,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "o:h12345";
+$optDefinition    = "o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -37,11 +34,13 @@ variables
 $optionLine = '/option2=02_Option';
 //$optionLine = '/option3="01 test space string"';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 'o':
             $optionLine = $option;
             break;

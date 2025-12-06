@@ -4,9 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\task;
-
 $HELP_MSG = <<<EOT
     >>>
     task class
@@ -18,7 +15,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:o:h12345";
+$optDefinition    = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -43,11 +40,13 @@ $optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 //$optionFiles [] = 'xTestOptionFile.opt';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $taskLine = $option;
             break;
@@ -112,8 +111,10 @@ print ("Line: '" . $oTaskResult . "'" . PHP_EOL);
    extract options from file(s)
 --------------------------------------------------*/
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         // print ("Option file: '" . $optionFile . "'" . PHP_EOL);
         $oTaskResult->extractOptionsFromFile($optionFile);
     }

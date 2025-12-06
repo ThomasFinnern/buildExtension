@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class task
@@ -21,10 +20,7 @@ class tasks
     construction
     --------------------------------------------------------------------*/
 
-    public
-    function __construct(
-        $tasks = [],
-    )
+    public function __construct($tasks = [])
     {
         $this->tasks = $tasks;
     }
@@ -43,16 +39,21 @@ class tasks
     {
         $value = '';
 
-        foreach ($this->tasks as $task) {
+        foreach ($this->tasks as $task)
+        {
             $isFound = false;
 
-            if ($isIgnoreCase) {
+            if ($isIgnoreCase)
+            {
                 $isFound = strtolower($task->name) === strtolower($name);
-            } else {
+            }
+            else
+            {
                 $isFound = $task->name === $name;
             }
 
-            if ($isFound) {
+            if ($isFound)
+            {
                 $value = $task->value;
             }
         }
@@ -66,18 +67,22 @@ class tasks
         print ("extractTasksFromFile: " . $taskFile . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
-        try {
-            if (!is_file($taskFile)) {
+        try
+        {
+            if (!is_file($taskFile))
+            {
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }
 
             $content = file_get_contents($taskFile); //Get the file
-            $lines = explode("\n", $content); //Split the file by each line
+            $lines   = explode("\n", $content); //Split the file by each line
 
             $this->extractTasksFromLines($lines);
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -86,7 +91,8 @@ class tasks
     }
 
     /**
-     * @param array $lines
+     * @param   array  $lines
+     *
      * @return void
      */
     public function extractTasksFromLines(array $lines): void
@@ -95,26 +101,31 @@ class tasks
 
         $taskLines = [];
 
-        try {
-            print ("extractTasksFromLines: (" . count ($lines) . ')' . PHP_EOL);
+        try
+        {
+            print ("extractTasksFromLines: (" . count($lines) . ')' . PHP_EOL);
 
-            if (empty($lines)) {
+            if (empty($lines))
+            {
                 print ('!!! Task file empty and contains no lines' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file empty and contains no lines: "');
             }
 
-            foreach ($lines as $line) {
+            foreach ($lines as $line)
+            {
 
                 //--- comments and trim -------------------------------------------
 
                 $line = trim($line);
-                if (empty($line)) {
+                if (empty($line))
+                {
                     continue;
                 }
 
                 // ignore comments
-                if (str_starts_with($line, '//')) {
+                if (str_starts_with($line, '//'))
+                {
                     continue;
                 }
 
@@ -123,7 +134,8 @@ class tasks
                 //--- useful line -------------------------------------------
 
                 // start of task line set
-                if ($this->isTaskStart($line)) {
+                if ($this->isTaskStart($line))
+                {
                     // create task and assign lines
                     $actTask = new task();
                     $actTask->extractTaskFromLines($taskLines);
@@ -136,14 +148,17 @@ class tasks
             }
 
             // Collected task lines are available: create task
-            if ( ! empty ($taskLines)) {
+            if (!empty ($taskLines))
+            {
 
                 // create task and assign lines
                 $actTask = new task();
                 $actTask->extractTaskFromLines($taskLines);
 
                 $this->addTask($actTask);
-            } else {
+            }
+            else
+            {
 
 //                print ('!!! Task start Id found in lines !!!' . PHP_EOL);
                 print ('!!! No Task lines detected !!!' . PHP_EOL);
@@ -154,7 +169,9 @@ class tasks
 
             // print ($this->tasksText ());
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -169,39 +186,56 @@ class tasks
         $checkPart = strtolower(substr($tasksLine, 0, 5));
 
         // /option1 /option2=xxx /option3="01teststring"
-        if ($checkPart == 'task:') {
+        if ($checkPart == 'task:')
+        {
             $isTask = true;
         }
 
         return $isTask;
     }
 
+    public function addTask(task $task): void
+    {
+        if (!empty ($task->name))
+        {
+            // $this->tasks [$task->name] = $task;
+            $this->tasks [] = $task;
+        }
+    }
+
+    // ToDo: A task may have more attributes like *.ext to
 
     public function extractTasksFromString($inTasksLine = ""): tasks
     {
         // 2025.03.11 $this->clear();
 
-        try {
+        try
+        {
             //        $tasks = "task:task00"
             //            . 'task:task01 /option1 /option2=xxx /option3="01 test space string"'
             //            . 'task:task02 /optionX /option2=Y /optionZ="Zteststring"';
             $tasksLine = Trim($inTasksLine);
 
-            if ($tasksLine != '') {
-                while ($this->isTaskStart($tasksLine)) {
+            if ($tasksLine != '')
+            {
+                while ($this->isTaskStart($tasksLine))
+                {
 
                     //--- extract next task -------------------------------
 
                     $idxStart = strpos($tasksLine, ":");
-                    $idxNext = strpos($tasksLine, "task:", $idxStart + 1);
+                    $idxNext  = strpos($tasksLine, "task:", $idxStart + 1);
 
                     // last task
-                    if ($idxNext === false) {
+                    if ($idxNext === false)
+                    {
                         // wrong ? $singleTask = substr($tasksLine, $idxStart + 1);
                         $singleTask = $tasksLine;
 
                         $tasksLine = '';
-                    } else {
+                    }
+                    else
+                    {
                         // multiple options
                         // $singleTask = substr($tasksLine, $idxStart + 1, $idxNext - $idxStart - 1 - 1);
                         $singleTask = substr($tasksLine, 0, $idxNext - 1);
@@ -214,7 +248,9 @@ class tasks
                     $this->addTask($task);
                 }
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -222,19 +258,10 @@ class tasks
         return $this;
     }
 
-    // ToDo: A task may have more attributes like *.ext to
-
-    public function addTask(task $task): void
-    {
-        if (!empty ($task->name)) {
-            // $this->tasks [$task->name] = $task;
-            $this->tasks [] = $task;
-        }
-    }
-
     public function assignTasks(tasks $tasks): tasks
     {
-        foreach ($tasks as $task) {
+        foreach ($tasks as $task)
+        {
             $this->tasks[] = $tasks;
         }
 
@@ -244,10 +271,12 @@ class tasks
     /*
      * One line representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $tasksLine = '';
 
-        foreach ($this->tasks as $task) {
+        foreach ($this->tasks as $task)
+        {
             $tasksLine .= " " . $task;
         }
 
@@ -264,7 +293,8 @@ class tasks
 
         $OutTxt .= "Tasks count: " . count($this->tasks) . PHP_EOL;
 
-        foreach ($this->tasks as $task) {
+        foreach ($this->tasks as $task)
+        {
             $OutTxt .= $task->text() . PHP_EOL;
         }
 

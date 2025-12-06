@@ -4,9 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\tasksLib\option;
-
 $HELP_MSG = <<<EOT
     >>>
     options class
@@ -18,7 +15,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "o:h12345";
+$optDefinition    = "o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -39,11 +36,13 @@ $optionsLine = '/option1 /option2=01_Option /option3="02 test space string"';
 //$optionsLine = '/option4="" /option5="05 OP " /option6="06_Xteststring" ';
 //$optionsLine = '/option1 ';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 'o':
             $optionsLine = $option;
             break;

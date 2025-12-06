@@ -5,8 +5,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 // not used see tasksOptionsTest.php: add tasks and options *.php also
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class task
@@ -28,7 +26,6 @@ Class task
  *
  * See other *.tsk for examples
  */
-
 // ToDo: inherit from options
 class task // extends options
 {
@@ -57,63 +54,22 @@ class task // extends options
      */
     public function clear(): void
     {
-        $this->name = '';
+        $this->name    = '';
         $this->options = new options();
     }
 
     public function __construct1(string $name, options $options)
     {
-        $this->name = $name;
+        $this->name    = $name;
         $this->options = $options;
-    }
-
-    /**
-     * Extract single line containing starting task:... and multiple options line /xxx=nnn ....
-     * @param string $taskStringIn
-     * @return $this
-     */
-    public function extractTaskFromString(string $taskStringIn = ""): task
-    {
-        $this->clear();
-
-        try {
-            $taskStringTrimmed = Trim($taskStringIn);
-
-            if (str_starts_with(strtolower($taskStringTrimmed), 'task:')) {
-
-                // remove 'task:' from line, trim space after 'task: taskname'
-                $taskString = trim(substr($taskStringTrimmed, 5));
-
-                // 'task01name /option1 /option2=xxx /option3="01 test space string"'
-                $idx = strpos($taskString, " ");
-
-                // name without options
-                if ($idx === false) {
-                    // task:....
-                    $this->name = $taskString;
-                } else {
-                    // name with options (task:exchangeActCopyrightYear /fileName=".../src/Model/GalleryTreeModel.php" /copyrightDate=1999)
-                    $this->name = substr($taskString, 0, $idx);
-
-                    $optionsString = substr($taskString, $idx + 1);
-
-                    $this->options->extractOptionsFromString($optionsString);
-                }
-
-            }
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        return $this;
     }
 
     /**
      * Extract single task from lines of file
      * See *.tsk (*.opt) for examples
      *
-     * @param string $taskFile
+     * @param   string  $taskFile
+     *
      * @return $this
      */
     public function extractTaskFromFile(string $taskFile): task
@@ -124,18 +80,22 @@ class task // extends options
 
         $this->clear();
 
-        try {
-            if (!is_file($taskFile)) {
+        try
+        {
+            if (!is_file($taskFile))
+            {
                 // not working $realPath = realpath($taskFile);
                 throw new Exception('Task file not found: "' . $taskFile . '"');
             }
 
             $content = file_get_contents($taskFile); //Get the file
-            $lines = explode("\n", $content); //Split the file by each line
+            $lines   = explode("\n", $content); //Split the file by each line
 
             $this->extractTaskFromLines($lines);
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo 'Message: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -144,17 +104,8 @@ class task // extends options
     }
 
     /**
-     * @param \Finnern\BuildExtension\src\tasksLib\options $taskOptions
-     * @param string $optionsString
-     * @return void
-     */
-//    public function extractOptionsFromString(string $optionsString): void
-//    {
-//        $this->options->extractOptionsFromString($optionsString);
-//    }
-
-    /**
-     * @param array $lines
+     * @param   array  $lines
+     *
      * @return void
      */
     public function extractTaskFromLines(array $lines): void
@@ -166,17 +117,20 @@ class task // extends options
 
         $isTaskNameFound = false; // then options
 
-        foreach ($lines as $line) {
+        foreach ($lines as $line)
+        {
 
             //--- comments and trim -------------------------------------------
 
             $line = trim($line);
-            if (empty($line)) {
+            if (empty($line))
+            {
                 continue;
             }
 
             // ignore comments
-            if (str_starts_with($line, '//')) {
+            if (str_starts_with($line, '//'))
+            {
                 continue;
             }
 
@@ -185,17 +139,83 @@ class task // extends options
             //--- useful line -------------------------------------------
 
             // find task name first
-            if ( ! $isTaskNameFound) {
+            if (!$isTaskNameFound)
+            {
 
-                if (str_starts_with(strtolower($line), 'task:')) {
-                    $this->extractTaskFromString ($line);
+                if (str_starts_with(strtolower($line), 'task:'))
+                {
+                    $this->extractTaskFromString($line);
                     $isTaskNameFound = true;
                 }
-            } else {
-                $this->options->extractOptionsFromString ($line);
+            }
+            else
+            {
+                $this->options->extractOptionsFromString($line);
             }
 
         }
+    }
+
+    /**
+     * @param   \Finnern\BuildExtension\src\tasksLib\options  $taskOptions
+     * @param   string                                        $optionsString
+     *
+     * @return void
+     */
+//    public function extractOptionsFromString(string $optionsString): void
+//    {
+//        $this->options->extractOptionsFromString($optionsString);
+//    }
+
+    /**
+     * Extract single line containing starting task:... and multiple options line /xxx=nnn ....
+     *
+     * @param   string  $taskStringIn
+     *
+     * @return $this
+     */
+    public function extractTaskFromString(string $taskStringIn = ""): task
+    {
+        $this->clear();
+
+        try
+        {
+            $taskStringTrimmed = Trim($taskStringIn);
+
+            if (str_starts_with(strtolower($taskStringTrimmed), 'task:'))
+            {
+
+                // remove 'task:' from line, trim space after 'task: taskname'
+                $taskString = trim(substr($taskStringTrimmed, 5));
+
+                // 'task01name /option1 /option2=xxx /option3="01 test space string"'
+                $idx = strpos($taskString, " ");
+
+                // name without options
+                if ($idx === false)
+                {
+                    // task:....
+                    $this->name = $taskString;
+                }
+                else
+                {
+                    // name with options (task:exchangeActCopyrightYear /fileName=".../src/Model/GalleryTreeModel.php" /copyrightDate=1999)
+                    $this->name = substr($taskString, 0, $idx);
+
+                    $optionsString = substr($taskString, $idx + 1);
+
+                    $this->options->extractOptionsFromString($optionsString);
+                }
+
+            }
+        }
+        catch (Exception $e)
+        {
+            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        return $this;
     }
 
     public function extractOptionsFromFile(string $optionsFile): options
@@ -216,11 +236,13 @@ class task // extends options
     /*
      * One line representation
      */
-    public function __toString() {
+    public function __toString()
+    {
         $taskLine = 'task:' . $this->name;
 
         // if ( ! empty ($this->options)) {
         $taskLine .= $this->options;
+
         //}
 
         return $taskLine;
@@ -234,14 +256,14 @@ class task // extends options
         // $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt = "";
         $OutTxt .= "--- task: " . $this->name . PHP_EOL;
-        if ($this->options->count() > 0) {
+        if ($this->options->count() > 0)
+        {
             // $OutTxt .= "options: ";
             $OutTxt .= $this->options->text(); // . PHP_EOL;
         }
 
         return $OutTxt;
     }
-
 
 
 } // task

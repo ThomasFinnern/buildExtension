@@ -57,6 +57,15 @@ $tasksLine = ' task:createNamespace'
 //    . '     . ' /rootPath=e:\wamp64\www\joomla5x'
 //    . '     . ' /rootPath=e:\wamp64\www\joomla5x'
 
+    . ' /isCompare=true'
+    . ' 	// /isForce=true'
+
+    . ' /excludeFolderList=modules'
+    . ' /excludeFolderList=plugins'
+    . ' /excludeFolderList=media'
+    . ' /excludeFolderList=.git'
+    . ' /excludeFolderList=.idea'
+
 //    . ' /s='
 ;
 // $tasksLine="";

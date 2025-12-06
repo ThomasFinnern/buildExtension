@@ -208,6 +208,7 @@ class createNamespaceFile
                             $testBareLine = trim($bareLine);
                             if (trim($bareLine) !== $namespace)
                             {
+                                $namespace2 = $this->createNamespaceLine($fileName);
                                 if ($this->isLogDev)
                                 {
                                     print ("Delta namespace in line: " . $scanCodeLines->lineNumber . PHP_EOL);
@@ -236,7 +237,8 @@ class createNamespaceFile
                                     $this->isChanged = true;
                                 }
 
-                                $line = $this->createNamespaceLine($fileName);
+                                // $line = $this->createNamespaceLine($fileName);
+                                $line = $namespace;
                             }
                         }
                     }
@@ -346,7 +348,12 @@ class createNamespaceFile
 
         $behindPath = $this->extractBehindPathParts($fileName, $rootPath, $autoType);
 
-        $namespace = 'namespace ' . $company . '\\' . ucfirst($autoType) . '\\' . $extensionName . '\\' . $behindPath . ';';
+        if (! empty($behindPath))
+        {
+            $namespace = 'namespace ' . $company . '\\' . ucfirst($autoType) . '\\' . $extensionName . '\\' . $behindPath . ';';
+        } else {
+            $namespace = 'namespace ' . $company . '\\' . ucfirst($autoType) . '\\' . $extensionName . ';';
+        }
 
         return $namespace;
     }
@@ -411,8 +418,8 @@ class createNamespaceFile
 
         $behindPath = "";
 
-        // lower case
-        $behindPathBackslash = strtolower($behindPathBackslash);
+        // lower case ? why => needed for Administrator\CliCommand
+//        $behindPathBackslash = strtolower($behindPathBackslash);
 
         $parts = explode('\\', $behindPathBackslash);
 
@@ -431,8 +438,7 @@ class createNamespaceFile
 //                }
 //            }
 
-
-            switch ($extensionType)
+            switch (strtolower($extensionType))
             {
 
                 case 'component':

@@ -158,7 +158,7 @@ class encloseAll_jexec_LinesFile
                     {
 
                         $outLines[] = "// phpcs:disable PSR1.Files.SideEffects" . PHP_EOL;
-                        $outLines[] = "\defined('_JEXEC') or die;" . PHP_EOL;
+                        $outLines[] = "\defined('_JEXEC') || die;" . PHP_EOL;
                         $outLines[] = "// phpcs:enable PSR1.Files.SideEffects" . PHP_EOL;
 
                         $this->isChanged = true;

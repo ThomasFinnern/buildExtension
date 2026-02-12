@@ -333,6 +333,10 @@ $basePath = "..\\..\\LangMan4Dev";
 //$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
 // $tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_admin.tsk";
 
+//$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_mod_rsg2_gallery.tsk";
+$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_gallery.tsk";
+
+
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 //$optionFiles [] = '.\options_version_tsk\build_develop.opt';

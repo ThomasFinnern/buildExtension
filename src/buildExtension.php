@@ -369,6 +369,8 @@ class buildExtension extends baseExecuteTasks
 
         //--- root files -------------------------------------------------
 
+        print ('--- copy manifest file ' . PHP_EOL);
+
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
         print ("\r\n");
@@ -469,7 +471,8 @@ class buildExtension extends baseExecuteTasks
             } else {
 
                 if (str_starts_with($extName, 'plg_')) {
-                    $idx = strpos($extName, '_', strlen('plg_')) + 1;
+                    // 2026.02.11  $idx = strpos($extName, '_', strlen('plg_')) + 1;
+                    $idx = strpos($extName, '_') + 1;
                     $extName = substr($extName, $idx);
                 }
             }
@@ -499,8 +502,14 @@ class buildExtension extends baseExecuteTasks
             } else {
 
                 if (str_starts_with($name, 'plg_')) {
-                    // $idx = strpos($extName, '_', strlen('plg_')) + 1;
-                    // $extName = 'plg_' . substr($extName, $idx);
+//                    if ( ! str_starts_with($extName, 'plg_'))
+//                    {
+//                        // $idx = strpos($extName, '_', strlen('plg_')) + 1;
+////                        $extName = 'plg_' . substr($extName, $idx);
+//                        $extName = 'plg_' . $extName;
+//                    }
+//
+                    // already done but ....
                     $name = $this->extName;
                 }
             }
@@ -771,6 +780,8 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
+        print ('--- copy manifest file ' . PHP_EOL);
+
         $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
@@ -907,6 +918,8 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
+        print ('--- copy manifest file ' . PHP_EOL);
+
         $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
@@ -914,6 +927,8 @@ class buildExtension extends baseExecuteTasks
         //--------------------------------------------------------------------
 
         //--- root files -------------------------------------------------
+
+        print ('--- copy manifest file ' . PHP_EOL);
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
@@ -1027,20 +1042,24 @@ class buildExtension extends baseExecuteTasks
      */
     public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
     {
-        print ("\r\n");
+        // print ("\r\n");
         print ('--- copy to temp ------------------------------' . PHP_EOL);
 
         $srcRoot = realpath($this->fileNamesList->srcRoot);
+
+        print ('--- copy files ' . PHP_EOL);
 
         foreach ($filesByManifest->files as $file) {
             $this->xcopyElement($file, $srcRoot, $tmpFolder);
         }
 
+        print ('--- copy folders ' . PHP_EOL);
+
         foreach ($filesByManifest->folders as $folder) {
             $this->xcopyElement($folder, $srcRoot, $tmpFolder);
         }
 
-        print ("\r\n");
+        // print ("\r\n");
 
         return $srcRoot;
     }
@@ -1137,7 +1156,10 @@ function xcopyDir($src, $dest)
             continue;
         }
         if (is_dir($src . '/' . $file)) {
-            mkdir($dest . '/' . $file);
+            if (! is_dir($dest . '/' . $file))
+            {
+                mkdir($dest . '/' . $file);
+            }
             xcopyDir($src . '/' . $file, $dest . '/' . $file);
         } else {
             copy($src . '/' . $file, $dest . '/' . $file);

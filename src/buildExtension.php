@@ -485,35 +485,41 @@ class buildExtension extends baseExecuteTasks
     // ToDo: move/create also in to manifest.php file ?
     private function destinationExtensionName(): string
     {
-        $name = $this->extName;
+        //$name = $this->extName;
+        $name = $this->element;
 
-        // com / mod extension
+        if (Empty($name)) {
+            $name = $this->extName;
+        }
+
+        // com  extension
         if (str_starts_with($name, 'com_')) {
             // Standard
             $name = substr($name, 4);
             // $extName = 'com_' . substr($extName, 4);
 
-        } else {
-
-            if (str_starts_with($name, 'mod_')) {
-                // $idx = strpos($extName, '_', strlen('mod_')) + 1;
-                // $extName = 'mod_' . substr($extName, $idx);
-                $name = $this->extName;
-            } else {
-
-                if (str_starts_with($name, 'plg_')) {
-//                    if ( ! str_starts_with($extName, 'plg_'))
-//                    {
-//                        // $idx = strpos($extName, '_', strlen('plg_')) + 1;
-////                        $extName = 'plg_' . substr($extName, $idx);
-//                        $extName = 'plg_' . $extName;
-//                    }
-//
-                    // already done but ....
-                    $name = $this->extName;
-                }
-            }
         }
+//        else {
+//
+//            if (str_starts_with($name, 'mod_')) {
+//                // $idx = strpos($extName, '_', strlen('mod_')) + 1;
+//                // $extName = 'mod_' . substr($extName, $idx);
+//                $name = $this->extName;
+//            } else {
+//
+//                if (str_starts_with($name, 'plg_')) {
+////                    if ( ! str_starts_with($extName, 'plg_'))
+////                    {
+////                        // $idx = strpos($extName, '_', strlen('plg_')) + 1;
+//////                        $extName = 'plg_' . substr($extName, $idx);
+////                        $extName = 'plg_' . $extName;
+////                    }
+////
+//                    // already done but ....
+//                    $name = $this->extName;
+//                }
+//            }
+//        }
 
         return $name;
     }

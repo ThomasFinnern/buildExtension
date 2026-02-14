@@ -8,7 +8,27 @@ use Finnern\BuildExtension\src\tasksLib\option;
 /**
  * Sem-Version with additional build number
  *
+ * Given a version number MAJOR.MINOR.PATCH, increment the:
+ *
+ * MAJOR version when you make incompatible API changes
+ * MINOR version when you add functionality in a backward compatible manner
+ * PATCH version when you make backward compatible bug fixes
+ * Additional labels for pre-release and build metadata are available as
+ *   extensions to the MAJOR.MINOR.PATCH format.
+ *
+ * A pre-release version MAY be denoted by appending a hyphen and a
+ *   series of dot separated identifiers immediately following the patch version.
+ * Examples: 1.0.0-alpha, 1.0.0-alpha.1, 1.0.0-0.3.7, 1.0.0-x.7.z.92, 1.0.0-x-y-z.--.
+ *
+ * Example: 1.0.0-alpha < 1.0.0-alpha.1 < 1.0.0-alpha.beta < 1.0.0-beta
+ *    < 1.0.0-beta.2 < 1.0.0-beta.11 < 1.0.0-rc.1 < 1.0.0.
+ *
  */
+
+// ToDo: Semantic $isRc  $isAlpha, $isBeta : pre release number for RC, Alpha ...
+//  1.0.0-alpha.1 1.0.0-beta.11 1.0.0-rc.1
+
+
 class versionId {
 
     //
@@ -22,6 +42,9 @@ class versionId {
     public bool $isIncreasePatch = false; // release
     public bool $isIncreaseBuild = false;
 
+    public bool $isIncreasePreName = false;  // beta -> alpha -> rc
+    public bool $isIncreasePreVersion = false;  // beta.x (not beta.1.2.3)
+
     public string $forceVersionId;
     public bool $isForceVersion = false;
 
@@ -33,9 +56,6 @@ class versionId {
 
     // release will increase minor and reset revision and build counter
     public bool $isDevelop = false;
-
-    // ToDo: Semantic $isRc  $isAlpha, $isBeta : pre release number for RC, Alpha ...
-    //  1.0.0-alpha.1 1.0.0-beta.11 1.0.0-rc.1
 
     /*--------------------------------------------------------------------
     construction
@@ -67,6 +87,8 @@ class versionId {
         $this->isIncreaseMinor = $isIncreaseMinor;
         $this->isIncreasePatch = $isIncreasePatch; // release
         $this->isIncreaseBuild = $isIncreaseBuild;
+
+        // ... ToDo:
     }
 
     public static function id_2_numbers ($versionId = ' . . . ') //: [number,number, number, number]
@@ -85,6 +107,9 @@ class versionId {
         if ($count > 2) { $patch = intval($parts[2]); }
         if ($count > 3) { $build = intval($parts[3]); }
 
+
+        // ... ToDo: alpha, beta ...
+
         return [$major, $minor, $patch, $build];
     }
 
@@ -95,6 +120,8 @@ class versionId {
             $versionId .=  '.' . strval($build);
         }
 
+        // ... ToDo: alpha, beta ...
+
         return $versionId;
     }
 
@@ -103,6 +130,8 @@ class versionId {
     {
         $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch);
 
+        // ... ToDo: alpha, beta ...
+
         return $versionId;
     }
 
@@ -110,6 +139,8 @@ class versionId {
     public function update() : string {
 
         $isChanged = false;
+
+        // ... ToDo: alpha, beta ...
 
         // force
         if ($this->isForceVersion) {

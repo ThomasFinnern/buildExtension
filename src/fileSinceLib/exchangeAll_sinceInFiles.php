@@ -88,7 +88,7 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
                     $isOptionConsumed = true;
                     break;
 
-                case strtolower('versionId'):
+                case strtolower('semVersionId'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->versionId = $option->value;
                     $isOptionConsumed = true;

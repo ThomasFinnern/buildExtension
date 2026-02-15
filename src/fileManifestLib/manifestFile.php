@@ -3,14 +3,12 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Exception;
-use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
+use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
-use Finnern\BuildExtension\src\versionLib\versionId;
 
 /*================================================================================
 Class manifestFile
@@ -161,7 +159,7 @@ class manifestFile extends baseExecuteTasks
 
     //--- requests for assignment ---------------------------------
 
-    public versionId $versionId;
+    public semVersionId $versionId;
     //private copyrightText $copyright;
 
     // requests [name]= value
@@ -200,7 +198,7 @@ class manifestFile extends baseExecuteTasks
 //                $this->manifestXml = new manifestXml($manifestPathFileName);
 //            }
 
-            $this->versionId = new versionId();
+            $this->versionId = new semVersionId();
             //$this->copyright = new copyrightText();
 
         } catch (Exception $e) {
@@ -234,7 +232,7 @@ class manifestFile extends baseExecuteTasks
 //
 //            // base options are already handled
 //            if (!$isBaseOption) {
-//                $isVersionOption = $this->versionId->assignVersionOption($option);
+//                $isVersionOption = $this->semVersionId->assignVersionOption($option);
 //            }
 //
 //            if (!$isBaseOption && !$isVersionOption) {
@@ -320,7 +318,7 @@ class manifestFile extends baseExecuteTasks
                         $isOptionConsumed = true;
                         break;
 
-                    // done automatically below with flags for versionId
+                    // done automatically below with flags for semVersionId
 //                case strtolower('isIncrementVersion_build'):
 //                    print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
 //                    $this->isIncrementVersion_build = $option->value;
@@ -401,7 +399,7 @@ class manifestFile extends baseExecuteTasks
 
             $inVersionId = (string) $manifestXml->getByXml('version', '');
 
-            // $this->versionId = new versionId($inCopyright);
+            // $this->semVersionId = new semVersionId($inCopyright);
 
             //--- update  -----------------------------------
 
@@ -416,7 +414,7 @@ class manifestFile extends baseExecuteTasks
 
             if ($outVersionId != $inVersionId) {
 
-                // $manifestXml->versionId->outVersionId = $outVersionId;
+                // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 // $manifestXml->setByXml('version', $outVersionId);
                 $this->version = $outVersionId;
 
@@ -732,7 +730,7 @@ class manifestFile extends baseExecuteTasks
     public function text(): string
     {
         $OutTxt = "------------------------------------------" . PHP_EOL;
-        $OutTxt .= "--- versionId ---" . PHP_EOL;
+        $OutTxt .= "--- semVersionId ---" . PHP_EOL;
 
 
         $OutTxt .= "Not defined yet " . PHP_EOL;

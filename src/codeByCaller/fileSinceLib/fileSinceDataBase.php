@@ -40,7 +40,7 @@ class fileSinceDataBase implements fileSinceDataInterface
     {
         $isToBeChanged = false;
 
-//        $sinceLine = $this->createSinceLine($alignIdx, $versionId);
+//        $sinceLine = $this->createSinceLine($alignIdx, $semVersionId);
 //
 //
 //        // TODO: Implement checkLine() method.

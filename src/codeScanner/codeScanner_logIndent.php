@@ -175,7 +175,7 @@ class codeScanner_logIndent extends baseExecuteTasks
 //        $this->exchangeSinceLinesFile->assignOptionCallerProjectId($this->callerProjectId);
 //
 //        $this->exchangeSinceLinesFile->assignOptions($this->isForceOverwrite,
-//            $this->isForceVersion, $this->isLogOnly, $this->versionId);
+//            $this->isForceVersion, $this->isLogOnly, $this->semVersionId);
 //
 //        //--- iterate over all files -------------------------------------
 //
@@ -183,7 +183,7 @@ class codeScanner_logIndent extends baseExecuteTasks
 //
 //            print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 //
-//            $this->exchangeSinceLinesFile->exchangeSinceLines($fileName->srcPathFileName, $this->versionId);
+//            $this->exchangeSinceLinesFile->exchangeSinceLines($fileName->srcPathFileName, $this->semVersionId);
 //        }
 
 		$filePathName = $this->fileNamesList->srcRoot . '/' . $this->fileName;

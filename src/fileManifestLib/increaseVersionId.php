@@ -3,11 +3,10 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Exception;
+use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
-use Finnern\BuildExtension\src\versionLib\versionId;
 
 
 /*================================================================================
@@ -29,7 +28,7 @@ class increaseVersionId extends baseExecuteTasks
     construction
     --------------------------------------------------------------------*/
 
-    private versionId $versionId;
+    private semVersionId $versionId;
 
     //private string $componentName = '';
 
@@ -50,8 +49,7 @@ class increaseVersionId extends baseExecuteTasks
 
             parent::__construct ($srcRoot, $isNoRecursion);
 
-            $this->componentName = $componentName;
-            $this->versionId = new versionId();
+            $this->versionId = new semVersionId();
 
         } catch (Exception $e) {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
@@ -150,15 +148,13 @@ class increaseVersionId extends baseExecuteTasks
 
         try {
 
-            // does read xml immediately
+            // does read *.xml file immediately
             $this->manifestXml = new manifestXml($manifestFileName);
             $manifestXml = $this->manifestXml;
 
             //--- old version ID -----------------------------------
 
             $inVersionId = (string) $manifestXml->getByXml('version', '');
-
-            // $this->versionId = new versionId($inVersionId);
 
             //--- update version -----------------------------------
 
@@ -173,7 +169,7 @@ class increaseVersionId extends baseExecuteTasks
 
             if ($outVersionId != $inVersionId) {
 
-                // $manifestXml->versionId->outVersionId = $outVersionId;
+                // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 $manifestXml->setByXml('version', $outVersionId);
 
                 $isSaved = $manifestXml->writeManifestXml();

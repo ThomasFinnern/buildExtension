@@ -35,7 +35,7 @@ class buildExtension extends baseExecuteTasks
     private string $buildDir = '';
 
     // Handled in manifest file
-    // private versionId $versionId;
+    // private semVersionId $versionId;
 
     // internal
     private string $manifestPathFileName = '';
@@ -85,7 +85,7 @@ class buildExtension extends baseExecuteTasks
 //            $this->srcFile = $srcFile;
 //            $this->dstFile = $dstFile;
 
-//            $this->versionId = new versionId();
+//            $this->semVersionId = new semVersionId();
             $this->manifestFile = new manifestFile();
 
             $this->element = "";
@@ -110,7 +110,7 @@ class buildExtension extends baseExecuteTasks
 //
 //            // base options are already handled
 //            if (!$isBaseOption) {
-//                // $isVersionOption = $this->versionId->assignVersionOption($option);
+//                // $isVersionOption = $this->semVersionId->assignVersionOption($option);
 //                // ToDo: include version better into manifest
 //                // -> same increase flags should be ...
 //                // if (!$isVersionOption) {
@@ -543,7 +543,7 @@ class buildExtension extends baseExecuteTasks
             print ("exchangeDataInManifestFile manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 //            // read
 //            // keep flags
-//            $manifestFile->versionId = $this->versionId;
+//            $manifestFile->semVersionId = $this->semVersionId;
 
             //--- read file -----------------------------------------------
 
@@ -558,9 +558,9 @@ class buildExtension extends baseExecuteTasks
                 }
 
 //                if ($this->isIncrementVersion_build) {
-//                    // $manifestFile->versionId->isBuildRelease = false;
-//                    $manifestFile->versionId->isBuildRelease = true;
-////                    print ("buildExtension: isBuildRelease: " .  $this->versionId->isBuildRelease  . PHP_EOL);
+//                    // $manifestFile->semVersionId->isBuildRelease = false;
+//                    $manifestFile->semVersionId->isBuildRelease = true;
+////                    print ("buildExtension: isBuildRelease: " .  $this->semVersionId->isBuildRelease  . PHP_EOL);
 //                }
 
                 if ($this->element != '') {

@@ -158,7 +158,7 @@ class forceVersionId extends baseExecuteTasks
 
             if ($outVersionId != $inVersionId) {
 
-                // $manifestXml->versionId->outVersionId = $outVersionId;
+                // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 $manifestXml->setByXml('version', $outVersionId);
 
                 $isSaved = $manifestXml->writeManifestXml();

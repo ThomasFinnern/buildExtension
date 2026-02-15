@@ -9,7 +9,7 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
 use SimpleXMLElement;
 
-//use Finnern\BuildExtension\src\versionLib\versionId;
+//use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 
 /*================================================================================
 Class filesByManifest
@@ -167,7 +167,7 @@ class filesByManifest extends baseExecuteTasks
             // version: ToDo: create on construct and use flags on execute
 //            // base options are already handled
 //            if (!$isBaseOption) {
-//                $isVersionOption = $this->versionId->assignVersionOption($option);
+//                $isVersionOption = $this->semVersionId->assignVersionOption($option);
 //            }
 
 //            // base options are already handled
@@ -196,7 +196,7 @@ class filesByManifest extends baseExecuteTasks
 
         $isManifestOption = false;
 
-//        $isVersionOption = $this->versionId->assignVersionOption($option);
+//        $isVersionOption = $this->semVersionId->assignVersionOption($option);
 
 //        if ( ! $isVersionOption) {
 

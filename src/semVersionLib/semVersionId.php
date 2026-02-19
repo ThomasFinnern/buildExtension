@@ -82,6 +82,14 @@ class semVersionId
 
     }
 
+    public function assignInId($versionId = "")
+    {
+
+        $this->inVersionId  = $versionId;
+        $this->outVersionId = $versionId;
+
+    }
+
     public function init(): void
     {
         // on read of line
@@ -476,6 +484,7 @@ class semVersionId
 //            );
 //
 //            $this->inVersionId = $inVersionId;
+//            $this->versionId->assignInId ($inVersionId);
 
             // <element>value</element> contains -> standard form
 
@@ -489,7 +498,8 @@ class semVersionId
                     $inVersionId = substr($line, $idxStart + 1, $idxEnd - $idxStart - 1);
                 }
 
-                $this->inVersionId = $inVersionId;
+                // $this->inVersionId = $inVersionId;
+                $this->versionId->assignInId ($inVersionId);
             }
 
         }

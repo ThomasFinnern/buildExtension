@@ -158,7 +158,8 @@ class increaseVersionId extends baseExecuteTasks
 
             //--- update version -----------------------------------
 
-            $this->versionId->inVersionId =  $inVersionId;
+            // $this->versionId->inVersionId =  $inVersionId;
+            $this->versionId->assignInId ($inVersionId);
 
             // exchange for new version id
             $this->versionId->update();

@@ -403,7 +403,8 @@ class manifestFile extends baseExecuteTasks
 
             //--- update  -----------------------------------
 
-            $this->versionId->inVersionId =  $inVersionId;
+            // $this->versionId->inVersionId =  $inVersionId;
+            $this->versionId->assignInId ($inVersionId);
 
             // exchange for new version id
             $this->versionId->update();

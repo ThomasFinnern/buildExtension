@@ -96,7 +96,7 @@ class task // extends options
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -211,7 +211,7 @@ class task // extends options
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

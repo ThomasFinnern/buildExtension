@@ -149,7 +149,7 @@ class commandLineLib
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

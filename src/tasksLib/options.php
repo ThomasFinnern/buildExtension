@@ -36,7 +36,7 @@ class options
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 //        // print('exit __construct: ' . $hasError . PHP_EOL);
@@ -108,7 +108,7 @@ class options
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -221,7 +221,7 @@ class options
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 

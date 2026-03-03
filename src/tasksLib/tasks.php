@@ -83,7 +83,7 @@ class tasks
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -172,7 +172,7 @@ class tasks
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
@@ -203,7 +203,7 @@ class tasks
         }
     }
 
-    // ToDo: A task may have more attributes like *.ext to
+    // extract multiple tasks from string
 
     public function extractTasksFromString($inTasksLine = ""): tasks
     {
@@ -218,7 +218,7 @@ class tasks
 
             if ($tasksLine != '')
             {
-                while ($this->isTaskStart($tasksLine))
+                while ($this->isStringStartsWithTask($tasksLine))
                 {
 
                     //--- extract next task -------------------------------
@@ -251,11 +251,29 @@ class tasks
         }
         catch (Exception $e)
         {
-            echo 'Message: ' . $e->getMessage() . PHP_EOL;
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
         return $this;
+    }
+
+    // ToDo: A task may have more attributes like *.ext to
+
+    private function isStringStartsWithTask(string $tasksLine)
+    {
+        $isTask = false;
+
+        $tasksLine = Trim($tasksLine);
+        $checkPart = strtolower(substr($tasksLine, 0, 5));
+
+        // /option1 /option2=xxx /option3="01 test space string"
+        if ($checkPart == 'task:')
+        {
+            $isTask = true;
+        }
+
+        return $isTask;
     }
 
     public function assignTasks(tasks $tasks): tasks

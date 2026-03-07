@@ -52,14 +52,13 @@ class options
         return (count($this->options));
     }
 
-    public function getOption(string $name = '', bool $isIgnoreCase = false): string
+    public function getOptionValue(string $name = '', bool $isIgnoreCase = false): string
     {
-        $value = '';
+        $value   = '';
+        $isFound = false;
 
         foreach ($this->options as $option)
         {
-            $isFound = false;
-
             if ($isIgnoreCase)
             {
                 $isFound = strtolower($option->name) === strtolower($name);
@@ -72,14 +71,66 @@ class options
             if ($isFound)
             {
                 $value = $option->value;
+                break;
             }
         }
 
         return ($value);
     }
 
+    public function getOption(string $name = '', bool $isIgnoreCase = false): string
+    {
+        $foundOption = null;
+        $isFound = false;
+
+        foreach ($this->options as $option)
+        {
+            if ($isIgnoreCase)
+            {
+                $isFound = strtolower($option->name) === strtolower($name);
+            }
+            else
+            {
+                $isFound = $option->name === $name;
+            }
+
+            if ($isFound)
+            {
+                $foundOption = $option;
+                break;
+            }
+        }
+
+        return ($foundOption);
+    }
+
+    public function delOption(string $name = '', bool $isIgnoreCase = false): string
+    {
+        $isFound = false;
+
+        foreach ($this->options as $option)
+        {
+            if ($isIgnoreCase)
+            {
+                $isFound = strtolower($option->name) === strtolower($name);
+            }
+            else
+            {
+                $isFound = $option->name === $name;
+            }
+
+            if ($isFound)
+            {
+                unset($option);
+                break;
+            }
+        }
+
+        return ($isFound);
+    }
+
     /**
-     * Extract single task from lines of file
+     * Extract options from lines of file
      * See *.tsk (*.opt) for examples
      *
      * @param   string  $optionsFile
@@ -157,7 +208,7 @@ class options
             $optionsString = Trim($inOptionsString);
 
             // multiple: /optionName or /optionName=value or /optionName="optionValue"
-            while ($this->hasOptionChar($optionsString))
+            while ($this->isOptionString($optionsString))
             {
                 // --- scan end of option -------------------------------
 
@@ -232,25 +283,32 @@ class options
     extractOptionsFromString
     --------------------------------------------------------------------*/
 
-    private function hasOptionChar(string $inOptionsString)
+    /**
+     * Check if string starts with '-'or '/'
+     *
+     * @param   string  $inOptionsString
+     *
+     * @return bool
+     */
+    private function isOptionString(string $inOptionsString)
     {
-        $isOption = false;
+        $isOptionString = false;
 
         $optionsString = Trim($inOptionsString);
 
         // /option1 /option2=xxx /option3="01 test space string"
         if (str_starts_with($optionsString, '/'))
         {
-            $isOption = true;
+            $isOptionString = true;
         }
 
         // -option1 -option2=xxx -option3="01 test space string"
         if (str_starts_with($optionsString, '-'))
         {
-            $isOption = true;
+            $isOptionString = true;
         }
 
-        return $isOption;
+        return $isOptionString;
     }
 
     public function addOption(option $option): void
@@ -260,6 +318,13 @@ class options
             // $this->options [$option->name] = $option;
             $this->options [] = $option;
         }
+    }
+
+    public function addOptionByValue(string $optionName, string $optionValue): void
+    {
+        $option = new option($optionName, $optionValue);
+
+        $this->addOption($option);
     }
 
     /*
@@ -294,6 +359,30 @@ class options
         }
 
         return $OutTxt;
+    }
+
+    public function hasOption(string $name = '', bool $isIgnoreCase = false): string
+    {
+        $hasOption = false;
+
+        foreach ($this->options as $option)
+        {
+            if ($isIgnoreCase)
+            {
+                $hasOption = strtolower($option->name) === strtolower($name);
+            }
+            else
+            {
+                $hasOption = $option->name === $name;
+            }
+
+            if ($hasOption)
+            {
+                break;
+            }
+        }
+
+        return ($hasOption);
     }
 
 } // options

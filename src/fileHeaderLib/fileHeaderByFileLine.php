@@ -203,7 +203,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
-                $fileName = $options->getOption('fileName');
+                $fileName = $options->getOptionValue('fileName');
                 $this->exchangeLicense($fileName);
                 break;
 
@@ -211,8 +211,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $copyrightDate = $options->getOption('copyrightDate');
+                $fileName = $options->getOptionValue('fileName');
+                $copyrightDate = $options->getOptionValue('copyrightDate');
 
                 $this->exchangeActCopyrightYear($fileName, $copyrightDate);
                 break;
@@ -221,8 +221,8 @@ class fileHeaderByFileLine // extends fileHeaderData
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
-                $fileName = $options->getOption('fileName');
-                $copyrightDate = $options->getOption('copyrightDate');
+                $fileName = $options->getOptionValue('fileName');
+                $copyrightDate = $options->getOptionValue('copyrightDate');
 
                 // ToDo: create exchangeSinceCopyrightYear function
                 $this->exchangeSinceCopyrightYear($fileName, $copyrightDate);
@@ -232,7 +232,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
                 $options = $task->options;
-                $fileName = $options->getOption('fileName');
+                $fileName = $options->getOptionValue('fileName');
                 $this->exchangeAuthor($fileName);
                 break;
 

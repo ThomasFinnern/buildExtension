@@ -37,12 +37,11 @@ class tasks
 
     public function getTask(string $name, bool $isIgnoreCase = false): string
     {
-        $value = '';
+        $foundTask   = null;
+        $isFound = false;
 
         foreach ($this->tasks as $task)
         {
-            $isFound = false;
-
             if ($isIgnoreCase)
             {
                 $isFound = strtolower($task->name) === strtolower($name);
@@ -54,13 +53,22 @@ class tasks
 
             if ($isFound)
             {
-                $value = $task->value;
+                $foundTask = $task;
+                break;
             }
         }
 
-        return ($value);
+        return ($foundTask);
     }
 
+    /**
+     * Extract single tasks from lines of file
+     * See *.tsk (*.opt) for examples
+     *
+     * @param   string  $taskFile
+     *
+     * @return $this
+     */
     public function extractTasksFromFile(string $taskFile): tasks
     {
         //print('*********************************************************' . PHP_EOL);
@@ -218,7 +226,7 @@ class tasks
 
             if ($tasksLine != '')
             {
-                while ($this->isStringStartsWithTask($tasksLine))
+                while ($this->isTaskString($tasksLine))
                 {
 
                     //--- extract next task -------------------------------
@@ -260,9 +268,9 @@ class tasks
 
     // ToDo: A task may have more attributes like *.ext to
 
-    private function isStringStartsWithTask(string $tasksLine)
+    private function isTaskString(string $tasksLine)
     {
-        $isTask = false;
+        $isTaskString = false;
 
         $tasksLine = Trim($tasksLine);
         $checkPart = strtolower(substr($tasksLine, 0, 5));
@@ -270,10 +278,10 @@ class tasks
         // /option1 /option2=xxx /option3="01 test space string"
         if ($checkPart == 'task:')
         {
-            $isTask = true;
+            $isTaskString = true;
         }
 
-        return $isTask;
+        return $isTaskString;
     }
 
     public function assignTasks(tasks $tasks): tasks
@@ -319,6 +327,30 @@ class tasks
         return $OutTxt;
     }
 
+    public function hasTask(string $name, bool $isIgnoreCase = false): string
+    {
+        $hasTask = false;
+
+        foreach ($this->tasks as $task)
+        {
+
+            if ($isIgnoreCase)
+            {
+                $hasTask = strtolower($task->name) === strtolower($name);
+            }
+            else
+            {
+                $hasTask = $task->name === $name;
+            }
+
+            if ($hasTask)
+            {
+                break;
+            }
+        }
+
+        return ($hasTask);
+    }
 
 } // task
 

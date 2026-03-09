@@ -361,6 +361,8 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
+        print ('--- copy by manifest file ' . PHP_EOL);
+
         $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
         //--------------------------------------------------------------------
@@ -789,7 +791,7 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
-        print ('--- copy manifest file ' . PHP_EOL);
+        print ('--- copy by manifest file ' . PHP_EOL);
 
         $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
@@ -930,7 +932,7 @@ class buildExtension extends baseExecuteTasks
         // copy to temp
         //--------------------------------------------------------------------
 
-        print ('--- copy manifest file ' . PHP_EOL);
+        print ('--- copy by manifest file ' . PHP_EOL);
 
         $srcRoot = $this->copy2tmpFolder($filesByManifest, $tmpFolder);
 
@@ -1214,11 +1216,11 @@ function delDir($dir)
 
 function zipItRelative($sourcePath, $zipFilename)
 {
-    print ('sourcePath: "' . $sourcePath . '"' . PHP_EOL);
-    print ('zipFilename: "' . $zipFilename . '"' . PHP_EOL);
 
     print (PHP_EOL);
     print ('--- zip it ------------------------------' . PHP_EOL);
+    print ('sourcePath: "' . $sourcePath . '"' . PHP_EOL);
+    print ('zipFilename: "' . $zipFilename . '"' . PHP_EOL);
     print (PHP_EOL);
 
     //--- files within folders ------------------------------

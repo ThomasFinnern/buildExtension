@@ -373,7 +373,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
-        print ("\r\n");
+        print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -381,10 +381,12 @@ class buildExtension extends baseExecuteTasks
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
+//         print (PHP_EOL);        
 
 
         // Not needed, the license is defined in manifest or may be inside component base path
         //$this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
+        //        print (PHP_EOL);
 
         //--- remove package for rsgallery2 ---------------------------------------------
 
@@ -402,7 +404,8 @@ class buildExtension extends baseExecuteTasks
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
-
+//        print (PHP_EOL);
+        
         //--------------------------------------------------------------------
         // zip to destination
         //--------------------------------------------------------------------
@@ -798,7 +801,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
-        print ("\r\n");
+        print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -806,9 +809,11 @@ class buildExtension extends baseExecuteTasks
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
+//         print (PHP_EOL);        
 
         // Not needed, the license is defined in manifest or may be inside component base path
         //$this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
+//         print (PHP_EOL);        
 
         //--- remove package for rsgallery2 ---------------------------------------------
 
@@ -826,6 +831,7 @@ class buildExtension extends baseExecuteTasks
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
+//         print (PHP_EOL);        
 
         //--------------------------------------------------------------------
         // zip to destination
@@ -938,7 +944,7 @@ class buildExtension extends baseExecuteTasks
 
         //  manifest file (not included as 'fileName' in manifest file)
         $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
-        print ("\r\n");
+        print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
 //        $installScript = (string)$this->manifestFile->manifestXml->manifestXml->scriptfile;
@@ -1048,7 +1054,7 @@ class buildExtension extends baseExecuteTasks
      */
     public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
     {
-        // print ("\r\n");
+        // print (PHP_EOL);
         print ('--- copy to temp ------------------------------' . PHP_EOL);
 
         $srcRoot = realpath($this->fileNamesList->srcRoot);
@@ -1058,14 +1064,16 @@ class buildExtension extends baseExecuteTasks
         foreach ($filesByManifest->files as $file) {
             $this->xcopyElement($file, $srcRoot, $tmpFolder);
         }
+        print (PHP_EOL);
 
         print ('--- copy folders ' . PHP_EOL);
 
         foreach ($filesByManifest->folders as $folder) {
             $this->xcopyElement($folder, $srcRoot, $tmpFolder);
         }
+        print (PHP_EOL);
 
-        // print ("\r\n");
+        // print (PHP_EOL);
 
         return $srcRoot;
     }
@@ -1209,9 +1217,9 @@ function zipItRelative($sourcePath, $zipFilename)
     print ('sourcePath: "' . $sourcePath . '"' . PHP_EOL);
     print ('zipFilename: "' . $zipFilename . '"' . PHP_EOL);
 
-    print ("\r\n");
+    print (PHP_EOL);
     print ('--- zip it ------------------------------' . PHP_EOL);
-    print ("\r\n");
+    print (PHP_EOL);
 
     //--- files within folders ------------------------------
 
@@ -1257,7 +1265,7 @@ function zipItRelative($sourcePath, $zipFilename)
         $zip->close();
     } else {
 
-        print ("\r\n" . 'Can not create zip file: "' . $zipFilename . '"' . PHP_EOL);
+        print (PHP_EOL . 'Can not create zip file: "' . $zipFilename . '"' . PHP_EOL);
     }
 
 }

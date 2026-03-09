@@ -1,7 +1,7 @@
 task:indicateAll_MissingPreFuncCommentInFiles
     // /callerProjectId=JG
 /srcRoot="../testData"
-	// /isNoRecursion=true
+    // /isNoRecursion=true
 /includeExt="php"
     // /fileName="../testData/sinceTestFile.php"
 /excludeFolderList=excluded

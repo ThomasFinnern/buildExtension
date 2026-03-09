@@ -205,7 +205,7 @@ if (empty ($hasError)) {
 	}
 	
 //	print ($oBuildExtension->text() . PHP_EOL);
-    print ("\r\n" . '----------------------------' . PHP_EOL);
+    print (PHP_EOL . '----------------------------' . PHP_EOL);
     print ('... Zipping finished .......' . PHP_EOL);
 
 }

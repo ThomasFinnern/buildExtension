@@ -1,11 +1,11 @@
 task:alignAll_use_Lines
 /callerProjectId=RSG2
 /srcRoot="../testData"
-	// /isNoRecursion=true
+    // /isNoRecursion=true
 /includeExt="php"
-	// excludeExt="ini"
+    // excludeExt="ini"
 /isWriteListToFile
 /listFileName="../testData/FoundFileNamesList.txt"
-	// without: actual year
+    // without: actual year
 /excludeFolderList=excluded
 /excludeFolderList=postponed

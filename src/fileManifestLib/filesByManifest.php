@@ -324,7 +324,7 @@ class filesByManifest extends baseExecuteTasks
      */
     public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
     {
-        print ("\r\n");
+        print (PHP_EOL);
         print ('--- collect files and folders -----------------' . PHP_EOL);
 
         $this->files = [];

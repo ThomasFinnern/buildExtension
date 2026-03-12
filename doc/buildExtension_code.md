@@ -1,39 +1,36 @@
 # buildExtension code info
 
-The main intention  patch  ... release
+The main intention patch ... release
 
-* manifest file (read and use, path variables) 
+* manifest file (read and use, path variables)
 * Header of php files (
-  * create , change, values like date, copyright and author 
-  * 
+    * create , change, values like date, copyright and author
+    *
 
 * intended: rtrim end of lines
 * intended: handle since lnes ...
 * ...
 
-## Tasks and options data highway 
+## Tasks and options data highway
 
 the ... follow ...
 
+## Tasks set
 
-## Tasks set 
 ....
 see tasksSystem.md
 
-### Command file and taks execute file 
+### Command file and taks execute file
+
 ...
 
 ## manifest file
 
-
 ## file list collection
 
+## prepared *Cmd /
 
-## prepared *Cmd / 
-
-
-
-##  ...
+## ...
 
 
 

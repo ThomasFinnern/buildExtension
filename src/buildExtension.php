@@ -1075,8 +1075,6 @@ class buildExtension extends baseExecuteTasks
         }
         print (PHP_EOL);
 
-        // print (PHP_EOL);
-
         return $srcRoot;
     }
 

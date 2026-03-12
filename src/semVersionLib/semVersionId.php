@@ -198,8 +198,6 @@ class semVersionId
 
         $isChanged = false;
 
-        // ... ToDo: alpha, beta ...
-
         // force
         if ($this->isForceVersion)
         {

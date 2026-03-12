@@ -334,10 +334,12 @@ $basePath = "..\\..\\LangMan4Dev";
 //$tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_site.tsk";
 // $tasksFile="../../JoomGallery_fith_dev/.cleanPHP/alignAll_use_Lines__web_admin.tsk";
 //$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_mod_rsg2_gallery.tsk";
+//$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build.tsk";
+$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_step.tsk";
 //$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_gallery.tsk";
 //$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_webservice.tsk";
 
-$tasksFile="../../JoomGallery_fith_dev/.buildPHP/build.tsk";
+// $tasksFile="../../JoomGallery_fith_dev/.buildPHP/build.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

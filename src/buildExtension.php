@@ -577,7 +577,15 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             // *.xml
             $extName = $this->manifestFileName();
 
-            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
+            // package in subpath
+            if ($this->isCollectPackage)
+            {
+                $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/package/' . $extName . '.xml';
+            }
+            else
+            {
+                $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
+            }
         }
 
         return $this->manifestPathFileName;
@@ -630,24 +638,16 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
                     $manifestFile->element = $this->element;
                 }
 
-                // No tasks actual
+                // No tasks actual as flag use -> /mani:isUpdateActCopyrightYear=true
                 // $manifestFile->copyright->isUpdateCopyright = false;
                 // $manifestFile->copyright->isUpdateCopyright = true;
 
 
                 //--- update data -----------------------------------------------
 
-                $manifestFile->execute();
+                // Does save changes
+                $hasError = $manifestFile->execute();
 
-                //--- write to file -----------------------------------------------
-
-                if ($manifestFile->isChanged)
-                {
-                    $isSaved = $manifestFile->writeFile();
-                }
-
-                //$isSaved = File::write($manifestFileName, $fileLines);;
-                //     $isSaved = file_put_contents($manifestFileName, $outLines);
             }
 
             $this->manifestFile = $manifestFile;
@@ -659,7 +659,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             $hasError = -101;
         }
 
-        return $isSaved;
+        return $manifestFile->isChanged;
     }
 
 
@@ -1219,52 +1219,114 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         if (!$this->manifestFile->manifestXml->isXmlLoaded)
         {
-
             print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . PHP_EOL);
 
             return '';
         }
 
+        //--------------------------------------------------------------------
+        // destination temp folder
+        //--------------------------------------------------------------------
 
-        return;
+        print ('build dir: "' . $this->buildDir . '"' . PHP_EOL);
 
-        // ToDo: handle
-        // $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
+        $parentPath = dirname($this->buildDir);
+        if (!is_dir($parentPath))
+        {
+            print ('main path does not exist : "' . $parentPath . '"' . PHP_EOL);
+            exit(557);
+        }
 
-        //--- Create pkg folder ----------------------------
+        if (!is_dir($this->buildDir))
+        {
+            mkdir($this->buildDir, 0777, true);
+        }
 
-// ToDo: move $this->lastZipFileName
+        $dstRoot = realpath($this->buildDir);
+        print ('dstRoot: "' . $dstRoot . '"' . PHP_EOL);
+        $pkdTmpFolder = $this->buildDir . '/tmp_package';
+        print ('temp package folder(1): "' . $pkdTmpFolder . '"' . PHP_EOL);
 
-        /*-------------------------------------------------
-        build component
-        --------------------------------------------------*/
+        //--------------------------------------------------------------------
+        // handle temp folder
+        //--------------------------------------------------------------------
 
-        //--- prepare internal variables -------------------
+        // remove tmp folder
+        if (is_dir($pkdTmpFolder))
+        {
+            // length big enough to do no damage
+            if (strLen($pkdTmpFolder) < 10)
+            {
+                exit (555);
+            }
+            print ('Delete dir: "' . $pkdTmpFolder . '"' . PHP_EOL);
+            delDir($pkdTmpFolder);
+        }
 
-        $this->extName = 'com_' . $name;
-
-        //--- call build------------------------------------
-
-        $this->buildComponent();
-
-        //--- Move to pkg folder ----------------------------
-
-        /*-------------------------------------------------
-        build component
-        --------------------------------------------------*/
-
-        // on all module folder build module
+        // create package tmp folder
+        print ('Create dir: "' . $pkdTmpFolder . '"' . PHP_EOL);
+        mkdir($pkdTmpFolder, 0777, true);
 
 
-        /*-------------------------------------------------
-        build component
-        --------------------------------------------------*/
+//        // ToDo: handle
+//        // $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
+//
+//        //--- Create pkg folder ----------------------------
+//
+//// ToDo: move $this->lastZipFileName
+//
+//        /*-------------------------------------------------
+//        build component
+//        --------------------------------------------------*/
+//
+//        //--- prepare internal variables -------------------
+//
+//        $this->extName = 'com_' . $name;
+//
+//        //--- call build------------------------------------
+//
+//        $this->buildComponent();
+//
+//        //--- Move to pkg folder ----------------------------
+//
+//        /*-------------------------------------------------
+//        build component
+//        --------------------------------------------------*/
+//
+//        // on all module folder build module
+//
+//
+//        /*-------------------------------------------------
+//        build component
+//        --------------------------------------------------*/
+//
+//        // on all plugins folder build plugins
+//
+//        // ? Specialities
+//
+//        // remove temp
 
-        // on all plugins folder build plugins
+        //--------------------------------------------------------------------
+        // zip to destination
+        //--------------------------------------------------------------------
 
-        // ? Specialities
+        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
+        $this->lastZipFileName = $zipFileName;
 
+        zipItRelative(realpath($pkdTmpFolder), $zipFileName);
+
+        //--------------------------------------------------------------------
         // remove temp
+        //--------------------------------------------------------------------
+
+        // remove tmp folder
+        if (is_dir($pkdTmpFolder))
+        {
+            delDir($pkdTmpFolder);
+        }
+
+        return $zipFileName;
+
 
     }
 

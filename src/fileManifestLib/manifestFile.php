@@ -327,7 +327,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 //                    $isOptionConsumed = true;
 //                    break;
 
-                    case strtolower('isUpdateActCopyrightYear '):
+                    case strtolower('isUpdateActCopyrightYear'):
                         print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->isUpdateActCopyrightYear = $option->value;
                         $isOptionConsumed               = true;

@@ -3,10 +3,9 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
@@ -17,8 +16,7 @@ Class exchangeAll_authorLines
  * Reads file, exchanges one 'author' line
  * Standard replace text is defined in class fileHeaderData
  */
-class exchangeAll_authorLines extends baseExecuteTasks
-    implements executeTasksInterface
+class exchangeAll_authorLines extends baseExecuteTasks implements executeTasksInterface
 {
     //
     public string $authorText = "";
@@ -27,22 +25,23 @@ class exchangeAll_authorLines extends baseExecuteTasks
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct($srcRoot = "",
-                                $isNoRecursion=false,
-                                $authorText = "")
+    public function __construct($srcRoot = "", $isNoRecursion = false, $authorText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("authorText: " . $authorText . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
             $this->authorText = $authorText;
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -77,11 +76,14 @@ class exchangeAll_authorLines extends baseExecuteTasks
 
         $options = $task->options;
 
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
+            if (!$isBaseOption)
+            {
+                switch (strtolower($option->name))
+                {
                     case strtolower('authortext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->authorText = $option->value;
@@ -102,7 +104,7 @@ class exchangeAll_authorLines extends baseExecuteTasks
     public function executeFile(string $filePathName): int
     {
         // create a one file 'fileNamesList' object
-        $this->fileNamesList = new fileNamesList();
+        $this->fileNamesList              = new fileNamesList();
         $this->fileNamesList->fileNames[] = $filePathName;
 
         $this->execute();
@@ -115,12 +117,15 @@ class exchangeAll_authorLines extends baseExecuteTasks
         //--- collect files ---------------------------------------
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -133,7 +138,8 @@ class exchangeAll_authorLines extends baseExecuteTasks
 
         print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
             $fileHeaderByFileLine->exchangeAuthor($fileName->srcPathFileName);
         }
 

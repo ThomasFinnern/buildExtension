@@ -3,11 +3,11 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Exception;
-use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-// use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
+
+// use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
 //use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 
@@ -15,8 +15,7 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class forceVersionId
 ================================================================================*/
 
-class forceVersionId extends baseExecuteTasks
-    implements executeTasksInterface
+class forceVersionId extends baseExecuteTasks implements executeTasksInterface
 {
     // internal
     private string $componentVersion = '';
@@ -31,27 +30,27 @@ class forceVersionId extends baseExecuteTasks
 
     // ToDo: a lot of parameters ....
 
-    public function __construct($srcRoot = "",
-                                $isNoRecursion=false,
-                                $componentName = '',
-                                $componentVersion="1.2.3.444")
+    public function __construct($srcRoot = "", $isNoRecursion = false, $componentName = '', $componentVersion = "1.2.3.444")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("Construct forceVersionId: " . PHP_EOL);
 ////            print ("srcFile: " . $srcFile . PHP_EOL);
 ////            print ("dstFile: " . $dstFile . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
-            $this->componentName = $componentName;
+            $this->componentName    = $componentName;
             $this->componentVersion = $componentVersion;
 
             $this->manifestXml = new manifestXml();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -67,12 +66,15 @@ class forceVersionId extends baseExecuteTasks
 
 
 // ToDo: separate assign options assignForceVersionOption
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
 
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
+            if (!$isBaseOption)
+            {
+                switch (strtolower($option->name))
+                {
                     case strtolower('name'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->componentName = $option->value;
@@ -109,7 +111,8 @@ class forceVersionId extends baseExecuteTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeVersionId' . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
@@ -121,7 +124,9 @@ class forceVersionId extends baseExecuteTasks
             print ("version: " . $componentVersion . PHP_EOL);
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -137,26 +142,29 @@ class forceVersionId extends baseExecuteTasks
 
     private function manifestPathFileName(): string
     {
-        if ($this->manifestPathFileName == '') {
+        if ($this->manifestPathFileName == '')
+        {
             $this->manifestPathFileName = $this->srcRoot . '/' . $this->componentName . '.xml';
         }
 
         return $this->manifestPathFileName;
     }
 
-    private function exchangeVersionInManifestFile(string $manifestFileName, string $outVersionId) :int
+    private function exchangeVersionInManifestFile(string $manifestFileName, string $outVersionId): int
     {
         $hasError = 0;
 
-        try {
+        try
+        {
 
             // does read xml immediately
             $this->manifestXml = new manifestXml($manifestFileName);
-            $manifestXml = $this->manifestXml;
+            $manifestXml       = $this->manifestXml;
 
             $inVersionId = (string) $manifestXml->getByXml('version', '');
 
-            if ($outVersionId != $inVersionId) {
+            if ($outVersionId != $inVersionId)
+            {
 
                 // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 $manifestXml->setByXml('version', $outVersionId);
@@ -165,7 +173,9 @@ class forceVersionId extends baseExecuteTasks
                 // $isSaved = $manifestXml->writeManifestXml($manifestFileName . '.new');
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

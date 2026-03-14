@@ -6,7 +6,6 @@ use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
@@ -57,7 +56,8 @@ class fileHeaderByFileLine // extends fileHeaderData
         $options = $task->options;
 
         // ToDo: Extract assignOption on all assignTask
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
 //            $isBaseOption = $this->assignBaseOption($option);
 //            if (!$isBaseOption) {
@@ -79,11 +79,13 @@ class fileHeaderByFileLine // extends fileHeaderData
         $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-        if ( ! $isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
                 case strtolower('filename'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->fileName = $option->value;
+                    $this->fileName   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -101,59 +103,75 @@ class fileHeaderByFileLine // extends fileHeaderData
     }
 
 
-
     /*--------------------------------------------------------------------
     exchangePackage
     --------------------------------------------------------------------*/
 
-    function exchangePackage(string $fileName = ""):int
+    function exchangePackage(string $fileName = ""): int
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangePackage' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            $lines = file($fileName);
-            $outLines = [];
+            $lines       = file($fileName);
+            $outLines    = [];
             $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
+                }
+                else
+                {
                     //  * @package  ....
-                    if (str_contains($line, '@package')) {
+                    if (str_contains($line, '@package'))
+                    {
 
                         $packageLine = $this->replacePackageLine($line);
 
-                        if ($line != $packageLine) {
+                        if ($line != $packageLine)
+                        {
                             $outLines [] = $packageLine;
                             $isExchanged = true;
-                        } else {
+                        }
+                        else
+                        {
                             // line already fixed , no file write
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
             }
 
             // on change write to file
-            if ($isExchanged) {
+            if ($isExchanged)
+            {
                 $isSaved = file_put_contents($fileName, $outLines);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -169,7 +187,8 @@ class fileHeaderByFileLine // extends fileHeaderData
     --------------------------------------------------------------------*/
 
     /**
-     * @param mixed $line
+     * @param   mixed  $line
+     *
      * @return string
      */
     public function replacePackageLine(mixed $line): string
@@ -186,7 +205,8 @@ class fileHeaderByFileLine // extends fileHeaderData
     {
 
         $task = $this->task;
-        switch (strtolower($task->name)) {
+        switch (strtolower($task->name))
+        {
             case strtolower('exchangepackage'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
@@ -202,7 +222,7 @@ class fileHeaderByFileLine // extends fileHeaderData
             case strtolower('exchangelicense'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
-                $options = $task->options;
+                $options  = $task->options;
                 $fileName = $options->getOptionValue('fileName');
                 $this->exchangeLicense($fileName);
                 break;
@@ -210,8 +230,8 @@ class fileHeaderByFileLine // extends fileHeaderData
             case strtolower('exchangeActCopyrightYear'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
-                $options = $task->options;
-                $fileName = $options->getOptionValue('fileName');
+                $options       = $task->options;
+                $fileName      = $options->getOptionValue('fileName');
                 $copyrightDate = $options->getOptionValue('copyrightDate');
 
                 $this->exchangeActCopyrightYear($fileName, $copyrightDate);
@@ -220,8 +240,8 @@ class fileHeaderByFileLine // extends fileHeaderData
             case strtolower('exchangeSinceCopyrightYear'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
-                $options = $task->options;
-                $fileName = $options->getOptionValue('fileName');
+                $options       = $task->options;
+                $fileName      = $options->getOptionValue('fileName');
                 $copyrightDate = $options->getOptionValue('copyrightDate');
 
                 // ToDo: create exchangeSinceCopyrightYear function
@@ -231,7 +251,7 @@ class fileHeaderByFileLine // extends fileHeaderData
             case strtolower('exchangeauthor'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
-                $options = $task->options;
+                $options  = $task->options;
                 $fileName = $options->getOptionValue('fileName');
                 $this->exchangeAuthor($fileName);
                 break;
@@ -255,65 +275,80 @@ class fileHeaderByFileLine // extends fileHeaderData
     exchangeSubPackage
     --------------------------------------------------------------------*/
 
-    function exchangeSubPackage(string $fileName = "")
+    function exchangeLicense(string $fileName = "")
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
-            print('exchangeSubPackage' . PHP_EOL);
+            print('exchangeLicense' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            $lines = file($fileName);
-            $outLines = [];
+            $lines       = file($fileName);
+            $outLines    = [];
             $isExchanged = false;
-            $isFound = false;
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
-                    //  ToDo:
-                    if (str_contains($line, '@subpackage')) {
+                }
+                else
+                {
+                    //  * @license     GNU General Public License version 2 or la ....
+                    if (str_contains($line, '@license'))
+                    {
+
                         $isFound = true;
 
-                        $subPackageLine = $this->replaceSubPackageLine($line);
+                        $licenseLine = $this->replaceLicenseLine($line);
 
-                        if ($line != $subPackageLine) {
-                            $outLines [] = $subPackageLine;
+                        if ($line != $licenseLine)
+                        {
+                            // assign standard
+                            $outLines [] = $licenseLine;
                             $isExchanged = true;
-                        } else {
+                        }
+                        else
+                        {
                             // line already fixed , no file write
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
             }
 
             // on change write to file
-            if ($isExchanged) {
-                $isSaved = file_put_contents($fileName, $outLines);
-            } else {
-                // insert if not found
-                if ($isFound == false) {
-                    $this->insertSubPackage();
-                }
+            if ($isExchanged)
+            {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
+                $isSaved  = file_put_contents($fileName, $outLines);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
 
-        print('exit exchangeSubPackage: ' . $hasError . PHP_EOL);
+        print('exit exchangeLicense: ' . $hasError . PHP_EOL);
 
         return $hasError;
     }
@@ -324,226 +359,8 @@ class fileHeaderByFileLine // extends fileHeaderData
     --------------------------------------------------------------------*/
 
     /**
-     * @param mixed $line
-     * @return string
-     */
-    public function replaceSubPackageLine(mixed $line): string
-    {
-        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('subpackage', $line);
-
-        // assign standard
-        $subPackageLine = $this->oFileHeader->headerFormat('subpackage', $this->oFileHeader->subpackage);
-
-        return $subPackageLine;
-    }
-
-
-    /*--------------------------------------------------------------------
-    insertSubPackage
-    --------------------------------------------------------------------*/
-
-    function insertSubPackage(string $fileName = "")
-    {
-        $hasError = 0;
-
-        try {
-            print('*********************************************************' . PHP_EOL);
-            print('insertSubPackage' . PHP_EOL);
-            print ("FileName in: " . $fileName . PHP_EOL);
-            print('---------------------------------------------------------' . PHP_EOL);
-
-            if (!empty ($fileName)) {
-                $this->fileName = $fileName;
-            } else {
-                $fileName = $this->fileName;
-            }
-            print ("FileName use: " . $fileName . PHP_EOL);
-
-            $lines = file($fileName);
-            $outLines = [];
-            $isExchanged = false;
-            $isFound = false;
-
-            foreach ($lines as $line) {
-                if ($isExchanged) {
-                    $outLines [] = $line;
-                } else {
-                    //  ToDo:
-                    if (str_contains($line, '@package')) {
-                        $subPackageLine = $this->replaceSubPackageLine($line);
-
-                        if ($line != $subPackageLine) {
-                            $outLines [] = $subPackageLine;
-                            $isExchanged = true;
-                        } else {
-                            // line already fixed , no file write
-                            break;
-                        }
-                    } else {
-                        $outLines [] = $line;
-                    }
-                }
-            }
-
-            // on change write to file
-            if ($isExchanged) {
-                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
-            }
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        print('exit insertSubPackage: ' . $hasError . PHP_EOL);
-
-        return $hasError;
-    }
-
-    /*--------------------------------------------------------------------
-    exchangeLink
-    --------------------------------------------------------------------*/
-
-    function exchangeLink(string $fileName = "")
-    {
-        $hasError = 0;
-
-        try {
-            print('*********************************************************' . PHP_EOL);
-            print('exchangeLink' . PHP_EOL);
-            print ("FileName in: " . $fileName . PHP_EOL);
-            print('---------------------------------------------------------' . PHP_EOL);
-
-            if (!empty ($fileName)) {
-                $this->fileName = $fileName;
-            } else {
-                $fileName = $this->fileName;
-            }
-            print ("FileName use: " . $fileName . PHP_EOL);
-
-            $lines = file($fileName);
-            $outLines = [];
-            $isExchanged = false;
-
-            foreach ($lines as $line) {
-                if ($isExchanged) {
-                    $outLines [] = $line;
-                } else {
-                    //  * @link
-                    if (str_contains($line, '@link')) {
-
-                        $LinkLine = $this->replaceLinkLine($line);
-
-                        if ($line != $LinkLine) {
-                            $outLines [] = $LinkLine;
-                            $isExchanged = true;
-                        } else {
-                            // line already fixed , no file write
-                            break;
-                        }
-                    } else {
-                        $outLines [] = $line;
-                    }
-                }
-            }
-
-            // on change write to file
-            if ($isExchanged) {
-                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
-            }
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        print('exit exchangeLink: ' . $hasError . PHP_EOL);
-
-        return $hasError;
-    }
-
-
-    /*--------------------------------------------------------------------
-    exchangeAuthor
-    --------------------------------------------------------------------*/
-
-    /**
-     * @param mixed $line
-     * @return string
-     */
-    public function replaceLinkLine(mixed $line): string
-    {
-        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('link', $line);
-
-        // assign standard
-        $LinkLine = $this->oFileHeader->headerFormat('link', $this->oFileHeader->link);
-
-        return $LinkLine;
-    }
-
-    function exchangeLicense(string $fileName = "")
-    {
-        $hasError = 0;
-
-        try {
-            print('*********************************************************' . PHP_EOL);
-            print('exchangeLicense' . PHP_EOL);
-            print ("FileName in: " . $fileName . PHP_EOL);
-            print('---------------------------------------------------------' . PHP_EOL);
-
-            if (!empty ($fileName)) {
-                $this->fileName = $fileName;
-            } else {
-                $fileName = $this->fileName;
-            }
-            print ("FileName use: " . $fileName . PHP_EOL);
-
-            $lines = file($fileName);
-            $outLines = [];
-            $isExchanged = false;
-
-            foreach ($lines as $line) {
-                if ($isExchanged) {
-                    $outLines [] = $line;
-                } else {
-                    //  * @license     GNU General Public License version 2 or la ....
-                    if (str_contains($line, '@license')) {
-
-                        $isFound = true;
-
-                        $licenseLine = $this->replaceLicenseLine($line);
-
-                        if ($line != $licenseLine) {
-                            // assign standard
-                            $outLines [] = $licenseLine;
-                            $isExchanged = true;
-                        } else {
-                            // line already fixed , no file write
-                            break;
-                        }
-                    } else {
-                        $outLines [] = $line;
-                    }
-                }
-            }
-
-            // on change write to file
-            if ($isExchanged) {
-                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
-            }
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        print('exit exchangeLicense: ' . $hasError . PHP_EOL);
-
-        return $hasError;
-    }
-
-    /**
-     * @param mixed $line
+     * @param   mixed  $line
+     *
      * @return string
      */
     public function replaceLicenseLine(mixed $line): string
@@ -556,63 +373,86 @@ class fileHeaderByFileLine // extends fileHeaderData
         return $licenseLine;
     }
 
+
+    /*--------------------------------------------------------------------
+    insertSubPackage
+    --------------------------------------------------------------------*/
+
     function exchangeActCopyrightYear(string $fileName = "", string $toYear = '')
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeActCopyrightYear' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print ("Up to year in: " . $toYear . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            if (empty ($toYear)) {
+            if (empty ($toYear))
+            {
                 $date_format = 'Y';
-                $toYear = date($date_format);
+                $toYear      = date($date_format);
             }
             print ("Up to year use: " . $toYear . PHP_EOL);
 
 
-            $lines = file($fileName);
-            $outLines = [];
+            $lines       = file($fileName);
+            $outLines    = [];
             $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
+                }
+                else
+                {
                     //   * @copyright (c)  2020-2022 Team
-                    if (str_contains($line, '@copyright')) {
+                    if (str_contains($line, '@copyright'))
+                    {
 
                         $copyrightLine = $this->replaceActCopyrightLine($line, $toYear);
 
-                        if ($line != $copyrightLine) {
+                        if ($line != $copyrightLine)
+                        {
                             $outLines [] = $copyrightLine;
                             $isExchanged = true;
-                        } else {
+                        }
+                        else
+                        {
                             // line already fixed, no file write
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
             }
 
             // on change write to file
-            if ($isExchanged) {
+            if ($isExchanged)
+            {
                 $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
+                $isSaved  = file_put_contents($fileName, $outLines);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -622,9 +462,14 @@ class fileHeaderByFileLine // extends fileHeaderData
         return $hasError;
     }
 
+    /*--------------------------------------------------------------------
+    exchangeLink
+    --------------------------------------------------------------------*/
+
     /**
-     * @param mixed $line
-     * @param string $year
+     * @param   mixed   $line
+     * @param   string  $year
+     *
      * @return string
      */
     public function replaceActCopyrightLine(string $line, string $year): string
@@ -637,6 +482,11 @@ class fileHeaderByFileLine // extends fileHeaderData
         return $copyrightLine;
     }
 
+
+    /*--------------------------------------------------------------------
+    exchangeAuthor
+    --------------------------------------------------------------------*/
+
     public function exchangeSinceCopyrightYear(string $fileName, string $sinceYear)
     {
         // ToDo: create exchangeSinceCopyrightYear function
@@ -645,59 +495,77 @@ class fileHeaderByFileLine // extends fileHeaderData
 
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeSinceCopyrightYear' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print ("Since year in: " . $sinceYear . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            if (empty ($sinceYear)) {
+            if (empty ($sinceYear))
+            {
                 $date_format = 'Y';
-                $sinceYear = date($date_format);
+                $sinceYear   = date($date_format);
             }
             print ("Since year use: " . $sinceYear . PHP_EOL);
 
 
-            $lines = file($fileName);
-            $outLines = [];
+            $lines       = file($fileName);
+            $outLines    = [];
             $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
+                }
+                else
+                {
                     //   * @copyright (c)  2020-2022 Team
-                    if (str_contains($line, '@copyright')) {
+                    if (str_contains($line, '@copyright'))
+                    {
 
                         $copyrightLine = $this->replaceSinceCopyrightLine($line, $sinceYear);
 
-                        if ($line != $copyrightLine) {
+                        if ($line != $copyrightLine)
+                        {
                             $outLines [] = $copyrightLine;
                             $isExchanged = true;
-                        } else {
+                        }
+                        else
+                        {
                             // line already fixed, no file write
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
             }
 
             // on change write to file
-            if ($isExchanged) {
+            if ($isExchanged)
+            {
                 $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
+                $isSaved  = file_put_contents($fileName, $outLines);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -708,8 +576,9 @@ class fileHeaderByFileLine // extends fileHeaderData
     }
 
     /**
-     * @param mixed $line
-     * @param string $sinceYear
+     * @param   mixed   $line
+     * @param   string  $sinceYear
+     *
      * @return string
      */
     public function replaceSinceCopyrightLine(string $line, string $year): string
@@ -726,53 +595,69 @@ class fileHeaderByFileLine // extends fileHeaderData
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeAuthor' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
 
-            $lines = file($fileName);
-            $outLines = [];
+            $lines       = file($fileName);
+            $outLines    = [];
             $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
+                }
+                else
+                {
                     //  * @author     ...
-                    if (str_contains($line, '@author')) {
+                    if (str_contains($line, '@author'))
+                    {
 
                         $authorLine = $this->replaceAuthorLine($line);
 
                         // assign standard
-                        if ($line != $authorLine) {
+                        if ($line != $authorLine)
+                        {
                             $outLines [] = $authorLine;
                             $isExchanged = true;
-                        } else {
+                        }
+                        else
+                        {
                             // line already fixed , no file write
                             break;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
             }
 
             // on change write to file
-            if ($isExchanged) {
+            if ($isExchanged)
+            {
                 $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
+                $isSaved  = file_put_contents($fileName, $outLines);
             }
-        } catch
-        (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -783,7 +668,8 @@ class fileHeaderByFileLine // extends fileHeaderData
     }
 
     /**
-     * @param mixed $line
+     * @param   mixed  $line
+     *
      * @return string
      */
     public function replaceAuthorLine(mixed $line): string
@@ -791,22 +677,292 @@ class fileHeaderByFileLine // extends fileHeaderData
         $oldValue = $this->oFileHeader->scan4HeaderValueInLine('author', $line);
 
         // keep author
-        if ($oldValue == 'finnern') {
+        if ($oldValue == 'finnern')
+        {
             // "RSGallery2 Team <team2@rsgallery2.org>";
             $newValue = $this->oFileHeader->author;
-        } else {
+        }
+        else
+        {
             // keep author
-            if (str_starts_with(strtolower($oldValue), 'rsgallery2')) {
+            if (str_starts_with(strtolower($oldValue), 'rsgallery2'))
+            {
                 // "RSGallery2 Team <team2@rsgallery2.org>";
                 $newValue = $this->oFileHeader->author;
-            } else {
+            }
+            else
+            {
                 // $newValue      = $author; // not given then format old value
                 $newValue = $oldValue;
             }
         }
 
         $authorLine = $this->oFileHeader->headerFormat('author', $newValue);
+
         return $authorLine;
+    }
+
+    function exchangeSubPackage(string $fileName = "")
+    {
+        $hasError = 0;
+
+        try
+        {
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeSubPackage' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
+
+            if (!empty ($fileName))
+            {
+                $this->fileName = $fileName;
+            }
+            else
+            {
+                $fileName = $this->fileName;
+            }
+            print ("FileName use: " . $fileName . PHP_EOL);
+
+            $lines       = file($fileName);
+            $outLines    = [];
+            $isExchanged = false;
+            $isFound     = false;
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
+                    $outLines [] = $line;
+                }
+                else
+                {
+                    //  ToDo:
+                    if (str_contains($line, '@subpackage'))
+                    {
+                        $isFound = true;
+
+                        $subPackageLine = $this->replaceSubPackageLine($line);
+
+                        if ($line != $subPackageLine)
+                        {
+                            $outLines [] = $subPackageLine;
+                            $isExchanged = true;
+                        }
+                        else
+                        {
+                            // line already fixed , no file write
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        $outLines [] = $line;
+                    }
+                }
+            }
+
+            // on change write to file
+            if ($isExchanged)
+            {
+                $isSaved = file_put_contents($fileName, $outLines);
+            }
+            else
+            {
+                // insert if not found
+                if ($isFound == false)
+                {
+                    $this->insertSubPackage();
+                }
+            }
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        print('exit exchangeSubPackage: ' . $hasError . PHP_EOL);
+
+        return $hasError;
+    }
+
+    /**
+     * @param   mixed  $line
+     *
+     * @return string
+     */
+    public function replaceSubPackageLine(mixed $line): string
+    {
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('subpackage', $line);
+
+        // assign standard
+        $subPackageLine = $this->oFileHeader->headerFormat('subpackage', $this->oFileHeader->subpackage);
+
+        return $subPackageLine;
+    }
+
+    function insertSubPackage(string $fileName = "")
+    {
+        $hasError = 0;
+
+        try
+        {
+            print('*********************************************************' . PHP_EOL);
+            print('insertSubPackage' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
+
+            if (!empty ($fileName))
+            {
+                $this->fileName = $fileName;
+            }
+            else
+            {
+                $fileName = $this->fileName;
+            }
+            print ("FileName use: " . $fileName . PHP_EOL);
+
+            $lines       = file($fileName);
+            $outLines    = [];
+            $isExchanged = false;
+            $isFound     = false;
+
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
+                    $outLines [] = $line;
+                }
+                else
+                {
+                    //  ToDo:
+                    if (str_contains($line, '@package'))
+                    {
+                        $subPackageLine = $this->replaceSubPackageLine($line);
+
+                        if ($line != $subPackageLine)
+                        {
+                            $outLines [] = $subPackageLine;
+                            $isExchanged = true;
+                        }
+                        else
+                        {
+                            // line already fixed , no file write
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        $outLines [] = $line;
+                    }
+                }
+            }
+
+            // on change write to file
+            if ($isExchanged)
+            {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
+                $isSaved  = file_put_contents($fileName, $outLines);
+            }
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        print('exit insertSubPackage: ' . $hasError . PHP_EOL);
+
+        return $hasError;
+    }
+
+    function exchangeLink(string $fileName = "")
+    {
+        $hasError = 0;
+
+        try
+        {
+            print('*********************************************************' . PHP_EOL);
+            print('exchangeLink' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
+
+            if (!empty ($fileName))
+            {
+                $this->fileName = $fileName;
+            }
+            else
+            {
+                $fileName = $this->fileName;
+            }
+            print ("FileName use: " . $fileName . PHP_EOL);
+
+            $lines       = file($fileName);
+            $outLines    = [];
+            $isExchanged = false;
+
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
+                    $outLines [] = $line;
+                }
+                else
+                {
+                    //  * @link
+                    if (str_contains($line, '@link'))
+                    {
+
+                        $LinkLine = $this->replaceLinkLine($line);
+
+                        if ($line != $LinkLine)
+                        {
+                            $outLines [] = $LinkLine;
+                            $isExchanged = true;
+                        }
+                        else
+                        {
+                            // line already fixed , no file write
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        $outLines [] = $line;
+                    }
+                }
+            }
+
+            // on change write to file
+            if ($isExchanged)
+            {
+                $outLines = str_replace("\r", '', $outLines); // remove carriage returns
+                $isSaved  = file_put_contents($fileName, $outLines);
+            }
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        print('exit exchangeLink: ' . $hasError . PHP_EOL);
+
+        return $hasError;
+    }
+
+    /**
+     * @param   mixed  $line
+     *
+     * @return string
+     */
+    public function replaceLinkLine(mixed $line): string
+    {
+        $oldValue = $this->oFileHeader->scan4HeaderValueInLine('link', $line);
+
+        // assign standard
+        $LinkLine = $this->oFileHeader->headerFormat('link', $this->oFileHeader->link);
+
+        return $LinkLine;
     }
 
     public function byFileText()

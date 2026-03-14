@@ -21,12 +21,7 @@ interface fileSinceDataInterface
 
     function checkLine(string $line): bool;
 
-    function exchangeLine(string $line = '', string $versionId = 'xx.xx',
-                          int    $alignIdx = 0,
-                          bool   $isForceVersion = false, bool $isLogOnly = false,
-                          int    $lineNbr = 1,
-                          string $prevAtLine = "",
-                          bool   $isTabFound = true): string;
+    function exchangeLine(string $line = '', string $versionId = 'xx.xx', int $alignIdx = 0, bool $isForceVersion = false, bool $isLogOnly = false, int $lineNbr = 1, string $prevAtLine = "", bool $isTabFound = true): string;
 
 
     function isChanged(): bool;

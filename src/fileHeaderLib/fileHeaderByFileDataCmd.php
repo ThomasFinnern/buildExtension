@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -19,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "f:t:o:h12345";
+$optDefinition    = "f:t:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -38,8 +38,7 @@ $srcfile = '';
 
 $taskLine = '';
 // $tasksLine = ' task:replaceHeader'
-$tasksLine = ' task:upgradeHeader'
-    . ' /fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"';
+$tasksLine = ' task:upgradeHeader' . ' /fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"';
 //$tasksLine = ' task:exchangeActCopyrightYear'
 //    . ' /fileName="./../../RSGallery2_J4/administrator/components/com_rsgallery2/src/Model/GalleryTreeModel.php"'
 //    . ' /copyrightDate=1999'
@@ -91,11 +90,13 @@ $tasksLine = ' task:upgradeHeader'
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 'f':
             $srcfile = $option;
             break;
@@ -151,16 +152,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -171,26 +177,30 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oFileHeader = new fileHeaderByFileData();
+    $oFileHeader = new fileHeaderByFileData();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
     $hasError = $oFileHeader->assignTask($task);
-    if ($hasError) {
+    if ($hasError)
+    {
         print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
- 	
-	//--- execute tasks ---------------------------------
-  
-    if (!$hasError) {
+    }
+
+    //--- execute tasks ---------------------------------
+
+    if (!$hasError)
+    {
         $hasError = $oFileHeader->execute();
-        if ($hasError) {
+        if ($hasError)
+        {
             print ("!!! Error on function execute:" . $hasError . PHP_EOL);
         }
     }
-	
+
 //	print ($oFileHeader->text() . PHP_EOL);
 }
 

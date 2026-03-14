@@ -5,15 +5,13 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class forceCreationDate
 ================================================================================*/
 
-class forceCreationDate extends baseExecuteTasks
-    implements executeTasksInterface
+class forceCreationDate extends baseExecuteTasks implements executeTasksInterface
 {
 
     private string $creationDate;
@@ -30,20 +28,23 @@ class forceCreationDate extends baseExecuteTasks
     public function __construct($srcFile = "", $isNoRecursion = false, $dstFile = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("Construct forceCreationDate: " . PHP_EOL);
 ////            print ("srcFile: " . $srcFile . PHP_EOL);
 ////            print ("dstFile: " . $dstFile . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot = "", $isNoRecursion=false);
+            parent::__construct($srcRoot = "", $isNoRecursion = false);
 
             // $date_format        = 'Ymd';
-            $date_format = 'd.m.Y';
+            $date_format        = 'd.m.Y';
             $this->creationDate = date($date_format);
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -57,12 +58,15 @@ class forceCreationDate extends baseExecuteTasks
 
         $options = $task->options;
 
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
 
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
+            if (!$isBaseOption)
+            {
+                switch (strtolower($option->name))
+                {
                     case strtolower('name'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->name = $option->value;
@@ -99,7 +103,8 @@ class forceCreationDate extends baseExecuteTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeCreationDate' . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
@@ -111,7 +116,9 @@ class forceCreationDate extends baseExecuteTasks
             print ("CreationDate: " . $creationDate . PHP_EOL);
 
             $hasError = $this->exchangeCreationDateInManifestFile($manifestPathFileName, $creationDate);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -127,7 +134,8 @@ class forceCreationDate extends baseExecuteTasks
 
     private function manifestPathFileName(): string
     {
-        if ($this->manifestPathFileName == '') {
+        if ($this->manifestPathFileName == '')
+        {
             $this->manifestPathFileName = $this->srcRoot . '/' . $this->name . '.xml';
         }
 
@@ -138,27 +146,31 @@ class forceCreationDate extends baseExecuteTasks
     {
         $isSaved = false;
 
-        try {
-            $lines = file($manifestFileName);
-            $outLines = [];
+        try
+        {
+            $lines       = file($manifestFileName);
+            $outLines    = [];
             $isExchanged = false;
 
-            foreach ($lines as $line) {
-                if ($isExchanged) {
+            foreach ($lines as $line)
+            {
+                if ($isExchanged)
+                {
                     $outLines [] = $line;
-                } else {
+                }
+                else
+                {
                     // <creationDate>31. May. 2024</creationDate>
-                    if (str_contains($line, '<creationDate>')) {
-                        $outLine = preg_replace(
-                            '/(.*>?)(.*)(<.*)/',
-                            '${1}' . $strDate . '${3}',
-                            $line,
-                        );
+                    if (str_contains($line, '<creationDate>'))
+                    {
+                        $outLine = preg_replace('/(.*>?)(.*)(<.*)/', '${1}' . $strDate . '${3}', $line);
 
                         $outLines [] = $outLine;
 
                         $isExchanged = true;
-                    } else {
+                    }
+                    else
+                    {
                         $outLines [] = $line;
                     }
                 }
@@ -181,7 +193,9 @@ class forceCreationDate extends baseExecuteTasks
             // write to file
             //$isSaved = File::write($manifestFileName, $fileLines);
             $isSaved = file_put_contents($manifestFileName, $outLines);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

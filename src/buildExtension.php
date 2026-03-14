@@ -263,6 +263,45 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return 0;
     }
 
+    private function check4validInput()
+    {
+        $isValid = true;
+
+        //option type: "component"
+        if (empty ($this->componentType))
+        {
+            print ("option type: not set" . PHP_EOL);
+            $isValid = false;
+        }
+        //option buildDir: "../../LangMan4Dev"
+        if (empty ($this->fileNamesList->srcRoot))
+        {
+            print ("option buildDir: not set" . PHP_EOL);
+            $isValid = false;
+        }
+        //option buildDir: "../../LangMan4DevProject/.packages"
+        if (empty ($this->buildDir))
+        {
+            print ("option buildDir: not set" . PHP_EOL);
+            $isValid = false;
+        }
+        //option extName: "com_lang4dev"
+        if (empty ($this->extName))
+        {
+            print ("option extName: not set" . PHP_EOL);
+            $isValid = false;
+        }
+        //option extension: "Lang4Dev"
+        if (empty ($this->element))
+        {
+            print ("option extension: not set" . PHP_EOL);
+            $isValid = false;
+        }
+
+
+        return $isValid;
+    }
+
     private function componentType(): string
     {
         if ($this->componentType == '')
@@ -275,6 +314,40 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return $this->componentType;
     }
 
+    private function detectCompTypeFromFile(string $manifestPathFileName): string
+    {
+
+        $componentType = 'component';
+
+        $isLocal = false;
+        if (!empty($this->manifestFile))
+        {
+
+            if ($this->manifestFile->extType != '')
+            {
+                $componentType = $this->manifestFile->extType;
+                $isLocal       = true;
+            }
+
+        }
+
+        //
+        if (!$isLocal)
+        {
+
+            // read file
+            if (is_file($manifestPathFileName))
+            {
+
+                $manifestFile  = new manifestFile('', $manifestPathFileName);
+                $componentType = $manifestFile->extType;
+
+            }
+        }
+
+        return $componentType;
+    }
+
     private function buildComponent(): string
     {
         //--------------------------------------------------------------------
@@ -283,7 +356,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- manifest file name --------------------------------------
 
-        $manifestFileName             = $this->manifestFileName();
+        $manifestFileName     = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
 
@@ -395,7 +468,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
-//         print (PHP_EOL);        
+//         print (PHP_EOL);
 
 
         // Not needed, the license is defined in manifest or may be inside component base path
@@ -429,7 +502,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
         $this->lastZipFileName = $zipFileName;
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
@@ -447,35 +520,8 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return $zipFileName;
     }
 
-
-    private function manifestPathFileName(): string
-    {
-        if ($this->manifestPathFileName == '')
-        {
-
-            // *.xml
-            $extName = $this->manifestFileName();
-
-            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
-        }
-
-        return $this->manifestPathFileName;
-    }
-
-    private function manifestAdminPathFileName(): string
-    {
-        if ($this->manifestAdminPathFileName == '')
-        {
-
-            $name = $this->manifestFileName();
-
-            $this->manifestAdminPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName . '/' . $name . '.xml';
-        }
-
-        return $this->manifestAdminPathFileName;
-    }
-
     // ToDo: move/create ?function? also in manifest.php file ?
+
     private function manifestFileName(): string
     {
         $extName = $this->extName;
@@ -522,47 +568,19 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     }
 
     // ToDo: move/create also in to manifest.php file ?
-    private function destinationExtensionName(): string
+
+    private function manifestPathFileName(): string
     {
-        //$name = $this->extName;
-        $name = $this->element;
-
-        if (empty($name))
+        if ($this->manifestPathFileName == '')
         {
-            $name = $this->extName;
+
+            // *.xml
+            $extName = $this->manifestFileName();
+
+            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
         }
 
-        // com  extension
-        if (str_starts_with($name, 'com_'))
-        {
-            // Standard
-            $name = substr($name, 4);
-            // $extName = 'com_' . substr($extName, 4);
-
-        }
-//        else {
-//
-//            if (str_starts_with($name, 'mod_')) {
-//                // $idx = strpos($extName, '_', strlen('mod_')) + 1;
-//                // $extName = 'mod_' . substr($extName, $idx);
-//                $name = $this->extName;
-//            } else {
-//
-//                if (str_starts_with($name, 'plg_')) {
-////                    if ( ! str_starts_with($extName, 'plg_'))
-////                    {
-////                        // $idx = strpos($extName, '_', strlen('plg_')) + 1;
-//////                        $extName = 'plg_' . substr($extName, $idx);
-////                        $extName = 'plg_' . $extName;
-////                    }
-////
-//                    // already done but ....
-//                    $name = $this->extName;
-//                }
-//            }
-//        }
-
-        return $name;
+        return $this->manifestPathFileName;
     }
 
     /**
@@ -685,6 +703,51 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //        return [$isExchanged, $outLines];
 //    }
 
+    private function manifestAdminPathFileName(): string
+    {
+        if ($this->manifestAdminPathFileName == '')
+        {
+
+            $name = $this->manifestFileName();
+
+            $this->manifestAdminPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName . '/' . $name . '.xml';
+        }
+
+        return $this->manifestAdminPathFileName;
+    }
+
+    /**
+     * @param   filesByManifest  $filesByManifest
+     * @param   string           $tmpFolder
+     *
+     * @return false|string
+     */
+    public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
+    {
+        // print (PHP_EOL);
+        print ('--- copy to temp ------------------------------' . PHP_EOL);
+
+        $srcRoot = realpath($this->fileNamesList->srcRoot);
+
+        print ('--- copy files ' . PHP_EOL);
+
+        foreach ($filesByManifest->files as $file)
+        {
+            $this->xcopyElement($file, $srcRoot, $tmpFolder);
+        }
+        print (PHP_EOL);
+
+        print ('--- copy folders ' . PHP_EOL);
+
+        foreach ($filesByManifest->folders as $folder)
+        {
+            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
+        }
+        print (PHP_EOL);
+
+        return $srcRoot;
+    }
+
     private function xcopyElement(string $name, string $srcRoot, string $dstRoot)
     {
         $hasError = 0;
@@ -773,6 +836,65 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return $ZipName;
     }
 
+    private function destinationExtensionName(): string
+    {
+        //$name = $this->extName;
+        $name = $this->element;
+
+        if (empty($name))
+        {
+            $name = $this->extName;
+        }
+
+        // com  extension
+        if (str_starts_with($name, 'com_'))
+        {
+            // Standard
+            $name = substr($name, 4);
+            // $extName = 'com_' . substr($extName, 4);
+
+        }
+//        else {
+//
+//            if (str_starts_with($name, 'mod_')) {
+//                // $idx = strpos($extName, '_', strlen('mod_')) + 1;
+//                // $extName = 'mod_' . substr($extName, $idx);
+//                $name = $this->extName;
+//            } else {
+//
+//                if (str_starts_with($name, 'plg_')) {
+////                    if ( ! str_starts_with($extName, 'plg_'))
+////                    {
+////                        // $idx = strpos($extName, '_', strlen('plg_')) + 1;
+//////                        $extName = 'plg_' . substr($extName, $idx);
+////                        $extName = 'plg_' . $extName;
+////                    }
+////
+//                    // already done but ....
+//                    $name = $this->extName;
+//                }
+//            }
+//        }
+
+        return $name;
+    }
+
+    private function componentVersion()
+    {
+        // ToDo: option for version
+        // ToDo: retrieve version from manifest
+
+        if ($this->componentVersion == '')
+        {
+
+            $versionId              = $this->manifestFile->versionId;
+            $this->componentVersion = $versionId->outVersionId;
+
+        }
+
+        return $this->componentVersion;
+    }
+
     private function buildModule(): string
     {
         //--------------------------------------------------------------------
@@ -781,7 +903,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- manifest file extName --------------------------------------
 
-        $manifestFileName             = $this->manifestFileName();
+        $manifestFileName     = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
@@ -875,11 +997,11 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //        if (file_exists($adminPath . '/' . $installScript)) {
 //            $this->xcopyElement($installScript, $adminPath, $tmpFolder);
 //        }
-//         print (PHP_EOL);        
+//         print (PHP_EOL);
 
         // Not needed, the license is defined in manifest or may be inside component base path
         //$this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
-//         print (PHP_EOL);        
+//         print (PHP_EOL);
 
         //--- remove package for rsgallery2 ---------------------------------------------
 
@@ -897,13 +1019,13 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //            if (file_exists($changelogPathFileName)) {
 //                $this->xcopyElement('changelog.xml', $changelogPathFileName, $tmpFolder);
 //            }
-//         print (PHP_EOL);        
+//         print (PHP_EOL);
 
         //--------------------------------------------------------------------
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
         $this->lastZipFileName = $zipFileName;
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
@@ -929,7 +1051,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- update date and version --------------------------------------
 
-        $manifestFileName             = $this->manifestFileName();
+        $manifestFileName     = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
@@ -1054,7 +1176,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
         $this->lastZipFileName = $zipFileName;
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
@@ -1086,7 +1208,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- manifest file name --------------------------------------
 
-        $manifestFileName             = $this->manifestFileName();
+        $manifestFileName     = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
 
@@ -1170,54 +1292,6 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return $OutTxt;
     }
 
-    private function componentVersion()
-    {
-        // ToDo: option for version
-        // ToDo: retrieve version from manifest
-
-        if ($this->componentVersion == '')
-        {
-
-            $versionId              = $this->manifestFile->versionId;
-            $this->componentVersion = $versionId->outVersionId;
-
-        }
-
-        return $this->componentVersion;
-    }
-
-    /**
-     * @param   filesByManifest  $filesByManifest
-     * @param   string           $tmpFolder
-     *
-     * @return false|string
-     */
-    public function copy2tmpFolder(filesByManifest $filesByManifest, string $tmpFolder): string|false
-    {
-        // print (PHP_EOL);
-        print ('--- copy to temp ------------------------------' . PHP_EOL);
-
-        $srcRoot = realpath($this->fileNamesList->srcRoot);
-
-        print ('--- copy files ' . PHP_EOL);
-
-        foreach ($filesByManifest->files as $file)
-        {
-            $this->xcopyElement($file, $srcRoot, $tmpFolder);
-        }
-        print (PHP_EOL);
-
-        print ('--- copy folders ' . PHP_EOL);
-
-        foreach ($filesByManifest->folders as $folder)
-        {
-            $this->xcopyElement($folder, $srcRoot, $tmpFolder);
-        }
-        print (PHP_EOL);
-
-        return $srcRoot;
-    }
-
     private function detectCompVersionFromFile(string $manifestPathFileName)
     {
         $componentVersion = '';
@@ -1226,80 +1300,6 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
 
         return $componentVersion;
-    }
-
-    private function detectCompTypeFromFile(string $manifestPathFileName): string
-    {
-
-        $componentType = 'component';
-
-        $isLocal = false;
-        if (!empty($this->manifestFile))
-        {
-
-            if ($this->manifestFile->extType != '')
-            {
-                $componentType = $this->manifestFile->extType;
-                $isLocal       = true;
-            }
-
-        }
-
-        //
-        if (!$isLocal)
-        {
-
-            // read file
-            if (is_file($manifestPathFileName))
-            {
-
-                $manifestFile  = new manifestFile('', $manifestPathFileName);
-                $componentType = $manifestFile->extType;
-
-            }
-        }
-
-        return $componentType;
-    }
-
-
-    private function check4validInput()
-    {
-        $isValid = true;
-
-        //option type: "component"
-        if (empty ($this->componentType))
-        {
-            print ("option type: not set" . PHP_EOL);
-            $isValid = false;
-        }
-        //option buildDir: "../../LangMan4Dev"
-        if (empty ($this->fileNamesList->srcRoot))
-        {
-            print ("option buildDir: not set" . PHP_EOL);
-            $isValid = false;
-        }
-        //option buildDir: "../../LangMan4DevProject/.packages"
-        if (empty ($this->buildDir))
-        {
-            print ("option buildDir: not set" . PHP_EOL);
-            $isValid = false;
-        }
-        //option extName: "com_lang4dev"
-        if (empty ($this->extName))
-        {
-            print ("option extName: not set" . PHP_EOL);
-            $isValid = false;
-        }
-        //option extension: "Lang4Dev"
-        if (empty ($this->element))
-        {
-            print ("option extension: not set" . PHP_EOL);
-            $isValid = false;
-        }
-
-
-        return $isValid;
     }
 
 

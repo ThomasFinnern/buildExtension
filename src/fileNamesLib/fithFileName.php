@@ -37,13 +37,16 @@ class fithFileName
     public function __construct($srcFile = "")
     {
         //$hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcFile: " . $srcFile . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->extractNameParts($srcFile);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             //$hasError = -101;
         }
@@ -58,7 +61,8 @@ class fithFileName
     {
         $hasError = 0;
 
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print('extractNameParts' . PHP_EOL);
 //            print("srcSpecifiedName: " . $srcFile . PHP_EOL);
@@ -74,14 +78,19 @@ class fithFileName
             $path_parts = pathinfo($srcFile);
 
             $this->fileName = $path_parts['filename'];
-            if ( ! empty($path_parts['extension'])) {
+            if (!empty($path_parts['extension']))
+            {
                 $this->fileExtension = $path_parts['extension'];
-            } else {
+            }
+            else
+            {
                 $this->fileExtension = "";
             }
             $this->fileBaseName = $path_parts['basename'];
-            $this->filePath = $path_parts['dirname'];
-        } catch (Exception $e) {
+            $this->filePath     = $path_parts['dirname'];
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -97,13 +106,13 @@ class fithFileName
     function clear()
     {
         $this->srcSpecifiedName = "";
-        $this->srcPathFileName = "";
+        $this->srcPathFileName  = "";
 
         // file name part
-        $this->fileName = "";
+        $this->fileName      = "";
         $this->fileExtension = "";
-        $this->fileBaseName = "";
-        $this->filePath = "";
+        $this->fileBaseName  = "";
+        $this->filePath      = "";
 
         return;
     }
@@ -116,7 +125,8 @@ class fithFileName
     {
         $hasExtension = false;
 
-        if ($this->fileExtension == $check) {
+        if ($this->fileExtension == $check)
+        {
             $hasExtension = true;
         }
 
@@ -131,7 +141,8 @@ class fithFileName
     {
         $isMatchesRegex = false;
 
-        if (preg_match($regex, $this->fileName)) {
+        if (preg_match($regex, $this->fileName))
+        {
             $isMatchesRegex = true;
         }
 
@@ -146,7 +157,8 @@ class fithFileName
     {
         $isMatchesRegex = false;
 
-        if (preg_match($regex, $this->fileBaseName)) {
+        if (preg_match($regex, $this->fileBaseName))
+        {
             $isMatchesRegex = true;
         }
 
@@ -161,7 +173,8 @@ class fithFileName
     {
         $isMatchesRegex = false;
 
-        if (preg_match($regex, $this->filePath)) {
+        if (preg_match($regex, $this->filePath))
+        {
             $isMatchesRegex = true;
         }
 

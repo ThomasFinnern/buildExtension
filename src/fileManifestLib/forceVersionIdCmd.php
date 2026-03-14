@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileManifestLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -21,7 +21,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -43,12 +43,10 @@ variables
 ////    . ' /extension=RSGallery2'
 //    . ' /version="5.0.12.4"';
 
-$tasksLine = ' task:forceVersionId'
-    . ' /srcRoot="../../../LangMan4Dev"'
+$tasksLine = ' task:forceVersionId' . ' /srcRoot="../../../LangMan4Dev"'
 //    . ' /isNoRecursion=true'
 //    . ' /name=rsgallery2'
-    . ' /name=lang4dev'
-//    . ' /extension=RSGallery2'
+    . ' /name=lang4dev' //    . ' /extension=RSGallery2'
     . ' /version="0.29.0.0"';
 
 //$optionFile = '';
@@ -59,11 +57,13 @@ $tasksLine = ' task:forceVersionId'
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcFile = $option;
             break;
@@ -119,16 +119,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -139,27 +144,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oForceVersionId = new forceVersionId();
+    $oForceVersionId = new forceVersionId();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oForceVersionId->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oForceVersionId->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oForceVersionId->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
-	
-	print ($oForceVersionId->text() . PHP_EOL);
+    //--- execute tasks ---------------------------------
+
+    if (!$hasError)
+    {
+        $hasError = $oForceVersionId->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oForceVersionId->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);

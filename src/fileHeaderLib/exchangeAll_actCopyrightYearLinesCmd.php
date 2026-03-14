@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "f:t:s:y:o:h12345";
+$optDefinition    = "f:t:s:y:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -37,17 +37,14 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:exchangeAll_actCopyrightYear'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    . ' /isNoRecursion=true'
-    . ' /yearText="1984"'//    . ' /s='
+$tasksLine = ' task:exchangeAll_actCopyrightYear' . ' /srcRoot="./../../RSGallery2_J4"' //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
+    . ' /isNoRecursion=true' . ' /yearText="1984"'//    . ' /s='
 ;
-$tasksLine="";
+$tasksLine = "";
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';
-$srcRoot = '';
+$srcRoot       = '';
 $isNoRecursion = true;
 
 //$licenseText = "GNU General Public License version 2 or later;";
@@ -69,11 +66,13 @@ $taskFile = '../tsk_file_examples/exchangeAll_actCopyrightYearLines.tsk';
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -133,14 +132,17 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $testTask = $task->extractTaskFromFile($taskFile);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromFile:" // . $hasError
     //        . ' Task file: ' . $taskFile);
     //    $hasError = -301;
     //}
-} else {
+}
+else
+{
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromString:" . $hasError
@@ -155,27 +157,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oExchangeAllActCopyright = new exchangeAll_actCopyrightYearLines();
+    $oExchangeAllActCopyright = new exchangeAll_actCopyrightYearLines();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oExchangeAllActCopyright->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oExchangeAllActCopyright->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oExchangeAllActCopyright->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
+    //--- execute tasks ---------------------------------
 
-	print ($oExchangeAllActCopyright->text() . PHP_EOL);
+    if (!$hasError)
+    {
+        $hasError = $oExchangeAllActCopyright->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oExchangeAllActCopyright->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);

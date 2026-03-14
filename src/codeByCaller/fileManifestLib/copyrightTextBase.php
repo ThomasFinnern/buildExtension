@@ -8,10 +8,9 @@ namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
  * manifest file:
  *    <copyright>(c) 2005-2024 RSGallery2 Team</copyright>
  * *.php
- *    @copyright   (c) 2003-2024 RSGallery2 Team
+ * @copyright   (c) 2003-2024 RSGallery2 Team
  */
-class copyrightTextBase
-    implements copyrightTextInterface
+class copyrightTextBase implements copyrightTextInterface
 {
 
     const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
@@ -19,7 +18,7 @@ class copyrightTextBase
     // 2019 start of J!4 version
     const SINCE_COPYRIGHT_DATE = "2019";
 
-    const POST_COPYRIGHT_AUTHOR  = "RSGallery2 Team";
+    const POST_COPYRIGHT_AUTHOR = "RSGallery2 Team";
 
 
     public string $copyrightPrePhp; // = "copyright  (c)" | "(c)";
@@ -33,24 +32,26 @@ class copyrightTextBase
     --------------------------------------------------------------------*/
 
     // ToDo: a lot of parameters ....
-    public function __construct($copyrightText = "") {
+    public function __construct($copyrightText = "")
+    {
 
         $this->init();
 
-        if (!empty($copyrightText)) {
-            $this->scan4CopyrightInLine ($copyrightText);
+        if (!empty($copyrightText))
+        {
+            $this->scan4CopyrightInLine($copyrightText);
         }
     }
 
-    public function init() : void
+    public function init(): void
     {
-        $this->setActCopyright2Today ();
+        $this->setActCopyright2Today();
 
         // 2019 start of J!4 version
-        $this->sinceCopyrightDate = self::SINCE_COPYRIGHT_DATE;
+        $this->sinceCopyrightDate  = self::SINCE_COPYRIGHT_DATE;
         $this->postCopyrightAuthor = self::POST_COPYRIGHT_AUTHOR;
 
-        $this->copyrightPrePhp = self::COPYRIGHT_PRE_PHP_FILE;
+        $this->copyrightPrePhp      = self::COPYRIGHT_PRE_PHP_FILE;
         $this->copyrightPreManifest = self::COPYRIGHT_PRE_MANIFEST_FILE;
     }
 
@@ -60,40 +61,18 @@ class copyrightTextBase
 //
 //    }
 
-    public function setActCopyright2Today ()  : void {
+    public function setActCopyright2Today(): void
+    {
 
         // $date_format        = 'Ymd';
         $date_format = 'Y';
-        $yearToday = date($date_format);
+        $yearToday   = date($date_format);
 
         $this->actCopyrightDate = $yearToday;
 
     }
 
-    public function setSinceCopyright2Today ()  : void {
-
-        // $date_format        = 'Ymd';
-        $date_format = 'Y';
-        $yearToday = date($date_format);
-
-        $this->sinceCopyrightDate = $yearToday;
-
-    }
-
-
-    public function setActCopyright (string $year)  : void {
-
-        $this->actCopyrightDate = $year;
-
-    }
-
-    public function setSinceCopyright (string $year) : void {
-
-        $this->actCopyrightDate = $year;
-
-    }
-
-    public function scan4CopyrightInLine(string $line) : array
+    public function scan4CopyrightInLine(string $line): array
     {
         // ToDo: try, catch
 
@@ -103,16 +82,17 @@ class copyrightTextBase
 
         //  **   @copyright  2008 - 2025  JoomGallery::ProjectTeam
         $idx = stripos($line, '@copyright');
-        if ($idx !== false) {
+        if ($idx !== false)
+        {
             //$valuePart = trim(substr($line, $idx));
             // preg_match_all('/\d+/', $valuePart, $matches);
             preg_match_all('/\d+/', $line, $matches);
 
             $finds = $matches [0];
-            if (count ($finds) > 1)
+            if (count($finds) > 1)
             {
                 $this->sinceCopyrightDate = $finds[0];
-                $this->actCopyrightDate = $finds[1];
+                $this->actCopyrightDate   = $finds[1];
 
                 // author from line is last part
                 $pieces = explode($this->actCopyrightDate, $line);
@@ -133,7 +113,9 @@ class copyrightTextBase
                 //}
 
             }
-        } else {
+        }
+        else
+        {
 
             print ('!!! Unexpected copyright line: "' . $line . '" !!!');
             throw new \Exception('!!! Unexpected copyright line: "' . $line . '" !!!');
@@ -143,25 +125,57 @@ class copyrightTextBase
         // return [$this->actCopyrightDate, $this->sinceCopyrightDate];
     }
 
+    public function setSinceCopyright2Today(): void
+    {
+
+        // $date_format        = 'Ymd';
+        $date_format = 'Y';
+        $yearToday   = date($date_format);
+
+        $this->sinceCopyrightDate = $yearToday;
+
+    }
+
+    public function setActCopyright(string $year): void
+    {
+
+        $this->actCopyrightDate = $year;
+
+    }
+
+    public function setSinceCopyright(string $year): void
+    {
+
+        $this->actCopyrightDate = $year;
+
+    }
+
 
     //  = "(c)";
     // = "copyright  (c)";
-    public function formatCopyrightPhp($middlePadCount, $endPadCount, $sinceCopyrightDate='', $actCopyrightDate=''): string // , int $padCount
+
+    public function formatCopyrightPhp($middlePadCount, $endPadCount, $sinceCopyrightDate = '', $actCopyrightDate = ''): string // , int $padCount
     {
         // ToDo: try, catch
 
         //--- data source --------------------------------
 
         // from extern or intern
-        if (empty($sinceCopyrightDate)) {
+        if (empty($sinceCopyrightDate))
+        {
             $sinceCopyrightDate = $this->sinceCopyrightDate;
-        } else {
+        }
+        else
+        {
             $this->sinceCopyrightDate = $sinceCopyrightDate;
         }
 
-        if (empty($actCopyrightDate)) {
+        if (empty($actCopyrightDate))
+        {
             $actCopyrightDate = $this->actCopyrightDate;
-        } else {
+        }
+        else
+        {
             $this->actCopyrightDate = $actCopyrightDate;
         }
 
@@ -178,30 +192,34 @@ class copyrightTextBase
     }
 
     // ToDo: just since may not exist
-    public function formatCopyrightManifest($sinceCopyrightDate='', $actCopyrightDate=''): string
+    public function formatCopyrightManifest($sinceCopyrightDate = '', $actCopyrightDate = ''): string
     {
         // ToDo: try, catch
 
         //--- data source --------------------------------
 
         // from extern or intern
-        if (empty($sinceCopyrightDate)) {
+        if (empty($sinceCopyrightDate))
+        {
             $sinceCopyrightDate = $this->sinceCopyrightDate;
-        } else {
+        }
+        else
+        {
             $this->sinceCopyrightDate = $sinceCopyrightDate;
         }
 
-        if (empty($actCopyrightDate)) {
+        if (empty($actCopyrightDate))
+        {
             $actCopyrightDate = $this->actCopyrightDate;
-        } else {
+        }
+        else
+        {
             $this->actCopyrightDate = $actCopyrightDate;
         }
 
         //--- format text --------------------------------
 
-        $copyrightLine = $this->copyrightPreManifest
-            . ' ' . $sinceCopyrightDate . '-' . $actCopyrightDate
-            . ' ' . $this->postCopyrightAuthor;
+        $copyrightLine = $this->copyrightPreManifest . ' ' . $sinceCopyrightDate . '-' . $actCopyrightDate . ' ' . $this->postCopyrightAuthor;
 
         return rtrim($copyrightLine);
     }

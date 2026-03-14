@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileManifestLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -75,11 +75,13 @@ $taskFile = "./build_tsk/build_test.tsk";
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcFile = $option;
             break;
@@ -135,16 +137,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -155,25 +162,29 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
-	
-	$oManifestFile = new manifestFile();
+if (empty ($hasError))
+{
 
-	//--- assign tasks ---------------------------------
+    $oManifestFile = new manifestFile();
 
-	$hasError = $oManifestFile->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
+    //--- assign tasks ---------------------------------
 
-	//--- execute tasks ---------------------------------
+    $hasError = $oManifestFile->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oManifestFile->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
+    //--- execute tasks ---------------------------------
+
+    if (!$hasError)
+    {
+        $hasError = $oManifestFile->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
 
     print ($oManifestFile->text() . PHP_EOL);
 

@@ -77,17 +77,17 @@ class fileHeaderData
         $this->init();
     }
 
-    public function init() : void
+    public function init(): void
     {
 //        $date_format = 'Y';
 //        $this->yearToday = date($date_format);
 
-        $this->package = self::PACKAGE;
+        $this->package    = self::PACKAGE;
         $this->subpackage = self::SUBPACKAGE;
 
         $this->license = self::LICENSE;
-        $this->author = self::AUTHOR;
-        $this->link = self::LINK;
+        $this->author  = self::AUTHOR;
+        $this->link    = self::LINK;
 
         $this->copyright = new copyrightText();
     }
@@ -102,7 +102,8 @@ class fileHeaderData
 
         $this->additionalLines = [];
 
-        try {
+        try
+        {
             $this->init();
 
             print('*********************************************************' . PHP_EOL);
@@ -110,19 +111,25 @@ class fileHeaderData
             print ("header lines in: " . count($headerLines) . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            foreach ($headerLines as $line) {
+            foreach ($headerLines as $line)
+            {
                 [$name, $behind] = $this->extractNameFromHeaderLine($line);
 
-                if (!empty ($name)) {
-                    if ($name == 'copyright') {
+                if (!empty ($name))
+                {
+                    if ($name == 'copyright')
+                    {
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
                         $this->copyright = new copyrightText($line);
-                    } else {
+                    }
+                    else
+                    {
                         $value = $this->scan4HeaderValueInLine($name, $line);
 
-                        switch ($name) {
+                        switch ($name)
+                        {
                             case strtolower('package'):
                                 $this->package = $value;
                                 break;
@@ -140,14 +147,18 @@ class fileHeaderData
                                 break;
 
                             default:
-                                if (trim($line) != '') {
+                                if (trim($line) != '')
+                                {
                                     $this->additionalLines [] = $line;
                                 }
                                 break;
                         }
                     }
-                } else {
-                    if (trim($line) != '') {
+                }
+                else
+                {
+                    if (trim($line) != '')
+                    {
                         $this->additionalLines [] = $line;
                     }
                 }
@@ -159,7 +170,9 @@ class fileHeaderData
 //            if (count ($this-> additional Lines)) {
 //
 //            }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -174,19 +187,20 @@ class fileHeaderData
     --------------------------------------------------------------------*/
 
     // '(c)' of copyright will be ignored here
-    public function extractNameFromHeaderLine(string $line) : array
+    public function extractNameFromHeaderLine(string $line): array
     {
-        $name = '';
+        $name   = '';
         $behind = '';
 
         //  * @copyright (c) 2005-2024 RSGallery2 Team
         //  * @subpackage      com_rsgallery2
         $atIdx = strpos($line, '@');
-        if (!empty($atIdx)) {
+        if (!empty($atIdx))
+        {
             $blankIdx = strpos($line, ' ', $atIdx + 1);
 
-            $name = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
-            $name = trim($name);
+            $name   = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
+            $name   = trim($name);
             $behind = substr($line, $blankIdx + 1);
             $behind = trim($behind);
         }
@@ -199,7 +213,8 @@ class fileHeaderData
         $value = '';
 
         $idx = strpos($line, '@' . $name);
-        if ($idx !== false) {
+        if ($idx !== false)
+        {
             $idx += 1 + strlen($name);
 
             $value = trim(substr($line, $idx));
@@ -225,28 +240,6 @@ class fileHeaderData
         $OutTxt .= " */" . PHP_EOL;
 
         return $OutTxt;
-    }
-
-    public function headerLines(): array
-    {
-        $outLines = [];
-
-        try {
-            $outLines[] = "/**" . PHP_EOL;
-
-            $outLines[] = $this->headerFormat('package', $this->package);
-            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
-            $outLines[] = $this->headerFormat('author', $this->author);
-            $outLines[] = $this->headerFormatCopyright();
-            $outLines[] = $this->headerFormat('license', $this->license);
-
-            $outLines[] = " */" . PHP_EOL;
-
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-        }
-
-        return $outLines;
     }
 
     public function headerFormat($name, $value): string // , int $padCount
@@ -277,23 +270,40 @@ class fileHeaderData
         return $headerLine;
     }
 
+    public function headerLines(): array
+    {
+        $outLines = [];
+
+        try
+        {
+            $outLines[] = "/**" . PHP_EOL;
+
+            $outLines[] = $this->headerFormat('package', $this->package);
+            $outLines[] = $this->headerFormat('subpackage', $this->subpackage);
+            $outLines[] = $this->headerFormat('author', $this->author);
+            $outLines[] = $this->headerFormatCopyright();
+            $outLines[] = $this->headerFormat('license', $this->license);
+
+            $outLines[] = " */" . PHP_EOL;
+
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+        }
+
+        return $outLines;
+    }
+
     public function isDifferent(fileHeaderData $fileHeaderExtern): bool
     {
-        $headerLocal = $this->headerText();
+        $headerLocal  = $this->headerText();
         $headerExtern = $fileHeaderExtern->headerText();
 
         return $headerLocal !== $headerExtern;
     }
 
-    public function isDifferentByString(string $externHeaderAsString): bool
-    {
-        $headerLocal = $this->headerText();
-        $headerExtern = $externHeaderAsString;
-
-        return $headerLocal !== $headerExtern;
-    }
-
-    public function headerText() : string
+    public function headerText(): string
     {
         $OutTxt = "";
         $OutTxt .= "/**" . PHP_EOL;
@@ -309,6 +319,14 @@ class fileHeaderData
         $OutTxt .= " */" . PHP_EOL;
 
         return $OutTxt;
+    }
+
+    public function isDifferentByString(string $externHeaderAsString): bool
+    {
+        $headerLocal  = $this->headerText();
+        $headerExtern = $externHeaderAsString;
+
+        return $headerLocal !== $headerExtern;
     }
 
 } // fileHeader

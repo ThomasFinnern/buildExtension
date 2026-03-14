@@ -3,9 +3,8 @@
 namespace Finnern\BuildExtension\src\codeScanner;
 
 use Exception;
-use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-
+use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\tasks;
 
@@ -25,7 +24,7 @@ Class codeScanner_log
 ================================================================================*/
 
 class codeScanner_logTasks // extends baseExecuteTasks
-	// implements executeTasksInterface
+    // implements executeTasksInterface
 {
 
     /**
@@ -51,21 +50,25 @@ class codeScanner_logTasks // extends baseExecuteTasks
     public function __construct($basePath = "", $tasksLine = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print("basePath: " . $basePath . PHP_EOL);
 //            print("tasks: " . $tasksLine . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            $this->basePath = $basePath;
-            $this->tasks = new tasks();
+            $this->basePath      = $basePath;
+            $this->tasks         = new tasks();
             $this->fileNamesList = new fileNamesList();
 
-            if (strlen($tasksLine) > 0) {
+            if (strlen($tasksLine) > 0)
+            {
                 $this->tasks = $this->tasks->extractTasksFromString($tasksLine);
             }
             // print ($this->tasksText ());
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -93,24 +96,26 @@ class codeScanner_logTasks // extends baseExecuteTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('applyTasks' . PHP_EOL);
             // print ("task: " . $textTask . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            foreach ($this->tasks->tasks as $textTask) {
+            foreach ($this->tasks->tasks as $textTask)
+            {
                 // print ("--- apply task: " . $textTask->name . PHP_EOL);
                 print (">>>---------------------------------" . PHP_EOL);
 
                 $this->actTaskName = $textTask->name;
 
-                switch (strtolower($textTask->name)) {
+                switch (strtolower($textTask->name))
+                {
                     //--- let the task run -------------------------
 
                     case strtolower('execute'):
-                        print ('>>> Call execute task: "'
-                            // . $this->actTask->name
+                        print ('>>> Call execute task: "' // . $this->actTask->name
                             . '"  >>>' . PHP_EOL);
 
                         // ToDo: dummy task
@@ -154,7 +159,9 @@ class codeScanner_logTasks // extends baseExecuteTasks
 
                 // $OutTxt .= $task->text() . PHP_EOL;
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! applyTasks: Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -192,11 +199,15 @@ class codeScanner_logTasks // extends baseExecuteTasks
         $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt .= "--- codeScanner_log ==> " . $this->actTaskName . " ---" . PHP_EOL;
 
-        if ( !empty ($this->actTask)) {
+        if (!empty ($this->actTask))
+        {
             $OutTxt .= $this->actTask->text();
-        } else {
+        }
+        else
+        {
             $OutTxt .= ">>> text(): object actTask is not defined" . PHP_EOL;
         }
+
         /**
          * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
          * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
@@ -208,7 +219,7 @@ class codeScanner_logTasks // extends baseExecuteTasks
         return $OutTxt;
     }
 
-    public function extractTasksFromFile(mixed $taskFile) : codeScanner_logTasks
+    public function extractTasksFromFile(mixed $taskFile): codeScanner_logTasks
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromFile($taskFile));

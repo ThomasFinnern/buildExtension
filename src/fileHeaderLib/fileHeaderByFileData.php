@@ -4,13 +4,14 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
-//use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
-//use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
 use Finnern\BuildExtension\src\tasksLib\task;
+
+//use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderData;
+//use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 
 /*================================================================================
 Class fileHeaderByFileData
@@ -39,13 +40,10 @@ class fileHeaderByFileData // extends fileHeaderData
     public array $preFileLines = [];
     /** * @var string array */
     public array $postFileLines = [];
-
-    protected fileHeaderDataBase|null $oFileHeader;
-
     public bool $isValid = false;
-
     public task $task;
     public readonly string $name;
+    public bool $isForceStdPackage = false;
 
 
     //--- flags ----------------------------------
@@ -53,31 +51,31 @@ class fileHeaderByFileData // extends fileHeaderData
     // ToDo: copyright flags: Set and use in copyright text with execute
 
     // --- Std value ------
-    public bool $isForceStdPackage = false;
     public bool $isForceStdSubpackage = false;
     public bool $isForceStdActCopyright = false;
     public bool $isForceStdSinceCopyright = false;
     public bool $isForceSinceCopyrightToToday = false;
     public bool $isForceStdLicense = false;
     public bool $isForceStdAuthor = false;
+    public bool $isForcePackage = false;
 
     // --- Force value ------
-    public bool $isForcePackage = false;
     public bool $isForceSubpackage = false;
     public bool $isForceActCopyright = false;
     public bool $isForceSinceCopyright = false;
     public bool $isForceActCopyrightToToday = false;
     public bool $isForceLicense = false;
     public bool $isForceAuthor = false;
+    public string $valueForcePackage = "";
 
     // --- Value to be used on force ------
-    public string $valueForcePackage = "";
     public string $valueForceSubpackage = "";
     public string $valueForceActCopyright = "";
     public string $valueForceSinceCopyright = "";
     public string $valueForceCopyright = "";
     public string $valueForceLicense = "";
     public string $valueForceAuthor = "";
+    protected fileHeaderDataBase|null $oFileHeader;
 
     // just an indicator can be removed later
     private string $callerProjectId = "";
@@ -103,33 +101,33 @@ class fileHeaderByFileData // extends fileHeaderData
     importFileData
     --------------------------------------------------------------------*/
 
-    private function initFlags():void
+    private function initFlags(): void
     {
         $this->isUpdateActCopyrightDate = true;
 
-        $this->isForceStdPackage = false;
-        $this->isForceStdSubpackage = false;
-        $this->isForceStdActCopyright = false;
-        $this->isForceStdSinceCopyright = false;
+        $this->isForceStdPackage            = false;
+        $this->isForceStdSubpackage         = false;
+        $this->isForceStdActCopyright       = false;
+        $this->isForceStdSinceCopyright     = false;
         $this->isForceSinceCopyrightToToday = false;
-        $this->isForceStdLicense = false;
-        $this->isForceStdAuthor = false;
+        $this->isForceStdLicense            = false;
+        $this->isForceStdAuthor             = false;
 
-        $this->isForcePackage = false;
-        $this->isForceSubpackage = false;
-        $this->isForceActCopyright = false;
-        $this->isForceSinceCopyright = false;
+        $this->isForcePackage             = false;
+        $this->isForceSubpackage          = false;
+        $this->isForceActCopyright        = false;
+        $this->isForceSinceCopyright      = false;
         $this->isForceActCopyrightToToday = false;
-        $this->isForceLicense = false;
-        $this->isForceAuthor = false;
+        $this->isForceLicense             = false;
+        $this->isForceAuthor              = false;
 
-        $this->valueForcePackage = "";
-        $this->valueForceSubpackage = "";
-        $this->valueForceActCopyright = "";
+        $this->valueForcePackage        = "";
+        $this->valueForceSubpackage     = "";
+        $this->valueForceActCopyright   = "";
         $this->valueForceSinceCopyright = "";
-        $this->valueForceCopyright = "";
-        $this->valueForceLicense = "";
-        $this->valueForceAuthor = "";
+        $this->valueForceCopyright      = "";
+        $this->valueForceLicense        = "";
+        $this->valueForceAuthor         = "";
     }
 
     public function assignTask(task $task): int
@@ -143,11 +141,12 @@ class fileHeaderByFileData // extends fileHeaderData
         $options = $task->options;
 
         // ToDo: Extract assignOption on all assignTask
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
 //            $isBaseOption = $this->assignBaseOption($option);
 //            if (!$isBaseOption) {
-                $this->assignOption($option);//, $task->name);
+            $this->assignOption($option);//, $task->name);
 //            }
         }
 
@@ -156,7 +155,7 @@ class fileHeaderByFileData // extends fileHeaderData
 
     /**
      * @param   options  $options
-     * @param   task              $task
+     * @param   task     $task
      *
      * @return void
      */
@@ -166,125 +165,127 @@ class fileHeaderByFileData // extends fileHeaderData
         $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-        if ( ! $isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
                 case strtolower('filename'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->fileName = $option->value;
+                    $this->fileName   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('isupdatecreationdate'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isUpdateActCopyrightDate = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed               = true;
                     break;
 
                 case strtolower('isforcestdpackage'):
                     $this->isForceStdPackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed        = true;
                     break;
 
                 case strtolower('isforcestdsubpackage'):
                     $this->isForceStdSubpackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed           = true;
                     break;
 
                 case strtolower('isforcestaactcopyright'):
                     $this->isForceStdActCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed             = true;
                     break;
 
                 case strtolower('isforcestdsincecopyright'):
                     $this->isForceStdSinceCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed               = true;
                     break;
 
                 case strtolower('isforcesincecopyrighttotoday'):
                     $this->isForceSinceCopyrightToToday = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed                   = true;
                     break;
 
                 case strtolower('isforcestdlicense'):
                     $this->isForceStdLicense = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed        = true;
                     break;
 
                 case strtolower('isforcestdauthor'):
                     $this->isForceStdAuthor = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed       = true;
                     break;
 
 
                 case strtolower('isforcepackage'):
                     $this->isForcePackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed     = true;
                     break;
 
                 case strtolower('isforcesubpackage'):
                     $this->isForceSubpackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed        = true;
                     break;
 
                 case strtolower('isforceactcopyright'):
                     $this->isForceActCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed          = true;
                     break;
 
                 case strtolower('isforcesincecopyright'):
                     $this->isForceSinceCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed            = true;
                     break;
 
                 case strtolower('isforceactcopyrighttotoday'):
                     $this->isForceActCopyrightToToday = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed                 = true;
                     break;
 
                 case strtolower('isforcelicense'):
                     $this->isForceLicense = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed     = true;
                     break;
 
                 case strtolower('isforceauthor'):
                     $this->isForceAuthor = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed    = true;
                     break;
 
 
                 case strtolower('valueforcepackage'):
                     $this->valueForcePackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed        = true;
                     break;
 
                 case strtolower('valueforcesubpackage'):
                     $this->valueForceSubpackage = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed           = true;
                     break;
 
                 case strtolower('valueforceactcopyright'):
                     $this->valueForceActCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed             = true;
                     break;
 
                 case strtolower('valueforcesincecopyright'):
                     $this->valueForceSinceCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed               = true;
                     break;
 
                 case strtolower('valueforcecopyright'):
                     $this->valueForceCopyright = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed          = true;
                     break;
 
                 case strtolower('valueforcelicense'):
                     $this->valueForceLicense = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed        = true;
                     break;
 
                 case strtolower('valueforceauthor'):
                     $this->valueForceAuthor = $option->value;
-                    $isOptionConsumed = true;
+                    $isOptionConsumed       = true;
                     break;
 
             } // switch
@@ -296,11 +297,12 @@ class fileHeaderByFileData // extends fileHeaderData
     public function execute(): int
     {
         $hasError = 0;
-        $task = $this->task;
+        $task     = $this->task;
 
         // single lines exchange will write complete header lines
 
-        switch (strtolower($task->name)) {
+        switch (strtolower($task->name))
+        {
             case strtolower('upgradeheader'):
                 print ('Execute task: ' . $task->name . PHP_EOL);
 
@@ -357,7 +359,8 @@ class fileHeaderByFileData // extends fileHeaderData
         }
 
         //  write back if changed
-        if ($isChanged && $this->isValid) {
+        if ($isChanged && $this->isValid)
+        {
 
             $hasError = $this->writeFileByHeader($srcPathFileName);
 
@@ -368,11 +371,12 @@ class fileHeaderByFileData // extends fileHeaderData
 
     function importFileData(string $fileName = ""): int
     {
-        $hasError = 0;
-        $isValid = false;
+        $hasError      = 0;
+        $isValid       = false;
         $this->isValid = false;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('importFileData' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
@@ -383,7 +387,8 @@ class fileHeaderByFileData // extends fileHeaderData
 
             $headerCount = count($this->fileHeaderLines);
 
-            if (0 < $headerCount && $headerCount < 20) {
+            if (0 < $headerCount && $headerCount < 20)
+            {
 
                 $this->oFileHeader->extractHeaderValuesFromLines($this->fileHeaderLines);
             }
@@ -394,7 +399,9 @@ class fileHeaderByFileData // extends fileHeaderData
 
             // todo: print ("headerLines: " . $headerLines . PHP_EOL);
             // ToDo: print result
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -407,7 +414,8 @@ class fileHeaderByFileData // extends fileHeaderData
     // ToDo: valid ... ? additional checks ? .....
 
     /**
-     * @param string $fileName
+     * @param   string  $fileName
+     *
      * @return void
      */
     public function importLines(string $fileName): void
@@ -420,9 +428,12 @@ class fileHeaderByFileData // extends fileHeaderData
         //          ->defined in line
 
 
-        if (!empty ($fileName)) {
+        if (!empty ($fileName))
+        {
             $this->fileName = $fileName;
-        } else {
+        }
+        else
+        {
             $fileName = $this->fileName;
         }
         print ("FileName use: " . $fileName . PHP_EOL);
@@ -431,54 +442,66 @@ class fileHeaderByFileData // extends fileHeaderData
 
         //--- import and sort lines ----------------------------------------
 
-        $preFileLines = [];
+        $preFileLines  = [];
         $postFileLines = [];
 
         $headerLines = [];
 //            $originalLines = [];
 
         $isHasStart = false;
-        $isHasEnd = false;
+        $isHasEnd   = false;
 
-        foreach ($lines as $line) {
+        foreach ($lines as $line)
+        {
 
             //--- pre lines ---------------------------
 
             // pre lines include all lines without "/**" line */
-            if ($isHasStart == false) {
+            if ($isHasStart == false)
+            {
 
                 // start comment
-                if (!str_starts_with(trim($line), '/**')) {
-                    if ($line != '') {
+                if (!str_starts_with(trim($line), '/**'))
+                {
+                    if ($line != '')
+                    {
                         // first lines    <php , comments
                         $preFileLines [] = $line;
                     }
-                } else {
+                }
+                else
+                {
 
                     // header lines start line
-                    $isHasStart = true;
+                    $isHasStart     = true;
                     $headerLines [] = $line;
 
                     $this->preFileLines = $preFileLines;
                 }
 
-            } else {
+            }
+            else
+            {
 
                 //--- post lines ---------------------------
 
-                if ($isHasEnd) {
+                if ($isHasEnd)
+                {
                     $postFileLines [] = $line;
 
-                } else {
+                }
+                else
+                {
 
                     //--- pure header lines ---------------------------
 
                     $headerLines [] = $line;
 
                     // end comment
-                    if (str_contains(trim($line), '*/')) {
+                    if (str_contains(trim($line), '*/'))
+                    {
 
-                        $isHasEnd = true;
+                        $isHasEnd              = true;
                         $this->fileHeaderLines = $headerLines;
 
                     }
@@ -497,29 +520,35 @@ class fileHeaderByFileData // extends fileHeaderData
     {
         $standardHeader = fileHeaderDataFactory::oFileHeaderData($this->callerProjectId);
 
-        if ($this->isForceStdPackage) {
+        if ($this->isForceStdPackage)
+        {
             $this->oFileHeader->package = $standardHeader->package;
         }
 
-        if ($this->isForceStdSubpackage) {
+        if ($this->isForceStdSubpackage)
+        {
             $this->oFileHeader->subpackage = $standardHeader->subpackage;
         }
 
-        if ($this->isForceStdActCopyright) {
+        if ($this->isForceStdActCopyright)
+        {
             // ToDo: update actual ...
             $this->oFileHeader->copyright->actCopyrightDate = $standardHeader->copyright->actCopyrightDate;
         }
 
-        if ($this->isForceStdSinceCopyright) {
+        if ($this->isForceStdSinceCopyright)
+        {
             // ToDo: update actual ...
             $this->oFileHeader->copyright->sinceCopyrightDate = $standardHeader->copyright->sinceCopyrightDate;
         }
 
-        if ($this->isForceStdLicense) {
+        if ($this->isForceStdLicense)
+        {
             $this->oFileHeader->license = $standardHeader->license;
         }
 
-        if ($this->isForceStdAuthor) {
+        if ($this->isForceStdAuthor)
+        {
             $this->oFileHeader->author = $standardHeader->author;
         }
 
@@ -528,44 +557,53 @@ class fileHeaderByFileData // extends fileHeaderData
     private function replaceForcedHeaderLines(): void
     {
         // see also isForceActCopyrightToToday
-        if ($this->isUpdateActCopyrightDate) {
+        if ($this->isUpdateActCopyrightDate)
+        {
             // $this->copyright->actCopyrightDate = $this->copyright->yearToday;
-            $this->oFileHeader->oCopyright->setActCopyright2Today ();
+            $this->oFileHeader->oCopyright->setActCopyright2Today();
         }
 
 
-        if ($this->isForcePackage) {
+        if ($this->isForcePackage)
+        {
             $this->oFileHeader->package = $this->valueForcePackage;
         }
 
-        if ($this->isForceSubpackage) {
+        if ($this->isForceSubpackage)
+        {
             $this->oFileHeader->subpackage = $this->valueForceSubpackage;
         }
 
-        if ($this->isForceActCopyright) {
+        if ($this->isForceActCopyright)
+        {
             $this->oFileHeader->copyright->actCopyrightDate = $this->valueForceCopyright;
         }
 
-        if ($this->isForceSinceCopyrightToToday) {
+        if ($this->isForceSinceCopyrightToToday)
+        {
             // $this->copyright->sinceCopyrightDate = $this->copyright->yearToday;
-            $this->oFileHeader->copyright->setSinceCopyright2Today ();
+            $this->oFileHeader->copyright->setSinceCopyright2Today();
         }
 
-        if ($this->isForceSinceCopyright) {
+        if ($this->isForceSinceCopyright)
+        {
             $this->oFileHeader->copyright->sinceCopyrightDate = $this->valueForceCopyright;
         }
 
         // see also isUpdateCreationDate
-        if ($this->isForceActCopyrightToToday) {
+        if ($this->isForceActCopyrightToToday)
+        {
             // $this->copyright->actCopyrightDate = $this->copyright->yearToday;
-            $this->oFileHeader->copyright->setActCopyright2Today ();
+            $this->oFileHeader->copyright->setActCopyright2Today();
         }
 
-        if ($this->isForceLicense) {
+        if ($this->isForceLicense)
+        {
             $this->oFileHeader->license = $this->valueForceLicense;
         }
 
-        if ($this->isForceAuthor) {
+        if ($this->isForceAuthor)
+        {
             $this->oFileHeader->author = $this->valueForceAuthor;
         }
 
@@ -585,10 +623,14 @@ class fileHeaderByFileData // extends fileHeaderData
     {
         $isSaved = false;
 
-        try {
-            if (!empty ($fileName)) {
+        try
+        {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
             print ("FileName use: " . $fileName . PHP_EOL);
@@ -606,7 +648,8 @@ class fileHeaderByFileData // extends fileHeaderData
             $outLines [] = PHP_EOL;
 
             $isFirstNoneBlankLine = false;
-            foreach ($this->preFileLines as $idx => $line) {
+            foreach ($this->preFileLines as $idx => $line)
+            {
 
                 // Jump first lines
                 if (!$isFirstNoneBlankLine)
@@ -621,7 +664,9 @@ class fileHeaderByFileData // extends fileHeaderData
                             $outLines []          = $line;
                         }
                     }
-                } else {
+                }
+                else
+                {
                     // Later line
                     $outLines [] = $line;
                 }
@@ -630,23 +675,28 @@ class fileHeaderByFileData // extends fileHeaderData
             //--- changed header lines ---------------------------
 
             $headerLines = $this->newHeaderLines;
-            if (count($headerLines) == 0) {
+            if (count($headerLines) == 0)
+            {
                 $headerLines = $this->oFileHeader->headerText();
             }
 
-            foreach ($headerLines as $line) {
+            foreach ($headerLines as $line)
+            {
                 $outLines [] = $line;
             }
 
             //--- post lines ---------------------------
 
-            foreach ($this->postFileLines as $line) {
+            foreach ($this->postFileLines as $line)
+            {
                 $outLines [] = $line;
             }
 
             $isSaved = file_put_contents($fileName, $outLines);
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

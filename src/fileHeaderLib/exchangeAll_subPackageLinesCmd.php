@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:p:o:h12345";
+$optDefinition    = "s:p:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -37,10 +37,8 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:exchangeAll_subPackageLines'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
-    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-//    . ' /isNoRecursion=true'
+$tasksLine = ' task:exchangeAll_subPackageLines' //    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"' //    . ' /isNoRecursion=true'
     . ' /subpackageText = "GNU General Public subpackage version 2 or later"'//    . ' /s='
 ;
 
@@ -60,11 +58,13 @@ $subPackageText = '';
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcRoot = $option;
             break;
@@ -120,16 +120,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -140,27 +145,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oExchangeAll_subPackageLines = new exchangeAll_subPackageLines($srcRoot, $subPackageText);
+    $oExchangeAll_subPackageLines = new exchangeAll_subPackageLines($srcRoot, $subPackageText);
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oExchangeAll_subPackageLines->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oExchangeAll_subPackageLines->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oExchangeAll_subPackageLines->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
+    //--- execute tasks ---------------------------------
 
-	print ($oExchangeAll_subPackageLines->text() . PHP_EOL);
+    if (!$hasError)
+    {
+        $hasError = $oExchangeAll_subPackageLines->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oExchangeAll_subPackageLines->text() . PHP_EOL);
 }
 
 

@@ -5,18 +5,13 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class exchangeAll_actCopyrightYear
 ================================================================================*/
 
-class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
-    implements executeTasksInterface
+class exchangeAll_actCopyrightYearLines extends baseExecuteTasks implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
@@ -28,16 +23,17 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
     construction
     --------------------------------------------------------------------*/
 
-    public function __construct($srcRoot = "", $isNoRecursion=false, $yearText = "")
+    public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("yearText: " . $yearText . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
             $this->yearText = $yearText;
 
@@ -45,7 +41,9 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
             $this->fileHeaderByFileLine = new fileHeaderByFileLine();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -76,24 +74,28 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 //    }
 //
     /**
-     * @param option $option
+     * @param   option  $option
+     *
      * @return bool
      */
     public function assignOption(option $option): bool
     {
         $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->fileHeaderByFileLine->assignOption($option);
         }
 
-        if ( ! $isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 
                 case strtolower('yearText'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->yearText = $option->value;
+                    $this->yearText   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -118,12 +120,15 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 //        }
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -133,14 +138,12 @@ class exchangeAll_actCopyrightYearLines extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 
-            $this->fileHeaderByFileLine->exchangeActCopyrightYear(
-                $fileName->srcPathFileName,
-                $this->yearText,
-            );
+            $this->fileHeaderByFileLine->exchangeActCopyrightYear($fileName->srcPathFileName, $this->yearText);
         }
 
         return 0;

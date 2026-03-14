@@ -62,15 +62,16 @@ function doTest(string $description, string $inVersionId, string $expectedVersio
     return $hasError;
 }
 
-function appendPreReleases ($versions = [], $preTypes = [] )
+function appendPreReleases($versions = [], $preTypes = [])
 {
     $preVersions = [];
 
-    foreach($versions as $version => $expectedVersion){
-        foreach($preTypes as $type => $expectedType)
+    foreach ($versions as $version => $expectedVersion)
+    {
+        foreach ($preTypes as $type => $expectedType)
         {
-            $preVersion = $version . $type;
-            $preExpected  = $expectedVersion . $expectedType;
+            $preVersion  = $version . $type;
+            $preExpected = $expectedVersion . $expectedType;
 
             $preVersions [$preVersion] = $preExpected;
 
@@ -86,7 +87,7 @@ function appendPreReleases ($versions = [], $preTypes = [] )
 }
 
 
-function doTestList($collection=[], $optionsLine='', $description='')
+function doTestList($collection = [], $optionsLine = '', $description = '')
 {
     $errCount = 0;
 
@@ -114,7 +115,6 @@ function doTestList($collection=[], $optionsLine='', $description='')
 }
 
 
-
 /*==============================================================================
 main tests
 ==============================================================================*/
@@ -123,7 +123,7 @@ main tests
 Test: No change options
 ------------------------------------------------------------------------------*/
 
-$verMajor = ['1' => '1.0.0',     '1.0' => '1.0.0',   '1.1' => '1.1.0',   '1.0.0' => '1.0.0', '1.0.1' => '1.0.1', '1.0.0.0' => '1.0.0', '1.0.0.1' => '1.0.0.1'];
+$verMajor = ['1' => '1.0.0', '1.0' => '1.0.0', '1.1' => '1.1.0', '1.0.0' => '1.0.0', '1.0.1' => '1.0.1', '1.0.0.0' => '1.0.0', '1.0.0.1' => '1.0.0.1'];
 $verMinor = ['1.1' => '1.1.0', '1.1.0' => '1.1.0', '1.1.1' => '1.1.1', '1.1.0.0' => '1.1.0', '1.1.0.1' => '1.1.0.1'];
 $verPatch = ['1.1.1' => '1.1.1', '1.1.1.0' => '1.1.1', '1.1.0.1' => '1.1.0.1'];
 $verBuild = ['1.1.1.1' => '1.1.1.1', '1.1.1.2' => '1.1.1.2'];
@@ -132,13 +132,12 @@ $verBuild = ['1.1.1.1' => '1.1.1.1', '1.1.1.2' => '1.1.1.2'];
 
 // append prerelease text to each version
 $preRelaseTypes = ['-beta1' => '-beta1', '-alpha1' => '-alpha1', '-rc1' => '-rc1', '-rc2' => '-rc2'];
-$verMajorPre = appendPreReleases($verMajor, $preRelaseTypes);
-$verMinorPre = appendPreReleases($verMinor, $preRelaseTypes);
-$verPatchPre = appendPreReleases($verPatch, $preRelaseTypes);
-$verBuildPre = appendPreReleases($verMajor, $preRelaseTypes);
+$verMajorPre    = appendPreReleases($verMajor, $preRelaseTypes);
+$verMinorPre    = appendPreReleases($verMinor, $preRelaseTypes);
+$verPatchPre    = appendPreReleases($verPatch, $preRelaseTypes);
+$verBuildPre    = appendPreReleases($verMajor, $preRelaseTypes);
 
-$collection = [$verMajor, $verMinor, $verPatch, $verBuild,
-    $verMajorPre, $verMinorPre, $verPatchPre, $verBuildPre];
+$collection = [$verMajor, $verMinor, $verPatch, $verBuild, $verMajorPre, $verMinorPre, $verPatchPre, $verBuildPre];
 // $collection = [$verMajorPre]; // Test pre ids (beta, alpha, rc ..
 // 6.1.0-alpha4-dev
 // 6.0.0-beta3 to 6.0.0-rc1
@@ -146,7 +145,7 @@ $collection = [$verMajor, $verMinor, $verPatch, $verBuild,
 $errCount = 0;
 
 $optionsLine = "/isBeautify";
-$description       = "No change options";
+$description = "No change options";
 
 $errCount += doTestList($collection, $optionsLine, $description);
 
@@ -154,7 +153,7 @@ $errCount += doTestList($collection, $optionsLine, $description);
 Test: increase main
 ------------------------------------------------------------------------------*/
 
-$verMajor = ['1' => '2.0.0', '1.0' => '2.0.0', '1.1' => '2.0.0',   '1.0.0' => '2.0.0', '1.0.1' => '2.0.0', '1.0.0.0' => '2.0.0', '1.0.0.1' => '2.0.0'];
+$verMajor = ['1' => '2.0.0', '1.0' => '2.0.0', '1.1' => '2.0.0', '1.0.0' => '2.0.0', '1.0.1' => '2.0.0', '1.0.0.0' => '2.0.0', '1.0.0.1' => '2.0.0'];
 $verMinor = ['1.1' => '2.0.0', '1.1.0' => '2.0.0', '1.1.1' => '2.0.0', '1.1.0.0' => '2.0.0', '1.1.0.1' => '2.0.0'];
 $verPatch = ['1.1.1' => '2.0.0', '1.1.1.0' => '2.0.0', '1.1.0.1' => '2.0.0'];
 $verBuild = ['1.1.1.1' => '2.0.0', '1.1.1.2' => '2.0.0'];
@@ -163,14 +162,12 @@ $verBuild = ['1.1.1.1' => '2.0.0', '1.1.1.2' => '2.0.0'];
 
 // append prerelease text to each version
 $preRelaseTypes = ['-beta1' => '', '-alpha1' => '', '-rc1' => '', '-rc2' => ''];
-$verMajorPre = appendPreReleases($verMajor, $preRelaseTypes);
-$verMinorPre = appendPreReleases($verMinor, $preRelaseTypes);
-$verPatchPre = appendPreReleases($verPatch, $preRelaseTypes);
-$verBuildPre = appendPreReleases($verMajor, $preRelaseTypes);
+$verMajorPre    = appendPreReleases($verMajor, $preRelaseTypes);
+$verMinorPre    = appendPreReleases($verMinor, $preRelaseTypes);
+$verPatchPre    = appendPreReleases($verPatch, $preRelaseTypes);
+$verBuildPre    = appendPreReleases($verMajor, $preRelaseTypes);
 
-$collection = [$verMajor, $verMinor, $verPatch, $verBuild,
-    $verMajorPre, $verMinorPre, $verPatchPre, $verBuildPre
-];
+$collection = [$verMajor, $verMinor, $verPatch, $verBuild, $verMajorPre, $verMinorPre, $verPatchPre, $verBuildPre];
 // $collection = [$verMajorPre]; // Test pre ids (beta, alpha, rc ..
 // 6.1.0-alpha4-dev
 // 6.0.0-beta3 to 6.0.0-rc1
@@ -178,19 +175,14 @@ $collection = [$verMajor, $verMinor, $verPatch, $verBuild,
 $errCount = 0;
 
 $optionsLine = "/isIncreaseMajor";
-$description       = "No change options";
+$description = "No change options";
 
 $errCount += doTestList($collection, $optionsLine, $description);
-
-
 
 
 /*------------------------------------------------------------------------------
 Test: increase ????
 ------------------------------------------------------------------------------*/
-
-
-
 
 
 /*------------------------------------------------------------------------------

@@ -40,13 +40,16 @@ class fithFolderName
     public function __construct($srcFolder = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcFolder: " . $srcFolder . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
             $this->extractNameParts($srcFolder);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -61,7 +64,8 @@ class fithFolderName
     {
         $hasError = 0;
 
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print('extractNameParts' . PHP_EOL);
 //            print("srcSpecifiedName: " . $srcFolder . PHP_EOL);
@@ -79,7 +83,9 @@ class fithFolderName
 
             $this->folderName = $path_parts['basename'];
             $this->folderPath = $path_parts['dirname'];
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -94,7 +100,7 @@ class fithFolderName
 
     function clear()
     {
-        $this->srcSpecifiedName = "";
+        $this->srcSpecifiedName  = "";
         $this->srcPathFolderName = "";
 
         // file name part

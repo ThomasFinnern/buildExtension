@@ -1,4 +1,5 @@
 <?php
+
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
 /*================================================================================
@@ -16,8 +17,7 @@ use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory
  * The variables are global so you may read a file header, change data like actual year,
  * create the lines again here and replace the original file part
  */
-class fileHeaderData_RSG2 extends fileHeaderDataBase
-    implements fileHeaderDataInterface
+class fileHeaderData_RSG2 extends fileHeaderDataBase implements fileHeaderDataInterface
 {
     public function __construct()
     {

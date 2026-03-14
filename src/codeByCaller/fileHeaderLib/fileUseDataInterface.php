@@ -7,7 +7,7 @@ Class fileHeader data
 ================================================================================*/
 
 /**
- * 
+ *
  */
 interface fileUseDataInterface
 {
@@ -17,11 +17,11 @@ interface fileUseDataInterface
 
     function __construct();
 
-    function init() : void;
-
-    function extractUseLines(array $lines = []) : void;
-
     static function sortUseLines(array $lines = [], bool $isSortByLength = false);
+
+    function init(): void;
+
+    function extractUseLines(array $lines = []): void;
 
     // function extractNameFromHeaderLine(string $line) : array;
 
@@ -31,6 +31,6 @@ interface fileUseDataInterface
 
     function useLinesSorted(): array;
 
-    function isChanged() : bool;
+    function isChanged(): bool;
 
 } // fileHeader

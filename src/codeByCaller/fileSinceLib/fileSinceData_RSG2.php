@@ -1,4 +1,5 @@
 <?php
+
 namespace Finnern\BuildExtension\src\codeByCaller\fileSinceLib;
 
 /*================================================================================

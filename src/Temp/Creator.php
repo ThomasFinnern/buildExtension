@@ -1,6 +1,16 @@
 <?php
+
 namespace Finnern\BuildExtension\src\Temp;
 // namespace RefactoringGuru\FactoryMethod\Conceptual;
+
+/**
+ * The Product interface declares the operations that all concrete products must
+ * implement.
+ */
+interface Product
+{
+    public function operation(): string;
+}
 
 /**
  * The Creator class declares the factory method that is supposed to return an
@@ -9,12 +19,6 @@ namespace Finnern\BuildExtension\src\Temp;
  */
 abstract class Creator
 {
-    /**
-     * Note that the Creator may also provide some default implementation of the
-     * factory method.
-     */
-    abstract public function factoryMethod(): Product;
-
     /**
      * Also note that, despite its name, the Creator's primary responsibility is
      * not creating products. Usually, it contains some core business logic that
@@ -27,11 +31,16 @@ abstract class Creator
         // Call the factory method to create a Product object.
         $product = $this->factoryMethod();
         // Now, use the product.
-        $result = "Creator: The same creator's code has just worked with " .
-            $product->operation();
+        $result = "Creator: The same creator's code has just worked with " . $product->operation();
 
         return $result;
     }
+
+    /**
+     * Note that the Creator may also provide some default implementation of the
+     * factory method.
+     */
+    abstract public function factoryMethod(): Product;
 }
 
 /**
@@ -61,15 +70,6 @@ class ConcreteCreator2 extends Creator
 }
 
 /**
- * The Product interface declares the operations that all concrete products must
- * implement.
- */
-interface Product
-{
-    public function operation(): string;
-}
-
-/**
  * Concrete Products provide various implementations of the Product interface.
  */
 class ConcreteProduct1 implements Product
@@ -96,8 +96,7 @@ class ConcreteProduct2 implements Product
 function clientCode(Creator $creator)
 {
     // ...
-    echo "Client: I'm not aware of the creator's class, but it still works.\n"
-        . $creator->someOperation();
+    echo "Client: I'm not aware of the creator's class, but it still works.\n" . $creator->someOperation();
     // ...
 }
 

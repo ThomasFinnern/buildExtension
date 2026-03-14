@@ -4,9 +4,6 @@ namespace Finnern\BuildExtension\src\codeScanner;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\doFileTasks;
-use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
 use Finnern\BuildExtension\src\tasksLib\tasks;
 
@@ -24,7 +21,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:t:c:f:o:h12345";
+$optDefinition    = "s:t:c:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -42,21 +39,16 @@ $collectedTasks = new tasks;
 
 $basePath = ".\\";
 
-$tasksLine = ' task:codeScanner_logDepth'
-//    . ' /srcRoot="."'
-    . ' /srcRoot="../../testDataRegression/scanCode"'
-    . ' /fileName="HtmlView.php"'
-;
+$tasksLine = ' task:codeScanner_logDepth' //    . ' /srcRoot="."'
+    . ' /srcRoot="../../testDataRegression/scanCode"' . ' /fileName="HtmlView.php"';
 
-$tasksLine = ' task:codeScanner_logIdent'
-//    . ' /srcRoot="."'
+$tasksLine = ' task:codeScanner_logIdent' //    . ' /srcRoot="."'
     . ' /srcRoot="../../testDataRegression/scanCode"'
 ///    . ' /srcRoot="D:/Entwickl/2025/_gitHub/RSGallery2_J4"'
 //    . ' /fileName="HtmlView.php"'
 //    . ' /fileName="install_rsg2.php"'
 //    . ' /fileName=".removeCommentPHP.php"'
-    . ' /fileName=".indent.php"'
-;
+    . ' /fileName=".indent.php"';
 
 //$tasksLine = "";
 
@@ -72,11 +64,13 @@ $tasksLine = ' task:codeScanner_logIdent'
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $tasks = $option;
             break;
@@ -137,22 +131,28 @@ $start = commandLineLib::print_header($options, $inArgs);
 //--- create class object ---------------------------------
 
 $oDoFileTasks = new codeScanner_logTasks();
-$tasks = new tasks();
+$tasks        = new tasks();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($tasksFile)) {
+if (!empty ($tasksFile))
+{
     print ("taskFile found: " . $tasksFile . PHP_EOL);
     $tasks = $tasks->extractTasksFromFile($tasksFile);
-} else {
-    if ($collectedTasks->count() > 0) {
+}
+else
+{
+    if ($collectedTasks->count() > 0)
+    {
         $tasks->assignTasks($collectedTasks);
-    } else {
+    }
+    else
+    {
         print ("taskFile empty, TaskLine: " . $tasksLine . PHP_EOL);
         $testTasks = $tasks->extractTasksFromString($tasksLine);
-        if (!empty ($hasError)) {
-            print ("!!! Error on function extractTasksFromString:" . $hasError
-                . ' path: ' . $basePath . PHP_EOL);
+        if (!empty ($hasError))
+        {
+            print ("!!! Error on function extractTasksFromString:" . $hasError . ' path: ' . $basePath . PHP_EOL);
         }
     }
 }
@@ -190,7 +190,8 @@ print ($tasks->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
     //--- assign tasks ---------------------------------
 
@@ -201,11 +202,13 @@ if (empty ($hasError)) {
     // create task classes, when task execute is issued the task does execute
     $hasError = $oDoFileTasks->execute();
 
-    if ($hasError) {
+    if ($hasError)
+    {
         print ("%%% doFileTaskCmd Error: " . $hasError . " on execute task: " . $oDoFileTasks->actTaskName . PHP_EOL);
     }
 
-    if (! $hasError) {
+    if (!$hasError)
+    {
         print ($oDoFileTasks->text() . PHP_EOL);
     }
 

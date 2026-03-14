@@ -7,14 +7,16 @@ class fileUseDataFactory
 {
     /**
      *
-     * @param string $callerProjectId
+     * @param   string  $callerProjectId
+     *
      * @return fileUseDataBase
      */
     public static function oFileUseData(string $callerProjectId): fileUseDataBase
     {
         print ("fileUseDataFactory:callerProjectId: " . $callerProjectId . PHP_EOL);
 
-        switch (strtolower($callerProjectId)) {
+        switch (strtolower($callerProjectId))
+        {
             // rsgallery2
             case strtolower("RSG2"):
                 return new fileUseData_RSG2 ();

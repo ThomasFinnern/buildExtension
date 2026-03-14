@@ -26,7 +26,7 @@ text ();
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -49,11 +49,13 @@ $srcFolder = "..\\..\\..\\LangMan4Dev";
 //$optionFile = 'xTestOptionFile.opt';
 $optionFiles [] = 'xTestOptionFile.opt';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcFolder = $option;
             break;

@@ -8,10 +8,9 @@ namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
  * manifest file:
  *    <copyright>(c) 2005-2024 RSGallery2 Team</copyright>
  * *.php
- *    @copyright   (c) 2003-2024 RSGallery2 Team
+ * @copyright   (c) 2003-2024 RSGallery2 Team
  */
-class copyrightText_RSG2 extends copyrightTextBase
-    implements copyrightTextInterface
+class copyrightText_RSG2 extends copyrightTextBase implements copyrightTextInterface
 {
 
 //    public function scan4CopyrightInLine(string $line) : array

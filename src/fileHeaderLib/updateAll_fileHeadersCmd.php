@@ -21,7 +21,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:o:h12345";
+$optDefinition    = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -36,8 +36,7 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:updateAll_fileHeaders'
-    . ' /srcRoot="./../../RSGallery2_J4"'
+$tasksLine = ' task:updateAll_fileHeaders' . ' /srcRoot="./../../RSGallery2_J4"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
 //    . ' /isNoRecursion=true'
 //    . ' /srcRoot="./../../RSGallery2_J4"'
@@ -95,7 +94,7 @@ $tasksLine = ' task:updateAll_fileHeaders'
 ;
 
 // $taskFile = "";
-$taskFile="./updateAll_fileHeaders.tsk";
+$taskFile  = "./updateAll_fileHeaders.tsk";
 $tasksLine = "";
 
 //$optionFile = '';
@@ -106,11 +105,13 @@ $tasksLine = "";
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -166,16 +167,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -186,27 +192,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oUpdateAll_fileHeaders = new updateAll_fileHeaders();
+    $oUpdateAll_fileHeaders = new updateAll_fileHeaders();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oUpdateAll_fileHeaders->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oUpdateAll_fileHeaders->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oUpdateAll_fileHeaders->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
+    //--- execute tasks ---------------------------------
 
-	print ($oUpdateAll_fileHeaders->text() . PHP_EOL);
+    if (!$hasError)
+    {
+        $hasError = $oUpdateAll_fileHeaders->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oUpdateAll_fileHeaders->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);

@@ -1,11 +1,10 @@
 <?php
+
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
 /*================================================================================
 Class fileUseData_JG
 ================================================================================*/
-
-use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 
 /**
  * Keeps all lines of a PHP files as preLines,useLines and postLines
@@ -29,7 +28,7 @@ class fileUseData_JG extends fileUseDataBase
 
         // Add backslash like "use \Joomla\CMS\Language\Text;"
         $this->isPrependBackSlash = true;
-        $this->isRemoveBackSlash = false;
+        $this->isRemoveBackSlash  = false;
     }
 
 

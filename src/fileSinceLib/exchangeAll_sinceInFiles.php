@@ -11,8 +11,7 @@ use Finnern\BuildExtension\src\tasksLib\option;
 Class exchangeAll_actCopyrightYear
 ================================================================================*/
 
-class exchangeAll_sinceInFiles extends baseExecuteTasks
-    implements executeTasksInterface
+class exchangeAll_sinceInFiles extends baseExecuteTasks implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
@@ -30,7 +29,8 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
     public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("yearText: " . $yearText . PHP_EOL);
@@ -39,15 +39,17 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
             parent::__construct($srcRoot, $isNoRecursion);
 
             $this->isForceOverwrite = false;
-            $this->isForceVersion = false;
-            $this->isLogOnly = false;
-            $this->versionId = "xx.xx.xx";
+            $this->isForceVersion   = false;
+            $this->isLogOnly        = false;
+            $this->versionId        = "xx.xx.xx";
 
             //--- use file lines for task ----------------------
 
             $this->exchangeSinceLinesFile = new exchangeSinceLinesFile();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -55,42 +57,45 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
     }
 
     /**
-     * @param option $option
+     * @param   option  $option
      * * @return bool
      */
     public function assignOption(option $option): bool
     {
         $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->exchangeSinceLinesFile->assignOption($option);
         }
 
-        if (!$isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 
                 case strtolower('isForceOverwrite'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isForceOverwrite = (bool)$option->value;
-                    $isOptionConsumed = true;
+                    $this->isForceOverwrite = (bool) $option->value;
+                    $isOptionConsumed       = true;
                     break;
 
                 case strtolower('isForceVersion'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isForceVersion = (bool)$option->value;
-                    $isOptionConsumed = true;
+                    $this->isForceVersion = (bool) $option->value;
+                    $isOptionConsumed     = true;
                     break;
 
                 case strtolower('isLogOnly'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isLogOnly = (bool)$option->value;
+                    $this->isLogOnly  = (bool) $option->value;
                     $isOptionConsumed = true;
                     break;
 
                 case strtolower('semVersionId'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->versionId = $option->value;
+                    $this->versionId  = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -114,12 +119,15 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
 //        }
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -127,12 +135,12 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks
         // tell factory to use classes
         $this->exchangeSinceLinesFile->assignOptionCallerProjectId($this->callerProjectId);
 
-        $this->exchangeSinceLinesFile->assignOptions($this->isForceOverwrite,
-            $this->isForceVersion, $this->isLogOnly, $this->versionId);
+        $this->exchangeSinceLinesFile->assignOptions($this->isForceOverwrite, $this->isForceVersion, $this->isLogOnly, $this->versionId);
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 

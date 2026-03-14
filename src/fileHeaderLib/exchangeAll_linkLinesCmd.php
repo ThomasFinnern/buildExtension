@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -37,16 +37,14 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:exchangeAllLinks'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
-    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    //    . ' /isNoRecursion=true'
+$tasksLine = ' task:exchangeAllLinks' //    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"' //    . ' /isNoRecursion=true'
     . ' /linkText = "GNU General Public link version 2 or later"'//    . ' /s='
 ;
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';
-$srcRoot = '';
+$srcRoot       = '';
 $isNoRecursion = false;
 
 //$linkText = "GNU General Public link version 2 or later;";
@@ -61,11 +59,13 @@ $linkText = '';
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcRoot = $option;
             break;
@@ -117,16 +117,21 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -137,27 +142,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oExchangeAlllinks = new exchangeAll_linkLines($srcRoot, $isNoRecursion, $linkText);
+    $oExchangeAlllinks = new exchangeAll_linkLines($srcRoot, $isNoRecursion, $linkText);
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oExchangeAlllinks->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oExchangeAlllinks->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oExchangeAlllinks->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
+    //--- execute tasks ---------------------------------
 
-	print ($oExchangeAlllinks->text() . PHP_EOL);
+    if (!$hasError)
+    {
+        $hasError = $oExchangeAlllinks->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oExchangeAlllinks->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);

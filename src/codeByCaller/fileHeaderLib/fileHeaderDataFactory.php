@@ -7,14 +7,16 @@ class fileHeaderDataFactory
 {
     /**
      *
-     * @param string $callerProjectId
+     * @param   string  $callerProjectId
+     *
      * @return fileHeaderDataBase
      */
     public static function oFileHeaderData(string $callerProjectId): fileHeaderDataBase
     {
         print ("fileHeaderDataFactory:callerProjectId: " . $callerProjectId . PHP_EOL);
 
-        switch (strtolower($callerProjectId)) {
+        switch (strtolower($callerProjectId))
+        {
             // rsgallery2
             case strtolower("RSG2"):
                 return new fileHeaderData_RSG2 ();

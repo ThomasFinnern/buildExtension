@@ -1,11 +1,10 @@
 <?php
+
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
 /*================================================================================
 Class fileUseData_RSG2
 ================================================================================*/
-
-use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 
 /**
  * Keeps all lines of a PHP files as preLines,useLines and postLines
@@ -29,7 +28,7 @@ class fileUseData_L4D extends fileUseDataBase
 
         // Remove backslash from "use \Joomla\CMS\Language\Text;"
         $this->isPrependBackSlash = false;
-        $this->isRemoveBackSlash = true;
+        $this->isRemoveBackSlash  = true;
     }
 
 } // fileHeader

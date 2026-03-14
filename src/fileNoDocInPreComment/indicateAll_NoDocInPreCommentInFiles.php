@@ -1,4 +1,5 @@
 <?php
+
 namespace Finnern\BuildExtension\src\fileNoDocInPreComment;
 
 use Exception;
@@ -10,8 +11,7 @@ use Finnern\BuildExtension\src\tasksLib\option;
 Class exchangeAll_actCopyrightYear
 ================================================================================*/
 
-class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
-    implements executeTasksInterface
+class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
@@ -20,18 +20,19 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
     public bool $isForceOverwrite = false;
     public bool $isForceVersion = false;
     public bool $isLogOnly = false;
-	//private bool $isLogDev = false;
+    //private bool $isLogDev = false;
 
-	public string $versionId = "xx.xx.xx";
+    public string $versionId = "xx.xx.xx";
 
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
 
-	public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
+    public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("yearText: " . $yearText . PHP_EOL);
@@ -40,8 +41,8 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
             parent::__construct($srcRoot, $isNoRecursion);
 
             $this->isForceOverwrite = false;
-            $this->isForceVersion = false;
-            $this->isLogOnly = false;
+            $this->isForceVersion   = false;
+            $this->isLogOnly        = false;
             //$this->isLogDev = false;
             $this->versionId = "xx.xx.xx";
 
@@ -49,7 +50,9 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
 
             $this->missPreHeaderInFile = new indicateAll_NoDocInPreCommentInFile();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -57,20 +60,23 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
     }
 
     /**
-     * @param option $option
+     * @param   option  $option
      * * @return bool
      */
     public function assignOption(option $option): bool
     {
         $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->missPreHeaderInFile->assignOption($option);
         }
 
-        if (!$isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 
 //                case strtolower('isLogOnly'):
 //                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
@@ -110,12 +116,15 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
 //        }
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -127,7 +136,8 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 

@@ -17,7 +17,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -38,11 +38,13 @@ $srcFile = "../original.php";
 //$optionFile = 'xTestOptionFile.opt';
 $optionFiles [] = 'xTestOptionFile.opt';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcFile = $option;
             break;
@@ -92,11 +94,13 @@ $oFileName = new fithFileName($srcFile);
 // $hasError = $oFileName->extractNameParts();
 print ($oFileName->text() . PHP_EOL);
 
-if ($oFileName->hasExtension('php')) {
+if ($oFileName->hasExtension('php'))
+{
     print("yes hasExtension('php')" . PHP_EOL);
 }
 
-if ($oFileName->nameMatchesRegEx("/i.*i/")) {
+if ($oFileName->nameMatchesRegEx("/i.*i/"))
+{
     print("yes nameMatchesRegEx('/i.*i/')" . PHP_EOL);
 }
 

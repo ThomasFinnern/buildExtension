@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:s:d:o:h12345";
+$optDefinition    = "t:s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -39,33 +39,31 @@ variables
 $srcFile = '';
 $dstFile = '';
 
-$tasksLine = ' task:buildExtension'
-    . ' /type=component'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /isNoRecursion=true'
+$tasksLine = ' task:buildExtension' . ' /type=component' . ' /srcRoot="./../../RSGallery2_J4"' //    . ' /isNoRecursion=true'
     . ' /buildDir="./../.packages"'
 //    . ' /adminPath='
 //    . ' /sitePath='
 //    . ' /mediaPath='
-    . ' /name=com_rsgallery2'
-    . ' /extension=RSGallery2'
+    . ' /name=com_rsgallery2' . ' /extension=RSGallery2'
 //    . ' /version=5.0.12.4'
 //    . ' /isForceVersion=false'
 //    . ' /isIncrementVersion_major = true'
 //    . ' /isIncrementVersion_minor = true'
 
 
-$tasksLine="";
+$tasksLine = "";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
 $optionFiles [] = 'xTestOptionFile.opt';
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -125,16 +123,21 @@ $task = new task();
 
 //--- extract tasks from string or file ------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -145,28 +148,32 @@ print ($task->text());
    call task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oXXX = new XXX($srcFile, $dstFile);
+    $oXXX = new XXX($srcFile, $dstFile);
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oXXX->assignTask($task);
-    if ($hasError) {
+    $hasError = $oXXX->assignTask($task);
+    if ($hasError)
+    {
         print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
     }
 
-	//--- execute tasks ---------------------------------
+    //--- execute tasks ---------------------------------
 
-	if (!$hasError) {
-	    $hasError = $oXXX->execute();
-	    if ($hasError) {
-	        print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-	    }
-	}
-	
-	print ($oXXX->text() . PHP_EOL);
-	
+    if (!$hasError)
+    {
+        $hasError = $oXXX->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oXXX->text() . PHP_EOL);
+
 }
 
 commandLineLib::print_end($start);

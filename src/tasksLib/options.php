@@ -81,7 +81,7 @@ class options
     public function getOption(string $name = '', bool $isIgnoreCase = false): string
     {
         $foundOption = null;
-        $isFound = false;
+        $isFound     = false;
 
         foreach ($this->options as $option)
         {

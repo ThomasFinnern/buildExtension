@@ -4,9 +4,7 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 
 require_once '../autoload/autoload.php';
 
-use DateTime;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
-use Finnern\BuildExtension\src\fileNamesLib\fileDateTime;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -21,7 +19,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:o:h12345";
+$optDefinition    = "s:d:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -54,9 +52,9 @@ $isPrintArguments = false;
 //            $dstFile = $option;
 //            break;
 //
-        // case 'o':
-            // $optionFiles[] = $option;
-            // break;
+// case 'o':
+// $optionFiles[] = $option;
+// break;
 
 //        case "h":
 //            exit($HELP_MSG);

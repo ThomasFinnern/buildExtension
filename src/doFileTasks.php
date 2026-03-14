@@ -3,25 +3,24 @@
 namespace Finnern\BuildExtension\src;
 
 use Finnern\BuildExtension\src\cleanUpLib\clean4GitCheckin;
-use Finnern\BuildExtension\src\fileNamespace\createNamespaceFiles;
 use Finnern\BuildExtension\src\fileEncloseJexec\encloseAll_jexec_LinesFiles;
 use Finnern\BuildExtension\src\fileHeaderLib\alignAll_use_Lines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_actCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_authorLines;
-use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_licenseLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_linkLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_packages;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_sinceCopyrightYearLines;
 use Finnern\BuildExtension\src\fileHeaderLib\exchangeAll_subPackageLines;
+use Finnern\BuildExtension\src\fileHeaderLib\forceCreationDate;
+use Finnern\BuildExtension\src\fileHeaderLib\updateAll_fileHeaders;
 use Finnern\BuildExtension\src\fileIniLanguage\formatAll_ini_LinesFiles;
 use Finnern\BuildExtension\src\fileMissingPreFuncComment\indicateAll_MissPreCommentInFiles;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
+use Finnern\BuildExtension\src\fileNamespace\createNamespaceFiles;
 use Finnern\BuildExtension\src\fileNoDocInPreComment\indicateAll_NoDocInPreCommentInFiles;
 use Finnern\BuildExtension\src\fileSinceLib\exchangeAll_sinceInFiles;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\fileHeaderLib\forceCreationDate;
-
 use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\tasks;
 
@@ -65,21 +64,25 @@ class doFileTasks
     public function __construct($basePath = "", $tasksLine = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print("basePath: " . $basePath . PHP_EOL);
 //            print("tasks: " . $tasksLine . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            $this->basePath = $basePath;
-            $this->tasks = new tasks();
+            $this->basePath      = $basePath;
+            $this->tasks         = new tasks();
             $this->fileNamesList = new fileNamesList();
 
-            if (strlen($tasksLine) > 0) {
+            if (strlen($tasksLine) > 0)
+            {
                 $this->tasks = $this->tasks->extractTasksFromString($tasksLine);
             }
             // print ($this->tasksText ());
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -107,19 +110,22 @@ class doFileTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('applyTasks/create classes' . PHP_EOL);
             // print ("task: " . $textTask . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            foreach ($this->tasks->tasks as $textTask) {
+            foreach ($this->tasks->tasks as $textTask)
+            {
                 // print ("--- apply task: " . $textTask->name . PHP_EOL);
                 print (">>>---------------------------------" . PHP_EOL);
 
                 $this->actTaskName = $textTask->name;
 
-                switch (strtolower($textTask->name)) {
+                switch (strtolower($textTask->name))
+                {
 
                     //--- let the task run -------------------------
 
@@ -267,8 +273,7 @@ class doFileTasks
                     //=== supporting tasks content  ===============================
 
                     case strtolower('execute'):
-                        print ('>>> Call execute task: "'
-                            // . $this->actTask->name
+                        print ('>>> Call execute task: "' // . $this->actTask->name
                             . '"  >>>' . PHP_EOL);
 
                         // ToDo: dummy task
@@ -297,7 +302,7 @@ class doFileTasks
                         // run task
                         $hasError = $this->actTask->execute();
 
-                        print ('createFilenamesList count: ' . count ($this->fileNamesList->fileNames) . PHP_EOL);
+                        print ('createFilenamesList count: ' . count($this->fileNamesList->fileNames) . PHP_EOL);
 
                         break;
 
@@ -309,11 +314,12 @@ class doFileTasks
                         $filenamesList->assignTask($textTask);
                         $filenamesList->execute();
 
-                        if (empty($this->fileNamesList)) {
+                        if (empty($this->fileNamesList))
+                        {
                             $this->fileNamesList = new fileNamesList ();
                         }
 
-                        print ('add2FilenamesList count: ' . count ($filenamesList->fileNames) . PHP_EOL);
+                        print ('add2FilenamesList count: ' . count($filenamesList->fileNames) . PHP_EOL);
 
                         $this->fileNamesList->addFilenames($filenamesList->fileNames);
                         break;
@@ -336,7 +342,9 @@ class doFileTasks
 
                 // $OutTxt .= $task->text() . PHP_EOL;
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             echo '!!! applyTasks: Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -374,11 +382,15 @@ class doFileTasks
         $OutTxt = "------------------------------------------" . PHP_EOL;
         $OutTxt .= "--- doFileTasks ==> " . $this->actTaskName . " ---" . PHP_EOL;
 
-        if ( !empty ($this->actTask)) {
+        if (!empty ($this->actTask))
+        {
             $OutTxt .= $this->actTask->text();
-        } else {
+        }
+        else
+        {
             $OutTxt .= ">>> text(): object actTask is not defined" . PHP_EOL;
         }
+
         /**
          * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
          * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
@@ -390,7 +402,7 @@ class doFileTasks
         return $OutTxt;
     }
 
-    public function extractTasksFromFile(mixed $taskFile) : doFileTasks
+    public function extractTasksFromFile(mixed $taskFile): doFileTasks
     {
         $tasks = new tasks();
         $this->assignTasks($tasks->extractTasksFromFile($taskFile));

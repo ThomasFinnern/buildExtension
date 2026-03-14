@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use Exception;
-use Finnern\BuildExtension\src\fileManifestLib\manifestXml;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -103,8 +102,7 @@ Class filesByManifest
 
 // ToDo: !!! read xml instead of lines !!!
 // ToDo: include version class handling better into manifest
-class filesByManifest extends baseExecuteTasks
-    implements executeTasksInterface
+class filesByManifest extends baseExecuteTasks implements executeTasksInterface
 {
     public string $manifestPathFileName = '';
 
@@ -122,17 +120,16 @@ class filesByManifest extends baseExecuteTasks
     /*====================================================
     class constructor
     ====================================================*/
-    public function __construct(
-        $srcRoot = "",
-        $manifestPathFileName = ''
-    ) {
-        try {
+    public function __construct($srcRoot = "", $manifestPathFileName = '')
+    {
+        try
+        {
             parent::__construct($srcRoot, false);
 
             // $this->manifestXml = new SimpleXMLElement(???);
             $this->manifestPathFileName = $manifestPathFileName;
 
-            $this->files = [];
+            $this->files   = [];
             $this->folders = [];
 
 //            if (is_file($manifestPathFileName)) {
@@ -145,12 +142,13 @@ class filesByManifest extends baseExecuteTasks
 //            }
 
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
         // print('exit __construct: ' . $hasError . PHP_EOL);
     }
-
 
 
     // Task name with options
@@ -160,7 +158,8 @@ class filesByManifest extends baseExecuteTasks
 
         $options = $task->options;
 
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
 
@@ -172,7 +171,8 @@ class filesByManifest extends baseExecuteTasks
 
 //            // base options are already handled
 //            if (!$isBaseOption && !$isVersionOption) {
-            if (!$isBaseOption) {
+            if (!$isBaseOption)
+            {
 
                 $this->assignManifestOption($option);
                 // $OutTxt .= $task->text() . PHP_EOL;
@@ -200,16 +200,17 @@ class filesByManifest extends baseExecuteTasks
 
 //        if ( ! $isVersionOption) {
 
-                switch (strtolower($option->name)) {
-                    // filesByManifest
-                    case strtolower('manifestFile'):
-                        print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                        $this->manifestPathFileName = $option->value;
-                        $isManifestOption = true;
-                        break;
+        switch (strtolower($option->name))
+        {
+            // filesByManifest
+            case strtolower('manifestFile'):
+                print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                $this->manifestPathFileName = $option->value;
+                $isManifestOption           = true;
+                break;
 
 
-                } // switch
+        } // switch
 
 //        }
 
@@ -230,72 +231,110 @@ class filesByManifest extends baseExecuteTasks
         return $hasError;
     }
 
-    private function extractFilesFolderFromSection(SimpleXMLElement $xmlPath)
+    /**
+     * @return void
+     */
+    public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
     {
-        if (isset($xmlPath)) {
+        print (PHP_EOL);
+        print ('--- collect files and folders -----------------' . PHP_EOL);
 
-            $baseFolder = (string) $xmlPath['folder'];
+        $this->files   = [];
+        $this->folders = [];
 
-            foreach($xmlPath->children() as $name => $item)
+        // Manifest file must be loaded
+        if (!empty ($this->manifestXml))
+        {
+
+            //--- script file -------------------------------------------
+
+            // element<scriptfile>install_rsg2.php</scriptfile>
+            if (isset($this->manifestXml->scriptfile))
             {
-//                echo (string)$name;
-//                echo (string)$item;
-
-                switch (strtolower($name)) {
-                    case strtolower('filename'):
-                        $this->files [] = $baseFolder . '/' . (string)$item;
-                        break;
-
-                    case strtolower('folder'):
-                        $this->folders [] = $baseFolder . '/' . (string)$item;
-                        break;
-
-                    default:
-                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder" element found: "' . (string)$name . '"->"' . (string)$item . '"' . PHP_EOL);
-                        break;
-                }
+                $this->extractScriptFile($this->manifestXml->scriptfile);
             }
-        }
-    }
 
-    private function extractDirectFolderFromSection(SimpleXMLElement $xmlPath)
-    {
-        if (isset($xmlPath)) {
+            //--- default files -------------------------------------------
 
-            $baseFolder = (string) $xmlPath->getName();
-            $this->folders [] = $baseFolder;
+            // site / module / plugin
 
-        }
-    }
-
-    private function extractLanguageFilesFromSection(SimpleXMLElement $xmlPath)
-    {
-        if (isset($xmlPath)) {
-
-            $baseFolder = (string) $xmlPath['folder'];
-
-            foreach($xmlPath->children() as $name => $item)
+            if (isset($this->manifestXml->files))
             {
-//                echo (string)$name;
-//                echo (string)$item;
 
-                switch (strtolower($name)) {
-                    case strtolower('language'):
-                        $this->files [] = $baseFolder . '/' . (string)$item;
-                        break;
+                $this->extractFilesFolderFromSection($this->manifestXml->files);
+            }
 
-                    default:
-                        print ('%%% extractLanguageFilesFromSection: "language" element not found: "' . (string)$name . '"->"' . (string)$item . '"' . PHP_EOL);
-                        break;
+            //--- administration -------------------------------------------
+
+            if (isset($this->manifestXml->administration))
+            {
+                if (isset($this->manifestXml->administration->files))
+                {
+
+                    $this->extractFilesFolderFromSection($this->manifestXml->administration->files);
                 }
             }
 
+            //--- media -------------------------------------------
+
+            if (isset($this->manifestXml->media))
+            {
+
+                $this->extractFilesFolderFromSection($this->manifestXml->media);
+            }
+
+            //--- api -------------------------------------------
+
+            if (isset($this->manifestXml->api))
+            {
+                if (isset($this->manifestXml->api->files))
+                {
+
+                    $this->extractFilesFolderFromSection($this->manifestXml->api->files);
+                }
+            }
+
+            //--- language -------------------------------------------
+
+            // is included by folder in sie/administration section
+            if (isset($this->manifestXml->languages))
+            {
+                $this->extractLanguageFilesFromSection($this->manifestXml->languages);
+            }
+
+            // buildComponent requests the include of plugins and modules
+            if ($isCollectPluginsModule)
+            {
+
+                //--- modules -------------------------------------------
+
+                if (isset($this->manifestXml->modules))
+                {
+
+                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
+                }
+
+                //--- plugins -------------------------------------------
+
+                if (isset($this->manifestXml->plugins))
+                {
+
+                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
+                }
+
+
+            }
+
+
+            $test = 'debug dummy';
         }
+
     }
 
-    private function extractScriptFile(SimpleXMLElement $xmlPath) :void
+    private function extractScriptFile(SimpleXMLElement $xmlPath): void
     {
-        if (isset($xmlPath)) {
+        if (isset($xmlPath))
+        {
 
             $baseFolder = (string) $xmlPath['folder'];
 
@@ -312,136 +351,79 @@ class filesByManifest extends baseExecuteTasks
         }
     }
 
+    private function extractFilesFolderFromSection(SimpleXMLElement $xmlPath)
+    {
+        if (isset($xmlPath))
+        {
+
+            $baseFolder = (string) $xmlPath['folder'];
+
+            foreach ($xmlPath->children() as $name => $item)
+            {
+//                echo (string)$name;
+//                echo (string)$item;
+
+                switch (strtolower($name))
+                {
+                    case strtolower('filename'):
+                        $this->files [] = $baseFolder . '/' . (string) $item;
+                        break;
+
+                    case strtolower('folder'):
+                        $this->folders [] = $baseFolder . '/' . (string) $item;
+                        break;
+
+                    default:
+                        print ('%%% extractFilesFolderFromSection: neither "fileName" nor "folder" element found: "' . (string) $name . '"->"' . (string) $item . '"' . PHP_EOL);
+                        break;
+                }
+            }
+        }
+    }
+
+    private function extractLanguageFilesFromSection(SimpleXMLElement $xmlPath)
+    {
+        if (isset($xmlPath))
+        {
+
+            $baseFolder = (string) $xmlPath['folder'];
+
+            foreach ($xmlPath->children() as $name => $item)
+            {
+//                echo (string)$name;
+//                echo (string)$item;
+
+                switch (strtolower($name))
+                {
+                    case strtolower('language'):
+                        $this->files [] = $baseFolder . '/' . (string) $item;
+                        break;
+
+                    default:
+                        print ('%%% extractLanguageFilesFromSection: "language" element not found: "' . (string) $name . '"->"' . (string) $item . '"' . PHP_EOL);
+                        break;
+                }
+            }
+
+        }
+    }
+
+    private function extractDirectFolderFromSection(SimpleXMLElement $xmlPath)
+    {
+        if (isset($xmlPath))
+        {
+
+            $baseFolder       = (string) $xmlPath->getName();
+            $this->folders [] = $baseFolder;
+
+        }
+    }
 
     public function executeFile(string $filePathName): int
     {
         // TODO: Implement executeFile() method.
         return 0;
     }
-
-    /**
-     * @return void
-     */
-    public function collectFilesAndFolders(bool $isCollectPluginsModule = false): void
-    {
-        print (PHP_EOL);
-        print ('--- collect files and folders -----------------' . PHP_EOL);
-
-        $this->files = [];
-        $this->folders = [];
-
-        // Manifest file must be loaded
-        if (!empty ($this->manifestXml)) {
-
-            //--- script file -------------------------------------------
-
-            // element<scriptfile>install_rsg2.php</scriptfile>
-            if (isset($this->manifestXml->scriptfile)) {
-                $this->extractScriptFile($this->manifestXml->scriptfile);
-            }
-
-            //--- default files -------------------------------------------
-
-            // site / module / plugin
-
-            if (isset($this->manifestXml->files)) {
-
-                $this->extractFilesFolderFromSection($this->manifestXml->files);
-            }
-
-            //--- administration -------------------------------------------
-
-            if (isset($this->manifestXml->administration)) {
-                if (isset($this->manifestXml->administration->files)) {
-
-                    $this->extractFilesFolderFromSection($this->manifestXml->administration->files);
-                }
-            }
-
-            //--- media -------------------------------------------
-
-            if (isset($this->manifestXml->media)) {
-
-                $this->extractFilesFolderFromSection($this->manifestXml->media);
-            }
-
-            //--- api -------------------------------------------
-
-            if (isset($this->manifestXml->api)) {
-                if (isset($this->manifestXml->api->files)) {
-
-                    $this->extractFilesFolderFromSection($this->manifestXml->api->files);
-                }
-            }
-
-            //--- language -------------------------------------------
-
-            // is included by folder in sie/administration section
-            if (isset($this->manifestXml->languages)) {
-                $this->extractLanguageFilesFromSection($this->manifestXml->languages);
-            }
-
-            // buildComponent requests the include of plugins and modules
-            if ($isCollectPluginsModule) {
-
-                //--- modules -------------------------------------------
-
-                if (isset($this->manifestXml->modules)) {
-
-                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
-                }
-
-                //--- plugins -------------------------------------------
-
-                if (isset($this->manifestXml->plugins)) {
-
-                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
-                }
-
-
-            }
-
-
-
-            $test = 'debug dummy';
-        }
-
-    }
-
-
-    private function requestVariables() : bool
-    {
-        $isChanged = false;
-
-        try {
-
-            $manifestXml = $this->manifestXml;
-
-            // foreach ($this->requests as $requestName => $requestValue) {
-                // switch (strtolower($requestName)) {
-
-                    // case strtolower('componentName'):
-                        // // component / module / plugin
-
-                        // // component name like com_rsgallery2
-                        // // direct assignment to XML element
-                        // print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
-                        // $this->manifestXml->setByXml($requestName, $requestValue);
-
-                        // $isChanged = true;
-                        // break;
-
-                // }
-            // }
-
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        return $isChanged;
-    }
-
 
     public function text(): string
     {
@@ -450,21 +432,59 @@ class filesByManifest extends baseExecuteTasks
 
         $OutTxt .= "manifestPathFileName: " . $this->manifestPathFileName . PHP_EOL;
 
-        $OutTxt .= "[files] ("  . count($this->files) . ')' . PHP_EOL;
+        $OutTxt .= "[files] (" . count($this->files) . ')' . PHP_EOL;
         //$OutTxt .= "   " . "files count: " . count($this->files) . PHP_EOL;
 
-        foreach ($this->files as $file) {
+        foreach ($this->files as $file)
+        {
             $OutTxt .= "   * " . $file . PHP_EOL;
         }
 
         $OutTxt .= "[folders] (" . count($this->folders) . ')' . PHP_EOL;
         //$OutTxt .= "   " . "folders count: " . count($this->folders) . PHP_EOL;
 
-        foreach ($this->folders as $folder) {
+        foreach ($this->folders as $folder)
+        {
             $OutTxt .= "   * " . $folder . PHP_EOL;
         }
 
         return $OutTxt;
+    }
+
+    private function requestVariables(): bool
+    {
+        $isChanged = false;
+
+        try
+        {
+
+            $manifestXml = $this->manifestXml;
+
+            // foreach ($this->requests as $requestName => $requestValue) {
+            // switch (strtolower($requestName)) {
+
+            // case strtolower('componentName'):
+            // // component / module / plugin
+
+            // // component name like com_rsgallery2
+            // // direct assignment to XML element
+            // print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
+            // $this->manifestXml->setByXml($requestName, $requestValue);
+
+            // $isChanged = true;
+            // break;
+
+            // }
+            // }
+
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        return $isChanged;
     }
 
 }

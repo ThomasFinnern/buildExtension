@@ -6,9 +6,8 @@ use Exception;
 use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class manifestFile
@@ -63,8 +62,7 @@ Class manifestFile
 
 // ToDo: !!! read xml instead of lines !!!
 // ToDo: include version class handling better into manifest
-class manifestFile extends baseExecuteTasks
-    implements executeTasksInterface
+class manifestFile extends baseExecuteTasks implements executeTasksInterface
 {
     // internal
     public string $manifestPathFileName = '';
@@ -76,24 +74,24 @@ class manifestFile extends baseExecuteTasks
 
     public string $extType {
         get => $this->retrieveXmlAttributeValue('extension', 'type', '');
-        set => $this->assignXmlAttributeValue ('extension', 'type', $value);
+        set => $this->assignXmlAttributeValue('extension', 'type', $value);
     }
-    public string $extGroup  {
+    public string $extGroup {
         get => $this->retrieveXmlAttributeValue('extension', 'group', '');
-        set => $this->assignXmlAttributeValue ('extension', 'group', $value);
+        set => $this->assignXmlAttributeValue('extension', 'group', $value);
     }
     public string $extVersion {
         get => $this->retrieveXmlAttributeValue('extension', 'version', '');
-        set => $this->assignXmlAttributeValue ('extension', 'version', $value);
+        set => $this->assignXmlAttributeValue('extension', 'version', $value);
     }
     public string $extMethod {
         get => $this->retrieveXmlAttributeValue('extension', 'method', '');
-        set => $this->assignXmlAttributeValue ('extension', 'method', $value);
+        set => $this->assignXmlAttributeValue('extension', 'method', $value);
     }
 
     public string $componentName {
         get => $this->retrieveXmlValue('name', '');
-        set => $this->assignXmlValue ('name', $value);
+        set => $this->assignXmlValue('name', $value);
     }
 
     public string $creationDate {
@@ -163,30 +161,28 @@ class manifestFile extends baseExecuteTasks
     //private copyrightText $copyright;
 
     // requests [name]= value
-    private array $requests = [];
+    public bool $isUpdateCreationDate = false;
 
     //--- manifest flags ---------------------------------------
 
     // copyright-, version-classes have their own
-
-
-    public bool $isUpdateCreationDate = false;
+    public bool $isUpdateActCopyrightYear = false;
     // ToDo: use version and flags
     // public bool $isIncrementVersion_build = false;
     // use actual year
-    public bool $isUpdateActCopyrightYear = false;
+    private array $requests = [];
 
     /*====================================================
     class constructor
     ====================================================*/
-    public function __construct(
-        $srcRoot = "",
-        $manifestPathFileName = ''
-    ) {
-        try {
+
+    public function __construct($srcRoot = "", $manifestPathFileName = '')
+    {
+        try
+        {
             parent::__construct($srcRoot, false);
 
-            $this->manifestXml = new manifestXml();
+            $this->manifestXml          = new manifestXml();
             $this->manifestPathFileName = $manifestPathFileName;
 
 //            if (is_file($manifestPathFileName)) {
@@ -201,7 +197,9 @@ class manifestFile extends baseExecuteTasks
             $this->versionId = new semVersionId();
             //$this->copyright = new copyrightText();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
         // print('exit __construct: ' . $hasError . PHP_EOL);
@@ -259,22 +257,26 @@ class manifestFile extends baseExecuteTasks
 
         $isOptionConsumed = parent::assignOption($option);
 
-        if ( ! $isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->versionId->assignVersionOption($option);
         }
 
-        if ( ! $isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
-            if(str_starts_with($option->name, 'mani:')) {
+            if (str_starts_with($option->name, 'mani:'))
+            {
 
                 $name = strtolower(substr($option->name, 5));
-                switch (strtolower($name)) {
+                switch (strtolower($name))
+                {
                     // manifestFile
                     case strtolower('manifestFile'):
                         print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->manifestPathFileName = $option->value;
-                        $isOptionConsumed = true;
+                        $isOptionConsumed           = true;
                         break;
 
                     //--- xml elements values to be written --------------------------------------
@@ -307,7 +309,7 @@ class manifestFile extends baseExecuteTasks
 
                         print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->requests[$name] = $option->value;
-                        $isOptionConsumed = true;
+                        $isOptionConsumed      = true;
                         break;
 
                     //--- flags to execute --------------------------------------
@@ -315,7 +317,7 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('isUpdateCreationDate'):
                         print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->isUpdateCreationDate = $option->value;
-                        $isOptionConsumed = true;
+                        $isOptionConsumed           = true;
                         break;
 
                     // done automatically below with flags for semVersionId
@@ -328,7 +330,7 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('isUpdateActCopyrightYear '):
                         print ('     option ' . $name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->isUpdateActCopyrightYear = $option->value;
-                        $isOptionConsumed = true;
+                        $isOptionConsumed               = true;
                         break;
 
                 } // switch
@@ -350,7 +352,8 @@ class manifestFile extends baseExecuteTasks
         $this->readFile($this->manifestPathFileName);
 
         // Manifest file must be loaded
-        if ( ! empty ($this->manifestXml)) {
+        if (!empty ($this->manifestXml))
+        {
 
             //--- version line -----------------------------------
 
@@ -358,13 +361,15 @@ class manifestFile extends baseExecuteTasks
 
             //---  -----------------------------------
 
-            if ($this->isUpdateCreationDate) {
+            if ($this->isUpdateCreationDate)
+            {
                 $this->isChanged |= $this->updateCreationDate();
             }
 
             //---  -----------------------------------
 
-            if ($this->isUpdateActCopyrightYear) {
+            if ($this->isUpdateActCopyrightYear)
+            {
                 $this->isChanged |= $this->updateActCopyrightYear();
             }
 
@@ -382,17 +387,26 @@ class manifestFile extends baseExecuteTasks
         return $hasError;
     }
 
-    public function executeFile(string $filePathName): int
+    /**
+     * @param   mixed  $manifestPathFileName
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function readFile(mixed $manifestPathFileName): bool
     {
-        // TODO: Implement executeFile() method.
-        return 0;
+        // $this->manifestXml = new manifestXml($manifestPathFileName);
+        $this->manifestXml->readManifestXml($manifestPathFileName);
+
+        return $this->manifestXml->isXmlLoaded;
     }
 
-    private function increaseVersion() : bool
+    private function increaseVersion(): bool
     {
         $isChanged = false;
 
-        try {
+        try
+        {
             $manifestXml = $this->manifestXml;
 
             //--- old version ID -----------------------------------
@@ -404,7 +418,7 @@ class manifestFile extends baseExecuteTasks
             //--- update  -----------------------------------
 
             // $this->versionId->inVersionId =  $inVersionId;
-            $this->versionId->assignInId ($inVersionId);
+            $this->versionId->assignInId($inVersionId);
 
             // exchange for new version id
             $this->versionId->update();
@@ -413,7 +427,8 @@ class manifestFile extends baseExecuteTasks
 
             $outVersionId = $this->versionId->outVersionId;
 
-            if ($outVersionId != $inVersionId) {
+            if ($outVersionId != $inVersionId)
+            {
 
                 // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 // $manifestXml->setByXml('version', $outVersionId);
@@ -422,7 +437,9 @@ class manifestFile extends baseExecuteTasks
                 $isChanged = true;
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -430,136 +447,117 @@ class manifestFile extends baseExecuteTasks
         return $isChanged;
     }
 
-    private function updateActCopyrightYear() : bool
+    public function updateCreationDate(): bool
     {
         $isChanged = false;
 
-        try {
-
-            $manifestXml = $this->manifestXml;
-
-            $date_format = 'Y';
-            $actYear = date($date_format);
-
-            $isChanged = $this->assignActCopyrightYear( $actYear);
-
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        return $isChanged;
-    }
-
-    private function assignActCopyrightYear(string $actYear) : bool
-    {
-        $isChanged = false;
-
-        try {
-
-            $manifestXml = $this->manifestXml;
-
-            //--- old version ID -----------------------------------
-
-            $inCopyright = (string) $manifestXml->getByXml('copyright', '');
-
-            //--- update  -----------------------------------
-
-            $copyrightText = new copyrightText($inCopyright);
-
-            if ($copyrightText->actCopyrightDate != $actYear) {
-
-                $copyrightText->actCopyrightDate = $actYear;
-                $outCopyrightText = $copyrightText->formatCopyrightManifest();
-
-                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
-                $this->copyright = $outCopyrightText;
-                $isChanged = true;
-            }
-
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        return $isChanged;
-    }
-
-    private function assignSinceCopyrightYear(string $actYear) : bool
-    {
-        $isChanged = false;
-
-        try {
-
-            $manifestXml = $this->manifestXml;
-
-            //--- old version ID -----------------------------------
-
-            $inCopyright = (string) $manifestXml->getByXml('copyright', '');
-
-            //--- update  -----------------------------------
-
-            $copyrightText = new copyrightText($inCopyright);
-
-            if ($copyrightText->sinceCopyrightDate != $actYear) {
-
-                $copyrightText->sinceCopyrightDate = $actYear;
-                $outCopyrightText = $copyrightText->formatCopyrightManifest();
-
-                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
-                $this->copyright = $outCopyrightText;
-                $isChanged = true;
-            }
-
-        } catch (Exception $e) {
-            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
-        }
-
-        return $isChanged;
-    }
-
-    public function updateCreationDate () : bool
-    {
-        $isChanged = false;
-
-        try {
+        try
+        {
             $manifestXml = $this->manifestXml;
 
             //--- actual date -----------------------------
 
             // $date = "2024.08.24";
             $date_format = 'Y.m.d';
-            $actDate = date($date_format);
+            $actDate     = date($date_format);
 
             //--- manifest creation date -----------------------------------
 
             $oldDate = $this->creationDate;
 
-            if ($oldDate != $actDate) {
+            if ($oldDate != $actDate)
+            {
 
                 $this->creationDate = $actDate;
 
                 $isChanged = true;
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
+
         return $isChanged;
     }
 
-    private function requestVariables() : bool
+    private function updateActCopyrightYear(): bool
     {
         $isChanged = false;
 
-        try {
+        try
+        {
 
             $manifestXml = $this->manifestXml;
 
-            foreach ($this->requests as $requestName => $requestValue) {
-                switch (strtolower($requestName)) {
+            $date_format = 'Y';
+            $actYear     = date($date_format);
+
+            $isChanged = $this->assignActCopyrightYear($actYear);
+
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        return $isChanged;
+    }
+
+    private function assignActCopyrightYear(string $actYear): bool
+    {
+        $isChanged = false;
+
+        try
+        {
+
+            $manifestXml = $this->manifestXml;
+
+            //--- old version ID -----------------------------------
+
+            $inCopyright = (string) $manifestXml->getByXml('copyright', '');
+
+            //--- update  -----------------------------------
+
+            $copyrightText = new copyrightText($inCopyright);
+
+            if ($copyrightText->actCopyrightDate != $actYear)
+            {
+
+                $copyrightText->actCopyrightDate = $actYear;
+                $outCopyrightText                = $copyrightText->formatCopyrightManifest();
+
+                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                $this->copyright = $outCopyrightText;
+                $isChanged       = true;
+            }
+
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        return $isChanged;
+    }
+
+    private function requestVariables(): bool
+    {
+        $isChanged = false;
+
+        try
+        {
+
+            $manifestXml = $this->manifestXml;
+
+            foreach ($this->requests as $requestName => $requestValue)
+            {
+                switch (strtolower($requestName))
+                {
 
                     case strtolower('componentName'):
                         // component / module / plugin
@@ -590,14 +588,14 @@ class manifestFile extends baseExecuteTasks
                     case strtolower('extensionVersion'):
                     case strtolower('extensionMethod'):
 
-                        $elementName = 'extension';
+                        $elementName          = 'extension';
                         $elementAttributeName = substr($requestName, 9);
 
                         // direct assignment to XML attribute
                         print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
                         $this->manifestXml->setAttributeByXml($elementName, $elementAttributeName, $requestValue);
                         $isChanged = true;
-                    break;
+                        break;
 
                     case strtolower('actYear'):
                         print ('     request: ' . $requestName . ' ' . $requestValue . PHP_EOL);
@@ -612,7 +610,47 @@ class manifestFile extends baseExecuteTasks
                 }
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
+
+        return $isChanged;
+    }
+
+    private function assignSinceCopyrightYear(string $actYear): bool
+    {
+        $isChanged = false;
+
+        try
+        {
+
+            $manifestXml = $this->manifestXml;
+
+            //--- old version ID -----------------------------------
+
+            $inCopyright = (string) $manifestXml->getByXml('copyright', '');
+
+            //--- update  -----------------------------------
+
+            $copyrightText = new copyrightText($inCopyright);
+
+            if ($copyrightText->sinceCopyrightDate != $actYear)
+            {
+
+                $copyrightText->sinceCopyrightDate = $actYear;
+                $outCopyrightText                  = $copyrightText->formatCopyrightManifest();
+
+                // $this->manifestXml->setByXml('copyright', $outCopyrightText);
+                $this->copyright = $outCopyrightText;
+                $isChanged       = true;
+            }
+
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -728,23 +766,15 @@ class manifestFile extends baseExecuteTasks
 //    }
 //
 
-    public function text(): string
+    /**
+     * @return void
+     */
+    public function saveOnChange(): void
     {
-        $OutTxt = "------------------------------------------" . PHP_EOL;
-        $OutTxt .= "--- semVersionId ---" . PHP_EOL;
-
-
-        $OutTxt .= "Not defined yet " . PHP_EOL;
-
-        /**
-         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
-         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
-         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
-         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
-         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
-         * /**/
-
-        return $OutTxt;
+        if ($this->isChanged)
+        {
+            $this->writeFile();
+        }
     }
 
 //    private function itemName(string $line) {
@@ -946,28 +976,6 @@ class manifestFile extends baseExecuteTasks
 //
 //        return $isScriptLine;
 //    }
-    /**
-     * @return void
-     */
-    public function saveOnChange(): void
-    {
-        if ($this->isChanged) {
-            $this->writeFile();
-        }
-    }
-
-    /**
-     * @param mixed $manifestPathFileName
-     * @return void
-     * @throws Exception
-     */
-    public function readFile(mixed $manifestPathFileName): bool
-    {
-        // $this->manifestXml = new manifestXml($manifestPathFileName);
-        $this->manifestXml->readManifestXml($manifestPathFileName);
-
-        return $this->manifestXml->isXmlLoaded;
-    }
 
     /**
      * @return void
@@ -975,33 +983,64 @@ class manifestFile extends baseExecuteTasks
     public function writeFile(): bool
     {
         $isSaved = $this->manifestXml->writeManifestXml();
+
         return $isSaved;
     }
 
-    private function assignXmlValue(string $name, string $value) : string
+    public function executeFile(string $filePathName): int
     {
-       $actValue =  $this->manifestXml->getByXml($name, '');
+        // TODO: Implement executeFile() method.
+        return 0;
+    }
 
-        if ($actValue == '') {
+    public function text(): string
+    {
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- semVersionId ---" . PHP_EOL;
+
+
+        $OutTxt .= "Not defined yet " . PHP_EOL;
+
+        /**
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
+         * /**/
+
+        return $OutTxt;
+    }
+
+    private function assignXmlValue(string $name, string $value): string
+    {
+        $actValue = $this->manifestXml->getByXml($name, '');
+
+        if ($actValue == '')
+        {
             print ("!!! Error: Can't update ' . $name . ': It does not exist in manifest file" . PHP_EOL);
-        } else {
+        }
+        else
+        {
 
 
-            if ($actValue != $value) {
+            if ($actValue != $value)
+            {
                 $this->manifestXml->setByXml($name, $value);
 
                 $this->isChanged = true;
             }
         }
 
-       return $value;
+        return $value;
     }
 
     private function assignXmlAttributeValue(string $elementName, string $elementAttributeName, $value)
     {
-        $actValue =  $this->manifestXml->getByXml($elementName, $elementAttributeName, '');
+        $actValue = $this->manifestXml->getByXml($elementName, $elementAttributeName, '');
 
-        if ($actValue != $value) {
+        if ($actValue != $value)
+        {
             $this->manifestXml->setAttributeByXml($elementName, $elementAttributeName, $value);
 
             $this->isChanged = true;
@@ -1010,13 +1049,14 @@ class manifestFile extends baseExecuteTasks
         return $value;
     }
 
-    private function retrieveXmlValue(string $name, string $default) : string
+    private function retrieveXmlValue(string $name, string $default): string
     {
         $foundValue = $this->manifestXml->getByXml($name, $default);
 
         $resultValue = $default;
 
-        if (!empty ($foundValue)) {
+        if (!empty ($foundValue))
+        {
             $resultValue = (string) $foundValue;
         }
 
@@ -1029,7 +1069,8 @@ class manifestFile extends baseExecuteTasks
 
         $resultValue = $default;
 
-        if (!empty ($foundValue)) {
+        if (!empty ($foundValue))
+        {
             $resultValue = (string) $foundValue;
         }
 

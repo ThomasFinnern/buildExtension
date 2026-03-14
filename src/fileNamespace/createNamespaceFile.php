@@ -22,11 +22,8 @@ class createNamespaceFile
 
     public task $task;
     public readonly string $name;
-
-    protected fileUseDataBase|null $oFileUseData;
-
     public bool $isLogOnly = false;
-
+    protected fileUseDataBase|null $oFileUseData;
     private bool $isChanged = false;
     private bool $isLogDev = false;
 
@@ -348,10 +345,12 @@ class createNamespaceFile
 
         $behindPath = $this->extractBehindPathParts($fileName, $rootPath, $autoType);
 
-        if (! empty($behindPath))
+        if (!empty($behindPath))
         {
             $namespace = 'namespace ' . $company . '\\' . ucfirst($autoType) . '\\' . $extensionName . '\\' . $behindPath . ';';
-        } else {
+        }
+        else
+        {
             $namespace = 'namespace ' . $company . '\\' . ucfirst($autoType) . '\\' . $extensionName . ';';
         }
 
@@ -374,6 +373,34 @@ class createNamespaceFile
 
     // namespace Joomla\Plugin\Content\Finder\Extension;
     // e:\wamp64\www\joomla5x\plugins\content\finder\src\Extension\Finder.php
+
+    private function extractType(string $filePath, string $extensionType): string
+    {
+        $filePath = str_replace('/', '\\', $filePath);
+
+        // component
+        if (str_contains($filePath, '\\components\\'))
+        {
+            $extensionType = 'component';
+        }
+
+        // plugin
+        if (str_contains($filePath, '\\plugins\\'))
+        {
+            $extensionType = 'plugin';
+        }
+
+        // model
+        if (str_contains($filePath, '\\modules\\'))
+        {
+            $extensionType = 'module';
+        }
+
+        // ? API
+
+        return $extensionType;
+    }
+
     private function extractBehindPathParts(string $fileName, string $rootPath, string $extensionType)
     {
         $behindPath = "";
@@ -461,7 +488,7 @@ class createNamespaceFile
                         }
                         else
                         {
-                        $behindPath .= ucfirst('site') . '\\';
+                            $behindPath .= ucfirst('site') . '\\';
                         }
                     }
 
@@ -561,37 +588,11 @@ class createNamespaceFile
 
         }
 
-        if(str_ends_with($behindPath, '\\')) {
+        if (str_ends_with($behindPath, '\\'))
+        {
             $behindPath = substr($behindPath, 0, -1);
         }
 
         return $behindPath;
-    }
-
-    private function extractType(string $filePath, string $extensionType): string
-    {
-        $filePath = str_replace('/', '\\', $filePath);
-
-        // component
-        if (str_contains($filePath, '\\components\\'))
-        {
-            $extensionType = 'component';
-        }
-
-        // plugin
-        if (str_contains($filePath, '\\plugins\\'))
-        {
-            $extensionType = 'plugin';
-        }
-
-        // model
-        if (str_contains($filePath, '\\modules\\'))
-        {
-            $extensionType = 'module';
-        }
-
-        // ? API
-
-        return $extensionType;
     }
 }

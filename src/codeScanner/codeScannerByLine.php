@@ -196,7 +196,7 @@ class codeScannerByLine
                             $behindLine = substr($line, $slashAsteriskIdx + 2);
 
                             // ==> recursive call
-                            $bareLine   .= $this->removeCommentPHP($behindLine, $isInComment);
+                            $bareLine .= $this->removeCommentPHP($behindLine, $isInComment);
                         }
                     }
                 }
@@ -232,6 +232,159 @@ class codeScannerByLine
         }
 
         return $bareLine;
+    }
+
+    private function checkInsideFunction(string $inLine)
+    {
+        $line = trim($inLine);
+
+        // ToDo:  class active -> depth +1 ? ==> not active ?
+        if ($this->depthCount == $this->functionDepth)
+        {
+            //--- start of function --------------------------------
+
+            $isFunctionStartLine = $this->isFunctionStart($inLine);
+
+            if ($isFunctionStartLine)
+            {
+                $this->isInsideFunction = true;
+            }
+
+            $this->isFunctionStartLine = $isFunctionStartLine;
+        }
+
+//		// Debug
+//		$isCloseBracket = strpos($line, '}') !== false;
+//		if ($isCloseBracket)
+//		{
+//			$isCloseBracket = $isCloseBracket;
+//		}
+
+        // End with fall back (lower)  (pre depth check. therefor -1
+        if ($this->depthCount - 1 <= $this->functionDepth)
+        {
+            //--- end of function --------------------------------
+
+            $isCloseBracket = strpos($line, '}') !== false;
+
+            // already back to base level on last bracket level check
+            if ($isCloseBracket && $this->depthCount - 1 == $this->functionDepth)
+            {
+                $this->isInsideFunction  = false;
+                $this->isFunctionEndLine = true;
+            }
+        }
+
+        // inside function
+        if ($this->isInsideFunction)
+        {
+            if ($this->depthCount == ($this->functionDepth + 1))
+            {
+                $this->isFunctionReturnLine = $this->isFunctionReturn($inLine);
+            }
+        }
+    }
+
+    private function isFunctionStart(string $bareLine)
+    {
+        $isFunctionStartLine = false;
+
+//		// public / protected / ... ???
+        if (str_contains($bareLine, 'function'))
+        {
+            $exp = "/\s+function\s+.*\(/i";
+
+            $isFunctionStartLine = (bool) preg_match($exp, $bareLine);
+            // $isFunctionStartLine = $isFunctionStartLine;
+        }
+
+        return $isFunctionStartLine;
+    }
+
+    private function isFunctionReturn(string $inLine)
+    {
+        $isFunctionReturnLine = false;
+
+        if (str_contains($inLine, 'return'))
+        {
+            // public / protected / ... ???
+            if (str_starts_with(trim($inLine), 'return'))
+            {
+                $exp = "/\s\breturn\b/";
+
+                $isFunctionReturnLine = (bool) preg_match($exp, $inLine);
+            }
+        }
+
+        return $isFunctionReturnLine;
+    }
+
+    private function isInClass(string $inLine)
+    {
+        $isInClass = false;
+
+        if (str_starts_with(trim($inLine), 'class'))
+        {
+            $isInClass = true;
+        }
+
+        return $isInClass;
+    }
+
+    private function checkInPreFunctionComment(string $inLine)
+    {
+
+        $line = trim($inLine);
+
+        if (!$this->isInPreFunctionComment)
+        {
+            //--- Start of pre function comment --------------------------------
+
+            $isOpenPreComment = false;
+
+            // line should be tested for pre comment
+            $isOpenPreCommentCheck = strpos($line, '/**') !== false;
+            if ($isOpenPreCommentCheck)
+            {
+                // $isFullComment = strpos($line, '/**/') !== false;
+                // ToDo: regex /\\*\\s\*\\/i
+
+                $exp           = "/\/\*\s*\*\//i";
+                $isFullComment = (bool) preg_match($exp, $line);
+
+                if (!$isFullComment)
+                {
+                    // $isOpenPreComment = strpos($line, '/**') !== false;
+                    $isOpenPreComment = true;
+                }
+            }
+
+            // ToDO:  class active -> depth +1 ? ==> not active ?
+            if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)
+            {
+                $this->isInPreFunctionComment    = true;
+                $this->isPreFuncCommentStartLine = true;
+            }
+            else
+            {
+                $this->isPreFuncCommentStartLine = false;
+            }
+
+        }
+        else
+        {
+            //--- End of pre function comment --------------------------------
+
+            $isCloseComment = strpos($line, '*/') !== false;
+
+            // does even isCloseComment line: /**/
+            if ($isCloseComment !== false)
+            {
+                $this->isInPreFunctionComment  = false;
+                $this->isPreFuncCommentEndLine = true;
+            }
+        }
+
     }
 
     /**
@@ -309,159 +462,6 @@ class codeScannerByLine
         }
 
         return $isChanged;
-    }
-
-    private function checkInsideFunction(string $inLine)
-    {
-        $line = trim($inLine);
-
-        // ToDo:  class active -> depth +1 ? ==> not active ?
-        if ($this->depthCount == $this->functionDepth)
-        {
-            //--- start of function --------------------------------
-
-            $isFunctionStartLine = $this->isFunctionStart($inLine);
-
-            if ($isFunctionStartLine)
-            {
-                $this->isInsideFunction = true;
-            }
-
-            $this->isFunctionStartLine = $isFunctionStartLine;
-        }
-
-//		// Debug
-//		$isCloseBracket = strpos($line, '}') !== false;
-//		if ($isCloseBracket)
-//		{
-//			$isCloseBracket = $isCloseBracket;
-//		}
-
-        // End with fall back (lower)  (pre depth check. therefor -1
-        if ($this->depthCount - 1 <= $this->functionDepth)
-        {
-            //--- end of function --------------------------------
-
-            $isCloseBracket = strpos($line, '}') !== false;
-
-            // already back to base level on last bracket level check
-            if ($isCloseBracket && $this->depthCount - 1 == $this->functionDepth)
-            {
-                $this->isInsideFunction  = false;
-                $this->isFunctionEndLine = true;
-            }
-        }
-
-        // inside function
-        if ($this->isInsideFunction)
-        {
-            if ($this->depthCount == ($this->functionDepth + 1))
-            {
-                $this->isFunctionReturnLine = $this->isFunctionReturn($inLine);
-            }
-        }
-    }
-
-    private function checkInPreFunctionComment(string $inLine)
-    {
-
-        $line = trim($inLine);
-
-        if (!$this->isInPreFunctionComment)
-        {
-            //--- Start of pre function comment --------------------------------
-
-            $isOpenPreComment = false;
-
-            // line should be tested for pre comment
-            $isOpenPreCommentCheck = strpos($line, '/**') !== false;
-            if ($isOpenPreCommentCheck)
-            {
-                // $isFullComment = strpos($line, '/**/') !== false;
-                // ToDo: regex /\\*\\s\*\\/i
-
-                $exp           = "/\/\*\s*\*\//i";
-                $isFullComment = (bool) preg_match($exp, $line);
-
-                if (!$isFullComment)
-                {
-                    // $isOpenPreComment = strpos($line, '/**') !== false;
-                    $isOpenPreComment = true;
-                }
-            }
-
-            // ToDO:  class active -> depth +1 ? ==> not active ?
-            if ($isOpenPreComment !== false && $this->depthCount == $this->functionDepth)
-            {
-                $this->isInPreFunctionComment    = true;
-                $this->isPreFuncCommentStartLine = true;
-            }
-            else
-            {
-                $this->isPreFuncCommentStartLine = false;
-            }
-
-        }
-        else
-        {
-            //--- End of pre function comment --------------------------------
-
-            $isCloseComment = strpos($line, '*/') !== false;
-
-            // does even isCloseComment line: /**/
-            if ($isCloseComment !== false)
-            {
-                $this->isInPreFunctionComment  = false;
-                $this->isPreFuncCommentEndLine = true;
-            }
-        }
-
-    }
-
-    private function isFunctionStart(string $bareLine)
-    {
-        $isFunctionStartLine = false;
-
-//		// public / protected / ... ???
-        if (str_contains($bareLine, 'function'))
-        {
-            $exp = "/\s+function\s+.*\(/i";
-
-            $isFunctionStartLine = (bool) preg_match($exp, $bareLine);
-            // $isFunctionStartLine = $isFunctionStartLine;
-        }
-
-        return $isFunctionStartLine;
-    }
-
-    private function isFunctionReturn(string $inLine)
-    {
-        $isFunctionReturnLine = false;
-
-        if (str_contains($inLine, 'return'))
-        {
-            // public / protected / ... ???
-            if (str_starts_with(trim($inLine), 'return'))
-            {
-                $exp = "/\s\breturn\b/";
-
-                $isFunctionReturnLine = (bool) preg_match($exp, $inLine);
-            }
-        }
-
-        return $isFunctionReturnLine;
-    }
-
-    private function isInClass(string $inLine)
-    {
-        $isInClass = false;
-
-        if (str_starts_with(trim($inLine), 'class'))
-        {
-            $isInClass = true;
-        }
-
-        return $isInClass;
     }
 
 

@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\tasks;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\tasks;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:c:f:o:h12345";
+$optDefinition    = "t:c:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -115,10 +115,7 @@ $tasksLine = '';
 //
 //--- RSG2 standard files ---------------------------------
 
-$tasksLine .= "task:createFilenamesList"
-    . ' /srcRoot="./../../RSGallery2_J4"'
-    . ' /isNoRecursion=true'
-//    . ' /isCrawlSilent=false' default true ToDo:
+$tasksLine .= "task:createFilenamesList" . ' /srcRoot="./../../RSGallery2_J4"' . ' /isNoRecursion=true' //    . ' /isCrawlSilent=false' default true ToDo:
     . ' /includeExt="php"'
 //    . ' /includeExt="xmp"'
 //    . ' /includeExt="xmp"'
@@ -128,9 +125,7 @@ $tasksLine .= "task:createFilenamesList"
 //   . ' /includeFolder="./Administrator'
 //   . ' /includeFolder="./Administrator'
     . ' ';
-$tasksLine .= "task:add2FilenamesList"
-    . ' /srcRoot="./../../RSGallery2_J4/administrator"'
-//    . ' /isNoRecursion=true'
+$tasksLine .= "task:add2FilenamesList" . ' /srcRoot="./../../RSGallery2_J4/administrator"' //    . ' /isNoRecursion=true'
     . ' /includeExt="php"'
 //    . ' /includeExt="xmp"'
 //    . ' /includeExt="ini"'
@@ -138,9 +133,7 @@ $tasksLine .= "task:add2FilenamesList"
 //   . ' /includeFolder="./Administrator'
 //   . ' /includeFolder="./Administrator'
     . ' ';
-$tasksLine .= "task:add2FilenamesList"
-    . ' /srcRoot="./../../RSGallery2_J4/components"'
-    //    . ' /isNoRecursion=true'
+$tasksLine .= "task:add2FilenamesList" . ' /srcRoot="./../../RSGallery2_J4/components"' //    . ' /isNoRecursion=true'
     . ' /includeExt="php"'
 //    . ' /includeExt="xmp"'
 //    . ' /includeExt="ini"'
@@ -148,8 +141,7 @@ $tasksLine .= "task:add2FilenamesList"
 //   . ' /includeFolder="./Administrator'
 //   . ' /includeFolder="./Administrator'
     . ' ';
-$tasksLine .= "task:add2FilenamesList"
-    . ' /srcRoot="./../../RSGallery2_J4/media"'
+$tasksLine .= "task:add2FilenamesList" . ' /srcRoot="./../../RSGallery2_J4/media"'
 //    . ' /isNoRecursion=true'
 //    . ' /includeExt="php"'
 //    . ' /includeExt="xmp"'
@@ -232,8 +224,7 @@ $tasksLine = ' task:clean4GitCheckin'
 //$collectedTasks->extractTasksFromString($tasksLine);
 //$collectedTasks->extractTasksFromString('task:execute');
 
-$tasksLine = ' task:updateAll_fileHeaders'
-    . ' ';
+$tasksLine = ' task:updateAll_fileHeaders' . ' ';
 $collectedTasks->extractTasksFromString($tasksLine);
 $collectedTasks->extractTasksFromString('task:execute');
 
@@ -268,30 +259,21 @@ $collectedTasks->extractTasksFromString('task:execute');
 //$collectedTasks->extractTasksFromString($tasksLine);
 //$collectedTasks->extractTasksFromString('task:execute');
 
-$tasksLine = ' task:increaseVersionId'
-//    . ' /type=component'
-    . ' /srcRoot="./../../RSGallery2_J4/"'
-    //    . ' /isNoRecursion=true'
-    . ' /name=rsgallery2'
-    . ' /version=major|minor|patch|dev'
-    . ' /s='
-    . ' ';
+$tasksLine = ' task:increaseVersionId' //    . ' /type=component'
+    . ' /srcRoot="./../../RSGallery2_J4/"' //    . ' /isNoRecursion=true'
+    . ' /name=rsgallery2' . ' /version=major|minor|patch|dev' . ' /s=' . ' ';
 $collectedTasks->extractTasksFromString($tasksLine);
 $collectedTasks->extractTasksFromString('task:execute');
 
 
 $tasksLine = 'task:clearFilenamesList' . ' ';
 
-$tasksLine .= ' task:buildExtension'
-    . ' /type=component'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /isNoRecursion=true'
+$tasksLine .= ' task:buildExtension' . ' /type=component' . ' /srcRoot="./../../RSGallery2_J4"' //    . ' /isNoRecursion=true'
     . ' /buildDir="./../.packages"'
 //    . ' /adminPath='
 //    . ' /sitePath='
 //    . ' /mediaPath='
-    . ' /name=rsgallery2'
-    . ' /extension=RSGallery2'
+    . ' /name=rsgallery2' . ' /extension=RSGallery2'
 // name.xml ?    . '/manifestFile='
 //    . '/s='
 //    . '/s='
@@ -341,7 +323,7 @@ $basePath = "..\\..\\LangMan4Dev";
 // $tasksFile="../../JoomGallery_fith_dev/.buildPHP/build.tsk";
 
 // $tasksFile="../../RSGallery2_J4_Dev/.cleanPHP/exchangeAll_actCopyrightYearLines.tsk";
-$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
+$tasksFile = "../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
@@ -351,11 +333,13 @@ $tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
 //$optionFiles [] = '.\options_version_tsk\build_release.opt';
 //$optionFiles [] = '.\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -364,7 +348,7 @@ foreach ($options as $idx => $option) {
             $tasksFile = $option;
             break;
 
-            // separate list of task files
+        // separate list of task files
         case 'c':
             $collectedTasks->extractTasksFromFile($option);
             break;
@@ -412,22 +396,28 @@ $start = commandLineLib::print_header($options, $inArgs);
 //--- create class object ---------------------------------
 
 $oDoFileTasks = new doFileTasks(); // $basePath, $tasksLine
-$tasks = new tasks();
+$tasks        = new tasks();
 
 //--- extract tasks from string or file ------------------
 
-if ( ! empty ($tasksFile)) {
+if (!empty ($tasksFile))
+{
     print ("taskFile found: " . $tasksFile . PHP_EOL);
     $tasks = $tasks->extractTasksFromFile($tasksFile);
-} else {
-    if ($collectedTasks->count() > 0) {
+}
+else
+{
+    if ($collectedTasks->count() > 0)
+    {
         $tasks->assignTasks($collectedTasks);
-    } else {
+    }
+    else
+    {
         print ("taskFile empty, TaskLine: " . $tasksLine . PHP_EOL);
         $testTasks = $tasks->extractTasksFromString($tasksLine);
-        if (!empty ($hasError)) {
-            print ("!!! Error on function extractTasksFromString:" . $hasError
-                . ' path: ' . $basePath . PHP_EOL);
+        if (!empty ($hasError))
+        {
+            print ("!!! Error on function extractTasksFromString:" . $hasError . ' path: ' . $basePath . PHP_EOL);
         }
     }
 }
@@ -441,22 +431,22 @@ print ($tasks->text());
 // //--- extract tasks from string or file ---------------------------------
 
 // if ($tasksFile != "") {
-    // $hasError = $oDoFileTasks->extractTasksFromFile($tasksFile);
-    // if (!empty ($hasError)) {
-        // print ("!!! Error on function extractTasksFromFile:" . $hasError
-            // . ' path: ' . $basePath . PHP_EOL);
-    // }
+// $hasError = $oDoFileTasks->extractTasksFromFile($tasksFile);
+// if (!empty ($hasError)) {
+// print ("!!! Error on function extractTasksFromFile:" . $hasError
+// . ' path: ' . $basePath . PHP_EOL);
+// }
 
 // } else {
-    // if ($collectedTasks->count() > 0) {
-        // $testTasks = $oDoFileTasks->assignTasks($collectedTasks);
-    // } else {
-        // $testTasks = $oDoFileTasks->extractTasksFromString($tasksLine);
-        // //if (!empty ($hasError)) {
-        // //    print ("!!! Error on function extractTasksFromString:" . $hasError
-        // //        . ' path: ' . $basePath . PHP_EOL);
-        // //}
-    // }
+// if ($collectedTasks->count() > 0) {
+// $testTasks = $oDoFileTasks->assignTasks($collectedTasks);
+// } else {
+// $testTasks = $oDoFileTasks->extractTasksFromString($tasksLine);
+// //if (!empty ($hasError)) {
+// //    print ("!!! Error on function extractTasksFromString:" . $hasError
+// //        . ' path: ' . $basePath . PHP_EOL);
+// //}
+// }
 // }
 
 // print ($oDoFileTasks->tasksText());
@@ -465,22 +455,25 @@ print ($tasks->text());
    execute tasks
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
     $oDoFileTasks->assignTasks($tasks);
-	
-	//--- execute tasks ---------------------------------
+
+    //--- execute tasks ---------------------------------
 
     // create task classes, when task execute is issued the task does execute
     $hasError = $oDoFileTasks->execute();
 
-    if ($hasError) {
+    if ($hasError)
+    {
         print ("%%% doFileTaskCmd Error: " . $hasError . " on execute task: " . $oDoFileTasks->actTaskName . PHP_EOL);
     }
 
-    if (! $hasError) {
+    if (!$hasError)
+    {
         print ($oDoFileTasks->text() . PHP_EOL);
     }
 

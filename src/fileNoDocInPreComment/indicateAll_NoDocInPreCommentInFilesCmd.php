@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileNoDocInPreComment;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -21,7 +21,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "f:t:s:o:h12345";
+$optDefinition    = "f:t:s:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -36,22 +36,18 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = 'task:indicateAll_NoDocInPreCommentInFiles'
-//    . ' /callerProjectId=RSG2'
-    . ' /srcRoot="../../testData"'
-    . ' /includeExt="php"'
+$tasksLine = 'task:indicateAll_NoDocInPreCommentInFiles' //    . ' /callerProjectId=RSG2'
+    . ' /srcRoot="../../testData"' . ' /includeExt="php"'
 //    . ' /fileName = "../../testData/xxxTestFile.php"'
 //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    . ' /isNoRecursion=true'
-//	. ' /isLogOnly=true'
-	. ' /isLogDev=true '
-;
+    . ' /isNoRecursion=true' //	. ' /isLogOnly=true'
+    . ' /isLogDev=true ';
 
 //$tasksLine = "";
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
 //$srcRoot = './../../RSGallery2_J4';
-$srcRoot = '';
+$srcRoot       = '';
 $isNoRecursion = true;
 
 //$licenseText = "GNU General Public License version 2 or later;";
@@ -74,11 +70,13 @@ $yearText = '';
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -138,14 +136,17 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if (!empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $testTask = $task->extractTaskFromFile($taskFile);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromFile:" // . $hasError
     //        . ' Task file: ' . $taskFile);
     //    $hasError = -301;
     //}
-} else {
+}
+else
+{
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromString:" . $hasError
@@ -160,22 +161,26 @@ print ($testTask->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
     $oAlignAll_use_LinesLines = new indicateAll_NoDocInPreCommentInFiles();
 
     //--- assign tasks ---------------------------------
 
     $hasError = $oAlignAll_use_LinesLines->assignTask($task);
-    if ($hasError) {
+    if ($hasError)
+    {
         print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
     }
 
     //--- execute tasks ---------------------------------
 
-    if (!$hasError) {
+    if (!$hasError)
+    {
         $hasError = $oAlignAll_use_LinesLines->execute();
-        if ($hasError) {
+        if ($hasError)
+        {
             print ("!!! Error on function execute:" . $hasError . PHP_EOL);
         }
     }

@@ -4,8 +4,8 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 require_once '../autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 
 $HELP_MSG = <<<EOT
@@ -22,7 +22,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:a:o:h12345";
+$optDefinition    = "s:a:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -53,13 +53,9 @@ variables
 //    . ' ';
 
 
-$tasksLine = ' task:exchangeAll_authorLines'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
-    . ' /isNoRecursion=true'
-//    . ' /srcRoot="./../../RSGallery2_J4"'
-    . ' '
-    . ' /authorText = ""'//    . ' /s='
+$tasksLine = ' task:exchangeAll_authorLines' . ' /srcRoot="./../../RSGallery2_J4"' //    . ' /srcRoot="./../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop"'
+    . ' /isNoRecursion=true' //    . ' /srcRoot="./../../RSGallery2_J4"'
+    . ' ' . ' /authorText = ""'//    . ' /s='
 ;
 
 //$srcRoot = './../../RSGallery2_J4/administrator/components/com_rsgallery2/tmpl/develop';
@@ -68,7 +64,7 @@ $srcRoot = '';
 
 //$authorText = "GNU General Public author version 2 or later;";
 //$this->author = "http://www.gnu.org/copyleft/gpl.html GNU/GPL";
-$authorText = '';
+$authorText    = '';
 $isNoRecursion = false;
 
 //$optionFile = '';
@@ -79,11 +75,13 @@ $isNoRecursion = false;
 //$optionFiles [] = '..\options_version_tsk\build_release.opt';
 //$optionFiles [] = '..\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 's':
             $srcRoot = $option;
             break;
@@ -141,16 +139,21 @@ $task = new task();
 
 //--- extract tasks from string or file ------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -161,28 +164,31 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oExchangeAll_authorLines = new exchangeAll_authorLines($srcRoot,
-		$isNoRecursion, $authorText);
+    $oExchangeAll_authorLines = new exchangeAll_authorLines($srcRoot, $isNoRecursion, $authorText);
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oExchangeAll_authorLines->assignTask($task);
-	if ($hasError) {
-		print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
-	}
-	
-	//--- execute tasks ---------------------------------
+    $hasError = $oExchangeAll_authorLines->assignTask($task);
+    if ($hasError)
+    {
+        print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
+    }
 
-	if (!$hasError) {
-		$hasError = $oExchangeAll_authorLines->execute();
-		if ($hasError) {
-			print ("!!! Error on function execute:" . $hasError . PHP_EOL);
-		}
-	}
-	
-	print ($oExchangeAll_authorLines->text() . PHP_EOL);
+    //--- execute tasks ---------------------------------
+
+    if (!$hasError)
+    {
+        $hasError = $oExchangeAll_authorLines->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+        }
+    }
+
+    print ($oExchangeAll_authorLines->text() . PHP_EOL);
 }
 
 commandLineLib::print_end($start);

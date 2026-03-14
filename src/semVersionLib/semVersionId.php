@@ -82,117 +82,6 @@ class semVersionId
 
     }
 
-    public function assignInId($versionId = "")
-    {
-
-        $this->inVersionId  = $versionId;
-        $this->outVersionId = $versionId;
-
-    }
-
-    public function init(): void
-    {
-        // on read of line
-
-        $this->inVersionId  = '';
-        $this->outVersionId = '';
-    }
-
-
-//    public function setFlags(bool $isIncreaseMajor = false,
-//        bool $isIncreaseMinor = false,
-//        bool $isIncreasePatch = false, // release
-//        bool $isIncreaseBuild = false) : void
-//    {
-//        $this->isIncreaseMajor = $isIncreaseMajor;
-//        $this->isIncreaseMinor = $isIncreaseMinor;
-//        $this->isIncreasePatch = $isIncreasePatch; // release
-//        $this->isIncreaseBuild = $isIncreaseBuild;
-//
-//        // ... ToDo:
-//    }
-
-    public static function id_2_parts($versionId = ' . . . ') //: [number,number, number, number]
-    {
-        $major = 0;
-        $minor = 0;
-        $patch = 0;
-        $build = 0;
-
-        $preId     = '';
-        $preNumber = 0;
-
-
-        $parts = explode('-', $versionId);
-        if (count($parts) > 0)
-        {
-            $partsVersion = explode('.', $parts[0]);
-
-            $count = count($partsVersion);
-
-            if ($count > 0)
-            {
-                $major = intval($partsVersion[0]);
-            }
-            if ($count > 1)
-            {
-                $minor = intval($partsVersion[1]);
-            }
-            if ($count > 2)
-            {
-                $patch = intval($partsVersion[2]);
-            }
-            if ($count > 3)
-            {
-                $build = intval($partsVersion[3]);
-            }
-
-            // ... ToDo: alpha, beta ...
-            if (count($parts) > 1)
-            {
-                // Attention: Complicated pre version ids are not supported Example: "RC1ansfurtherAlphaNumeric..."
-
-                $partsPre = $parts[1];
-                //
-                if (preg_match('/[a-z]+/i', $partsPre, $match))
-                {
-                    $preId = $match[0];
-                }
-//                if(preg_match('/[a-z]+([0-9]+)/i', $partsPre, $match))
-                if (preg_match('/[0-9]+/', $parts[1], $match))
-                {
-                    $preNumber = intval($match[0]);
-                }
-
-            }
-        }
-
-        return [$major, $minor, $patch, $build, $preId, $preNumber];
-    }
-
-    public static function parts_2_id($major = 0, $minor = 0, $patch = 0, $build = 0, $preId = '', $preNumber = 0): string
-    {
-        // x.x.x.x
-        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch);
-        if ($build != 0)
-        {
-            $versionId .= '.' . strval($build);
-        }
-
-        //  rc1, alpha1, beta1 ...
-        if ($preId != '')
-        {
-            $versionId .= '-' . $preId;
-        }
-        if ($preNumber != 0)
-        {
-            $versionId .= strval($preNumber);
-        }
-
-        return $versionId;
-    }
-
-
     public function update(): string
     {
 
@@ -316,7 +205,7 @@ class semVersionId
                             $isChanged = true;
                         }
 
-                        // 0.0.0.0 (beta,alpha,RC) will be increased. 
+                        // 0.0.0.0 (beta,alpha,RC) will be increased.
                         if ($this->isIncreasePreID)
                         {
                             if ($preId == '')
@@ -339,7 +228,7 @@ class semVersionId
                             $isChanged = true;
                         }
 
-                        // 0.0.0.0-(beta, alpha, rc)x will be increased. 
+                        // 0.0.0.0-(beta, alpha, rc)x will be increased.
                         if ($this->isIncreasePreNumber)
                         {
                             $preNumber++;
@@ -365,7 +254,100 @@ class semVersionId
         return $this->outVersionId;
     }
 
-    // Task name with options
+    public static function id_2_parts($versionId = ' . . . ') //: [number,number, number, number]
+    {
+        $major = 0;
+        $minor = 0;
+        $patch = 0;
+        $build = 0;
+
+        $preId     = '';
+        $preNumber = 0;
+
+
+        $parts = explode('-', $versionId);
+        if (count($parts) > 0)
+        {
+            $partsVersion = explode('.', $parts[0]);
+
+            $count = count($partsVersion);
+
+            if ($count > 0)
+            {
+                $major = intval($partsVersion[0]);
+            }
+            if ($count > 1)
+            {
+                $minor = intval($partsVersion[1]);
+            }
+            if ($count > 2)
+            {
+                $patch = intval($partsVersion[2]);
+            }
+            if ($count > 3)
+            {
+                $build = intval($partsVersion[3]);
+            }
+
+            // ... ToDo: alpha, beta ...
+            if (count($parts) > 1)
+            {
+                // Attention: Complicated pre version ids are not supported Example: "RC1ansfurtherAlphaNumeric..."
+
+                $partsPre = $parts[1];
+                //
+                if (preg_match('/[a-z]+/i', $partsPre, $match))
+                {
+                    $preId = $match[0];
+                }
+//                if(preg_match('/[a-z]+([0-9]+)/i', $partsPre, $match))
+                if (preg_match('/[0-9]+/', $parts[1], $match))
+                {
+                    $preNumber = intval($match[0]);
+                }
+
+            }
+        }
+
+        return [$major, $minor, $patch, $build, $preId, $preNumber];
+    }
+
+
+//    public function setFlags(bool $isIncreaseMajor = false,
+//        bool $isIncreaseMinor = false,
+//        bool $isIncreasePatch = false, // release
+//        bool $isIncreaseBuild = false) : void
+//    {
+//        $this->isIncreaseMajor = $isIncreaseMajor;
+//        $this->isIncreaseMinor = $isIncreaseMinor;
+//        $this->isIncreasePatch = $isIncreasePatch; // release
+//        $this->isIncreaseBuild = $isIncreaseBuild;
+//
+//        // ... ToDo:
+//    }
+
+    public static function parts_2_id($major = 0, $minor = 0, $patch = 0, $build = 0, $preId = '', $preNumber = 0): string
+    {
+        // x.x.x.x
+        $versionId = strval($major) . '.' . strval($minor) . '.' . strval($patch);
+        if ($build != 0)
+        {
+            $versionId .= '.' . strval($build);
+        }
+
+        //  rc1, alpha1, beta1 ...
+        if ($preId != '')
+        {
+            $versionId .= '-' . $preId;
+        }
+        if ($preNumber != 0)
+        {
+            $versionId .= strval($preNumber);
+        }
+
+        return $versionId;
+    }
+
     public function assignVersionOption(option $option): bool
     {
         $isVersionOption = false;
@@ -456,7 +438,7 @@ class semVersionId
             case strtolower('isBeautify'):
                 print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                 $this->isBeautify = true;
-                $isVersionOption     = true;
+                $isVersionOption  = true;
                 break;
 
         } // switch
@@ -497,7 +479,7 @@ class semVersionId
                 }
 
                 // $this->inVersionId = $inVersionId;
-                $this->versionId->assignInId ($inVersionId);
+                $this->versionId->assignInId($inVersionId);
             }
 
         }
@@ -509,6 +491,24 @@ class semVersionId
         }
 
         return [$this->inVersionId];
+    }
+
+    // Task name with options
+
+    public function init(): void
+    {
+        // on read of line
+
+        $this->inVersionId  = '';
+        $this->outVersionId = '';
+    }
+
+    public function assignInId($versionId = "")
+    {
+
+        $this->inVersionId  = $versionId;
+        $this->outVersionId = $versionId;
+
     }
 
     public function formatVersionIdManifest($outVersionId = ''): string

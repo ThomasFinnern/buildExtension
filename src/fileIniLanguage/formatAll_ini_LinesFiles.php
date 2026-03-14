@@ -5,10 +5,7 @@ namespace Finnern\BuildExtension\src\fileIniLanguage;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
 
 /*================================================================================
 Class formatAll_ini_LinesFiles
@@ -17,8 +14,7 @@ Class formatAll_ini_LinesFiles
 // ToDo: Force extension lang id ==> COM_RSGALLLERY2___ as start
 // /isForceExtensionId="..."
 
-class formatAll_ini_LinesFiles extends baseExecuteTasks
-    implements executeTasksInterface
+class formatAll_ini_LinesFiles extends baseExecuteTasks implements executeTasksInterface
 {
     //--- use file lines for task ----------------------
 
@@ -33,7 +29,8 @@ class formatAll_ini_LinesFiles extends baseExecuteTasks
     public function __construct($srcRoot = "", $isNoRecursion = false, $yearText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("yearText: " . $yearText . PHP_EOL);
@@ -47,7 +44,9 @@ class formatAll_ini_LinesFiles extends baseExecuteTasks
 
             $this->formatAll_ini_lines = new formatAll_ini_LinesFile();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -55,24 +54,27 @@ class formatAll_ini_LinesFiles extends baseExecuteTasks
     }
 
     /**
-     * @param option $option
+     * @param   option  $option
      * * @return bool
      */
     public function assignOption(option $option): bool
     {
         $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->formatAll_ini_lines->assignOption($option);
         }
 
-        if ( ! $isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 
                 case strtolower('yearText'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->yearText = $option->value;
+                    $this->yearText   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -96,12 +98,15 @@ class formatAll_ini_LinesFiles extends baseExecuteTasks
 //        }
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -111,7 +116,8 @@ class formatAll_ini_LinesFiles extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 

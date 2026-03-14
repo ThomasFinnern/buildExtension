@@ -22,7 +22,8 @@ class XXX
     public function __construct($srcFile = "", $dstFile = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print ("srcFile: " . $srcFile . PHP_EOL);
             print ("dstFile: " . $dstFile . PHP_EOL);
@@ -30,7 +31,9 @@ class XXX
 
             $this->srcFile = $srcFile;
             $this->dstFile = $dstFile;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -46,12 +49,15 @@ class XXX
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('funYYY' . PHP_EOL);
             print ("zzz: " . $zzz . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

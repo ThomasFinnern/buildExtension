@@ -19,7 +19,7 @@ use SimpleXMLElement;
  * Container for manifest xml elements
  * On creation the manifest XML data will be read if file path is given
  * getter/setter functions will change the loaded xml elements.
- * On change the xml may be written back 
+ * On change the xml may be written back
  *
  * @package
  * @since       version
@@ -42,18 +42,22 @@ class manifestXml
 
     /**
      * @param $prjXmlPathFilename
+     *
      * @throws Exception
      */
     public function __construct($prjXmlPathFilename = '')
     {
 
         // filename given
-        if ($prjXmlPathFilename != '') {
+        if ($prjXmlPathFilename != '')
+        {
             $this->prjXmlPathFilename = $prjXmlPathFilename;
-            $this->prjXmlFilePath = dirname($prjXmlPathFilename);
-            
+            $this->prjXmlFilePath     = dirname($prjXmlPathFilename);
+
             $this->readManifestXml();
-        } else {
+        }
+        else
+        {
             $this->prjXmlPathFilename = "";
             $this->prjXmlFilePath     = "";
         }
@@ -67,20 +71,24 @@ class manifestXml
      * @throws Exception
      * @since version
      */
-    public function readManifestXml($prjXmlPathFilename = '') : bool
+    public function readManifestXml($prjXmlPathFilename = ''): bool
     {
-        $this->isXmlLoaded = false;
+        $this->isXmlLoaded  = false;
         $this->isXmlChanged = false;
 
-        try {
+        try
+        {
             //--- name from class or function  ---------------------------------------
 
             // use new file
-            if ($prjXmlPathFilename != '') {
+            if ($prjXmlPathFilename != '')
+            {
                 $this->prjXmlPathFilename = $prjXmlPathFilename;
                 $this->prjXmlFilePath     = dirname($prjXmlPathFilename);
                 // ToDo: clear old data
-            } else {
+            }
+            else
+            {
                 // use given path name
                 $prjXmlPathFilename = $this->prjXmlPathFilename;
             }
@@ -88,27 +96,35 @@ class manifestXml
             //--- read XML -----------------------------------------------------------
 
             // file exists
-            if (is_file($prjXmlPathFilename)) {
+            if (is_file($prjXmlPathFilename))
+            {
 
                 // Read the file to see if it's a valid component XML file
-                $xml = simplexml_load_file($prjXmlPathFilename);
+                $xml               = simplexml_load_file($prjXmlPathFilename);
                 $this->manifestXml = $xml;
 
                 // error reading ?
-                if (!empty($xml)) {
+                if (!empty($xml))
+                {
                     $this->isXmlLoaded = true;
-                } else {
-                    $OutTxt = 'Error executing readManifestXml: manifest file is not an xml document: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+                }
+                else
+                {
+                    $OutTxt = 'Error executing readManifestXml: manifest file is not an xml document: "' . $prjXmlPathFilename . '"' . PHP_EOL;
                     print $OutTxt;
                 }
 
-            } else {
-                $OutTxt = 'Error executing readManifestXml: manifest file does not exist: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+            }
+            else
+            {
+                $OutTxt = 'Error executing readManifestXml: manifest file does not exist: "' . $prjXmlPathFilename . '"' . PHP_EOL;
                 print $OutTxt;
             }
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e)
+        {
             $OutTxt = '';
-            $OutTxt .= 'Error executing readManifestXml: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+            $OutTxt .= 'Error executing readManifestXml: "' . $prjXmlPathFilename . '"' . PHP_EOL;
             $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
             print $OutTxt;
         }
@@ -118,11 +134,13 @@ class manifestXml
 
     /**
      * @param $prjXmlPathFilename
+     *
      * @return bool is saved
      */
-    public function writeManifestXml_OnChange(string $prjXmlPathFilename = '') : bool
+    public function writeManifestXml_OnChange(string $prjXmlPathFilename = ''): bool
     {
-        if ($this->isXmlChanged) {
+        if ($this->isXmlChanged)
+        {
             return $this->writeManifestXml($prjXmlPathFilename);
         }
 
@@ -131,18 +149,22 @@ class manifestXml
 
     /**
      * @param $prjXmlPathFilename
+     *
      * @return bool is saved
      */
-    public function writeManifestXml(string $prjXmlPathFilename = '') : bool
+    public function writeManifestXml(string $prjXmlPathFilename = ''): bool
     {
         //--- name from class or function  ---------------------------------------
 
         // use new file
-        if ($prjXmlPathFilename != '') {
+        if ($prjXmlPathFilename != '')
+        {
             $this->prjXmlPathFilename = $prjXmlPathFilename;
             $this->prjXmlFilePath     = dirname($prjXmlPathFilename);
             // ToDo: clear old data
-        } else {
+        }
+        else
+        {
             // use given path name
             $prjXmlPathFilename = $this->prjXmlPathFilename;
         }
@@ -150,13 +172,14 @@ class manifestXml
         //--- save XML -----------------------------------------------------------
 
         // XML data must be present
-        if ($this->isXmlLoaded) {
+        if ($this->isXmlLoaded)
+        {
 //            $this->manifestXml->asXml($prjXmlPathFilename);
             // $isSaved = true;
 
-            $domxml = new DOMDocument('1.0');
+            $domxml                     = new DOMDocument('1.0');
             $domxml->preserveWhiteSpace = false;
-            $domxml->formatOutput = true;
+            $domxml->formatOutput       = true;
             /* @var $xml SimpleXMLElement */
             $domxml->loadXML($this->manifestXml->asXML());
             $domxml->save($prjXmlPathFilename);
@@ -164,7 +187,7 @@ class manifestXml
             $this->isXmlChanged = false;
         }
 
-        return ! $this->isXmlChanged;
+        return !$this->isXmlChanged;
     }
     // info cast to string / int .. when using it (otherwise array is returned)
 
@@ -178,53 +201,23 @@ class manifestXml
      *
      * @since version
      */
-    public function getByXml($name, $default)
+    public function getAttributeByXml(string $elementName, string $elementAttributeName, $default): string
     {
         $result = $default;
 
-        try {
-            if (isset($this->manifestXml->$name)) {
-
-                $result = (string) $this->manifestXml->$name;
-            }
-
-        } catch (\RuntimeException $e) {
-            $OutTxt = '';
-            $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
-            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
-            $OutTxt .= 'default: "' . $default . '"' . PHP_EOL;
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
-            print $OutTxt;
-
-            // $hasError = -987;
-        }
-
-        return $result;
-    }
-
-    /**
-     * Take values direct from Xml of manifest
-     *
-     * @param $name
-     * @param $default
-     *
-     * @return mixed
-     *
-     * @since version
-     */
-    public function getAttributeByXml(string $elementName, string $elementAttributeName, $default) : string
-    {
-        $result = $default;
-
-        try {
-            if (isset($this->manifestXml->$elementName)) {
+        try
+        {
+            if (isset($this->manifestXml->$elementName))
+            {
                 $element = $this->manifestXml->$elementName;
-                $result = (string) $element[$elementAttributeName];
+                $result  = (string) $element[$elementAttributeName];
             }
 
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e)
+        {
             $OutTxt = '';
-            $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+            $OutTxt .= 'Error executing getAttributeByXml: "' . $prjXmlPathFilename . '"' . PHP_EOL;
             $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
             $OutTxt .= 'default: "' . $default . '"' . PHP_EOL;
             $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
@@ -247,25 +240,29 @@ class manifestXml
      *
      * @since version
      */
-    public function setByXml(string $name, string $value) : int
+    public function setByXml(string $name, string $value): int
     {
 //		return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
 //        $hasError = $this->manifestXml->$name;
         $hasError = 0;
 
-        try {
+        try
+        {
             // if (isset($this->manifestXml->$name)) {
-                $found = (string) $this->manifestXml->$name;
+            $found = (string) $this->manifestXml->$name;
 
-                if ($found != $value) {
-                    $this->manifestXml->$name = $value;
-                    $this->isXmlChanged = true;
-                }
+            if ($found != $value)
+            {
+                $this->manifestXml->$name = $value;
+                $this->isXmlChanged       = true;
+            }
             // }
 
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e)
+        {
             $OutTxt = '';
-            $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+            $OutTxt .= 'Error executing setByXml: "' . $prjXmlPathFilename . '"' . PHP_EOL;
             $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
             $OutTxt .= 'value: "' . $value . '"' . PHP_EOL;
             $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
@@ -288,38 +285,46 @@ class manifestXml
      *
      * @since version
      */
-    public function setAttributeByXml(string $elementName, string $elementAttributeName, string $value) : int
+    public function setAttributeByXml(string $elementName, string $elementAttributeName, string $value): int
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             if (isset($this->manifestXml->$elementName))
             {
                 $element = $this->manifestXml->$elementName;
-                $found = $element[$elementAttributeName];
+                $found   = $element[$elementAttributeName];
 
-                if ($found != $value) {
+                if ($found != $value)
+                {
 
                     $element[$elementAttributeName] = $value;
-                    $this->isXmlChanged = true;
+                    $this->isXmlChanged             = true;
                 }
-            } else {
+            }
+            else
+            {
                 // base element extension
-                if ($elementName == 'extension') {
+                if ($elementName == 'extension')
+                {
 
                     $found = (string) $this->manifestXml[$elementAttributeName];
 
-                    if ($found != $value) {
+                    if ($found != $value)
+                    {
 
                         $this->manifestXml[$elementAttributeName] = $value;
-                        $this->isXmlChanged = true;
+                        $this->isXmlChanged                       = true;
                     }
                 }
             }
 
-        } catch (\RuntimeException $e) {
+        }
+        catch (\RuntimeException $e)
+        {
             $OutTxt = '';
-            $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"' .  PHP_EOL;
+            $OutTxt .= 'Error executing setAttributeByXml: "' . $prjXmlPathFilename . '"' . PHP_EOL;
             $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
             $OutTxt .= 'value: "' . $value . '"' . PHP_EOL;
             $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
@@ -330,6 +335,18 @@ class manifestXml
 
         // return isset($this->manifestXml->$name) ? $this->manifestXml->$name : $default;
         return $hasError;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return null
+     *
+     * @since version
+     */
+    public function getXml($name)
+    {
+        return isset($this->manifestXml->$name) ? $this->manifestXml->$name : null;
     }
 
 
@@ -390,16 +407,12 @@ class manifestXml
 //
     // info cast to string / int .. when using it (otherwise array is returned)
 
-    /**
-     * @param $name
-     *
-     * @return null
-     *
-     * @since version
-     */
-    public function getXml($name)
+    public function __toString()
     {
-        return isset($this->manifestXml->$name) ? $this->manifestXml->$name : null;
+        $OutTxt = 'manifestXml' . PHP_EOL;
+        $OutTxt .= implode(PHP_EOL, $this->__toDataLines());
+
+        return $OutTxt;
     }
 
 
@@ -463,26 +476,7 @@ class manifestXml
 //		}
 //	}
 
-
-    public function __toTextItem($name = '')
-    {
-//        $value = $this->getByXml($name, '') ;
-//        if ($value == null) {
-//            $value = "%null%"
-//        }
-
-        $value = $this->getByXml($name, '')  ?? "%null%";
-        return $name . '="' . $value . '"';
-    }
-
-    public function __toString()
-    {
-        $OutTxt = 'manifestXml' . PHP_EOL;
-        $OutTxt .= implode(PHP_EOL, $this->__toDataLines());
-
-        return $OutTxt;
-    }
-        /**
+    /**
      *
      * @return array
      *
@@ -494,7 +488,8 @@ class manifestXml
 
         $lines[] = '--- manifest file ---------------------------';
 
-        if ($this->isXmlLoaded) {
+        if ($this->isXmlLoaded)
+        {
 //        $lines[] = $this->__toTextItem('name');
 //
 //        //$test->name         = (string) $xml->name;
@@ -529,6 +524,56 @@ class manifestXml
         }
 
         return $lines;
+    }
+
+    public function __toTextItem($name = '')
+    {
+//        $value = $this->getByXml($name, '') ;
+//        if ($value == null) {
+//            $value = "%null%"
+//        }
+
+        $value = $this->getByXml($name, '') ?? "%null%";
+
+        return $name . '="' . $value . '"';
+    }
+
+    /**
+     * Take values direct from Xml of manifest
+     *
+     * @param $name
+     * @param $default
+     *
+     * @return mixed
+     *
+     * @since version
+     */
+    public function getByXml($name, $default)
+    {
+        $result = $default;
+
+        try
+        {
+            if (isset($this->manifestXml->$name))
+            {
+
+                $result = (string) $this->manifestXml->$name;
+            }
+
+        }
+        catch (\RuntimeException $e)
+        {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing getByXml: "' . $prjXmlPathFilename . '"' . PHP_EOL;
+            $OutTxt .= 'name: "' . $name . '"' . PHP_EOL;
+            $OutTxt .= 'default: "' . $default . '"' . PHP_EOL;
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . PHP_EOL;
+            print $OutTxt;
+
+            // $hasError = -987;
+        }
+
+        return $result;
     }
 
 } // class

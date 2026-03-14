@@ -6,17 +6,17 @@ namespace Finnern\BuildExtension\src\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-//use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileData;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
+use Finnern\BuildExtension\src\tasksLib\task;
+
+//use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileData;
 
 /*================================================================================
 Class updateAll_fileHeaders
 ================================================================================*/
 
-class updateAll_fileHeaders extends baseExecuteTasks
-    implements executeTasksInterface
+class updateAll_fileHeaders extends baseExecuteTasks implements executeTasksInterface
 {
     //--- use file header for task ----------------------
 
@@ -28,19 +28,22 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
     public function __construct($srcRoot = "", $isNoRecursion = false)
     {
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
             //--- use file header for task ----------------------
 
             $this->fileHeaderByFileData = new fileHeaderByFileData();
 
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
@@ -48,15 +51,17 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
 
     /**
-     * @param options $options
-     * @param task $task
+     * @param   options  $options
+     * @param   task     $task
+     *
      * @return void
      */
     public function assignOption(option $option): bool
     {
         $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
+        if (!$isOptionConsumed)
+        {
 
             $isOptionConsumed = $this->fileHeaderByFileData->assignOption($option);
         }
@@ -81,12 +86,15 @@ class updateAll_fileHeaders extends baseExecuteTasks
         //--- collect files ---------------------------------------
 
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -96,7 +104,8 @@ class updateAll_fileHeaders extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 

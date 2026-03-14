@@ -37,8 +37,8 @@ class tasks
 
     public function getTask(string $name, bool $isIgnoreCase = false): string
     {
-        $foundTask   = null;
-        $isFound = false;
+        $foundTask = null;
+        $isFound   = false;
 
         foreach ($this->tasks as $task)
         {

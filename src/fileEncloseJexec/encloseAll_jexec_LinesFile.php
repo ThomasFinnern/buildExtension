@@ -3,14 +3,9 @@
 namespace Finnern\BuildExtension\src\fileEncloseJexec;
 
 use Exception;
-use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataFactory;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
-use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
-use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\option;
-use Finnern\BuildExtension\src\tasksLib\options;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class encloseAll_jexec_LinesFile
@@ -22,10 +17,8 @@ class encloseAll_jexec_LinesFile
 
     public task $task;
     public readonly string $name;
-
-    protected fileUseDataBase|null $oFileUseData;
-
     public bool $isLogOnly = false;
+    protected fileUseDataBase|null $oFileUseData;
 
     /*--------------------------------------------------------------------
     construction
@@ -58,7 +51,8 @@ class encloseAll_jexec_LinesFile
         $options = $task->options;
 
         // ToDo: Extract assignOption on all assignTask
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
 //            $isBaseOption = $this->assignBaseOption($option);
 //            if (!$isBaseOption) {
@@ -70,7 +64,7 @@ class encloseAll_jexec_LinesFile
     }
 
     /**
-     * @param  option  $option
+     * @param   option  $option
      *
      * @return bool
      */
@@ -80,8 +74,10 @@ class encloseAll_jexec_LinesFile
         $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-        if ( ! $isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
                 case strtolower('isLogOnly'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isLogOnly  = (bool) $option->value;
@@ -95,7 +91,7 @@ class encloseAll_jexec_LinesFile
 
                 case strtolower('filename'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->fileName = $option->value;
+                    $this->fileName   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -117,15 +113,19 @@ class encloseAll_jexec_LinesFile
 
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('encloseAll_jexec_lines' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
 
@@ -134,7 +134,7 @@ class encloseAll_jexec_LinesFile
             $lines = file($fileName);
 
             $this->isChanged = false;
-            $outLines = [];
+            $outLines        = [];
 
             foreach ($lines as $lineIdx => $line)
             {
@@ -190,7 +190,9 @@ class encloseAll_jexec_LinesFile
 
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

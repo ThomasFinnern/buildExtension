@@ -7,7 +7,7 @@ Class fileHeaderDataInterface
 ================================================================================*/
 
 /**
- * 
+ *
  */
 interface fileHeaderDataInterface
 {
@@ -17,11 +17,11 @@ interface fileHeaderDataInterface
 
     function __construct();
 
-    function init() : void;
+    function init(): void;
 
     function extractHeaderValuesFromLines(array $headerLines = []);
 
-    function extractNameFromHeaderLine(string $line) : array;
+    function extractNameFromHeaderLine(string $line): array;
 
     function scan4HeaderValueInLine(string $name, string $line): string;
 
@@ -33,7 +33,7 @@ interface fileHeaderDataInterface
 
     function headerFormatCopyright(): string;
 
-    function headerText() : string;
+    function headerText(): string;
 
     function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool;
 

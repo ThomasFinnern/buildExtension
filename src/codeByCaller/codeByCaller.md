@@ -10,7 +10,6 @@ Each caller project has different needs like
 * copyright  (not supported)
 * ? Since format ? (spaces)
 
-
 Project ID helps a 'factory' pattern code to select the matching files
 
 Project ID (?may) set some standard options like no update of manifest files (handled somewhere else ?

@@ -1,6 +1,19 @@
 <?php
+
 namespace Finnern\BuildExtension\src\Temp;
 //namespace RefactoringGuru\FactoryMethod\RealWorld;
+
+/**
+ * The Product interface declares behaviors of various types of products.
+ */
+interface SocialNetworkConnector
+{
+    public function logIn(): void;
+
+    public function logOut(): void;
+
+    public function createPost($content): void;
+}
 
 /**
  * The Creator declares a factory method that can be used as a substitution for
@@ -15,13 +28,6 @@ namespace Finnern\BuildExtension\src\Temp;
 abstract class SocialNetworkPoster
 {
     /**
-     * The actual factory method. Note that it returns the abstract connector.
-     * This lets subclasses return any concrete connectors without breaking the
-     * superclass' contract.
-     */
-    abstract public function getSocialNetwork(): SocialNetworkConnector;
-
-    /**
      * When the factory method is used inside the Creator's business logic, the
      * subclasses may alter the logic indirectly by returning different types of
      * the connector from the factory method.
@@ -35,6 +41,13 @@ abstract class SocialNetworkPoster
         $network->createPost($content);
         $network->logout();
     }
+
+    /**
+     * The actual factory method. Note that it returns the abstract connector.
+     * This lets subclasses return any concrete connectors without breaking the
+     * superclass' contract.
+     */
+    abstract public function getSocialNetwork(): SocialNetworkConnector;
 }
 
 /**
@@ -48,7 +61,7 @@ class FacebookPoster extends SocialNetworkPoster
 
     public function __construct(string $login, string $password)
     {
-        $this->login = $login;
+        $this->login    = $login;
         $this->password = $password;
     }
 
@@ -67,7 +80,7 @@ class LinkedInPoster extends SocialNetworkPoster
 
     public function __construct(string $email, string $password)
     {
-        $this->email = $email;
+        $this->email    = $email;
         $this->password = $password;
     }
 
@@ -75,18 +88,6 @@ class LinkedInPoster extends SocialNetworkPoster
     {
         return new LinkedInConnector($this->email, $this->password);
     }
-}
-
-/**
- * The Product interface declares behaviors of various types of products.
- */
-interface SocialNetworkConnector
-{
-    public function logIn(): void;
-
-    public function logOut(): void;
-
-    public function createPost($content): void;
 }
 
 /**
@@ -98,14 +99,13 @@ class FacebookConnector implements SocialNetworkConnector
 
     public function __construct(string $login, string $password)
     {
-        $this->login = $login;
+        $this->login    = $login;
         $this->password = $password;
     }
 
     public function logIn(): void
     {
-        echo "Send HTTP API request to log in user $this->login with " .
-            "password $this->password\n";
+        echo "Send HTTP API request to log in user $this->login with " . "password $this->password\n";
     }
 
     public function logOut(): void
@@ -128,14 +128,13 @@ class LinkedInConnector implements SocialNetworkConnector
 
     public function __construct(string $email, string $password)
     {
-        $this->email = $email;
+        $this->email    = $email;
         $this->password = $password;
     }
 
     public function logIn(): void
     {
-        echo "Send HTTP API request to log in user $this->email with " .
-            "password $this->password\n";
+        echo "Send HTTP API request to log in user $this->email with " . "password $this->password\n";
     }
 
     public function logOut(): void

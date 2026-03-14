@@ -30,8 +30,7 @@ Class fileHeader data
  * The variables are global so you may read a file header, change data like actual year,
  * create the lines again here and replace the original file part
  */
-class fileHeaderData_JG extends fileHeaderDataBase
-    implements fileHeaderDataInterface
+class fileHeaderData_JG extends fileHeaderDataBase implements fileHeaderDataInterface
 {
     const PACKAGE = "JoomGallery";
     const SUBPACKAGE = "com_joomgallery";
@@ -77,11 +76,10 @@ class fileHeaderData_JG extends fileHeaderDataBase
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    protected int $middlePadCount = 17; // By 'subpackage' name length
-    protected int $endPadCount = 88; // xxx [spaces] **
+    public string $callerProjectId = 'JG'; // By 'subpackage' name length
+    protected int $middlePadCount = 17; // xxx [spaces] **
     // private int $middlePadCountCopyright = 15; // By 'subpackage' name length
-
-    public string $callerProjectId = 'JG'; // ToDo: create at start or assing before use
+protected int $endPadCount = 88; // ToDo: create at start or assing before use
 
 
     /*--------------------------------------------------------------------
@@ -98,36 +96,14 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $this->oCopyright = copyrightTextFactory::oCopyrightText('JG');
     }
 
-    public function init() : void
-    {
-//        $date_format = 'Y';
-//        $this->yearToday = date($date_format);
-
-        parent::init();
-
-        $this->package = self::PACKAGE;
-        $this->subpackage = self::SUBPACKAGE;
-
-        $this->license = self::LICENSE;
-        $this->author = self::AUTHOR;
-        $this->link = self::LINK;
-
-        if (!empty($this->oCopyright)) {
-            $this->oCopyright->init();
-        }
-    }
-
-    /*--------------------------------------------------------------------
-    extractNameFromHeaderLine
-    --------------------------------------------------------------------*/
-
     public function extractHeaderValuesFromLines(array $headerLines = [])
     {
         $hasError = 0;
 
         $this->additionalLines = [];
 
-        try {
+        try
+        {
             $this->init();
 
             print('*********************************************************' . PHP_EOL);
@@ -135,21 +111,27 @@ class fileHeaderData_JG extends fileHeaderDataBase
             print ("header lines in: " . count($headerLines) . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            foreach ($headerLines as $line) {
+            foreach ($headerLines as $line)
+            {
                 [$name, $behind] = $this->extractNameFromHeaderLine($line);
 
-                if (!empty ($name)) {
-                    if ($name == 'copyright') {
+                if (!empty ($name))
+                {
+                    if ($name == 'copyright')
+                    {
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
 
                         $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
-                        $this->oCopyright->scan4CopyrightInLine ($line);
-                    } else {
+                        $this->oCopyright->scan4CopyrightInLine($line);
+                    }
+                    else
+                    {
                         $value = $this->scan4HeaderValueInLine($name, $line);
 
-                        switch ($name) {
+                        switch ($name)
+                        {
                             case strtolower('package'):
                                 $this->package = $value;
                                 break;
@@ -167,14 +149,18 @@ class fileHeaderData_JG extends fileHeaderDataBase
                                 break;
 
                             default:
-                                if (trim($line) != '') {
+                                if (trim($line) != '')
+                                {
                                     $this->additionalLines [] = $line;
                                 }
                                 break;
                         }
                     }
-                } else {
-                    if (trim($line) != '') {
+                }
+                else
+                {
+                    if (trim($line) != '')
+                    {
                         $this->additionalLines [] = $line;
                     }
                 }
@@ -186,7 +172,9 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //            if (count ($this-> additional Lines)) {
 //
 //            }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -197,22 +185,48 @@ class fileHeaderData_JG extends fileHeaderDataBase
     }
 
     /*--------------------------------------------------------------------
+    extractNameFromHeaderLine
+    --------------------------------------------------------------------*/
+
+    public function init(): void
+    {
+//        $date_format = 'Y';
+//        $this->yearToday = date($date_format);
+
+        parent::init();
+
+        $this->package    = self::PACKAGE;
+        $this->subpackage = self::SUBPACKAGE;
+
+        $this->license = self::LICENSE;
+        $this->author  = self::AUTHOR;
+        $this->link    = self::LINK;
+
+        if (!empty($this->oCopyright))
+        {
+            $this->oCopyright->init();
+        }
+    }
+
+    /*--------------------------------------------------------------------
     extractHeaderValuesFromLines
     --------------------------------------------------------------------*/
 
     // '(c)' of copyright will be ignored here
-    public function extractNameFromHeaderLine(string $line) : array
+
+    public function extractNameFromHeaderLine(string $line): array
     {
-        $name = '';
+        $name   = '';
         $behind = '';
 
         //  * @copyright  2008 - 2025  JoomGallery::ProjectTeam
         $atIdx = strpos($line, '@');
-        if (!empty($atIdx)) {
+        if (!empty($atIdx))
+        {
             $blankIdx = strpos($line, ' ', $atIdx + 1);
 
-            $name = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
-            $name = trim($name);
+            $name   = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
+            $name   = trim($name);
             $behind = substr($line, $blankIdx + 1);
             $behind = trim($behind);
         }
@@ -225,7 +239,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
         $value = '';
 
         $idx = strpos($line, '@' . $name);
-        if ($idx !== false) {
+        if ($idx !== false)
+        {
             $idx += 1 + strlen($name);
 
             $value = trim(substr($line, $idx));
@@ -238,7 +253,8 @@ class fileHeaderData_JG extends fileHeaderDataBase
     {
         $outLines = [];
 
-        try {
+        try
+        {
             $outLines[] = "/**" . PHP_EOL;
             $outLines[] = "******************************************************************************************" . PHP_EOL;
 
@@ -252,7 +268,9 @@ class fileHeaderData_JG extends fileHeaderDataBase
 
             $outLines[] = "*****************************************************************************************/" . PHP_EOL;
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
@@ -291,7 +309,15 @@ class fileHeaderData_JG extends fileHeaderDataBase
 //        return $headerLine;
 //    }
 
-    public function headerText() : string
+    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
+    {
+        $headerLocal  = $this->headerText();
+        $headerExtern = $fileHeaderExtern->headerText();
+
+        return $headerLocal !== $headerExtern;
+    }
+
+    public function headerText(): string
     {
         $OutTxt = "";
         $OutTxt .= "/**" . PHP_EOL;
@@ -312,17 +338,9 @@ class fileHeaderData_JG extends fileHeaderDataBase
         return $OutTxt;
     }
 
-    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
-    {
-        $headerLocal = $this->headerText();
-        $headerExtern = $fileHeaderExtern->headerText();
-
-        return $headerLocal !== $headerExtern;
-    }
-
     public function isDifferentByString(string $externHeaderAsString): bool
     {
-        $headerLocal = $this->headerText();
+        $headerLocal  = $this->headerText();
         $headerExtern = $externHeaderAsString;
 
         return $headerLocal !== $headerExtern;
@@ -332,15 +350,20 @@ class fileHeaderData_JG extends fileHeaderDataBase
     {
         $isValid = false;
 
-        foreach ($headerLines as $line) {
+        foreach ($headerLines as $line)
+        {
 
             // ToDo: use regex to ignore number of spaces
             // Check for '**...@ ....
-            if (str_contains($line, '**   @')) {
+            if (str_contains($line, '**   @'))
+            {
                 $isValid = true;
                 break;
-            } else {
-                if (str_contains($line, '@package')) {
+            }
+            else
+            {
+                if (str_contains($line, '@package'))
+                {
                     $isValid = true;
                     break;
                 }

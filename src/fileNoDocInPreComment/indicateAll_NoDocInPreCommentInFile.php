@@ -15,102 +15,102 @@ Class exchangeSinceLinesFile
 
 class indicateAll_NoDocInPreCommentInFile
 {
-	public string $fileName;
+    public string $fileName;
 
-	public task $task;
-	public readonly string $name;
+    public task $task;
+    public readonly string $name;
 
 //    protected fileSinceDataBase|null $oSinceFileData;
 
-	// just an indicator can be removed later
+    // just an indicator can be removed later
 //    private string $callerProjectId = "";
 
 //	public bool $isLogOnly = false;
-	public bool $isLogDev = false;
+    public bool $isLogDev = false;
 
-	public bool $isChanged = false;
+    public bool $isChanged = false;
 
 
-	/*--------------------------------------------------------------------
-	construction
-	--------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------
+    construction
+    --------------------------------------------------------------------*/
 
-	public function __construct($srcFile = "")
-	{
+    public function __construct($srcFile = "")
+    {
 //        parent::__construct();
 
 //        $this->oSinceFileData = null; // assign on need
 
-		$this->fileName = $srcFile;
+        $this->fileName = $srcFile;
 
-		$this->isChanged = false;
-	}
+        $this->isChanged = false;
+    }
 
 
-	/*--------------------------------------------------------------------
-	assignTask
-	--------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------
+    assignTask
+    --------------------------------------------------------------------*/
 
-	public function assignTask(task $task): int
-	{
-		$hasError = 0;
+    public function assignTask(task $task): int
+    {
+        $hasError = 0;
 
-		$this->task = $task;
+        $this->task = $task;
 
-		// $this->taskName = $task->name;
+        // $this->taskName = $task->name;
 
-		$options = $task->options;
+        $options = $task->options;
 
-		// ToDo: Extract assignOption on all assignTask
-		foreach ($options->options as $option)
-		{
+        // ToDo: Extract assignOption on all assignTask
+        foreach ($options->options as $option)
+        {
 
 //            $isBaseOption = $this->assignBaseOption($option);
 //            if (!$isBaseOption) {
-			$this->assignOption($option);//, $task->name);
+            $this->assignOption($option);//, $task->name);
 //            }
-		}
+        }
 
-		return $hasError;
-	}
+        return $hasError;
+    }
 
-	/**
-	 * @param   option  $option
-	 *
-	 * @return bool
-	 */
-	// ToDo: Extract assignOption on all assignTask
-	public function assignOption(option $option): bool
-	{
-		$isOptionConsumed = false;
+    /**
+     * @param   option  $option
+     *
+     * @return bool
+     */
+    // ToDo: Extract assignOption on all assignTask
+    public function assignOption(option $option): bool
+    {
+        $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-		if (!$isOptionConsumed)
-		{
-			switch (strtolower($option->name))
-			{
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 //				case strtolower('isLogOnly'):
 //					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
 //					$this->isLogOnly  = (bool) $option->value;
 //					$isOptionConsumed = true;
 //					break;
-				case strtolower('isLogDev'):
-					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-					$this->isLogDev   = (bool) $option->value;
-					$isOptionConsumed = true;
-					break;
+                case strtolower('isLogDev'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->isLogDev   = (bool) $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-				case strtolower('filename'):
-					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-					$this->fileName   = $option->value;
-					$isOptionConsumed = true;
-					break;
+                case strtolower('filename'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->fileName   = $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-			} // switch
-		}
+            } // switch
+        }
 
-		return $isOptionConsumed;
-	}
+        return $isOptionConsumed;
+    }
 
 //    public function assignOptionCallerProjectId(string $callerProjectId): void
 //    {
@@ -119,52 +119,52 @@ class indicateAll_NoDocInPreCommentInFile
 //        $this->oSinceFileData = fileSinceDataFactory::oSinceFileData($callerProjectId);
 //    }
 
-	// ToDo: force overwrite
-	public function indicateNoDocInPreHeaderInLines(string $fileName): int
-	{
+    // ToDo: force overwrite
+    public function indicateNoDocInPreHeaderInLines(string $fileName): int
+    {
 
-		$hasError   = 0;
-		$prevAtLine = '';
+        $hasError   = 0;
+        $prevAtLine = '';
 
-		try
-		{
-			print('*********************************************************' . PHP_EOL);
-			print('indicateNoDocInPreHeaderInLines' . PHP_EOL);
-			print ("FileName in: " . $fileName . PHP_EOL);
-			print('---------------------------------------------------------' . PHP_EOL);
+        try
+        {
+            print('*********************************************************' . PHP_EOL);
+            print('indicateNoDocInPreHeaderInLines' . PHP_EOL);
+            print ("FileName in: " . $fileName . PHP_EOL);
+            print('---------------------------------------------------------' . PHP_EOL);
 
-			if (!empty ($fileName))
-			{
-				$this->fileName = $fileName;
-			}
-			else
-			{
-				$fileName = $this->fileName;
-			}
+            if (!empty ($fileName))
+            {
+                $this->fileName = $fileName;
+            }
+            else
+            {
+                $fileName = $this->fileName;
+            }
 
-			print ("FileName use: " . $fileName . PHP_EOL);
+            print ("FileName use: " . $fileName . PHP_EOL);
 
-			$inLines = file($fileName);
+            $inLines = file($fileName);
 
-			$oScan4Missing = new scanNoDocInPreFuncComment();
+            $oScan4Missing = new scanNoDocInPreFuncComment();
 
-			/* wait for 'function' declaration. Then check if precomment '/**' was found
-			   Attention: may not detect all situations
-			*/
+            /* wait for 'function' declaration. Then check if precomment '/**' was found
+               Attention: may not detect all situations
+            */
 
-			$isPreCommentFound      = false;
-			$isInsidePreCommentText = false;
+            $isPreCommentFound      = false;
+            $isInsidePreCommentText = false;
             $isUserCommentFound     = false;
             $isUserCommentInvalid   = false;
-            $preLineIdx = 0;
+            $preLineIdx             = 0;
 
-            $lastPreCommentLineNbr   = 0;
-			$lastReturnLineNbr       = 0;
-			$lastFunctionEndLineNbr  = 0;
+            $lastPreCommentLineNbr  = 0;
+            $lastReturnLineNbr      = 0;
+            $lastFunctionEndLineNbr = 0;
 
 
-			$outLines = [];
-			foreach ($inLines as $line)
+            $outLines = [];
+            foreach ($inLines as $line)
             {
                 // keep state of brackets and comments and remove comment lines
                 $oScan4Missing->nextLine($line);
@@ -258,23 +258,23 @@ class indicateAll_NoDocInPreCommentInFile
                 }
             }
 
-		}
-		catch (Exception $e)
-		{
-			echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-			$hasError = -101;
-		}
+        }
+        catch (Exception $e)
+        {
+            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
+            $hasError = -101;
+        }
 
-		print('exit exchangeSinceLines: ' . $hasError . PHP_EOL);
+        print('exit exchangeSinceLines: ' . $hasError . PHP_EOL);
 
-		return $hasError;
-	}
+        return $hasError;
+    }
 
-	public function assignOptions(bool $isLogOnly, bool $isLogDev)
-	{
-		// direct local assignment above
+    public function assignOptions(bool $isLogOnly, bool $isLogDev)
+    {
+        // direct local assignment above
 //		$this->isLogOnly = $isLogOnly;
 //		$this->isLogDev = $isLogDev;
-	}
+    }
 
 }

@@ -31,7 +31,7 @@ main (used from command line)
 ================================================================================*/
 
 //$optDefinition = "e:i:p:w:no:h12345";
-$optDefinition = "f:t:s:y:o:h12345";
+$optDefinition    = "f:t:s:y:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -106,11 +106,13 @@ print ('../../..: ' . realpath('../../..') . PHP_EOL);
 $taskFile = '../tsk_file_examples/fileNamesList_direct.tsk';
 
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
 //        case 'p':
 //            $srcRoot = $option;
 //            break;
@@ -197,14 +199,17 @@ $task = new task();
 
 //--- extract tasks from string or file ---------------------------------
 
-if (!empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $testTask = $task->extractTaskFromFile($taskFile);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromFile:" // . $hasError
     //        . ' Task file: ' . $taskFile);
     //    $hasError = -301;
     //}
-} else {
+}
+else
+{
     $testTask = $task->extractTaskFromString($tasksLine);
     //if (empty ($task->name)) {
     //    print ("!!! Error on function extractTaskFromString:" . $hasError
@@ -219,22 +224,26 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
     $oFileNamesList = new fileNamesList();
 
     //--- assign tasks ---------------------------------
 
     $hasError = $oFileNamesList->assignTask($task);
-    if ($hasError) {
+    if ($hasError)
+    {
         print ("!!! Error on function assignTask:" . $hasError . PHP_EOL);
     }
 
     //--- execute tasks ---------------------------------
 
-    if (!$hasError) {
+    if (!$hasError)
+    {
         $hasError = $oFileNamesList->execute(); // scan4Filenames();
-        if ($hasError) {
+        if ($hasError)
+        {
             print ("!!! Error on function execute:" . $hasError . PHP_EOL);
         }
 

@@ -3,18 +3,16 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 use Exception;
+use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
-use Finnern\BuildExtension\src\fileHeaderLib\fileHeaderByFileLine;
-use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\task;
 
 /*================================================================================
 Class exchangeAll_subPackageLines
 ================================================================================*/
 
-class exchangeAll_subPackageLines extends baseExecuteTasks
-    implements executeTasksInterface
+class exchangeAll_subPackageLines extends baseExecuteTasks implements executeTasksInterface
 {
     public string $subpackageText = "";
 
@@ -25,17 +23,20 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
     public function __construct($srcRoot = "", $isNoRecursion = false, $subpackageText = "")
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("srcRoot: " . $srcRoot . PHP_EOL);
 //            print ("subpackageText: " . $subpackageText . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot = "", $isNoRecursion=false);
+            parent::__construct($srcRoot = "", $isNoRecursion = false);
 
             $this->subpackageText = $subpackageText;
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -69,11 +70,14 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
 
         $options = $task->options;
 
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
-            if (!$isBaseOption) {
-                switch (strtolower($option->name)) {
+            if (!$isBaseOption)
+            {
+                switch (strtolower($option->name))
+                {
                     case strtolower('subpackagetext'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->subpackageText = $option->value;
@@ -93,7 +97,7 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
     public function executeFile(string $filePathName): int
     {
         // create a one file 'fileNamesList' object
-        $this->fileNamesList = new fileNamesList();
+        $this->fileNamesList              = new fileNamesList();
         $this->fileNamesList->fileNames[] = $filePathName;
 
         $this->execute();
@@ -104,12 +108,15 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
     public function execute(): int
     {
         // collect file list if not existing
-        if (count($this->fileNamesList->fileNames) == 0) {
+        if (count($this->fileNamesList->fileNames) == 0)
+        {
             $this->fileNamesList->execute();
 
-            if (count($this->fileNamesList->fileNames) == 0) {
+            if (count($this->fileNamesList->fileNames) == 0)
+            {
 
                 echo '%%% Attention: No files retrieved from: "' . $this->fileNamesList->srcRoot . '"    %%%' . PHP_EOL;
+
                 return -975;
             }
         }
@@ -120,7 +127,8 @@ class exchangeAll_subPackageLines extends baseExecuteTasks
 
         //--- iterate over all files -------------------------------------
 
-        foreach ($this->fileNamesList->fileNames as $fileName) {
+        foreach ($this->fileNamesList->fileNames as $fileName)
+        {
 
             print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' . PHP_EOL);
 

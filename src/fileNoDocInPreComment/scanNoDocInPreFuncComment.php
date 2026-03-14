@@ -14,24 +14,24 @@ class scanNoDocInPreFuncComment extends codeScannerByLine
     public bool $isScanFileEnabled = false;
 
     public function __construct()
-	{
-		parent::__construct();
+    {
+        parent::__construct();
 
-		print ("scanMissingPreHeader __construct: " . PHP_EOL);
-		$this->init();
-	}
+        print ("scanMissingPreHeader __construct: " . PHP_EOL);
+        $this->init();
+    }
 
-	protected function init()
-	{
+    protected function init()
+    {
 //		$this->isClassStartLine = false;
-		$this->isScanFileEnabled = false;
-	}
+        $this->isScanFileEnabled = false;
+    }
 
-	public function nextLine($line): string
-	{
-		$bareLine = parent::nextLine($line);
+    public function nextLine($line): string
+    {
+        $bareLine = parent::nextLine($line);
 
-        if ( ! $this->isScanFileEnabled)
+        if (!$this->isScanFileEnabled)
         {
             if (str_starts_with($bareLine, 'namespace '))
             {
@@ -51,8 +51,8 @@ class scanNoDocInPreFuncComment extends codeScannerByLine
 
         }
 
-		return $bareLine;
-	}
+        return $bareLine;
+    }
 
 
 } // class

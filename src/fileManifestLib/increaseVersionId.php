@@ -13,8 +13,7 @@ use Finnern\BuildExtension\src\tasksLib\task;
 Class increaseVersionId
 ================================================================================*/
 
-class increaseVersionId extends baseExecuteTasks
-    implements executeTasksInterface
+class increaseVersionId extends baseExecuteTasks implements executeTasksInterface
 {
     // internal
     private string $componentVersion = '';
@@ -35,23 +34,24 @@ class increaseVersionId extends baseExecuteTasks
 
     // !!! ToDo: see force version id for finishing this ...  !!!
 
-    public function __construct($srcRoot = "",
-                                $isNoRecursion=false,
-                                $componentName = '')
+    public function __construct($srcRoot = "", $isNoRecursion = false, $componentName = '')
     {
         $hasError = 0;
-        try {
+        try
+        {
 //            print('*********************************************************' . PHP_EOL);
 //            print ("Construct increaseVersionId: " . PHP_EOL);
 ////            print ("srcFile: " . $srcFile . PHP_EOL);
 ////            print ("dstFile: " . $dstFile . PHP_EOL);
 //            print('---------------------------------------------------------' . PHP_EOL);
 
-            parent::__construct ($srcRoot, $isNoRecursion);
+            parent::__construct($srcRoot, $isNoRecursion);
 
             $this->versionId = new semVersionId();
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
         }
@@ -65,17 +65,21 @@ class increaseVersionId extends baseExecuteTasks
 
         $options = $task->options;
 
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
             $isBaseOption = $this->assignBaseOption($option);
 
             // base options are already handled
-            if (!$isBaseOption) {
+            if (!$isBaseOption)
+            {
                 $isVersionOption = $this->versionId->assignVersionOption($option);
             }
 
-            if (!$isBaseOption && !$isVersionOption) {
-                switch (strtolower($option->name)) {
+            if (!$isBaseOption && !$isVersionOption)
+            {
+                switch (strtolower($option->name))
+                {
                     case strtolower('name'):
                         print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                         $this->name = $option->value;
@@ -107,7 +111,8 @@ class increaseVersionId extends baseExecuteTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeVersionId' . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
@@ -119,7 +124,9 @@ class increaseVersionId extends baseExecuteTasks
             print ("version: " . $componentVersion . PHP_EOL);
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -135,7 +142,8 @@ class increaseVersionId extends baseExecuteTasks
 
     private function manifestPathFileName(): string
     {
-        if ($this->manifestPathFileName == '') {
+        if ($this->manifestPathFileName == '')
+        {
             $this->manifestPathFileName = $this->srcRoot . '/' . $this->name . '.xml';
         }
 
@@ -146,11 +154,12 @@ class increaseVersionId extends baseExecuteTasks
     {
         $hasError = 0;
 
-        try {
+        try
+        {
 
             // does read *.xml file immediately
             $this->manifestXml = new manifestXml($manifestFileName);
-            $manifestXml = $this->manifestXml;
+            $manifestXml       = $this->manifestXml;
 
             //--- old version ID -----------------------------------
 
@@ -159,7 +168,7 @@ class increaseVersionId extends baseExecuteTasks
             //--- update version -----------------------------------
 
             // $this->versionId->inVersionId =  $inVersionId;
-            $this->versionId->assignInId ($inVersionId);
+            $this->versionId->assignInId($inVersionId);
 
             // exchange for new version id
             $this->versionId->update();
@@ -168,7 +177,8 @@ class increaseVersionId extends baseExecuteTasks
 
             $outVersionId = $this->versionId->outVersionId;
 
-            if ($outVersionId != $inVersionId) {
+            if ($outVersionId != $inVersionId)
+            {
 
                 // $manifestXml->semVersionId->outVersionId = $outVersionId;
                 $manifestXml->setByXml('version', $outVersionId);
@@ -177,7 +187,9 @@ class increaseVersionId extends baseExecuteTasks
                 // $isSaved = $manifestXml->writeManifestXml($manifestFileName . '.new');
             }
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }

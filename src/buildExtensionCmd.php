@@ -1,10 +1,11 @@
 <?php
+
 namespace Finnern\BuildExtension\src;
 
 require_once 'autoload/autoload.php';
 
-use Finnern\BuildExtension\src\tasksLib\task;
 use Finnern\BuildExtension\src\tasksLib\commandLineLib;
+use Finnern\BuildExtension\src\tasksLib\task;
 
 $HELP_MSG = <<<EOT
     >>>
@@ -19,7 +20,7 @@ $HELP_MSG = <<<EOT
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "t:f:o:h12345";
+$optDefinition    = "t:f:o:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
@@ -34,16 +35,12 @@ $LeaveOut_05 = true;
 variables
 --------------------------------------------*/
 
-$tasksLine = ' task:buildExtension'
-    . ' /type=component'
-    . ' /srcRoot="./../../RSGallery2_J4"'
-//    . ' /isNoRecursion=true'
+$tasksLine = ' task:buildExtension' . ' /type=component' . ' /srcRoot="./../../RSGallery2_J4"' //    . ' /isNoRecursion=true'
     . ' /buildDir="./../.packages"'
 //    . ' /adminPath='
 //    . ' /sitePath='
 //    . ' /mediaPath='
-    . ' /name=com_rsgallery2'
-    . ' /extension=RSGallery2'
+    . ' /name=com_rsgallery2' . ' /extension=RSGallery2'
 //    . ' /version=5.0.12.4'
 //    . ' /isForceVersion=false'
 //    . ' /isIncrementVersion_major = true'
@@ -66,7 +63,7 @@ $tasksLine = ' task:buildExtension'
 //    . '/s='
 //    . '/s='
 ;
-$tasksLine="";
+$tasksLine = "";
 
 // ToDo: option release date option release file date
 
@@ -102,11 +99,13 @@ $taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 //$optionFiles [] = '.\options_version_tsk\build_release.opt';
 //$optionFiles [] = '.\options_version_tsk\build_major.opt
 
-foreach ($options as $idx => $option) {
+foreach ($options as $idx => $option)
+{
     print ("idx: " . $idx . PHP_EOL);
     print ("option: " . $option . PHP_EOL);
 
-    switch ($idx) {
+    switch ($idx)
+    {
         case 't':
             $tasksLine = $option;
             break;
@@ -162,16 +161,21 @@ $task = new task();
 
 //--- extract tasks from string or file ------------------
 
-if ( ! empty ($taskFile)) {
+if (!empty ($taskFile))
+{
     $task = $task->extractTaskFromFile($taskFile);
-} else {
+}
+else
+{
     $task = $task->extractTaskFromString($tasksLine);
 }
 
 //--- extract options from file(s) ------------------
 
-if ( ! empty($optionFiles) ) {
-    foreach ($optionFiles as $optionFile) {
+if (!empty($optionFiles))
+{
+    foreach ($optionFiles as $optionFile)
+    {
         $task->extractOptionsFromFile($optionFile);
     }
 }
@@ -182,28 +186,34 @@ print ($task->text());
    execute task
 --------------------------------------------------*/
 
-if (empty ($hasError)) {
+if (empty ($hasError))
+{
 
-	$oBuildExtension = new buildExtension();
+    $oBuildExtension = new buildExtension();
 
-	//--- assign tasks ---------------------------------
+    //--- assign tasks ---------------------------------
 
-	$hasError = $oBuildExtension->assignTask($task);
-    if ($hasError) {
+    $hasError = $oBuildExtension->assignTask($task);
+    if ($hasError)
+    {
         print ("!!! Error on function assignTask:" . $hasError) . PHP_EOL;
-    } else {
+    }
+    else
+    {
         print ($oBuildExtension->text() . PHP_EOL);
     }
 
-	//--- execute tasks ---------------------------------
+    //--- execute tasks ---------------------------------
 
-	if (!$hasError) {
-	    $hasError = $oBuildExtension->execute();
-	    if ($hasError) {
-	        print ("!!! Error on function execute:" . $hasError) . PHP_EOL;
-	    }
-	}
-	
+    if (!$hasError)
+    {
+        $hasError = $oBuildExtension->execute();
+        if ($hasError)
+        {
+            print ("!!! Error on function execute:" . $hasError) . PHP_EOL;
+        }
+    }
+
 //	print ($oBuildExtension->text() . PHP_EOL);
     print (PHP_EOL . '----------------------------' . PHP_EOL);
     print ('... Zipping finished .......' . PHP_EOL);

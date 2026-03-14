@@ -32,7 +32,7 @@ class fileDateTime
     {
         // "yyyymmdd") + "_" + "hhmmss"));
         $date_format = 'Ymd_His';
-        $OutTxt = date($date_format);
+        $OutTxt      = date($date_format);
 
         return $OutTxt;
     }
@@ -53,7 +53,7 @@ class fileDateTime
         // "yyyymmdd") + "_" + "hhmmss.uuuuu"));
         $date_format = 'Ymd_His.u';
 
-        $now = DateTime::createFromFormat('U.u', microtime(true));
+        $now    = DateTime::createFromFormat('U.u', microtime(true));
         $OutTxt = $now->format($date_format);
 
         return $OutTxt;
@@ -65,7 +65,7 @@ class fileDateTime
 main (used from command line)
 ================================================================================*/
 
-$optDefinition = "s:d:h12345";
+$optDefinition    = "s:d:h12345";
 $isPrintArguments = false;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);

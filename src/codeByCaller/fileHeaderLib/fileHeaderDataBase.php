@@ -5,7 +5,6 @@ namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 
 /*================================================================================
 Class fileHeader data
@@ -67,13 +66,11 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 
     // adjust length of 'name' before value
     //protected int $padCount = 20; // By 'subpackage' name length
-    protected int $middlePadCount = 19; // By 'subpackage' name length
+    public string $callerProjectId = 'RSG2'; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
-
-    protected int $endPadCount = 88; // By 'subpackage' name length
+protected int $middlePadCount = 19; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
-
-    public string $callerProjectId = 'RSG2'; // ToDo: create at start or assing before use
+protected int $endPadCount = 88; // ToDo: create at start or assing before use
 
     /*--------------------------------------------------------------------
     construction
@@ -86,19 +83,20 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         $this->init();
     }
 
-    public function init() : void
+    public function init(): void
     {
 //        $date_format = 'Y';
 //        $this->yearToday = date($date_format);
 
-        $this->package = self::PACKAGE;
+        $this->package    = self::PACKAGE;
         $this->subpackage = self::SUBPACKAGE;
 
         $this->license = self::LICENSE;
-        $this->author = self::AUTHOR;
-        $this->link = self::LINK;
+        $this->author  = self::AUTHOR;
+        $this->link    = self::LINK;
 
-        if ( ! empty($this->oCopyright)) {
+        if (!empty($this->oCopyright))
+        {
             $this->oCopyright->init();
         }
 
@@ -114,7 +112,8 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 
         $this->additionalLines = [];
 
-        try {
+        try
+        {
             $this->init();
 
             print('*********************************************************' . PHP_EOL);
@@ -122,23 +121,29 @@ class fileHeaderDataBase implements fileHeaderDataInterface
             print ("header lines in: " . count($headerLines) . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            foreach ($headerLines as $line) {
+            foreach ($headerLines as $line)
+            {
                 [$name, $behind] = $this->extractNameFromHeaderLine($line);
 
-                if (!empty ($name)) {
-                    if ($name == 'copyright') {
+                if (!empty ($name))
+                {
+                    if ($name == 'copyright')
+                    {
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
 
-                        $callerProjectId = "";
+                        $callerProjectId  = "";
                         $this->oCopyright = $this->oCopyright ?: copyrightTextFactory::oCopyrightText($this->callerProjectId);
-                        $this->oCopyright->scan4CopyrightInLine ($line);
+                        $this->oCopyright->scan4CopyrightInLine($line);
 
-                    } else {
+                    }
+                    else
+                    {
                         $value = $this->scan4HeaderValueInLine($name, $line);
 
-                        switch ($name) {
+                        switch ($name)
+                        {
                             case strtolower('package'):
                                 $this->package = $value;
                                 break;
@@ -156,14 +161,18 @@ class fileHeaderDataBase implements fileHeaderDataInterface
                                 break;
 
                             default:
-                                if (trim($line) != '') {
+                                if (trim($line) != '')
+                                {
                                     $this->additionalLines [] = $line;
                                 }
                                 break;
                         }
                     }
-                } else {
-                    if (trim($line) != '') {
+                }
+                else
+                {
+                    if (trim($line) != '')
+                    {
                         $this->additionalLines [] = $line;
                     }
                 }
@@ -175,7 +184,9 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 //            if (count ($this-> additional Lines)) {
 //
 //            }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -190,19 +201,20 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     --------------------------------------------------------------------*/
 
     // '(c)' of copyright will be ignored here
-    public function extractNameFromHeaderLine(string $line) : array
+    public function extractNameFromHeaderLine(string $line): array
     {
-        $name = '';
+        $name   = '';
         $behind = '';
 
         //  * @copyright (c) 2005-2024 RSGallery2 Team
         //  * @subpackage      com_rsgallery2
         $atIdx = strpos($line, '@');
-        if (!empty($atIdx)) {
+        if (!empty($atIdx))
+        {
             $blankIdx = strpos($line, ' ', $atIdx + 1);
 
-            $name = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
-            $name = trim($name);
+            $name   = substr($line, $atIdx + 1, $blankIdx - $atIdx - 1);
+            $name   = trim($name);
             $behind = substr($line, $blankIdx + 1);
             $behind = trim($behind);
         }
@@ -215,7 +227,8 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         $value = '';
 
         $idx = strpos($line, '@' . $name);
-        if ($idx !== false) {
+        if ($idx !== false)
+        {
             $idx += 1 + strlen($name);
 
             $value = trim(substr($line, $idx));
@@ -228,7 +241,8 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     {
         $outLines = [];
 
-        try {
+        try
+        {
             $outLines[] = "/**" . PHP_EOL;
 
             $outLines[] = $this->headerFormat('package', $this->package);
@@ -239,7 +253,9 @@ class fileHeaderDataBase implements fileHeaderDataInterface
 
             $outLines[] = " */" . PHP_EOL;
 
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
 
@@ -276,7 +292,17 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         return $headerLine;
     }
 
-    public function headerText() : string
+    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
+    {
+        $headerLocal  = $this->headerText();
+        $headerExtern = $fileHeaderExtern->headerText();
+
+        $isDifferent = $headerLocal !== $headerExtern;
+
+        return $isDifferent;
+    }
+
+    public function headerText(): string
     {
         $OutTxt = "";
         $OutTxt .= "/**" . PHP_EOL;
@@ -294,19 +320,9 @@ class fileHeaderDataBase implements fileHeaderDataInterface
         return $OutTxt;
     }
 
-    public function isDifferent(fileHeaderDataBase $fileHeaderExtern): bool
-    {
-        $headerLocal = $this->headerText();
-        $headerExtern = $fileHeaderExtern->headerText();
-
-        $isDifferent = $headerLocal !== $headerExtern;
-
-        return $isDifferent;
-    }
-
     public function isDifferentByString(string $externHeaderAsString): bool
     {
-        $headerLocal = $this->headerText();
+        $headerLocal  = $this->headerText();
         $headerExtern = $externHeaderAsString;
 
         return $headerLocal !== $headerExtern;
@@ -316,14 +332,19 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     {
         $isValid = false;
 
-        foreach ($headerLines as $line) {
+        foreach ($headerLines as $line)
+        {
 
             // Check for ' * @ ....
-            if (str_contains($line, ' * @')) {
+            if (str_contains($line, ' * @'))
+            {
                 $isValid = true;
                 break;
-            } else {
-                if (str_contains($line, '@package')) {
+            }
+            else
+            {
+                if (str_contains($line, '@package'))
+                {
                     $isValid = true;
                     break;
                 }

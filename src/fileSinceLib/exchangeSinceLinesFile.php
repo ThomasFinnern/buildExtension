@@ -18,16 +18,14 @@ class exchangeSinceLinesFile
 
     public task $task;
     public readonly string $name;
-
-    protected fileSinceDataBase|null $oSinceFileData;
+    public bool $isForceOverwrite = false;
 
     // just an indicator can be removed later
-    private string $callerProjectId = "";
-
-    public bool $isForceOverwrite = false;
     public bool $isForceVersion = false;
     public bool $isLogOnly = false;
     public string $versionId = "xx.xx.xx";
+    protected fileSinceDataBase|null $oSinceFileData;
+    private string $callerProjectId = "";
 
 
     /*--------------------------------------------------------------------
@@ -59,7 +57,8 @@ class exchangeSinceLinesFile
         $options = $task->options;
 
         // ToDo: Extract assignOption on all assignTask
-        foreach ($options->options as $option) {
+        foreach ($options->options as $option)
+        {
 
 //            $isBaseOption = $this->assignBaseOption($option);
 //            if (!$isBaseOption) {
@@ -71,7 +70,7 @@ class exchangeSinceLinesFile
     }
 
     /**
-     * @param option $option
+     * @param   option  $option
      *
      * @return bool
      */
@@ -81,11 +80,13 @@ class exchangeSinceLinesFile
         $isOptionConsumed = false;
 //        $isOptionConsumed = parent::assignOption($option);
 
-        if (!$isOptionConsumed) {
-            switch (strtolower($option->name)) {
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
                 case strtolower('filename'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->fileName = $option->value;
+                    $this->fileName   = $option->value;
                     $isOptionConsumed = true;
                     break;
 
@@ -106,18 +107,22 @@ class exchangeSinceLinesFile
     public function exchangeSinceLines(string $fileName, string $versionId): int
     {
 
-        $hasError = 0;
+        $hasError   = 0;
         $prevAtLine = '';
 
-        try {
+        try
+        {
             print('*********************************************************' . PHP_EOL);
             print('exchangeSinceLines' . PHP_EOL);
             print ("FileName in: " . $fileName . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
 
-            if (!empty ($fileName)) {
+            if (!empty ($fileName))
+            {
                 $this->fileName = $fileName;
-            } else {
+            }
+            else
+            {
                 $fileName = $this->fileName;
             }
 
@@ -128,29 +133,26 @@ class exchangeSinceLinesFile
             $scanCodeLines = new scanPreHeader();
 
             $outLines = [];
-            foreach ($inLines as $line) {
+            foreach ($inLines as $line)
+            {
 
                 $nextLine = $line;
 
                 // keep state of brackets and comments and remove comment lines
                 $scanCodeLines->nextLine($line);
 
-                if ($scanCodeLines->isInPreFunctionComment) {
+                if ($scanCodeLines->isInPreFunctionComment)
+                {
 
                     // if (str_contains($line, '@since')) {
-                    if ($scanCodeLines->isAtSinceLine) {
+                    if ($scanCodeLines->isAtSinceLine)
+                    {
                         {
                             // Align version to above lines space
 
                             $lineNbr = $scanCodeLines->lineNumber;
 
-                            $nextLine = $this->oSinceFileData->exchangeLine($line,
-                                $this->versionId,
-                                $scanCodeLines->prevAlignIdx,
-                                $this->isForceVersion, $this->isLogOnly,
-                                $lineNbr,
-                                $scanCodeLines->prevAtLine,
-                                $scanCodeLines->isTabFound);
+                            $nextLine = $this->oSinceFileData->exchangeLine($line, $this->versionId, $scanCodeLines->prevAlignIdx, $this->isForceVersion, $this->isLogOnly, $lineNbr, $scanCodeLines->prevAtLine, $scanCodeLines->isTabFound);
                         }
                     }
                 }
@@ -159,16 +161,19 @@ class exchangeSinceLinesFile
             }
 
             // on change write to file
-            if ($this->oSinceFileData->isChanged()) {
+            if ($this->oSinceFileData->isChanged())
+            {
 
                 //$outLines = $this->oSinceFileData->fileLines();
 
                 $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
+                $isSaved  = file_put_contents($fileName, $outLines);
 
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
         }
@@ -181,8 +186,8 @@ class exchangeSinceLinesFile
     public function assignOptions(bool $isForceOverwrite, bool $isForceVersion, bool $isLogOnly, string $versionId)
     {
         $this->isForceOverwrite = $isForceOverwrite;
-        $this->isForceVersion = $isForceVersion;
-        $this->isLogOnly = $isLogOnly;
+        $this->isForceVersion   = $isForceVersion;
+        $this->isLogOnly        = $isLogOnly;
 
         $this->versionId = $versionId;
     }

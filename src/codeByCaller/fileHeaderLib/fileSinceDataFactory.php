@@ -12,14 +12,16 @@ class fileSinceDataFactory
 {
     /**
      *
-     * @param string $callerProjectId
+     * @param   string  $callerProjectId
+     *
      * @return fileSinceDataBase
      */
     public static function oSinceFileData(string $callerProjectId): fileSinceDataBase
     {
         print ("fileSinceDataFactory:callerProjectId: " . $callerProjectId . PHP_EOL);
 
-        switch (strtolower($callerProjectId)) {
+        switch (strtolower($callerProjectId))
+        {
             // rsgallery2
             case strtolower("RSG2"):
                 return new fileSinceData_RSG2 ();

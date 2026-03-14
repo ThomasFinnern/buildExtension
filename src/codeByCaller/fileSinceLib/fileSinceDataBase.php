@@ -49,8 +49,9 @@ class fileSinceDataBase implements fileSinceDataInterface
     }
 
     /**
-     * @param string $line
-     * @param string $versionId
+     * @param   string  $line
+     * @param   string  $versionId
+     *
      * @return string
      *
      *
@@ -58,42 +59,47 @@ class fileSinceDataBase implements fileSinceDataInterface
      * @since version
      * @since version 4.2 will be ignored
      */
-    function exchangeLine(string $line = '', string $versionId = 'xx.xx',
-                          int    $alignIdx = 0,
-                          bool   $isForceVersion = false, bool $isLogOnly = false,
-                          int    $lineNbr = 1,
-                          string $prevAtLine = "",
-                          bool   $isTabFound = false): string
+    function exchangeLine(string $line = '', string $versionId = 'xx.xx', int $alignIdx = 0, bool $isForceVersion = false, bool $isLogOnly = false, int $lineNbr = 1, string $prevAtLine = "", bool $isTabFound = false): string
     {
-        $isChanged = false;
+        $isChanged     = false;
         $exchangedLine = $line;
 
         $sinceLine = $this->createSinceLine($alignIdx, $versionId, $isTabFound);
 
-        if (str_contains($line, "@since")) {
+        if (str_contains($line, "@since"))
+        {
 
-            if ($isForceVersion) {
+            if ($isForceVersion)
+            {
 
-                if ($exchangedLine != $sinceLine) {
+                if ($exchangedLine != $sinceLine)
+                {
                     $exchangedLine = $sinceLine;
-                    $isChanged = true;
+                    $isChanged     = true;
                 }
 
-            } else {
-                if (str_contains($line, "__BUMP_VERSION__")) {
+            }
+            else
+            {
+                if (str_contains($line, "__BUMP_VERSION__"))
+                {
                     $exchangedLine = $sinceLine;
-                    $isChanged = true;
+                    $isChanged     = true;
 
-                } else {
-                    if (str_contains($line, "version")) {
+                }
+                else
+                {
+                    if (str_contains($line, "version"))
+                    {
                         $exchangedLine = $sinceLine;
-                        $isChanged = true;
-                    } else {
+                        $isChanged     = true;
+                    }
+                    else
+                    {
 
                         /*
                          * code for align existing definition is postponed
-                         */
-                        // $actAlignIdx = yyyy
+                         */ // $actAlignIdx = yyyy
                         // check actual align length
 
                     }
@@ -101,9 +107,11 @@ class fileSinceDataBase implements fileSinceDataInterface
                 }
             }
 
-            if ($isChanged) {
+            if ($isChanged)
+            {
 
-                if ($isLogOnly) {
+                if ($isLogOnly)
+                {
                     print ("--- log only ------------------------------" . PHP_EOL);
                 }
 
@@ -112,10 +120,13 @@ class fileSinceDataBase implements fileSinceDataInterface
                 print ("improved: '" . rtrim($exchangedLine) . "'" . PHP_EOL);
                 print ("align   : '" . rtrim($prevAtLine) . "'" . PHP_EOL);
 
-                if (!$isLogOnly) {
+                if (!$isLogOnly)
+                {
 
                     $this->isChanged = true;
-                } else {
+                }
+                else
+                {
                     $exchangedLine = $line;
                 }
 
@@ -125,29 +136,31 @@ class fileSinceDataBase implements fileSinceDataInterface
         return $exchangedLine;
     }
 
-
-    function isChanged(): bool
-    {
-        return $this->isChanged;
-    }
-
     /**
-     * @param int $startIdx
-     * @param string $versionId
+     * @param   int     $startIdx
+     * @param   string  $versionId
+     *
      * @return string
      */
-    public
-    function createSinceLine(int $startIdx, string $versionId, bool $isTabFound = false): string
+    public function createSinceLine(int $startIdx, string $versionId, bool $isTabFound = false): string
     {
-        if ($isTabFound) {
+        if ($isTabFound)
+        {
             $sinceStart = "\t" . " * @since ";
-        } else {
+        }
+        else
+        {
             $sinceStart = str_repeat(' ', $this->identSize) . " * @since ";
         }
 
         $sinceLine = str_pad($sinceStart, $startIdx) . $versionId . PHP_EOL;
 
         return $sinceLine;
+    }
+
+    function isChanged(): bool
+    {
+        return $this->isChanged;
     }
 
 }

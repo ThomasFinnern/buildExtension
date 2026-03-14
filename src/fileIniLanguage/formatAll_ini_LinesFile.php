@@ -21,11 +21,8 @@ class formatAll_ini_LinesFile
 
     public task $task;
     public readonly string $name;
-
-    protected fileUseDataBase|null $oFileUseData;
-
     public bool $isLogOnly = false;
-
+    protected fileUseDataBase|null $oFileUseData;
     private bool $isChanged = false;
     private bool $isLogDev = false;
     private bool $isSortLines = false; // not supported yet
@@ -219,7 +216,7 @@ class formatAll_ini_LinesFile
             if ($this->isChanged && !$this->isLogOnly)
             {
                 $outLines = str_replace("\r", '', $outLines); // remove carriage returns
-                $isSaved = file_put_contents($fileName, $outLines);
+                $isSaved  = file_put_contents($fileName, $outLines);
 
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
@@ -277,10 +274,12 @@ class formatAll_ini_LinesFile
             }
 
             // remove '"' at start and end
-            if (str_starts_with($translation, '"')) {
+            if (str_starts_with($translation, '"'))
+            {
                 $translation = substr($translation, 1, -1);
             }
-            if (str_ends_with($translation, '"')) {
+            if (str_ends_with($translation, '"'))
+            {
                 $translation = substr($translation, 0, -1);
             }
 

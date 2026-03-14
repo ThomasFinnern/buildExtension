@@ -27,35 +27,38 @@ class scanPreHeader extends codeScannerByLine
 
     protected function init()
     {
-        $this->alignIdx = 0;
+        $this->alignIdx   = 0;
         $this->isTabFound = false;
 
-        $this->prevAlignIdx = 0;
+        $this->prevAlignIdx  = 0;
         $this->isAtSinceLine = false;
-        $this->prevAtLine = '';
-        $this->actAtLine = '';
+        $this->prevAtLine    = '';
+        $this->actAtLine     = '';
     }
 
     public function nextLine($line): string
     {
         $bareLine = parent::nextLine($line);
 
-        if ($this->isInPreFunctionComment) {
+        if ($this->isInPreFunctionComment)
+        {
 
             $bareLine = $this->removeCommentLine($line);
 
-            if (str_contains($line, '@')) {
+            if (str_contains($line, '@'))
+            {
 
                 // keep track of last @ format
                 $this->prevAlignIdx = $this->alignIdx;
-                $this->prevAtLine = $this->actAtLine;
+                $this->prevAtLine   = $this->actAtLine;
 
                 // align index  behind first empty space
-                $this->alignIdx = $this->findAlignIdx($bareLine, $this->alignIdx);
+                $this->alignIdx  = $this->findAlignIdx($bareLine, $this->alignIdx);
                 $this->actAtLine = $bareLine;
 
                 // Tab before '@' set ?
-                if (!$this->isTabFound) {
+                if (!$this->isTabFound)
+                {
                     $this->check4TabUse($line);
                 }
 
@@ -67,12 +70,41 @@ class scanPreHeader extends codeScannerByLine
         return $bareLine;
     }
 
+    private function removeCommentLine(mixed $line)
+    {
+        $bareLine = $line;
+
+        try
+        {
+
+            $doubleSlashIdx = strpos($line, '//');
+
+            // double slash '//'
+            if ($doubleSlashIdx !== false)
+            {
+                $bareLine = substr($line, 0, $doubleSlashIdx);
+            }
+
+        }
+        catch (\RuntimeException $e)
+        {
+            $OutTxt = '';
+            $OutTxt .= 'Error executing removeCommentPHP: "' . '<br>';
+            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
+
+            print ($OutTxt);
+        }
+
+        return $bareLine;
+    }
+
     /**
      * Align version text (or other) in @Since with formatting in lines above
      * Here the line above is checked for column index
      *
-     * @param $line
-     * @param int $inAlignIdx
+     * @param        $line
+     * @param   int  $inAlignIdx
+     *
      * @return int Index to first non ' ' character after @... indicator
      */
     private function findAlignIdx($line, int $inAlignIdx)
@@ -88,11 +120,14 @@ class scanPreHeader extends codeScannerByLine
         // line with '@'
         $atIdx = strpos($line, '@');
 
-        if ($atIdx !== false) {
+        if ($atIdx !== false)
+        {
             $lastBlankIdx = strpos($line, ' ', $atIdx);
 
-            if ($lastBlankIdx !== false) {
-                while ($line[$lastBlankIdx] === ' ') {
+            if ($lastBlankIdx !== false)
+            {
+                while ($line[$lastBlankIdx] === ' ')
+                {
                     $lastBlankIdx++;
                 }
 
@@ -108,38 +143,16 @@ class scanPreHeader extends codeScannerByLine
         // line with '@'
         $atIdx = strpos($line, '@');
 
-        if ($atIdx !== false) {
+        if ($atIdx !== false)
+        {
 
             $preAt = substr($line, 0, $atIdx);
-            if (str_contains($preAt, "\t")) {
+            if (str_contains($preAt, "\t"))
+            {
                 $this->isTabFound = true;
             }
 
         }
-    }
-
-    private function removeCommentLine(mixed $line)
-    {
-        $bareLine = $line;
-
-        try {
-
-            $doubleSlashIdx = strpos($line, '//');
-
-            // double slash '//'
-            if ($doubleSlashIdx !== false) {
-                $bareLine = substr($line, 0, $doubleSlashIdx);
-            }
-
-        } catch (\RuntimeException $e) {
-            $OutTxt = '';
-            $OutTxt .= 'Error executing removeCommentPHP: "' . '<br>';
-            $OutTxt .= 'Error: "' . $e->getMessage() . '"' . '<br>';
-
-            print ($OutTxt);
-        }
-
-        return $bareLine;
     }
 
 } // class

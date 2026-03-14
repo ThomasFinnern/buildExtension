@@ -23,50 +23,44 @@ use Finnern\BuildExtension\src\tasksLib\option;
  *
  *
  */
-class codeScanner_logComment extends baseExecuteTasks
-	implements executeTasksInterface
+class codeScanner_logComment extends baseExecuteTasks implements executeTasksInterface
 {
 
-	private bool $isDummy;
-	private string $fileName;
-	private int $lastDepthCount = 0;
+    private bool $isDummy;
+    private string $fileName;
+    private int $lastDepthCount = 0;
 
-	public function __construct()
-	{
-		parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
 
-		print ("codeScanner_logComment __construct: " . PHP_EOL);
-	}
+        print ("codeScanner_logComment __construct: " . PHP_EOL);
+    }
 
-	protected function init()
-	{
-		$this->fileNamesList = new fileNamesList();
-	}
+    /**
+     * @param   option  $option
+     * * @return bool
+     */
+    public function assignOption(option $option): bool
+    {
+        $isOptionConsumed = parent::assignOption($option);
 
-	/**
-	 * @param   option  $option
-	 * * @return bool
-	 */
-	public function assignOption(option $option): bool
-	{
-		$isOptionConsumed = parent::assignOption($option);
-
-		if (!$isOptionConsumed)
-		{
+        if (!$isOptionConsumed)
+        {
 
 //            $isOptionConsumed = $this->exchangeSinceLinesFile->assignOption($option);
-		}
+        }
 
-		if (!$isOptionConsumed)
-		{
-			switch (strtolower($option->name))
-			{
+        if (!$isOptionConsumed)
+        {
+            switch (strtolower($option->name))
+            {
 
-				case strtolower('isDummy'):
-					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-					$this->isDummy    = (bool) $option->value;
-					$isOptionConsumed = true;
-					break;
+                case strtolower('isDummy'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->isDummy    = (bool) $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
 //                ==>    $this->fileNamesList->srcRoot
 //                case strtolower('srcRoot'):
@@ -75,42 +69,21 @@ class codeScanner_logComment extends baseExecuteTasks
 //                    $isOptionConsumed = true;
 //                    break;
 
-				case strtolower('fileName'):
-					print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-					$this->fileName   = (string) $option->value;
-					$isOptionConsumed = true;
-					break;
+                case strtolower('fileName'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->fileName   = (string) $option->value;
+                    $isOptionConsumed = true;
+                    break;
 
-			} // switch
-		}
+            } // switch
+        }
 
-		return $isOptionConsumed;
-	}
+        return $isOptionConsumed;
+    }
 
-	public function nextLine($line)
-	{
-
-		// See working example in class codeScanner_logIndent
-
-		//        $this->lineNumber++;
-		//
-		//        // WIP: actual pre comment and just inside function , more to code ;-)
-		//
-		//        //--- remove comments --------------
-		//
-		//        $bareLine = $this->removeCommentPHP($line, $this->isInCommentSection);
-		//
-		//        $this->checkBracketlLevel ($bareLine); // $depthCount
-		//
-		//        $this->checkInsideFunction ($bareLine);
-		//
-		//        $this->checkPreFunctionComment ($line);
-
-	}
-
-	public function execute(): int
-	{
-		//--- collect files ---------------------------------------
+    public function execute(): int
+    {
+        //--- collect files ---------------------------------------
 
 //        // files not set already
 //        if (count($this->fileNamesList->fileNames) == 0) {
@@ -147,48 +120,74 @@ class codeScanner_logComment extends baseExecuteTasks
 //            $this->exchangeSinceLinesFile->exchangeSinceLines($fileName->srcPathFileName, $this->semVersionId);
 //        }
 
-		$filePathName = $this->fileNamesList->srcRoot . '/' . $this->fileName;
+        $filePathName = $this->fileNamesList->srcRoot . '/' . $this->fileName;
 
-		if (is_file($filePathName))
-		{
+        if (is_file($filePathName))
+        {
 
-			$inLines = file($filePathName);
+            $inLines = file($filePathName);
 
-			$this->scanCodeLines = new codeScannerByLine();
+            $this->scanCodeLines = new codeScannerByLine();
 
-			foreach ($inLines as $line)
-			{
+            foreach ($inLines as $line)
+            {
 
-				$this->nextLine($line);
+                $this->nextLine($line);
 
-			}
-		}
-		else
-		{
-			print ('!!! File for ident log not found: "' . $filePathName . '" !!!' . PHP_EOL);
-		}
+            }
+        }
+        else
+        {
+            print ('!!! File for ident log not found: "' . $filePathName . '" !!!' . PHP_EOL);
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
-	public function text(): string
-	{
-		$OutTxt = "------------------------------------------" . PHP_EOL;
-		$OutTxt .= "--- codeScanner_logComment ---" . PHP_EOL;
+    public function nextLine($line)
+    {
+
+        // See working example in class codeScanner_logIndent
+
+        //        $this->lineNumber++;
+        //
+        //        // WIP: actual pre comment and just inside function , more to code ;-)
+        //
+        //        //--- remove comments --------------
+        //
+        //        $bareLine = $this->removeCommentPHP($line, $this->isInCommentSection);
+        //
+        //        $this->checkBracketlLevel ($bareLine); // $depthCount
+        //
+        //        $this->checkInsideFunction ($bareLine);
+        //
+        //        $this->checkPreFunctionComment ($line);
+
+    }
+
+    public function text(): string
+    {
+        $OutTxt = "------------------------------------------" . PHP_EOL;
+        $OutTxt .= "--- codeScanner_logComment ---" . PHP_EOL;
 
 
-		$OutTxt .= "Not defined yet " . PHP_EOL;
+        $OutTxt .= "Not defined yet " . PHP_EOL;
 
-		/**
-		 * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
-		 * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
-		 * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
-		 * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
-		 * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
-		 * /**/
+        /**
+         * $OutTxt .= "fileName: " . $this->fileName . PHP_EOL;
+         * $OutTxt .= "fileExtension: " . $this->fileExtension . PHP_EOL;
+         * $OutTxt .= "fileBaseName: " . $this->fileBaseName . PHP_EOL;
+         * $OutTxt .= "filePath: " . $this->filePath . PHP_EOL;
+         * $OutTxt .= "srcPathFileName: " . $this->srcPathFileName . PHP_EOL;
+         * /**/
 
-		return $OutTxt;
-	}
+        return $OutTxt;
+    }
+
+    protected function init()
+    {
+        $this->fileNamesList = new fileNamesList();
+    }
 
 
 }

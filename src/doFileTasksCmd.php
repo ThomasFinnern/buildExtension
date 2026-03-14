@@ -341,6 +341,7 @@ $basePath = "..\\..\\LangMan4Dev";
 // $tasksFile="../../JoomGallery_fith_dev/.buildPHP/build.tsk";
 
 // $tasksFile="../../RSGallery2_J4_Dev/.cleanPHP/exchangeAll_actCopyrightYearLines.tsk";
+$tasksFile="../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

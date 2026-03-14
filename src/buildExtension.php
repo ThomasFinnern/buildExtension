@@ -283,7 +283,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- manifest file name --------------------------------------
 
-        $bareName             = $this->shortExtensionName();
+        $manifestFileName             = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
 
@@ -386,7 +386,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         print ('--- copy manifest file ' . PHP_EOL);
 
         //  manifest file (not included as 'fileName' in manifest file)
-        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        $this->xcopyElement($manifestFileName . '.xml', $srcRoot, $tmpFolder);
         print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
@@ -454,7 +454,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         {
 
             // *.xml
-            $extName = $this->shortExtensionName();
+            $extName = $this->manifestFileName();
 
             $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
         }
@@ -467,7 +467,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         if ($this->manifestAdminPathFileName == '')
         {
 
-            $name = $this->shortExtensionName();
+            $name = $this->manifestFileName();
 
             $this->manifestAdminPathFileName = $this->fileNamesList->srcRoot . '/administrator/components/' . $this->extName . '/' . $name . '.xml';
         }
@@ -475,8 +475,8 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         return $this->manifestAdminPathFileName;
     }
 
-    // ToDo: move/create also in manifest.php file ?
-    private function shortExtensionName(): string
+    // ToDo: move/create ?function? also in manifest.php file ?
+    private function manifestFileName(): string
     {
         $extName = $this->extName;
 
@@ -493,13 +493,14 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         {
             if (str_starts_with($extName, 'mod_'))
             {
-                // $extName = substr($extName, 4);
+                // keep mod_...
                 $extName = $this->extName;
             }
             else
             {
                 if (str_starts_with($extName, 'plg_'))
                 {
+                    // strip plg_
                     // 2026.02.11  $idx = strpos($extName, '_', strlen('plg_')) + 1;
                     $idx     = strpos($extName, '_') + 1;
                     $extName = substr($extName, $idx);
@@ -508,9 +509,8 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
                 {
                     if (str_starts_with($extName, 'pkg_'))
                     {
-                        // 2026.02.11  $idx = strpos($extName, '_', strlen('plg_')) + 1;
-                        $idx     = strpos($extName, '_') + 1;
-                        $extName = substr($extName, $idx);
+                        // keep plg_...
+                        $extName = $this->extName;
                     }
                 }
             }
@@ -781,7 +781,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- manifest file extName --------------------------------------
 
-        $bareName             = $this->shortExtensionName();
+        $manifestFileName             = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
@@ -866,7 +866,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         //--- root files -------------------------------------------------
 
         //  manifest file (not included as 'fileName' in manifest file)
-        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        $this->xcopyElement($manifestFileName . '.xml', $srcRoot, $tmpFolder);
         print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
@@ -929,7 +929,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         //--- update date and version --------------------------------------
 
-        $bareName             = $this->shortExtensionName();
+        $manifestFileName             = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
         print ("manifestPathFileName: " . $manifestPathFileName . PHP_EOL);
 
@@ -1018,7 +1018,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         print ('--- copy manifest file ' . PHP_EOL);
 
         //  manifest file (not included as 'fileName' in manifest file)
-        $this->xcopyElement($bareName . '.xml', $srcRoot, $tmpFolder);
+        $this->xcopyElement($manifestFileName . '.xml', $srcRoot, $tmpFolder);
         print (PHP_EOL);
 
 //        // install script like 'install_rsg2.php'
@@ -1077,14 +1077,34 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         $this->isCollectPackage = true;
 
         // keep from build file
-        $name    = $this->shortExtensionName();
+        $name    = $this->manifestFileName();
         $extName = $this->extName;
 
-        //--- Manifest read / update -----------------------
+        //--------------------------------------------------------------------
+        // data in manifest file
+        //--------------------------------------------------------------------
+
+        //--- manifest file name --------------------------------------
+
+        $manifestFileName             = $this->manifestFileName();
+        $manifestPathFileName = $this->manifestPathFileName();
+        print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
+
+        //--- update date and version --------------------------------------
+
+        // does read manifest file
+        $isChanged = $this->exchangeDataInManifestFile($manifestPathFileName);
+
+        if (!$this->manifestFile->manifestXml->isXmlLoaded)
+        {
+
+            print('exit buildComponent: error manifestPathFileName could not be read: ' . $manifestPathFileName . PHP_EOL);
+
+            return '';
+        }
 
 
-
-
+        return;
 
         // ToDo: handle
         // $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';

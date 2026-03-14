@@ -1,0 +1,12 @@
+task:buildExtension
+/type=package
+/srcRoot="../../RSGallery2_J4"
+    // /isNoRecursion=true
+/buildDir="../../LangMan4DevProject/.packages"
+/name=rsgallery2
+/extension=pkg_rsgallery2
+    //    each creation of package will increase the build number
+    // /isIncreaseBuild=true
+
+/buildDir="../../RSGallery2_J4_Dev/.packages"
+

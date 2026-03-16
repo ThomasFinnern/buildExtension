@@ -98,7 +98,7 @@ class forceVersionId extends baseExecuteTasks implements executeTasksInterface
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
         print("Execute forceVersionId : " . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 

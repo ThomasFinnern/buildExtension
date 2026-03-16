@@ -98,7 +98,7 @@ class increaseVersionId extends baseExecuteTasks implements executeTasksInterfac
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
         print("Execute increaseVersionId: " . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 

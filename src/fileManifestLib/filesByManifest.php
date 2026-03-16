@@ -220,7 +220,7 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
         print("Execute filesByManifest: " . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 

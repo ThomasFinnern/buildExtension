@@ -350,6 +350,10 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private function buildComponent(): string
     {
+        print('=========================================================' . PHP_EOL);
+        print("buildComponent: "  . $this->extName . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
+
         //--------------------------------------------------------------------
         // data in manifest file
         //--------------------------------------------------------------------
@@ -897,6 +901,10 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private function buildModule(): string
     {
+        print('=========================================================' . PHP_EOL);
+        print("buildModule: "  . $this->extName . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
+
         //--------------------------------------------------------------------
         // data in manifest file
         //--------------------------------------------------------------------
@@ -1045,6 +1053,10 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private function buildPlugin(): string
     {
+        print('=========================================================' . PHP_EOL);
+        print("buildPlugin: "  . $this->extName . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
+
         //--------------------------------------------------------------------
         // data in manifest file
         //--------------------------------------------------------------------
@@ -1196,11 +1208,15 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private function buildPackage()
     {
+        print('=========================================================' . PHP_EOL);
+        print("buildPackage: " . $this->extName . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
+
+
         $this->isCollectPackage = true;
 
         // keep from build file
         $name    = $this->manifestFileName();
-        $extName = $this->extName;
 
         //--------------------------------------------------------------------
         // data in manifest file
@@ -1248,7 +1264,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         print ('temp package folder(1): "' . $pkdTmpFolder . '"' . PHP_EOL);
 
         //--------------------------------------------------------------------
-        // handle temp folder
+        // handle pkd temp folder
         //--------------------------------------------------------------------
 
         // remove tmp folder
@@ -1268,29 +1284,31 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         mkdir($pkdTmpFolder, 0777, true);
 
 
-//        // ToDo: handle
-//        // $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
-//
-//        //--- Create pkg folder ----------------------------
-//
 //// ToDo: move $this->lastZipFileName
+
+        /*====================================================================
+        build component
+        ====================================================================*/
+
+        //--- prepare internal variables -------------------
+
+        $this->extName = 'com_' .  $this->element;
+
+        //--- call build------------------------------------
+
+        $zipFileComponent = $this->buildComponent();
+
+        //--- Move to pkg folder ----------------------------
+
+//        $this->xcopyElement(basename($this->lastZipFileName),
+//            dirname($this->lastZipFileName), $pkdTmpFolder);
 //
+        $this->xcopyElement(basename($zipFileComponent),
+            dirname($zipFileComponent), $pkdTmpFolder);
+
+
 //        /*-------------------------------------------------
-//        build component
-//        --------------------------------------------------*/
-//
-//        //--- prepare internal variables -------------------
-//
-//        $this->extName = 'com_' . $name;
-//
-//        //--- call build------------------------------------
-//
-//        $this->buildComponent();
-//
-//        //--- Move to pkg folder ----------------------------
-//
-//        /*-------------------------------------------------
-//        build component
+//        build plugins
 //        --------------------------------------------------*/
 //
 //        // on all module folder build module

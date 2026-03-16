@@ -90,7 +90,7 @@ class forceCreationDate extends baseExecuteTasks implements executeTasksInterfac
 
     public function execute(): int // $hasError
     {
-        print('*********************************************************' . PHP_EOL);
+        print('---------------------------------------------------------' . PHP_EOL);
         print("Execute forceCreationDate : " . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 

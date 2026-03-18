@@ -64,6 +64,9 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private bool $isDoNotUpdateCreationDate = false;
 
+    private bool $isKeep_CmpModPlg_DateZips = false;
+
+
     // calling project, may use different file header, different maintenance file ...
     //private string $callerProjectId = '';
 
@@ -202,6 +205,12 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
                 case strtolower('isDoNotUpdateCreationDate'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isDoNotUpdateCreationDate = boolval($option->value);
+                    $isOptionConsumed                = true;
+                    break;
+
+                case strtolower('isKeep_CmpModPlg_DateZips'):
+                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+                    $this->isKeep_CmpModPlg_DateZips = boolval($option->value);
                     $isOptionConsumed                = true;
                     break;
 
@@ -1360,18 +1369,26 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             // patch srcRoot in file names
             $this->fileNamesList->srcRoot = $this->srcRoot;
 
-//            //--- call build------------------------------------
-//
-//            $zipFileComponent = $this->buildComponent();
-//
-//            //--- Move to pkg folder ----------------------------
-//
-//            $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
-//
-//            $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
-//            $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
-//
-//            rename($srcFileName, $dstFileName);
+            //--- call build------------------------------------
+
+            $zipFileComponent = $this->buildComponent();
+
+            //--- Move to pkg folder ----------------------------
+
+            if ($this->isKeep_CmpModPlg_DateZips)
+            {
+                $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+
+                $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+
+                rename($srcFileName, $dstFileName);
+            }
+            else
+            {
+                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+                rename($zipFileComponent, $dstFileName);
+            }
         }
 
         /*====================================================================
@@ -1392,8 +1409,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
                 $this->manifestPathFileName = '';
 
                 // patch srcRoot in file names
-                $this->fileNamesList->srcRoot = $this->srcRoot . '/plugins/'
-                    . $extension->group . '/' . substr($extension->id, 4);
+                $this->fileNamesList->srcRoot = $this->srcRoot . '/plugins/' . $extension->group . '/' . substr($extension->id, 4);
 
                 //--- call build ------------------------------------
 
@@ -1401,12 +1417,20 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
                 //--- Move to pkg folder ----------------------------
 
-                $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+                if ($this->isKeep_CmpModPlg_DateZips)
+                {
+                    $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
 
-                $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
-                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+                    $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+                    $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
 
-                rename($srcFileName, $dstFileName);
+                    rename($srcFileName, $dstFileName);
+                }
+                else
+                {
+                    $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+                    rename($zipFileComponent, $dstFileName);
+                }
             }
             // on all module folder build module
 
@@ -1441,12 +1465,20 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
                 //--- Move to pkg folder ----------------------------
 
-                $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+                if ($this->isKeep_CmpModPlg_DateZips)
+                {
+                    $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
 
-                $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
-                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+                    $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+                    $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
 
-                rename($srcFileName, $dstFileName);
+                    rename($srcFileName, $dstFileName);
+                }
+                else
+                {
+                    $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+                    rename($zipFileComponent, $dstFileName);
+                }
             }
         }
 

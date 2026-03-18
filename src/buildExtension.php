@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src;
 
 use Exception;
+use Finnern\BuildExtension\src\fileManifestLib\extensionsByManifest;
 use Finnern\BuildExtension\src\fileManifestLib\filesByManifest;
 use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
@@ -30,6 +31,8 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 {
     private string $buildDir = '';
 
+    public string $srcRoot = "";
+
     // Handled in manifest file
     // private semVersionId $versionId;
 
@@ -47,7 +50,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     // 'rsgallery2' ??? com_rsgallery2'
     private string $extName = '';
     private string $prefixZipName = '';
-    private string $lastZipFileName = '';
+//    private string $lastZipFileName = '';
 
 //    private bool $isIncrementVersion_build = false;
 
@@ -81,14 +84,10 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
             parent::__construct($srcRoot, false);
 
-//            $this->srcFile = $srcFile;
-//            $this->dstFile = $dstFile;
-
-//            $this->semVersionId = new semVersionId();
+            $this->srcRoot      = $srcRoot;
             $this->manifestFile = new manifestFile();
 
             $this->element = "";
-
         }
         catch (Exception $e)
         {
@@ -234,13 +233,18 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
         if ($isValid)
         {
+            // use srcRoot from file names
+            if (empty($this->srcRoot))
+            {
+                $this->srcRoot = $this->fileNamesList->srcRoot;
+            }
+
             $componentType = $this->componentType();
 
             switch (strtolower($componentType))
             {
                 case strtolower('component'):
                     $this->buildComponent();
-
                     break;
 
                 case strtolower('module'):
@@ -351,7 +355,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     private function buildComponent(): string
     {
         print('=========================================================' . PHP_EOL);
-        print("buildComponent: "  . $this->extName . PHP_EOL);
+        print("buildComponent: " . $this->extName . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
         //--------------------------------------------------------------------
@@ -479,19 +483,6 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         //$this->xcopyElement('LICENSE.txt', $srcRoot, $tmpFolder);
         //        print (PHP_EOL);
 
-        //--- remove package for rsgallery2 ---------------------------------------------
-
-
-        // ToDo: handle pkg_rsgallery2.xml in temp file or better include only when package is build
-        if (!$this->isCollectPackage)
-        {
-            // remove prepared pkg_rsgallery2.xml.tmp
-            $packagesTmpFile = $tmpFolder . '/administrator/manifests/packages/pkg_rsgallery2.xml.tmp';
-            if (file_exists($packagesTmpFile))
-            {
-                unlink($packagesTmpFile);
-            }
-        }
 //            //--------------------------------------------------------------------
 //            // Not changelog to root
 //            //--------------------------------------------------------------------
@@ -506,8 +497,14 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
-        $this->lastZipFileName = $zipFileName;
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        //$this->lastZipFileName = $zipFileName;
+
+        // remove zip file
+        if (is_file($zipFileName))
+        {
+            unlink($zipFileName);
+        }
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
@@ -577,19 +574,11 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     {
         if ($this->manifestPathFileName == '')
         {
-
             // *.xml
             $extName = $this->manifestFileName();
 
             // package in subpath
-            if ($this->isCollectPackage)
-            {
-                $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/package/' . $extName . '.xml';
-            }
-            else
-            {
-                $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
-            }
+            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $extName . '.xml';
         }
 
         return $this->manifestPathFileName;
@@ -639,7 +628,10 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
                 if ($this->element != '')
                 {
-                    $manifestFile->element = $this->element;
+                    if ($manifestFile->element != null)
+                    {
+                        $manifestFile->element = $this->element;
+                    }
                 }
 
                 // No tasks actual as flag use -> /mani:isUpdateActCopyrightYear=true
@@ -842,8 +834,8 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
     private function destinationExtensionName(): string
     {
-        //$name = $this->extName;
-        $name = $this->element;
+        $name = $this->extName; //2026.02.16
+        // $name = $this->element;
 
         if (empty($name))
         {
@@ -902,7 +894,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     private function buildModule(): string
     {
         print('=========================================================' . PHP_EOL);
-        print("buildModule: "  . $this->extName . PHP_EOL);
+        print("buildModule: " . $this->extName . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
         //--------------------------------------------------------------------
@@ -1033,8 +1025,14 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
-        $this->lastZipFileName = $zipFileName;
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        // $this->lastZipFileName = $zipFileName;
+
+        // remove zip file
+        if (is_file($zipFileName))
+        {
+            unlink($zipFileName);
+        }
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
@@ -1054,7 +1052,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     private function buildPlugin(): string
     {
         print('=========================================================' . PHP_EOL);
-        print("buildPlugin: "  . $this->extName . PHP_EOL);
+        print("buildPlugin: " . $this->extName . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
         //--------------------------------------------------------------------
@@ -1188,8 +1186,14 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         // zip to destination
         //--------------------------------------------------------------------
 
-        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
-        $this->lastZipFileName = $zipFileName;
+        $zipFileName = $dstRoot . '/' . $this->createExtensionZipName();
+        // $this->lastZipFileName = $zipFileName;
+
+        // remove zip file
+        if (is_file($zipFileName))
+        {
+            unlink($zipFileName);
+        }
 
         zipItRelative(realpath($tmpFolder), $zipFileName);
 
@@ -1212,20 +1216,20 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         print("buildPackage: " . $this->extName . PHP_EOL);
         print('---------------------------------------------------------' . PHP_EOL);
 
-
         $this->isCollectPackage = true;
-
-        // keep from build file
-        $name    = $this->manifestFileName();
 
         //--------------------------------------------------------------------
         // data in manifest file
         //--------------------------------------------------------------------
 
+        // patch srcRoot in file names
+        $this->fileNamesList->srcRoot = $this->srcRoot . '/package';
+
         //--- manifest file name --------------------------------------
 
         $manifestFileName     = $this->manifestFileName();
         $manifestPathFileName = $this->manifestPathFileName();
+        $manifestPathPkg      = dirname($manifestPathFileName);
         print ('manifestPathFileName: "' . $manifestPathFileName . '"' . PHP_EOL);
 
         //--- update date and version --------------------------------------
@@ -1283,55 +1287,180 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
         print ('Create dir: "' . $pkdTmpFolder . '"' . PHP_EOL);
         mkdir($pkdTmpFolder, 0777, true);
 
+        $pkgZipFileName = $dstRoot . '/' . $this->createExtensionZipName();
 
-//// ToDo: move $this->lastZipFileName
+
+        //--------------------------------------------------------------------
+        // extract files and folders from manifest
+        //--------------------------------------------------------------------
+
+        $filesByManifest = new filesByManifest();
+
+        //--- insert manifestXml ---------------------------------
+
+        $manifestXml                  = $this->manifestFile->manifestXml->manifestXml;
+        $filesByManifest->manifestXml = $manifestXml;
+
+        //--------------------------------------------------------------------
+        // manifest *.xml and script file
+        //--------------------------------------------------------------------
+
+        //--- manifest file -------------------------------------------------
+
+        print ('--- copy manifest file: ' . $manifestFileName . PHP_EOL);
+
+        //  manifest file (not included as 'fileName' in manifest file)
+        $this->xcopyElement($manifestFileName . '.xml', $manifestPathPkg, $pkdTmpFolder);
+
+        //--- script file -------------------------------------------
+
+        // element <scriptfile> exists
+        if (isset($manifestXml->scriptfile))
+        {
+            $scriptName = $filesByManifest->extractScriptFile($manifestXml->scriptfile);
+
+            print ('--- copy script file: ' . $scriptName . PHP_EOL);
+
+            //  manifest file (not included as 'fileName' in manifest file)
+            $this->xcopyElement($scriptName, $manifestPathPkg, $pkdTmpFolder);
+        }
+
+        //--------------------------------------------------------------------
+        // manifest extract defined files / extensions
+        //--------------------------------------------------------------------
+
+        $extensionsByManifest              = new extensionsByManifest();
+        $extensionsByManifest->manifestXml = $manifestXml;
+
+        $extensionsByManifest->collectExtensionsOfManifest();
+
+        print ($extensionsByManifest->text());
+
+        //--------------------------------------------------------------------
+        // end of package manifest collections
+        //--------------------------------------------------------------------
+
+        $this->isCollectPackage = false;
 
         /*====================================================================
         build component
         ====================================================================*/
 
-        //--- prepare internal variables -------------------
+        if ($extensionsByManifest->isHasComponent)
+        {
+            //--- prepare component --------------------------------
 
-        $this->extName = 'com_' .  $this->element;
+            $extension = $extensionsByManifest->getComponent();
 
-        //--- call build------------------------------------
+            //--- prepare internal variables -------------------
 
-        $zipFileComponent = $this->buildComponent();
+            $this->extName              = $extension->id;
+            $this->manifestPathFileName = '';
 
-        //--- Move to pkg folder ----------------------------
+            // patch srcRoot in file names
+            $this->fileNamesList->srcRoot = $this->srcRoot;
 
-//        $this->xcopyElement(basename($this->lastZipFileName),
-//            dirname($this->lastZipFileName), $pkdTmpFolder);
+//            //--- call build------------------------------------
 //
-        $this->xcopyElement(basename($zipFileComponent),
-            dirname($zipFileComponent), $pkdTmpFolder);
+//            $zipFileComponent = $this->buildComponent();
+//
+//            //--- Move to pkg folder ----------------------------
+//
+//            $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+//
+//            $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+//            $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+//
+//            rename($srcFileName, $dstFileName);
+        }
 
+        /*====================================================================
+        build plugins
+        ====================================================================*/
 
-//        /*-------------------------------------------------
-//        build plugins
-//        --------------------------------------------------*/
-//
-//        // on all module folder build module
-//
-//
-//        /*-------------------------------------------------
-//        build component
-//        --------------------------------------------------*/
-//
-//        // on all plugins folder build plugins
-//
-//        // ? Specialities
-//
-//        // remove temp
+        if ($extensionsByManifest->isHasPlugin)
+        {
+            $extensions = $extensionsByManifest->getPlugins();
 
-        //--------------------------------------------------------------------
-        // zip to destination
-        //--------------------------------------------------------------------
+            // /srcRoot="../../RSGallery2_J4/plugins/console/rsg2_console"
 
-        $zipFileName           = $dstRoot . '/' . $this->createExtensionZipName();
-        $this->lastZipFileName = $zipFileName;
+            foreach ($extensions as $extension)
+            {
+                //--- prepare internal variables -------------------
 
-        zipItRelative(realpath($pkdTmpFolder), $zipFileName);
+                $this->extName              = $extension->id;
+                $this->manifestPathFileName = '';
+
+                // patch srcRoot in file names
+                $this->fileNamesList->srcRoot = $this->srcRoot . '/plugins/'
+                    . $extension->group . '/' . substr($extension->id, 4);
+
+                //--- call build ------------------------------------
+
+                $zipFileComponent = $this->buildPlugin();
+
+                //--- Move to pkg folder ----------------------------
+
+                $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+
+                $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+
+                rename($srcFileName, $dstFileName);
+            }
+            // on all module folder build module
+
+        }
+
+        /*====================================================================
+        build modules
+        ====================================================================*/
+
+        if ($extensionsByManifest->isHasModule)
+        {
+            $extensions = $extensionsByManifest->getModules();
+
+            // keep
+            // /srcRoot="../../RSGallery2_J4/modules/mod_rsg2_gallery"
+            // $this->fileNamesList->srcRoot
+
+            foreach ($extensions as $extension)
+            {
+
+                //--- prepare internal variables -------------------
+
+                $this->extName              = $extension->id;
+                $this->manifestPathFileName = '';
+
+                // patch srcRoot in file names
+                $this->fileNamesList->srcRoot = $this->srcRoot . '/modules/' . $extension->id;
+
+                //--- call build------------------------------------
+
+                $zipFileComponent = $this->buildModule();
+
+                //--- Move to pkg folder ----------------------------
+
+                $this->xcopyElement(basename($zipFileComponent), dirname($zipFileComponent), $pkdTmpFolder);
+
+                $srcFileName = $pkdTmpFolder . '/' . basename($zipFileComponent);
+                $dstFileName = $pkdTmpFolder . '/' . $extension->zipName;
+
+                rename($srcFileName, $dstFileName);
+            }
+        }
+
+        //====================================================================
+        // zip package to destination
+        //====================================================================
+
+        // remove zip file
+        if (is_file($pkgZipFileName))
+        {
+            unlink($pkgZipFileName);
+        }
+
+        zipItRelative(realpath($pkdTmpFolder), $pkgZipFileName);
 
         //--------------------------------------------------------------------
         // remove temp
@@ -1343,9 +1472,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             delDir($pkdTmpFolder);
         }
 
-        return $zipFileName;
-
-
+        return $pkgZipFileName;
     }
 
     public function executeFile(string $filePathName): int

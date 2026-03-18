@@ -2,7 +2,7 @@
 
 namespace Finnern\BuildExtension\src\cleanUpLib;
 
-require_once 'autoload/autoload.php';
+require_once '../autoload/autoload.php';
 
 
 // use \DateTime;

@@ -158,19 +158,22 @@ if (empty ($hasError))
 
     //--- insert manifestXml ---------------------------------
 
-    $oManifestXml = new manifestXml();
-    $oManifestXml->readManifestXml($oFilesByManifest->manifestPathFileName);
-
-    $oFilesByManifest->manifestXml = $oManifestXml->manifestXml;
-
-    //--- execute tasks ---------------------------------
-
-    if (!$hasError)
+    if (is_file($oFilesByManifest->manifestPathFileName))
     {
-        $hasError = $oFilesByManifest->execute();
-        if ($hasError)
+        $oManifestXml = new manifestXml();
+        $oManifestXml->readManifestXml($oFilesByManifest->manifestPathFileName);
+
+        $oFilesByManifest->manifestXml = $oManifestXml->manifestXml;
+
+        //--- execute tasks ---------------------------------
+
+        if (!$hasError)
         {
-            print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+            $hasError = $oFilesByManifest->execute();
+            if ($hasError)
+            {
+                print ("!!! Error on function execute:" . $hasError . PHP_EOL);
+            }
         }
     }
 

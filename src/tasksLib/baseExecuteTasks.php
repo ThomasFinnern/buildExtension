@@ -162,4 +162,32 @@ class baseExecuteTasks
     }
 
 
+    // ToDO: shoud boverriden in each class derived from this class or removed for each php file
+    public function assignBaseOption(option $option): bool
+    {
+        $isBaseOption = false;
+
+//        switch (strtolower($option->name)) {
+//            case 'srcroot':
+//                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                $this->srcRoot = $option->value;
+//                $isBaseOption  = true;
+//                break;
+//
+//            case 'isnorecursion':
+//                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+//                $this->isNoRecursion = boolval($option->value);
+//                $isBaseOption        = true;
+//                break;
+//
+////				case 'X':
+////					print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
+////					break;
+//
+//        } // switch
+
+        return $isBaseOption;
+    }
+
+
 }

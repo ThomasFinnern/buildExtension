@@ -251,7 +251,9 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
             // element<scriptfile>install_rsg2.php</scriptfile>
             if (isset($this->manifestXml->scriptfile))
             {
-                $this->extractScriptFile($this->manifestXml->scriptfile);
+                $scriptName = $this->extractScriptFile($this->manifestXml->scriptfile);
+                // script file expected on root
+                $this->files [] = $scriptName;
             }
 
             //--- default files -------------------------------------------
@@ -331,8 +333,10 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
 
     }
 
-    private function extractScriptFile(SimpleXMLElement $xmlPath): void
+    public function extractScriptFile(SimpleXMLElement $xmlPath): string
     {
+        $scriptName = '';
+
         if (isset($xmlPath))
         {
 
@@ -345,10 +349,10 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
 //            } else {
 //                $this->files [] = $baseFolder . '/' . $scriptName;
 //            }
-            // script file expected on root
-            $this->files [] = $scriptName;
 
         }
+
+        return $scriptName;
     }
 
     private function extractFilesFolderFromSection(SimpleXMLElement $xmlPath)

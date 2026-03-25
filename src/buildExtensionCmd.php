@@ -82,18 +82,19 @@ $tasksLine = "";
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-// $taskFile = '../../mod_jx_std_icons/.buildPHP/build_develop.tsk';
-// $taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
-// $taskFile = './build_tsk/build_test.tsk';
+$taskFile = '../../mod_jx_std_icons/.buildPHP/build.tsk';
+
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
+//$taskFile = './build_tsk/build_test.tsk';
 //$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
-$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
+//$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
-//  $taskFile = '../../RSGallery2_J4_Dev/.buildPHP_extern/build_plugin_rsg2_console.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP_extern/build_plugin_rsg2_console.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-//$optionFiles [] = '.\options_version_tsk\build_develop.opt';
+$optionFiles [] = '.\options_version_tsk\build_develop.opt';
 //$optionFiles [] = './options_version_tsk/build_step.opt';
 //$optionFiles [] = '.\options_version_tsk\build_fix.opt';
 //$optionFiles [] = '.\options_version_tsk\build_release.opt';

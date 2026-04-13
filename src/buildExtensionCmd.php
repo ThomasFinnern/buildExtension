@@ -73,24 +73,31 @@ $tasksLine = "";
 //$taskFile="./build_fix.tsk";
 //$taskFile="./build_Develop.tsk";
 //$taskFile="./build_release.tsk";
-//$taskFile = "";
-// d:\Entwickl\2025\_gitHub\
+//$taskFile='./build_tsk/build_test.tsk';
+
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_fix.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_step.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_develop.tsk';
 //$taskFile = '../../LangMan4DevProject/.buildPHP/build_plugin_webservices.tsk';
+//$taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
 
 //$taskFile = '../../testjapi/.buildPHP/build_step.tsk';
 
-$taskFile = '../../mod_jx_std_icons/.buildPHP/build.tsk';
-
-//$taskFile = '../../LangMan4DevProject/.buildPHP/build.tsk';
-//$taskFile = './build_tsk/build_test.tsk';
+//$taskFile = '../../mod_jx_std_icons/.buildPHP/build.tsk';
 //$taskFile = '../../mod_jx_std_icons\.buildPHP\build.tsk';
+
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
+
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP_extern/build_plugin_rsg2_console.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_console.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_mod_rsg2_gallery.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_mod_rsg2_slideshow.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_console.tsk';
+$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_gallery.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_webservice.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

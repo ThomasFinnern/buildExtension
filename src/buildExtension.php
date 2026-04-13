@@ -45,9 +45,11 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     private string $dateToday;
     private string $dateReleaseZip;
 
-    // extension <element> name like RSGallery2
-    private string $element;
+//    // extension <element> name like RSGallery2
+//    private string $element;
+
     // 'rsgallery2' ??? com_rsgallery2'
+    // com_rsgallery2, MOD_RSG2_SLIDESHOW, plg_console_rsg2_console, plg_content_rsg2_gallery
     private string $extName = '';
     private string $prefixZipName = '';
 //    private string $lastZipFileName = '';
@@ -90,7 +92,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             $this->srcRoot      = $srcRoot;
             $this->manifestFile = new manifestFile();
 
-            $this->element = "";
+            // $this->element = "";
         }
         catch (Exception $e)
         {
@@ -176,13 +178,13 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //                    $isOptionConsumed  = true;
 //                        break;
 
-                // extension (<element> name like RSGallery2
-                case strtolower('element'):
-                case strtolower('extension'):
-                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->element    = $option->value;
-                    $isOptionConsumed = true;
-                    break;
+//                // extension (<element> name like RSGallery2
+//                case strtolower('element'):
+//                case strtolower('extension'):
+//                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
+//                    $this->element    = $option->value;
+//                    $isOptionConsumed = true;
+//                    break;
 
                 case strtolower('type'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
@@ -304,12 +306,12 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             print ("option extName: not set" . PHP_EOL);
             $isValid = false;
         }
-        //option extension: "Lang4Dev"
-        if (empty ($this->element))
-        {
-            print ("option extension: not set" . PHP_EOL);
-            $isValid = false;
-        }
+//        //option extension: "Lang4Dev"
+//        if (empty ($this->element))
+//        {
+//            print ("option extension: not set" . PHP_EOL);
+//            $isValid = false;
+//        }
 
 
         return $isValid;
@@ -556,9 +558,9 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             {
                 if (str_starts_with($extName, 'plg_'))
                 {
-                    // strip plg_
-                    // 2026.02.11  $idx = strpos($extName, '_', strlen('plg_')) + 1;
-                    $idx     = strpos($extName, '_') + 1;
+                    // strip plg_'console' from plg_console_rsg2_console
+                    // find second underscore '_'
+                    $idx     = strpos($extName, '_', 4) + 1;
                     $extName = substr($extName, $idx);
                 }
                 else
@@ -635,13 +637,13 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 ////                    print ("buildExtension: isBuildRelease: " .  $this->semVersionId->isBuildRelease  . PHP_EOL);
 //                }
 
-                if ($this->element != '')
-                {
-                    if ($manifestFile->element != null)
-                    {
-                        $manifestFile->element = $this->element;
-                    }
-                }
+//                if ($this->element != '')
+//                {
+//                    if ($manifestFile->element != null)
+//                    {
+//                        $manifestFile->element = $this->element;
+//                    }
+//                }
 
                 // No tasks actual as flag use -> /mani:isUpdateActCopyrightYear=true
                 // $manifestFile->copyright->isUpdateCopyright = false;
@@ -844,7 +846,6 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
     private function destinationExtensionName(): string
     {
         $name = $this->extName; //2026.02.16
-        // $name = $this->element;
 
         if (empty($name))
         {

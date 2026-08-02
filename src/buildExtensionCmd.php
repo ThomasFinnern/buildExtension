@@ -22,6 +22,7 @@ main (used from command line)
 
 $optDefinition    = "t:f:o:a:h12345";
 $isPrintArguments = false;
+#$isPrintArguments = true;
 
 [$inArgs, $options] = commandLineLib::argsAndOptions($argv, $optDefinition, $isPrintArguments);
 
@@ -96,12 +97,12 @@ $tasksLine = "";
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_mod_rsg2_slideshow.tsk';
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk';
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_console.tsk';
-$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_gallery.tsk';
+//$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_gallery.tsk';
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_webservice.tsk';
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';
-$optionFiles [] = '.\options_version_tsk\build_develop.opt';
+//$optionFiles [] = '.\options_version_tsk\build_develop.opt';
 //$optionFiles [] = './options_version_tsk/build_step.opt';
 //$optionFiles [] = '.\options_version_tsk\build_fix.opt';
 //$optionFiles [] = '.\options_version_tsk\build_release.opt';

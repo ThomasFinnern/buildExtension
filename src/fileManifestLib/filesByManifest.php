@@ -313,7 +313,7 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
                 if (isset($this->manifestXml->modules))
                 {
 
-                    $this->extractDirectFolderFromSection($this->manifestXml->plugins);
+                    $this->extractDirectFolderFromSection($this->manifestXml->modules);
                 }
 
                 //--- plugins -------------------------------------------
@@ -416,10 +416,16 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
     {
         if (isset($xmlPath))
         {
+            // <plugins  folder="src/plugins">
+            $targetFolder = (string) $xmlPath['folder'];
+            $standardFolder = $xmlPath->getName();
 
-            $baseFolder       = (string) $xmlPath->getName();
-            $this->folders [] = $baseFolder;
+            if (empty ($targetFolder))
+            {
+                $targetFolder = $standardFolder;
+            }
 
+            $this->folders [] = $targetFolder;
         }
     }
 

@@ -90,6 +90,7 @@ $tasksLine = "";
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
 //$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_raw.tsk';
+$taskFile = '../../JoomGallery_fith_dev/.buildPHP/build_api01.tsk';
 
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP_extern/build_plugin_rsg2_console.tsk';
 //$taskFile = '../../RSGallery2_J4_Dev/.buildPHP/build_plg_rsg2_console.tsk';

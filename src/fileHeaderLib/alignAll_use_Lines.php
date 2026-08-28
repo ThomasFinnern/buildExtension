@@ -8,7 +8,7 @@ use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
 
 /*================================================================================
-Class exchangeAll_actCopyrightYear
+Class alignAll_use_Lines
 ================================================================================*/
 
 class alignAll_use_Lines extends baseExecuteTasks implements executeTasksInterface

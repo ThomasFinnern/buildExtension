@@ -74,7 +74,7 @@ class GalleryController extends FormController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {

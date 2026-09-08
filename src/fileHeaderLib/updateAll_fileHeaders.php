@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
 // use \DateTime;
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -42,7 +41,7 @@ class updateAll_fileHeaders extends baseExecuteTasks implements executeTasksInte
 
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }

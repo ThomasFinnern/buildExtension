@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\tasksLib;
 
-use Exception;
 
 /*================================================================================
 Class option
@@ -34,7 +33,7 @@ class option
             //ToDo: $this->value = $this->assignValue (value); // remove '"' at start and end
             $this->value = $this->removeQuotation($value);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -93,7 +92,7 @@ class option
             $this->name  = $optionName;
             $this->value = $optionValue;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

@@ -4,8 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 // use DateTime;
 
-use Exception;
-
 
 /*================================================================================
 Class options
@@ -34,7 +32,7 @@ class options
 
             $this->options = $options;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -108,7 +106,7 @@ class options
     {
         $isFound = false;
 
-        foreach ($this->options as $option)
+        foreach ($this->options as $idx => $option)
         {
             if ($isIgnoreCase)
             {
@@ -119,9 +117,11 @@ class options
                 $isFound = $option->name === $name;
             }
 
+            // delete found
             if ($isFound)
             {
-                unset($option);
+                unset($this->options[$idx]);
+
                 break;
             }
         }
@@ -148,7 +148,7 @@ class options
             if (!is_file($optionsFile))
             {
                 // not working $realPath = realpath($taskFile);
-                throw new Exception('Options file not found: "' . $optionsFile . '"');
+                throw new \Exception('Options file not found: "' . $optionsFile . '"');
             }
 
             $content = file_get_contents($optionsFile); //Get the file
@@ -157,7 +157,7 @@ class options
             $this->extractOptionsFromLines($lines);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -270,7 +270,7 @@ class options
                 $this->addOption($option);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

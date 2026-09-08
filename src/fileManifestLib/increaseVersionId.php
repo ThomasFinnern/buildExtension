@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
-use Exception;
 use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
@@ -50,7 +49,7 @@ class increaseVersionId extends baseExecuteTasks implements executeTasksInterfac
             $this->versionId = new semVersionId();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
@@ -125,7 +124,7 @@ class increaseVersionId extends baseExecuteTasks implements executeTasksInterfac
 
             $hasError = $this->exchangeVersionInManifestFile($manifestPathFileName, $componentVersion);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -144,7 +143,7 @@ class increaseVersionId extends baseExecuteTasks implements executeTasksInterfac
     {
         if ($this->manifestPathFileName == '')
         {
-            $this->manifestPathFileName = $this->srcRoot . '/' . $this->name . '.xml';
+            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $this->name . '.xml';
         }
 
         return $this->manifestPathFileName;
@@ -188,7 +187,7 @@ class increaseVersionId extends baseExecuteTasks implements executeTasksInterfac
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

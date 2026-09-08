@@ -3,7 +3,6 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -400,7 +399,7 @@ class fileHeaderByFileData // extends fileHeaderData
             // todo: print ("headerLines: " . $headerLines . PHP_EOL);
             // ToDo: print result
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -457,7 +456,7 @@ class fileHeaderByFileData // extends fileHeaderData
             //--- pre lines ---------------------------
 
             // pre lines include all lines without "/**" line */
-            if ($isHasStart == false)
+            if (!$isHasStart)
             {
 
                 // start comment
@@ -695,7 +694,7 @@ class fileHeaderByFileData // extends fileHeaderData
             $isSaved = file_put_contents($fileName, $outLines);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

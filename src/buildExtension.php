@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src;
 
-use Exception;
 use Finnern\BuildExtension\src\fileManifestLib\extensionsByManifest;
 use Finnern\BuildExtension\src\fileManifestLib\filesByManifest;
 use Finnern\BuildExtension\src\fileManifestLib\manifestFile;
@@ -48,7 +47,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //    // extension <element> name like RSGallery2
 //    private string $element;
 
-    // 'rsgallery2' ??? com_rsgallery2'
+    // 'rsgallery2' ??? 'com_rsgallery2'
     // com_rsgallery2, MOD_RSG2_SLIDESHOW, plg_console_rsg2_console, plg_content_rsg2_gallery
     private string $extName = '';
     private string $prefixZipName = '';
@@ -94,7 +93,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
             // $this->element = "";
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -194,7 +193,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
                 case strtolower('isCollectPluginsModule'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isCollectPluginsModule = boolval($option->value);
+                    $this->isCollectPluginsModule = $this->trueOnEmptyString($option->value);
                     $isOptionConsumed             = true;
                     break;
 
@@ -206,13 +205,13 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 
                 case strtolower('isDoNotUpdateCreationDate'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isDoNotUpdateCreationDate = boolval($option->value);
+                    $this->isDoNotUpdateCreationDate = $this->trueOnEmptyString($option->value);
                     $isOptionConsumed                = true;
                     break;
 
                 case strtolower('isKeep_CmpModPlg_DateZips'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isKeep_CmpModPlg_DateZips = boolval($option->value);
+                    $this->isKeep_CmpModPlg_DateZips = $this->trueOnEmptyString($option->value);
                     $isOptionConsumed                = true;
                     break;
 
@@ -660,7 +659,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             $this->manifestFile = $manifestFile;
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -702,7 +701,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
 //                }
 //            }
 //
-//        } catch (Exception $e) {
+//        } catch (\Exception $e) {
 //            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
@@ -812,7 +811,7 @@ class buildExtension extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

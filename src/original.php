@@ -6,7 +6,6 @@ namespace Finnern\BuildExtension\src;
 Class XXX
 ================================================================================*/
 
-use Exception;
 
 class XXX
 {
@@ -32,7 +31,7 @@ class XXX
             $this->srcFile = $srcFile;
             $this->dstFile = $dstFile;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -56,7 +55,7 @@ class XXX
             print ("zzz: " . $zzz . PHP_EOL);
             print('---------------------------------------------------------' . PHP_EOL);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

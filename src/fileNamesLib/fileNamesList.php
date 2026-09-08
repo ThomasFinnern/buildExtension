@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\fileNamesLib;
 
 //use \DateTime;
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\options;
@@ -70,7 +69,7 @@ class fileNamesList implements executeTasksInterface
             $this->assignParameters($srcPath, $includeExt, $excludeExt, $isNoRecursion, $writeListToFile);
 
         } /*--- exception ----------------------------------------------------*/
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -194,7 +193,7 @@ class fileNamesList implements executeTasksInterface
             $this->scanPath4Filenames($this->srcRoot);
 
         } /*--- exception ----------------------------------------------------*/
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -279,7 +278,7 @@ class fileNamesList implements executeTasksInterface
                 print ("NoRecursion: Exit after base folder requested: : " . count($folders) . PHP_EOL);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -315,7 +314,7 @@ class fileNamesList implements executeTasksInterface
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -352,7 +351,7 @@ class fileNamesList implements executeTasksInterface
                 $isValid = false;
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -376,7 +375,7 @@ class fileNamesList implements executeTasksInterface
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -432,7 +431,7 @@ class fileNamesList implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -534,7 +533,7 @@ class fileNamesList implements executeTasksInterface
      *
      * @return array|bool
      *
-     * @throws Exception
+     * @throws \Exception
      * @since version
      */
     public function filesInDir($inPath)
@@ -546,7 +545,7 @@ class fileNamesList implements executeTasksInterface
         {
             [$files, $folders] = $this->filesAndFoldersInDir($inPath);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -565,7 +564,7 @@ class fileNamesList implements executeTasksInterface
             // [$files, $folders] = $this->filesAndFoldersInDir($inPath);
             [, $folders] = $this->filesAndFoldersInDir($inPath);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -686,13 +685,13 @@ class fileNamesList implements executeTasksInterface
 
                 case strtolower('isNoRecursion'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isNoRecursion = boolval($option->value);
+                    $this->isNoRecursion = $this->trueOnEmptyString($option->value);
                     $isOptionConsumed    = true;
                     break;
 
                 case strtolower('iswritelisttofile'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-                    $this->isWriteListToFile = boolval($option->value);
+                    $this->isWriteListToFile = $this->trueOnEmptyString($option->value);
                     $isOptionConsumed        = true;
                     break;
 
@@ -742,6 +741,27 @@ class fileNamesList implements executeTasksInterface
         $fileNamesList->listFileName      = $this->listFileName;
 
         return $fileNamesList;
+    }
+
+    /**
+     * Intention: a flag that is set in task '/isDefinedOk' but without true
+     * should be set anyhow for existence in task file
+     * Use instead of bool($optionValue)
+     * @param   mixed  $optionValue
+     *
+     * @return bool option value set to true on empty string otherwise boolval() operation result
+     */
+    public function trueOnEmptyString(mixed $optionValue): bool
+    {
+        // Standard
+        $bValue = boolval ($optionValue);
+
+        // not null but not set => true
+        if (isset($optionValue) && $optionValue == '') {
+            $bValue = true;
+        }
+
+        return $bValue;
     }
 
 } // fileNamesList

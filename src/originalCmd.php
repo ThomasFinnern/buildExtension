@@ -49,7 +49,7 @@ $tasksLine = ' task:buildExtension' . ' /type=component' . ' /srcRoot="./../../R
 //    . ' /isForceVersion=false'
 //    . ' /isIncrementVersion_major = true'
 //    . ' /isIncrementVersion_minor = true'
-
+   ;
 
 $tasksLine = "";
 

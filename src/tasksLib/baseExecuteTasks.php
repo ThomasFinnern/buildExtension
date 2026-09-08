@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\tasksLib;
 
-use Exception;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 
 
@@ -45,7 +44,7 @@ class baseExecuteTasks
             $this->fileNamesList = new fileNamesList($srcRoot, '', '', $isNoRecursion);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
@@ -134,7 +133,7 @@ class baseExecuteTasks
 
 //                case strtolower('isnorecursion'):
 //                    print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
-//                    $this->isNoRecursion = boolval($option->value);
+//                    $this->isNoRecursion = $this->trueOnEmptyString($option->value);
 //                    $isOptionConsumed = true;
 //                    break;
 
@@ -162,7 +161,7 @@ class baseExecuteTasks
     }
 
 
-    // ToDO: shoud boverriden in each class derived from this class or removed for each php file
+    // ToDO: shoud boverriden in each class derived from this class or removed for each PHP file
     public function assignBaseOption(option $option): bool
     {
         $isBaseOption = false;
@@ -176,7 +175,7 @@ class baseExecuteTasks
 //
 //            case 'isnorecursion':
 //                print ('     option: ' . $option->name . ' ' . $option->value . "\r\n");
-//                $this->isNoRecursion = boolval($option->value);
+//                $this->isNoRecursion = $this->trueOnEmptyString($option->value);
 //                $isBaseOption        = true;
 //                break;
 //
@@ -189,5 +188,25 @@ class baseExecuteTasks
         return $isBaseOption;
     }
 
+    /**
+     * Intention: a flag that is set in task '/isDefinedOk' but without true
+     * should be set anyhow for existence in task file
+     * Use instead of bool($optionValue)
+     * @param   mixed  $optionValue
+     *
+     * @return bool option value set to true on empty string otherwise boolval() operation result
+     */
+    public function trueOnEmptyString(mixed $optionValue): bool
+    {
+        // Standard
+        $bValue = boolval ($optionValue);
 
-}
+        // not null but not set => true
+        if (isset($optionValue) && $optionValue == '') {
+            $bValue = true;
+        }
+
+        return $bValue;
+    }
+
+} // class

@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileNoDocInPreComment;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -51,7 +50,7 @@ class indicateAll_NoDocInPreCommentInFiles extends baseExecuteTasks implements e
             $this->missPreHeaderInFile = new indicateAll_NoDocInPreCommentInFile();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

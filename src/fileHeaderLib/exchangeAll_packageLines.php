@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
@@ -35,7 +34,7 @@ class exchangeAll_packages extends baseExecuteTasks implements executeTasksInter
             $this->packageText = $packageText;
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

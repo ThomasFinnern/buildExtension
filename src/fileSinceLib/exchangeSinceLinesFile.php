@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileSinceLib;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileSinceDataFactory;
 use Finnern\BuildExtension\src\codeByCaller\fileSinceLib\fileSinceDataBase;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -172,7 +171,7 @@ class exchangeSinceLinesFile
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

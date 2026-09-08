@@ -78,7 +78,7 @@ class ImagesController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             // toDo: find " str_replace('\n', '<br>', $msg);" nad replace in complete project
             $msg = nl2br($msg);
         } else {
@@ -129,7 +129,7 @@ class ImagesController extends AdminController
         if (!$canAdmin) {
             $msg     = $msg . Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             $msg = nl2br($msg);
         } else {
             try {
@@ -176,7 +176,7 @@ class ImagesController extends AdminController
         if (!$canAdmin) {
             $msg     = $msg . Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             $msg = nl2br($msg);
         } else {
             try {

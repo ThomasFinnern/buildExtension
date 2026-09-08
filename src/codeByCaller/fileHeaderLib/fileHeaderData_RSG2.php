@@ -10,7 +10,7 @@ use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory
 
 /**
  * keeps all variables of a PHP package description header
- * function headerText: Expected result. can be inserted/replace into php code file
+ * function headerText: Expected result. can be inserted/replace into PHP code file
  *    returns a set of header lines.
  * function extractHeaderValuesFromLines:
  *    To exchange parts of the header lines they may be extracted here.

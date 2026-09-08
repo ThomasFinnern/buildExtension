@@ -18,7 +18,6 @@ text ();
 Class extensionOfManifest
 ================================================================================*/
 
-use Exception;
 use SimpleXMLElement;
 
 class extensionOfManifest
@@ -60,7 +59,7 @@ class extensionOfManifest
 
             $this->parent = $parent;
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -132,7 +131,7 @@ class extensionOfManifest
 
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception in assignXmlFileItem: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

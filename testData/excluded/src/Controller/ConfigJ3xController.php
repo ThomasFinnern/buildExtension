@@ -167,7 +167,7 @@ class ConfigJ3xController extends AdminController // FormController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             $model = $this->getModel('ConfigJ3xRaw');
@@ -202,7 +202,7 @@ class ConfigJ3xController extends AdminController // FormController
         if (!$canAdmin) {
             $msg     = $msg . Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             $model = $this->getModel('ConfigRaw');
@@ -238,7 +238,7 @@ class ConfigJ3xController extends AdminController // FormController
 		if (!$canAdmin) {
 			$msg = $msg . Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			$msg = nl2br ($msg);
 		} else {
 			$model = $this->getModel('ConfigRaw');

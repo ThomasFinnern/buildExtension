@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
-use Exception;
 use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
@@ -198,7 +197,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             //$this->copyright = new copyrightText();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
@@ -391,7 +390,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
      * @param   mixed  $manifestPathFileName
      *
      * @return void
-     * @throws Exception
+     * @throws \Exception
      */
     public function readFile(mixed $manifestPathFileName): bool
     {
@@ -438,7 +437,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -474,7 +473,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -498,7 +497,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             $isChanged = $this->assignActCopyrightYear($actYear);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -536,7 +535,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -611,7 +610,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -649,7 +648,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -719,7 +718,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 ////
 ////            }
 //
-//        } catch (Exception $e) {
+//        } catch (\Exception $e) {
 //            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
@@ -747,7 +746,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 //            file_put_contents($$manifestPathFileName, $this->outLines);
 //            $isSaved = True;
 //
-//        } catch (Exception $e) {
+//        } catch (\Exception $e) {
 //            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
@@ -969,7 +968,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 //
 //                $this->scriptFile =  $this->extractContent($line);
 //            }
-//        } catch (Exception $e) {
+//        } catch (\Exception $e) {
 //            echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
 //            $hasError = -101;
 //        }
@@ -1037,7 +1036,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 
     private function assignXmlAttributeValue(string $elementName, string $elementAttributeName, $value)
     {
-        $actValue = $this->manifestXml->getByXml($elementName, $elementAttributeName, '');
+        $actValue = $this->manifestXml->getByXml($elementName, $elementAttributeName);
 
         if ($actValue != $value)
         {

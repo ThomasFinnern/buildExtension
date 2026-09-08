@@ -18,7 +18,8 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Rsgallery2\Component\Rsgallery2\Administrator\Model\GalleryModel;
 
-
+
+
 
 /**
  * The Galleries List Controller
@@ -76,7 +77,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             $msg = nl2br($msg);
         } else {
             try {
@@ -133,7 +134,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -190,7 +191,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -247,7 +248,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -304,7 +305,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -359,7 +360,7 @@ class MaintConsolidateDbController extends AdminController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {

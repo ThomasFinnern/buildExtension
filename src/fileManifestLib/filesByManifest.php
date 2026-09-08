@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -143,7 +142,7 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
 
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
@@ -488,7 +487,7 @@ class filesByManifest extends baseExecuteTasks implements executeTasksInterface
             // }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

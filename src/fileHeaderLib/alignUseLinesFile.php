@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -132,7 +131,7 @@ class alignUseLinesFile
             $this->oFileUseData->applyBackslashType();
 
             // on change write to file
-            if ($this->oFileUseData->isChanged() == true)
+            if ($this->oFileUseData->isChanged())
             {
 
                 $outLines = $this->oFileUseData->fileLines();
@@ -143,7 +142,7 @@ class alignUseLinesFile
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

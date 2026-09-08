@@ -230,7 +230,7 @@ class ImageController extends FormController
             if (!$canAdmin) {
                 $msg     = $msg . Text::_('JERROR_ALERTNOAUTHOR');
                 $msgType = 'warning';
-                // replace newlines with html line breaks.
+                // replace newlines with HTML line breaks.
                 $msg = nl2br($msg);
             } else {
                 // standard input
@@ -356,7 +356,7 @@ class ImageController extends FormController
             if (!$canAdmin) {
                 $msg     = $msg . Text::_('JERROR_ALERTNOAUTHOR');
                 $msgType = 'warning';
-                // replace newlines with html line breaks.
+                // replace newlines with HTML line breaks.
                 $msg = nl2br($msg);
             } else {
                 // standard input

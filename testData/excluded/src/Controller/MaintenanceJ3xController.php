@@ -74,7 +74,7 @@ class MaintenanceJ3xController extends AdminController
 	// //Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 	// $msg .= Text::_('JERROR_ALERTNOAUTHOR');
 	// $msgType = 'warning';
-	// // replace newlines with html line breaks.
+	// // replace newlines with HTML line breaks.
 	// str_replace('\n', '<br>', $msg);
 	// } else {
 	// try {
@@ -135,7 +135,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
 
@@ -207,7 +207,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		}
 		else
@@ -267,7 +267,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -341,7 +341,7 @@ class MaintenanceJ3xController extends AdminController
         if (!$canAdmin) {
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
 
@@ -386,7 +386,7 @@ class MaintenanceJ3xController extends AdminController
 //			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 //			$msg .= Text::_('JERROR_ALERTNOAUTHOR');
 //			$msgType = 'warning';
-//			// replace newlines with html line breaks.
+//			// replace newlines with HTML line breaks.
 //			str_replace('\n', '<br>', $msg);
 //		} else {
 //			try {
@@ -445,7 +445,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 			try {
@@ -516,7 +516,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 			try {
@@ -572,7 +572,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 			try {
@@ -628,7 +628,7 @@ class MaintenanceJ3xController extends AdminController
 //            //Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 //            $msg .= Text::_('JERROR_ALERTNOAUTHOR');
 //            $msgType = 'warning';
-//            // replace newlines with html line breaks.
+//            // replace newlines with HTML line breaks.
 //            str_replace('\n', '<br>', $msg);
 //        } else {
 //            try {
@@ -686,7 +686,7 @@ class MaintenanceJ3xController extends AdminController
 //            //Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 //            $msg .= Text::_('JERROR_ALERTNOAUTHOR');
 //            $msgType = 'warning';
-//            // replace newlines with html line breaks.
+//            // replace newlines with HTML line breaks.
 //            str_replace('\n', '<br>', $msg);
 //        } else {
 //            try {
@@ -745,7 +745,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -802,7 +802,7 @@ class MaintenanceJ3xController extends AdminController
         if (!$canAdmin) {
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
 
@@ -855,7 +855,7 @@ class MaintenanceJ3xController extends AdminController
         if (!$canAdmin) {
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
         } else {
 
@@ -1233,7 +1233,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 
@@ -1292,7 +1292,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 
@@ -1341,7 +1341,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 
@@ -1391,7 +1391,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		}
 		else
@@ -1456,7 +1456,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		}
 		else
@@ -1515,7 +1515,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		} else {
 
@@ -1651,7 +1651,7 @@ class MaintenanceJ3xController extends AdminController
 			//Factory::getApplication()->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			$msg     .= Text::_('JERROR_ALERTNOAUTHOR');
 			$msgType = 'warning';
-			// replace newlines with html line breaks.
+			// replace newlines with HTML line breaks.
 			str_replace('\n', '<br>', $msg);
 		}
 		else

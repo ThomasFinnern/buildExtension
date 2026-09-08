@@ -302,7 +302,7 @@ $basePath = "..\\..\\LangMan4Dev";
 //--- build_develop.tsk --------------------------------
 // $tasksFile = "";
 // $tasksFile="./tasksFile.cmd";
-// $tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
+$tasksFile="./tsk_file_examples/alignAll_use_Lines.tsk";
 // $tasksFile="./tsk_file_examples/alignAll_use_Lines_JG.tsk";
 // $tasksFile="./tsk_file_examples/exchangeAll_sinceInFiles_RSG2.tsk";
 
@@ -323,7 +323,7 @@ $basePath = "..\\..\\LangMan4Dev";
 // $tasksFile="../../JoomGallery_fith_dev/.buildPHP/build.tsk";
 
 // $tasksFile="../../RSGallery2_J4_Dev/.cleanPHP/exchangeAll_actCopyrightYearLines.tsk";
-$tasksFile = "../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
+// $tasksFile = "../../RSGallery2_J4_Dev/.buildPHP/build_package.tsk";
 
 //$optionFile = '';
 //$optionFile = 'xTestOptionFile.opt';

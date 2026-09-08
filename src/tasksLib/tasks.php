@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\tasksLib;
 
-use Exception;
 
 /*================================================================================
 Class task
@@ -80,7 +79,7 @@ class tasks
             if (!is_file($taskFile))
             {
                 // not working $realPath = realpath($taskFile);
-                throw new Exception('Task file not found: "' . $taskFile . '"');
+                throw new \Exception('Task file not found: "' . $taskFile . '"');
             }
 
             $content = file_get_contents($taskFile); //Get the file
@@ -89,7 +88,7 @@ class tasks
             $this->extractTasksFromLines($lines);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -117,7 +116,7 @@ class tasks
             {
                 print ('!!! Task file empty and contains no lines' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
-                throw new Exception('Task file empty and contains no lines: "');
+                throw new \Exception('Task file empty and contains no lines: "');
             }
 
             foreach ($lines as $line)
@@ -167,18 +166,15 @@ class tasks
             }
             else
             {
-
-//                print ('!!! Task start Id found in lines !!!' . PHP_EOL);
                 print ('!!! No Task lines detected !!!' . PHP_EOL);
                 // not working $realPath = realpath($taskFile);
-//                throw new Exception('!!!No  Task Id found in lines !!!');
-                throw new Exception('!!! No Task lines detected !!!');
+                throw new \Exception('!!! No Task lines detected !!!');
             }
 
             // print ($this->tasksText ());
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -186,7 +182,7 @@ class tasks
 
     }
 
-    private function isTaskStart(string $tasksLine)
+    private function isTaskStart(string $tasksLine): bool
     {
         $isTask = false;
 
@@ -257,7 +253,7 @@ class tasks
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -268,7 +264,7 @@ class tasks
 
     // ToDo: A task may have more attributes like *.ext to
 
-    private function isTaskString(string $tasksLine)
+    private function isTaskString(string $tasksLine): bool
     {
         $isTaskString = false;
 

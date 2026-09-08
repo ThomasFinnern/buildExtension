@@ -3,7 +3,6 @@
 namespace Finnern\BuildExtension\src\tasksLib;
 
 use DateTime;
-use Exception;
 
 
 class commandLineLib
@@ -147,7 +146,7 @@ class commandLineLib
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

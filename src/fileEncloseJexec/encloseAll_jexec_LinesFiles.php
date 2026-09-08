@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileEncloseJexec;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -42,7 +41,7 @@ class encloseAll_jexec_LinesFiles extends baseExecuteTasks implements executeTas
             $this->encloseAll_jexec_lines = new encloseAll_jexec_LinesFile();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

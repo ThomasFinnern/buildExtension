@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileMissingPreFuncComment;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
 
@@ -258,7 +257,7 @@ class indicateAll_MissPreCommentInFile
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

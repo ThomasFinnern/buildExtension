@@ -6,7 +6,6 @@ require_once '../autoload/autoload.php';
 
 
 // use \DateTime;
-use Exception;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
@@ -36,7 +35,7 @@ class clean4GitCheckin extends baseExecuteTasks implements executeTasksInterface
 
 //            $this->fileNamesList = new fileNamesList();
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }
@@ -153,7 +152,7 @@ class clean4GitCheckin extends baseExecuteTasks implements executeTasksInterface
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -194,7 +193,7 @@ class clean4GitCheckin extends baseExecuteTasks implements executeTasksInterface
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -229,7 +228,7 @@ class clean4GitCheckin extends baseExecuteTasks implements executeTasksInterface
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

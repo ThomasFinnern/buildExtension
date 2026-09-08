@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileEncloseJexec;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -191,7 +190,7 @@ class encloseAll_jexec_LinesFile
                 print (">> Changed FileName: " . $fileName . PHP_EOL);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

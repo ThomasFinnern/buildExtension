@@ -63,7 +63,7 @@ class MaintenanceController extends BaseController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -110,7 +110,7 @@ class MaintenanceController extends BaseController
         if (!$canAdmin) {
             $msg     .= Text::_('JERROR_ALERTNOAUTHOR');
             $msgType = 'warning';
-            // replace newlines with html line breaks.
+            // replace newlines with HTML line breaks.
             str_replace('\n', '<br>', $msg);
         } else {
             try {
@@ -210,7 +210,7 @@ class MaintenanceController extends BaseController
             if (!$canAdmin) {
                 $msg     = Text::_('JERROR_ALERTNOAUTHOR');
                 $msgType = 'warning';
-                // replace newlines with html line breaks.
+                // replace newlines with HTML line breaks.
                 $msg = nl2br($msg);
                 $this->setRedirect($link, $msg, $msgType);
             } else {

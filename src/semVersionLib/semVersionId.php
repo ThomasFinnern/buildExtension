@@ -476,10 +476,10 @@ class semVersionId
                 if ($idxEnd !== false)
                 {
                     $inVersionId = substr($line, $idxStart + 1, $idxEnd - $idxStart - 1);
-                }
 
-                // $this->inVersionId = $inVersionId;
-                $this->versionId->assignInId($inVersionId);
+                    // $this->inVersionId = $inVersionId;
+                    $this->inVersionId->assignInId($inVersionId);
+                }
             }
 
         }

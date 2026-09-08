@@ -10,7 +10,6 @@
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
 use DOMDocument;
-use Exception;
 use SimpleXMLElement;
 
 // https://www.php.net/manual/de/simplexml.examples-basic.php
@@ -43,7 +42,7 @@ class manifestXml
     /**
      * @param $prjXmlPathFilename
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($prjXmlPathFilename = '')
     {
@@ -68,7 +67,7 @@ class manifestXml
      *
      * @return bool
      *
-     * @throws Exception
+     * @throws \Exception
      * @since version
      */
     public function readManifestXml($prjXmlPathFilename = ''): bool

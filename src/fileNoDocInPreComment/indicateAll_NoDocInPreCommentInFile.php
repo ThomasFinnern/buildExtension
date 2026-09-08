@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileNoDocInPreComment;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
 
@@ -259,7 +258,7 @@ class indicateAll_NoDocInPreCommentInFile
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

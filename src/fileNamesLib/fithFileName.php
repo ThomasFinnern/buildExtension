@@ -10,7 +10,6 @@ namespace Finnern\BuildExtension\src\fileNamesLib;
 Class fithFileName
 ================================================================================*/
 
-use Exception;
 
 class fithFileName
 {
@@ -45,7 +44,7 @@ class fithFileName
 
             $this->extractNameParts($srcFile);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             //$hasError = -101;
@@ -89,7 +88,7 @@ class fithFileName
             $this->fileBaseName = $path_parts['basename'];
             $this->filePath     = $path_parts['dirname'];
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

@@ -4,7 +4,6 @@ namespace Finnern\BuildExtension\src\tasksLib;
 
 // not used see tasksOptionsTest.php: add tasks and options *.php also
 
-use Exception;
 
 /*================================================================================
 Class task
@@ -85,7 +84,7 @@ class task // extends options
             if (!is_file($taskFile))
             {
                 // not working $realPath = realpath($taskFile);
-                throw new Exception('Task file not found: "' . $taskFile . '"');
+                throw new \Exception('Task file not found: "' . $taskFile . '"');
             }
 
             $content = file_get_contents($taskFile); //Get the file
@@ -94,7 +93,7 @@ class task // extends options
             $this->extractTaskFromLines($lines);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -209,7 +208,7 @@ class task // extends options
 
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

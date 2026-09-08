@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataBase;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileHeaderDataFactory;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -170,7 +169,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -342,7 +341,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -451,7 +450,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -491,7 +490,7 @@ class fileHeaderByFileLine // extends fileHeaderData
     {
         // ToDo: create exchangeSinceCopyrightYear function
 
-//        throw new Exception("test before use: ??? overwrite valid ...");
+//        throw new \Exception("test before use: ??? overwrite valid ...");
 
         $hasError = 0;
 
@@ -564,7 +563,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -656,7 +655,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -768,13 +767,13 @@ class fileHeaderByFileLine // extends fileHeaderData
             else
             {
                 // insert if not found
-                if ($isFound == false)
+                if (!$isFound)
                 {
                     $this->insertSubPackage();
                 }
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -864,7 +863,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -939,7 +938,7 @@ class fileHeaderByFileLine // extends fileHeaderData
                 $isSaved  = file_put_contents($fileName, $outLines);
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

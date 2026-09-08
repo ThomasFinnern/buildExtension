@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileIniLanguage;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileHeaderLib\fileUseDataBase;
 use Finnern\BuildExtension\src\tasksLib\option;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -237,7 +236,7 @@ class formatAll_ini_LinesFile
             }
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

@@ -212,7 +212,7 @@ class HtmlView extends BaseHtmlView
 //				. '* Mime type: zip -> images	<br>'
 //				. '* Mime type: folder -> images<br>'
 //				. '* Redesign upload list: flex<br>'
-//				. '* typescript: redesign uplod list filling -> use php html prepared blocks and clone them<br>'
+//				. '* typescript: redesign uplod list filling -> use PHP HTML prepared blocks and clone them<br>'
 //				. '* status bar -> bootstrap ? + aria ...<br>'
 //				. '* check image db for not set items <br>'
 //				. '* touch ?<br>'

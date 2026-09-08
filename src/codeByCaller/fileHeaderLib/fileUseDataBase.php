@@ -281,7 +281,7 @@ class fileUseDataBase implements fileUseDataInterface
 
         // $arraysAreEqual = ($linesSorted == $this->useLines); // TRUE if $a and $b have the same key/value pairs.
         $arraysAreEqual = ($linesSorted === $this->useLines); // TRUE if $a and $b have the same key/value pairs in the same order and of the same types.
-        if ($arraysAreEqual == false)
+        if (!$arraysAreEqual)
         {
             $isChanged = true;
         }

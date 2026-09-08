@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileMissingPreFuncComment;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -50,7 +49,7 @@ class indicateAll_MissPreCommentInFiles extends baseExecuteTasks implements exec
             $this->missPreHeaderInFile = new indicateAll_MissPreCommentInFile();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

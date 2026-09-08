@@ -210,7 +210,7 @@ class UploadController extends FormController
                     Log::add($msg);
                 }
 
-                // replace newlines with html line breaks.
+                // replace newlines with HTML line breaks.
                 //str_replace('\n', '<br>', $msg);
                 echo new JsonResponse($ajaxImgDbObject, $msg, true);
 
@@ -1197,7 +1197,7 @@ interface IResponseTransfer {
                 }
 
                 /**
-                 * // replace newlines with html line breaks.
+                 * // replace newlines with HTML line breaks.
                  * //str_replace('\n', '<br>', $msg);
                  * echo new JsonResponse($ajaxImgDbObject, $msg, true);
                  *

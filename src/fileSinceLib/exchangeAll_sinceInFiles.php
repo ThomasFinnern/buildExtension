@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileSinceLib;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\option;
@@ -48,7 +47,7 @@ class exchangeAll_sinceInFiles extends baseExecuteTasks implements executeTasksI
             $this->exchangeSinceLinesFile = new exchangeSinceLinesFile();
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

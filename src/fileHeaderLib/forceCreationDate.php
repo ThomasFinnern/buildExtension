@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -43,7 +42,7 @@ class forceCreationDate extends baseExecuteTasks implements executeTasksInterfac
             $this->creationDate = date($date_format);
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -117,7 +116,7 @@ class forceCreationDate extends baseExecuteTasks implements executeTasksInterfac
 
             $hasError = $this->exchangeCreationDateInManifestFile($manifestPathFileName, $creationDate);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -136,7 +135,8 @@ class forceCreationDate extends baseExecuteTasks implements executeTasksInterfac
     {
         if ($this->manifestPathFileName == '')
         {
-            $this->manifestPathFileName = $this->srcRoot . '/' . $this->name . '.xml';
+            // $this->manifestPathFileName = $this->srcRoot . '/' . $this->name . '.xml';
+            $this->manifestPathFileName = $this->fileNamesList->srcRoot . '/' . $this->name . '.xml';
         }
 
         return $this->manifestPathFileName;
@@ -194,7 +194,7 @@ class forceCreationDate extends baseExecuteTasks implements executeTasksInterfac
             //$isSaved = File::write($manifestFileName, $fileLines);
             $isSaved = file_put_contents($manifestFileName, $outLines);
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

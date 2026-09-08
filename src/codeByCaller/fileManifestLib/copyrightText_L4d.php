@@ -37,6 +37,7 @@ class copyrightText_L4d extends copyrightTextBase implements copyrightTextInterf
     // ToDo: a lot of parameters ....
     public function __construct($copyrightText = "")
     {
+        parent::__construct();
 
         $this->init();
 

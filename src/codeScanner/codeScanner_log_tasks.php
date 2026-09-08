@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\codeScanner;
 
-use Exception;
 use Finnern\BuildExtension\src\fileNamesLib\fileNamesList;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
 use Finnern\BuildExtension\src\tasksLib\task;
@@ -67,7 +66,7 @@ class codeScanner_logTasks // extends baseExecuteTasks
             }
             // print ($this->tasksText ());
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -154,13 +153,13 @@ class codeScanner_logTasks // extends baseExecuteTasks
 
                     default:
                         print ('!!! Execute unknown task: "' . $textTask->name . '" !!!' . PHP_EOL);
-                        throw new Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
+                        throw new \Exception('!!! Execute unknown task: "' . $textTask->name . '" !!!');
                 } // switch
 
                 // $OutTxt .= $task->text() . PHP_EOL;
             }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! applyTasks: Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;

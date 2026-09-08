@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
 
 /*================================================================================
@@ -11,7 +10,7 @@ Class fileHeader data
 
 /**
  * keeps all variables of a PHP package description header
- * function headerText: Expected result. can be inserted/replace into php code file
+ * function headerText: Expected result. can be inserted/replace into PHP code file
  *    returns a set of header lines.
  * function extractHeaderValuesFromLines:
  *    To exchange parts of the header lines they may be extracted here.
@@ -64,8 +63,9 @@ class fileHeaderData
     public $additionalLines = [];
 
     // adjust length of 'name' before value
-    private int $middlePadCount = 20; // By 'subpackage' name length
+    protected int $middlePadCount = 19; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
+    protected int $endPadCount = 88; // ToDo: create at start or assing before use
 
 
     /*--------------------------------------------------------------------
@@ -171,7 +171,7 @@ class fileHeaderData
 //
 //            }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -264,7 +264,7 @@ class fileHeaderData
 //        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
 //        $headerLine .= ' ' . $this->postCopyrightAuthor;
 
-        $headerLine = $this->copyright->formatCopyrightPhp($this->padCount, $this->endPadCount);
+        $headerLine = $this->copyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
         $headerLine = rtrim($headerLine) . PHP_EOL;
 
         return $headerLine;
@@ -287,7 +287,7 @@ class fileHeaderData
             $outLines[] = " */" . PHP_EOL;
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }

@@ -2,7 +2,6 @@
 
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
-use Exception;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
 
@@ -12,7 +11,7 @@ Class fileHeader data
 
 /**
  * keeps all variables of a PHP package description header
- * function headerText: Expected result. can be inserted/replace into php code file
+ * function headerText: Expected result. can be inserted/replace into PHP code file
  *    returns a set of header lines.
  * function extractHeaderValuesFromLines:
  *    To exchange parts of the header lines they may be extracted here.
@@ -185,7 +184,7 @@ protected int $endPadCount = 88; // ToDo: create at start or assing before use
 //
 //            }
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
             $hasError = -101;
@@ -254,7 +253,7 @@ protected int $endPadCount = 88; // ToDo: create at start or assing before use
             $outLines[] = " */" . PHP_EOL;
 
         }
-        catch (Exception $e)
+        catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
         }

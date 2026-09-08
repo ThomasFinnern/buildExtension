@@ -9,3 +9,5 @@ task:alignAll_use_Lines
     // without: actual year
 /excludeFolderList=excluded
 /excludeFolderList=postponed
+
+trueOnNoValue($option->value))

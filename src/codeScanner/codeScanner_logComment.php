@@ -29,6 +29,7 @@ class codeScanner_logComment extends baseExecuteTasks implements executeTasksInt
     private bool $isDummy;
     private string $fileName;
     private int $lastDepthCount = 0;
+    private codeScannerByLine $scanCodeLines;
 
     public function __construct()
     {

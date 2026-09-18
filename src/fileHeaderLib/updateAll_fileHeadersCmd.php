@@ -64,8 +64,8 @@ $tasksLine = ' task:updateAll_fileHeaders' . ' /srcRoot="./../../RSGallery2_J4"'
 //
 //    . ' /isForceStdPackage        = "RSGallery2";
 //    . ' /isForceStdSubpackage     = "com_rsgallery2";
-//    . ' /isForceStdActCopyright      = "2024";
-//    . ' /isForceStdSinceCopyright      = "2016";
+//    . ' /isForceStdActCopyrightDate      = "2024";
+//    . ' /isForceStdSinceCopyrightDate      = "2016";
 //    . ' /isForceSinceCopyrightToToday = $copyrightDate . "-" . $copyrightDate . " RSGallery2 Team";
 //    . ' /isForceStdLicense        = "GNU General Public License version 2 or later";
 //    . ' /isForceStdAuthor = "RSGallery2 Team <team2@rsgallery2.org>";

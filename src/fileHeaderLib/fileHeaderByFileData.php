@@ -44,36 +44,39 @@ class fileHeaderByFileData // extends fileHeaderData
     public readonly string $name;
     public bool $isForceStdPackage = false;
 
-
     //--- flags ----------------------------------
 
     // ToDo: copyright flags: Set and use in copyright text with execute
 
     // --- Std value ------
     public bool $isForceStdSubpackage = false;
-    public bool $isForceStdActCopyright = false;
-    public bool $isForceStdSinceCopyright = false;
+    public bool $isForceStdActCopyrightDate = false;
+    public bool $isForceStdSinceCopyrightDate = false;
     public bool $isForceSinceCopyrightToToday = false;
     public bool $isForceStdLicense = false;
     public bool $isForceStdAuthor = false;
+    public bool $isForceStdPostCopyrightAuthor = false;
     public bool $isForcePackage = false;
 
     // --- Force value ------
     public bool $isForceSubpackage = false;
-    public bool $isForceActCopyright = false;
-    public bool $isForceSinceCopyright = false;
-    public bool $isForceActCopyrightToToday = false;
+    public bool $isForceActCopyrightDate = false;
+    public bool $isForceSinceCopyrightDate = false;
+    public bool $isForceActCopyrightDateToToday = false;
     public bool $isForceLicense = false;
     public bool $isForceAuthor = false;
-    public string $valueForcePackage = "";
+    public bool $isForcePostCopyrightAuthor = false;
 
     // --- Value to be used on force ------
+    public string $valueForcePackage = "";
     public string $valueForceSubpackage = "";
-    public string $valueForceActCopyright = "";
-    public string $valueForceSinceCopyright = "";
+    public string $valueForceActCopyrightDate = "";
+    public string $valueForceSinceCopyrightDate = "";
     public string $valueForceCopyright = "";
     public string $valueForceLicense = "";
+
     public string $valueForceAuthor = "";
+    public string $valueForcePostCopyrightAuthor = "";
     protected fileHeaderDataBase|null $oFileHeader;
 
     // just an indicator can be removed later
@@ -106,27 +109,30 @@ class fileHeaderByFileData // extends fileHeaderData
 
         $this->isForceStdPackage            = false;
         $this->isForceStdSubpackage         = false;
-        $this->isForceStdActCopyright       = false;
-        $this->isForceStdSinceCopyright     = false;
-        $this->isForceSinceCopyrightToToday = false;
+        $this->isForceStdActCopyrightDate   = false;
+        $this->isForceStdSinceCopyrightDate = false;
         $this->isForceStdLicense            = false;
         $this->isForceStdAuthor             = false;
+        $this->isForceStdPostCopyrightAuthor             = false;
 
-        $this->isForcePackage             = false;
-        $this->isForceSubpackage          = false;
-        $this->isForceActCopyright        = false;
-        $this->isForceSinceCopyright      = false;
-        $this->isForceActCopyrightToToday = false;
-        $this->isForceLicense             = false;
-        $this->isForceAuthor              = false;
+        $this->isForcePackage                 = false;
+        $this->isForceSubpackage              = false;
+        $this->isForceActCopyrightDate        = false;
+        $this->isForceSinceCopyrightDate      = false;
+        $this->isForceSinceCopyrightToToday   = false;
+        $this->isForceActCopyrightDateToToday = false;
+        $this->isForceLicense                 = false;
+        $this->isForceAuthor                  = false;
+        $this->isForcePostCopyrightAuthor                  = false;
 
-        $this->valueForcePackage        = "";
-        $this->valueForceSubpackage     = "";
-        $this->valueForceActCopyright   = "";
-        $this->valueForceSinceCopyright = "";
-        $this->valueForceCopyright      = "";
-        $this->valueForceLicense        = "";
-        $this->valueForceAuthor         = "";
+        $this->valueForcePackage            = "";
+        $this->valueForceSubpackage         = "";
+        $this->valueForceActCopyrightDate   = "";
+        $this->valueForceSinceCopyrightDate = "";
+        $this->valueForceCopyright          = "";
+        $this->valueForceLicense            = "";
+        $this->valueForceAuthor             = "";
+        $this->valueForcePostCopyrightAuthor             = "";
     }
 
     public function assignTask(task $task): int
@@ -174,116 +180,131 @@ class fileHeaderByFileData // extends fileHeaderData
                     $isOptionConsumed = true;
                     break;
 
-                case strtolower('isupdatecreationdate'):
+                case strtolower('isUpdateActCopyrightDate'):
                     print ('     option ' . $option->name . ': "' . $option->value . '"' . PHP_EOL);
                     $this->isUpdateActCopyrightDate = $option->value;
                     $isOptionConsumed               = true;
                     break;
 
-                case strtolower('isforcestdpackage'):
+                case strtolower('isForceStdPackage'):
                     $this->isForceStdPackage = $option->value;
                     $isOptionConsumed        = true;
                     break;
 
-                case strtolower('isforcestdsubpackage'):
+                case strtolower('isForceStdSubpackage'):
                     $this->isForceStdSubpackage = $option->value;
                     $isOptionConsumed           = true;
                     break;
 
-                case strtolower('isforcestaactcopyright'):
-                    $this->isForceStdActCopyright = $option->value;
-                    $isOptionConsumed             = true;
+                case strtolower('isForceStdActCopyrightDate'):
+                    $this->isForceStdActCopyrightDate = $option->value;
+                    $isOptionConsumed                 = true;
                     break;
 
-                case strtolower('isforcestdsincecopyright'):
-                    $this->isForceStdSinceCopyright = $option->value;
-                    $isOptionConsumed               = true;
+                case strtolower('isForceStdSinceCopyrightDate'):
+                    $this->isForceStdSinceCopyrightDate = $option->value;
+                    $isOptionConsumed                   = true;
                     break;
 
-                case strtolower('isforcesincecopyrighttotoday'):
+                case strtolower('isForceSinceCopyrightToToday'):
                     $this->isForceSinceCopyrightToToday = $option->value;
                     $isOptionConsumed                   = true;
                     break;
 
-                case strtolower('isforcestdlicense'):
+                case strtolower('isForceStdLicense'):
                     $this->isForceStdLicense = $option->value;
                     $isOptionConsumed        = true;
                     break;
 
-                case strtolower('isforcestdauthor'):
+                case strtolower('isForceStdAuthor'):
                     $this->isForceStdAuthor = $option->value;
                     $isOptionConsumed       = true;
                     break;
 
+                case strtolower('isForceStdPostCopyrightAuthor'):
+                    $this->isForceStdPostCopyrightAuthor = $option->value;
+                    $isOptionConsumed       = true;
+                    break;
 
-                case strtolower('isforcepackage'):
+
+                case strtolower('isForcePackage'):
                     $this->isForcePackage = $option->value;
                     $isOptionConsumed     = true;
                     break;
 
-                case strtolower('isforcesubpackage'):
+                case strtolower('isForceSubpackage'):
                     $this->isForceSubpackage = $option->value;
                     $isOptionConsumed        = true;
                     break;
 
-                case strtolower('isforceactcopyright'):
-                    $this->isForceActCopyright = $option->value;
-                    $isOptionConsumed          = true;
+                case strtolower('isForceActCopyrightDate'):
+                    $this->isForceActCopyrightDate = $option->value;
+                    $isOptionConsumed              = true;
                     break;
 
-                case strtolower('isforcesincecopyright'):
-                    $this->isForceSinceCopyright = $option->value;
-                    $isOptionConsumed            = true;
+                case strtolower('isForceSinceCopyrightDate'):
+                    $this->isForceSinceCopyrightDate = $option->value;
+                    $isOptionConsumed                = true;
                     break;
 
-                case strtolower('isforceactcopyrighttotoday'):
-                    $this->isForceActCopyrightToToday = $option->value;
-                    $isOptionConsumed                 = true;
+                case strtolower('isForceActCopyrightDateToToday'):
+                    $this->isForceActCopyrightDateToToday = $option->value;
+                    $isOptionConsumed                     = true;
                     break;
 
-                case strtolower('isforcelicense'):
+                case strtolower('isForceLicense'):
                     $this->isForceLicense = $option->value;
                     $isOptionConsumed     = true;
                     break;
 
-                case strtolower('isforceauthor'):
+                case strtolower('isForceAuthor'):
                     $this->isForceAuthor = $option->value;
                     $isOptionConsumed    = true;
                     break;
 
+                case strtolower('isForcePostCopyrightAuthor'):
+                    $this->isForcePostCopyrightAuthor = $option->value;
+                    $isOptionConsumed    = true;
+                    break;
 
-                case strtolower('valueforcepackage'):
+
+                case strtolower('valueForcePackage'):
                     $this->valueForcePackage = $option->value;
                     $isOptionConsumed        = true;
                     break;
 
-                case strtolower('valueforcesubpackage'):
+                case strtolower('valueForceSubpackage'):
                     $this->valueForceSubpackage = $option->value;
                     $isOptionConsumed           = true;
                     break;
 
-                case strtolower('valueforceactcopyright'):
-                    $this->valueForceActCopyright = $option->value;
-                    $isOptionConsumed             = true;
+                case strtolower('valueForceActCopyrightDate'):
+                    $this->valueForceActCopyrightDate = $option->value;
+                    $isOptionConsumed                 = true;
                     break;
 
-                case strtolower('valueforcesincecopyright'):
-                    $this->valueForceSinceCopyright = $option->value;
-                    $isOptionConsumed               = true;
+                case strtolower('valueForceSinceCopyrightDate'):
+                    $this->valueForceSinceCopyrightDate = $option->value;
+                    $isOptionConsumed                   = true;
                     break;
 
-                case strtolower('valueforcecopyright'):
+                case strtolower('valueForceCopyright'):
                     $this->valueForceCopyright = $option->value;
                     $isOptionConsumed          = true;
                     break;
 
-                case strtolower('valueforcelicense'):
+                case strtolower('valueForceLicense'):
                     $this->valueForceLicense = $option->value;
                     $isOptionConsumed        = true;
                     break;
 
-                case strtolower('valueforceauthor'):
+                case strtolower('valueForceAuthor'):
                     $this->valueForceAuthor = $option->value;
+                    $isOptionConsumed       = true;
+                    break;
+
+                case strtolower('valueForcePostCopyrightAuthor'):
+                    $this->valueForcePostCopyrightAuthor = $option->value;
                     $isOptionConsumed       = true;
                     break;
 
@@ -529,16 +550,16 @@ class fileHeaderByFileData // extends fileHeaderData
             $this->oFileHeader->subpackage = $standardHeader->subpackage;
         }
 
-        if ($this->isForceStdActCopyright)
+        if ($this->isForceStdActCopyrightDate)
         {
             // ToDo: update actual ...
-            $this->oFileHeader->copyright->actCopyrightDate = $standardHeader->copyright->actCopyrightDate;
+            $this->oFileHeader->oCopyright->actCopyrightDate = $standardHeader->oCopyright->actCopyrightDate;
         }
 
-        if ($this->isForceStdSinceCopyright)
+        if ($this->isForceStdSinceCopyrightDate)
         {
             // ToDo: update actual ...
-            $this->oFileHeader->copyright->sinceCopyrightDate = $standardHeader->copyright->sinceCopyrightDate;
+            $this->oFileHeader->oCopyright->sinceCopyrightDate = $standardHeader->oCopyright->sinceCopyrightDate;
         }
 
         if ($this->isForceStdLicense)
@@ -549,6 +570,11 @@ class fileHeaderByFileData // extends fileHeaderData
         if ($this->isForceStdAuthor)
         {
             $this->oFileHeader->author = $standardHeader->author;
+        }
+
+        if ($this->isForceStdPostCopyrightAuthor)
+        {
+            $this->oFileHeader->oCopyright->postCopyrightAuthor = $standardHeader->oCopyright->postCopyrightAuthor;
         }
 
     }
@@ -573,27 +599,27 @@ class fileHeaderByFileData // extends fileHeaderData
             $this->oFileHeader->subpackage = $this->valueForceSubpackage;
         }
 
-        if ($this->isForceActCopyright)
+        if ($this->isForceActCopyrightDate)
         {
-            $this->oFileHeader->copyright->actCopyrightDate = $this->valueForceCopyright;
+            $this->oFileHeader->oCopyright->actCopyrightDate = $this->valueForceActCopyrightDate;
         }
 
         if ($this->isForceSinceCopyrightToToday)
         {
             // $this->copyright->sinceCopyrightDate = $this->copyright->yearToday;
-            $this->oFileHeader->copyright->setSinceCopyright2Today();
+            $this->oFileHeader->oCopyright->setSinceCopyright2Today();
         }
 
-        if ($this->isForceSinceCopyright)
+        if ($this->isForceSinceCopyrightDate)
         {
-            $this->oFileHeader->copyright->sinceCopyrightDate = $this->valueForceCopyright;
+            $this->oFileHeader->oCopyright->sinceCopyrightDate = $this->valueForceSinceCopyrightDate;
         }
 
         // see also isUpdateCreationDate
-        if ($this->isForceActCopyrightToToday)
+        if ($this->isForceActCopyrightDateToToday)
         {
             // $this->copyright->actCopyrightDate = $this->copyright->yearToday;
-            $this->oFileHeader->copyright->setActCopyright2Today();
+            $this->oFileHeader->oCopyright->setActCopyright2Today();
         }
 
         if ($this->isForceLicense)
@@ -604,6 +630,11 @@ class fileHeaderByFileData // extends fileHeaderData
         if ($this->isForceAuthor)
         {
             $this->oFileHeader->author = $this->valueForceAuthor;
+        }
+
+        if ($this->isForcePostCopyrightAuthor)
+        {
+            $this->oFileHeader->oCopyright->postCopyrightAuthor = $this->valueForcePostCopyrightAuthor;
         }
 
     }

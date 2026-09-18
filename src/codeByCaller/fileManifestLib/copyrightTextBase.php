@@ -12,7 +12,6 @@ namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
  */
 class copyrightTextBase implements copyrightTextInterface
 {
-
     const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
     const COPYRIGHT_PRE_PHP_FILE = "copyright  (c)";
     // 2019 start of J!4 version
@@ -25,7 +24,7 @@ class copyrightTextBase implements copyrightTextInterface
     public string $copyrightPreManifest; // "(c)";
     public string $actCopyrightDate; // = "2024";
     public string $sinceCopyrightDate; // = "2019";
-    private string $postCopyrightAuthor; // = "RSGallery2 Team";
+    public string $postCopyrightAuthor; // = "RSGallery2 Team";
 
     /*--------------------------------------------------------------------
     construction
@@ -55,15 +54,8 @@ class copyrightTextBase implements copyrightTextInterface
         $this->copyrightPreManifest = self::COPYRIGHT_PRE_MANIFEST_FILE;
     }
 
-//    function useActual4SinceDate () {
-//
-//        $this->sinceCopyrightDate  = $this->actCopyrightDate;
-//
-//    }
-
     public function setActCopyright2Today(): void
     {
-
         // $date_format        = 'Ymd';
         $date_format = 'Y';
         $yearToday   = date($date_format);
@@ -127,7 +119,6 @@ class copyrightTextBase implements copyrightTextInterface
 
     public function setSinceCopyright2Today(): void
     {
-
         // $date_format        = 'Ymd';
         $date_format = 'Y';
         $yearToday   = date($date_format);
@@ -138,15 +129,13 @@ class copyrightTextBase implements copyrightTextInterface
 
     public function setActCopyright(string $year): void
     {
-
         $this->actCopyrightDate = $year;
-
     }
 
     public function setSinceCopyright(string $year): void
     {
 
-        $this->actCopyrightDate = $year;
+        $this->sinceCopyrightDate = $year;
 
     }
 

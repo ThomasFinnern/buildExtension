@@ -2,7 +2,7 @@
 
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 
 /*================================================================================
 Class fileHeader data
@@ -34,7 +34,7 @@ class fileHeaderData
 
     // copyright
     // " * @copyright  (c)  2003-2024 RSGallery2 Team"
-    public copyrightText $copyright;
+//    public copyrightText $copyright; use copyrightBaseText
 
 //    public string $yearToday = "????";
 
@@ -67,11 +67,11 @@ class fileHeaderData
     // private int $padCountCopyright = 15; // By 'subpackage' name length
     protected int $endPadCount = 88; // ToDo: create at start or assing before use
 
+    private copyrightTextBase $copyright;
 
     /*--------------------------------------------------------------------
     construction
     --------------------------------------------------------------------*/
-
     public function __construct()
     {
         $this->init();
@@ -89,7 +89,7 @@ class fileHeaderData
         $this->author  = self::AUTHOR;
         $this->link    = self::LINK;
 
-        $this->copyright = new copyrightText();
+        $this->copyright = new copyrightTextBase();
     }
 
     /*--------------------------------------------------------------------
@@ -122,7 +122,7 @@ class fileHeaderData
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
-                        $this->copyright = new copyrightText($line);
+                        $this->copyright = new copyrightTextBase($line);
                     }
                     else
                     {

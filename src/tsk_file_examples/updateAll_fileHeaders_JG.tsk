@@ -26,18 +26,18 @@ task:updateAll_fileHeaders
     // --- Std value -------------------
 /isForceStdPackage=true
 /isForceStdSubpackage=true
-/isForceStdActCopyright=true
-    // /isForceStdSinceCopyright=true
-    // /isForceSinceCopyrightToToday=true
+/isForceStdActCopyrightDate=true
+    // /isForceStdSinceCopyrightDate=true
+    // /isForceSinceCopyrightDateToToday=true
 /isForceStdLicense=true
 /isForceStdAuthor=true
 
     // --- Force value -----------------
     // /isForcePackage=true
     // /isForceSubpackage=true
-    //isForceActCopyright=true
-    //isForceSinceCopyright=true
-    //isForceSinceCopyrightToToday=true
+    //isForceActCopyrightDate=true
+    //isForceSinceCopyrightDate=true
+    //isForceSinceCopyrightDateToToday=true
     //isForceLicense=true
     // /isForceAuthor=true
     //isForceLink=true
@@ -45,8 +45,8 @@ task:updateAll_fileHeaders
     // --- Value to be used on force ------
     // /valueForcePackage="LangMan4Dev"
     // /valueForceSubpackage="com_lang4dev"
-    //valueForceActCopyright="2025"
-    //valueForceSinceCopyright="2016"
+    //valueForceActCopyrightDate="2025"
+    //valueForceSinceCopyrightDate="2016"
     //valueForceCopyrightToday=$copyrightDate . "-" . $copyrightDate . " RSGallery2 Team"
     //valueForceLicense="GNU General Public License version 2 or later"
     // /valueForceAuthor="Thomas Finnern <InsideTheMachine.de>"

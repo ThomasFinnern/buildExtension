@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
 
 /**
+ * --- Joomgallery ----------------------
  * container for inner copyright line like "(c) 2005-2024 RSGallery2 Team"
  * used in
  * manifest file:
@@ -27,7 +28,7 @@ class copyrightText_JG extends copyrightTextBase implements copyrightTextInterfa
     public string $copyrightPreManifest; // "(c)";
     public string $actCopyrightDate; // = "2024";
     public string $sinceCopyrightDate; // = "2008";
-    private string $postCopyrightAuthor; // = "JoomGallery::ProjectTeam";
+    public string $postCopyrightAuthor; // = "JoomGallery::ProjectTeam";
 
 //    private string $yearToday;
 

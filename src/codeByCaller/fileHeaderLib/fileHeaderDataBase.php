@@ -67,9 +67,9 @@ class fileHeaderDataBase implements fileHeaderDataInterface
     //protected int $padCount = 20; // By 'subpackage' name length
     public string $callerProjectId = 'RSG2'; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
-protected int $middlePadCount = 19; // By 'subpackage' name length
+    protected int $middlePadCount = 19; // By 'subpackage' name length
     // private int $padCountCopyright = 15; // By 'subpackage' name length
-protected int $endPadCount = 88; // ToDo: create at start or assing before use
+    protected int $endPadCount = 88; // ToDo: create at start or assing before use
 
     /*--------------------------------------------------------------------
     construction

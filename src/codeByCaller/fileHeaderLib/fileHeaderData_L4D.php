@@ -3,7 +3,7 @@
 namespace Finnern\BuildExtension\src\codeByCaller\fileHeaderLib;
 
 use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextFactory;
-use Finnern\BuildExtension\src\fileManifestLib\copyrightText;
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 
 // ToDo: make copyright local
 
@@ -35,9 +35,9 @@ class fileHeaderData_L4D extends FileHeaderDataBase implements fileHeaderDataInt
     //
     public string $subpackage; // = "com_rsgallery2";
 
-    // copyright
-    // " * @copyright  (c)  2003-2024 RSGallery2 Team"
-    public copyrightText $copyright;
+//    // copyright
+//    // " * @copyright  (c)  2003-2024 RSGallery2 Team"
+//    public copyrightText $copyright; use copyrightBaseText
 
 //    public string $yearToday = "????";
 
@@ -79,7 +79,6 @@ class fileHeaderData_L4D extends FileHeaderDataBase implements fileHeaderDataInt
 
         print ("->fileHeaderData_L4D: " . PHP_EOL);
 
-
         // lang4dev copyright handling
         $this->oCopyright = copyrightTextFactory::oCopyrightText('L4D');
     }
@@ -110,7 +109,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase implements fileHeaderDataInt
 //                        // extract dates from line
 //                        [$this->sinceCopyrightDate, $this->actCopyrightDate] =
 //                            $this->scan4CopyrightHeaderInLine($line);
-                        $this->copyright = new copyrightText($line);
+                        $this->oCopyright = new copyrightTextBase($line);
                     }
                     else
                     {
@@ -188,7 +187,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase implements fileHeaderDataInt
         $this->author  = self::AUTHOR;
         $this->link    = self::LINK;
 
-        $this->copyright = new copyrightText();
+//        $this->copyright = new copyrightTextBase();
     }
 
     /*--------------------------------------------------------------------
@@ -274,7 +273,7 @@ class fileHeaderData_L4D extends FileHeaderDataBase implements fileHeaderDataInt
 //        $headerLine .= $sinceCopyrightDate . '-' . $actCopyrightDate;
 //        $headerLine .= ' ' . $this->postCopyrightAuthor;
 
-        $headerLine = $this->copyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
+        $headerLine = $this->oCopyright->formatCopyrightPhp($this->middlePadCount, $this->endPadCount);
         $headerLine = rtrim($headerLine) . PHP_EOL;
 
         return $headerLine;

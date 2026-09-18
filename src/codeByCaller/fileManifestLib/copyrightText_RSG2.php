@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
 
 /**
+ * --- RSGallery2 ----------------------
  * container for inner copyright line like "(c) 2005-2024 RSGallery2 Team"
  * used in
  * manifest file:

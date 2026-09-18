@@ -10,25 +10,21 @@ namespace Finnern\BuildExtension\src\fileManifestLib;
  * *.php
  * @copyright   (c) 2003-2024 RSGallery2 Team
  */
-class copyrightText
+class copyrightTextXXX // not used anymore ???
 {
-
-    const COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
-    const COPYRIGHT_PRE_PHP_FILE = "copyright  (c)";
+    const string COPYRIGHT_PRE_MANIFEST_FILE = "(c)";
+    const string COPYRIGHT_PRE_PHP_FILE = "copyright  (c)";
     // 2019 start of J!4 version
-    const SINCE_COPYRIGHT_DATE = "2019";
+    const string SINCE_COPYRIGHT_DATE = "2019";
 
-    const POST_COPYRIGHT_AUTHOR = "RSGallery2 Team";
+    const string POST_COPYRIGHT_AUTHOR = "RSGallery2 Team";
 
 
     public string $copyrightPrePhp; // = "copyright  (c)" | "(c)";
     public string $copyrightPreManifest; // "(c)";
     public string $actCopyrightDate; // = "2024";
     public string $sinceCopyrightDate; // = "2019";
-    private string $postCopyrightAuthor; // = "RSGallery2 Team";
-
-    private string $yearToday;
-
+    public string $postCopyrightAuthor; // = "RSGallery2 Team";
 
     /*--------------------------------------------------------------------
     construction
@@ -58,22 +54,13 @@ class copyrightText
         $this->copyrightPreManifest = self::COPYRIGHT_PRE_MANIFEST_FILE;
     }
 
-//    function useActual4SinceDate () {
-//
-//        $this->sinceCopyrightDate  = $this->actCopyrightDate;
-//
-//    }
-
     public function setActCopyright2Today(): void
     {
-
         // $date_format        = 'Ymd';
         $date_format = 'Y';
         $yearToday   = date($date_format);
 
         $this->actCopyrightDate = $yearToday;
-        $this->yearToday        = $yearToday;
-
     }
 
     public function scan4CopyrightInLine(string $line): array
@@ -121,7 +108,6 @@ class copyrightText
 
     public function setSinceCopyright2Today(): void
     {
-
         // $date_format        = 'Ymd';
         $date_format = 'Y';
         $yearToday   = date($date_format);
@@ -132,9 +118,7 @@ class copyrightText
 
     public function setActCopyright(string $year): void
     {
-
         $this->actCopyrightDate = $year;
-
     }
 
     public function setSinceCopyright(string $year): void

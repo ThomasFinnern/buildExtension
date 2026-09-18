@@ -3,6 +3,7 @@
 namespace Finnern\BuildExtension\src\codeByCaller\fileManifestLib;
 
 /**
+ * --- lang4dev: Language for developer ----------------------
  * container for inner copyright line like "(c) 2005-2024 RSGallery2 Team"
  * used in
  * manifest file:
@@ -25,7 +26,7 @@ class copyrightText_L4d extends copyrightTextBase implements copyrightTextInterf
     public string $copyrightPreManifest; // "(c)";
     public string $actCopyrightDate; // = "2024";
     public string $sinceCopyrightDate; // = "2019";
-    private string $postCopyrightAuthor; // = "RSGallery2 Team";
+    public string $postCopyrightAuthor; // = "RSGallery2 Team";
 
 //    private string $yearToday;
 

@@ -2,6 +2,7 @@
 
 namespace Finnern\BuildExtension\src\fileManifestLib;
 
+use Finnern\BuildExtension\src\codeByCaller\fileManifestLib\copyrightTextBase;
 use Finnern\BuildExtension\src\semVersionLib\semVersionId;
 use Finnern\BuildExtension\src\tasksLib\baseExecuteTasks;
 use Finnern\BuildExtension\src\tasksLib\executeTasksInterface;
@@ -157,7 +158,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
     //--- requests for assignment ---------------------------------
 
     public semVersionId $versionId;
-    //private copyrightText $copyright;
+    //private copyrightText $copyright; //  use copyrightBaseText
 
     // requests [name]= value
     public bool $isUpdateCreationDate = false;
@@ -521,7 +522,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 
             //--- update  -----------------------------------
 
-            $copyrightText = new copyrightText($inCopyright);
+            $copyrightText = new copyrightTextBase($inCopyright);
 
             if ($copyrightText->actCopyrightDate != $actYear)
             {
@@ -634,7 +635,7 @@ class manifestFile extends baseExecuteTasks implements executeTasksInterface
 
             //--- update  -----------------------------------
 
-            $copyrightText = new copyrightText($inCopyright);
+            $copyrightText = new copyrightTextBase($inCopyright);
 
             if ($copyrightText->sinceCopyrightDate != $actYear)
             {

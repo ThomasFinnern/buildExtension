@@ -76,7 +76,7 @@ class options
         return ($value);
     }
 
-    public function getOption(string $name = '', bool $isIgnoreCase = false): string
+    public function getOption(string $name = '', bool $isIgnoreCase = false): option
     {
         $foundOption = null;
         $isFound     = false;

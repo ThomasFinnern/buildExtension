@@ -31,10 +31,10 @@ class task // extends options
     /**
      * @var string
      */
-    public $name = "";
+    public string $name = "";
 
     /**
-     * @var \Finnern\BuildExtension\src\tasksLib\options List of assinged options
+     * @var options List of assinged options
      */
     public options $options;
 
@@ -57,7 +57,7 @@ class task // extends options
         $this->options = new options();
     }
 
-    public function __construct1(string $name, options $options)
+    public function __construct1(string $name, options $options): void
     {
         $this->name    = $name;
         $this->options = $options;
@@ -96,7 +96,7 @@ class task // extends options
         catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
+            // $hasError = -101;
         }
 
         return $this;
@@ -109,9 +109,6 @@ class task // extends options
      */
     public function extractTaskFromLines(array $lines): void
     {
-        $taskLine = '';
-
-
         $this->clear();
 
         $isTaskNameFound = false; // then options
@@ -156,7 +153,7 @@ class task // extends options
     }
 
     /**
-     * @param   \Finnern\BuildExtension\src\tasksLib\options  $taskOptions
+     * @param   options  $taskOptions
      * @param   string                                        $optionsString
      *
      * @return void
@@ -211,7 +208,7 @@ class task // extends options
         catch (\Exception $e)
         {
             echo '!!! Error: Exception: ' . $e->getMessage() . PHP_EOL;
-            $hasError = -101;
+            // $hasError = -101;
         }
 
         return $this;

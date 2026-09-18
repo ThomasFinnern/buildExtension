@@ -173,13 +173,12 @@ class manifestXml
         // XML data must be present
         if ($this->isXmlLoaded)
         {
-//            $this->manifestXml->asXml($prjXmlPathFilename);
-            // $isSaved = true;
 
             $domxml                     = new DOMDocument('1.0');
-            $domxml->preserveWhiteSpace = false;
+            $domxml->preserveWhiteSpace = true;
             $domxml->formatOutput       = true;
             /* @var $xml SimpleXMLElement */
+            $testXml = $this->manifestXml->asXML();
             $domxml->loadXML($this->manifestXml->asXML());
             $domxml->save($prjXmlPathFilename);
 

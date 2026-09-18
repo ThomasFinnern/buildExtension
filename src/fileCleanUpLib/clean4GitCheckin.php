@@ -214,7 +214,7 @@ class clean4GitCheckin extends baseExecuteTasks implements executeTasksInterface
             {
                 if ($isExchanged)
                 {
-                    $outLines [] = str_replace("\t", $tabReplace, $line);;
+                    $outLines [] = str_replace("\t", $tabReplace, $line);
                 }
                 else
                 {
